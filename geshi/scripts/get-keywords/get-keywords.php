@@ -11,7 +11,7 @@
  * with GeSHi, in the docs/ directory.
  *
  * @package   scripts
- * @author    Nigel McNie <oracle.shinoda@gmail.com>
+ * @author    Nigel McNie <nigel@geshi.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
@@ -43,6 +43,17 @@ error_reporting(E_ALL);
 require_once 'lib/functions.get-keywords.php';
 /** Get the KeywordGetter class */
 require_once 'lib/class.keywordgetter.php';
+
+// Do the easy options first
+if (in_array('-h', $argv) || in_array('--help', $argv)) {
+    show_help();
+    exit;
+}
+
+if (in_array('-v', $argv) || in_array('--version', $argv)) {
+    show_version();
+    exit;
+}
 
 // If we don't have a language and a keyword type, show the help and exit
 if (!isset($argv[1]) || !isset($argv[2])) {
