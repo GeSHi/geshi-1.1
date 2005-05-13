@@ -1,0 +1,216 @@
+<html>
+<head>
+    <title>GeSHi 1.1 Documentation</title>
+</head>
+<body>
+<h1>GeSHi 1.1 Documentation</h1>
+
+<p>&copy; Nigel McNie, 2005, licensed under the <a href="http://www.gnu.org/copyleft/gpl.html">GNU GPL</a>.</p>
+
+<p>If you're reading this, thanks for helping test GeSHi 1.1! This is the brand-spanking new version of GeSHi
+set to debut as GeSHi 1.2 whenever it's finished, and hopefully with your help that time will be sooner rather
+than later. Perhaps before Duke Nukem Forever goes Gold ;)</p>
+
+<p>Firstly, a warning: <strong>This code is ALPHA</strong>. At the time of me writing this (2005/05/09), most
+of the 1.0.X API simply isn't implemented, I think only set_source, set_language and parse_code are usable. As
+things progress more methods will be implemented, but don't use this stuff as a drop-in replacement for GeSHi
+1.0.X on a live site! Furthermore, there may be security holes and the like in this code, so don't trust it
+either.</p>
+
+<p>That's all of the legal claptrap out of the way :). Now onto the goodies!</p>
+
+<h2>Overview of GeSHi 1.1.X</h2>
+
+<p>GeSHi 1.1.X is the current development branch of GeSHi. GeSHi follows Linux Kernel version numbering, so
+1.1.X is alpha while 1.2.X will be the stable version of this code. There's no timeframe for a 1.2.0 release,
+and don't hold your breath either - as mentioned above, much of the API still needs implementing.</p>
+
+<p>Still, much of the actual highlighting code is in place, and it has undergone a radical change. Whereas
+GeSHi 1.0.X was nothing more than a glorified string replacement engine, 1.1.X now is much closer to what
+a compiler would do in parsing a language, with detail substituted for the ability of this engine to parse
+many languages. The upsides: the highlighting is a million times better, you can embed languages within other
+languages, and the infrastructure is in place for keen users to do all sorts of things - write mini compilers,
+pull out user-defined functions and classes from the source and list them nicely formatted, anything you like!
+The downside, as ever, will be speed and CPU usage. GeSHi is not the lightest script to run. However, I plan
+to minimise load wherever possible, and already 1.1.X benefits from using nearly no regular expressions.</p>
+
+<h2>Features planned for 1.2</h2>
+
+<p>GeSHi 1.2 will be light-years ahead of GeSHi 1.0.X, and further ahead still from any competition. These are
+the major planned features:</p>
+
+<ul>
+    <li>PEAR compliance</li>
+    <li>Majorly improved highlighting (already mainly achieved!)</li>
+    <li>Caching support</li>
+    <li>Reduced CPU load, and increased speed for equivalent sources/configurations</li>
+    <li>Support for people to access the parsed source directly to do as they please with it</li>
+    <li>Release into mainstream Linux distributions (debian, redhat) as installable package</li>
+</ul>
+
+<p>1.2 is not numbered as 2.0 as the API will remain the same where possible. However, the PEAR compliance
+goal means that all of the setter methods (set_source, set_language, set_styles etc.) will become deprecated
+and will be replaced with PEAR-style named methods (setStyles for example).</p>
+
+<p>Here are some more notes about the main goals of GeSHi 1.2:</p>
+
+<h3>PEAR compliance</h3>
+
+<p>I'm moving GeSHi to be PEAR compliant. This PEAR compliancy will come in two stages: the 1.2 release
+where the coding style and other such easier aspects of PEAR will be implemented, and the 2.0 release where
+the API will change completely to be more PEAR shaped, and tests and other such things will be available. I
+don't know whether GeSHi would ever make it into the PEAR repository (it's GPL and I don't think I want to
+change the license, there is already a syntax highlighting solution in PEAR), but compliance I see as a big
+goal.</p>
+
+<h3>Majorly improved highlighting</h3>
+
+<p>Because GeSHi 1.0.X is nothing more than glorified string replacement, every now and then it will fail
+to understand an obscure segment of code and fail completely. For example, there is a well known bug where
+putting a &gt; inside an HTML comment will cause the comment to end prematurely. This bug is <em>unsolvable</em>
+in 1.0.X, due to the way it works. However, 1.2 understands perfectly.</p>
+
+<p>There are many issues with the way highlighting is done in 1.0.X, and so I concentrated on a complete
+rewrite, using the knowledge I have learned from my time at university. With the aid of concepts such as trees,
+GeSHi 1.2 now provides much better highlighting, that is configurable on a far more fine-grained level. The
+trade-off, of course, is in complexity. Instead of simply defining one language file for a language, you need
+at *least* two file, and more like six for any decent language. And all of these files need to be loaded by
+GeSHi at runtime, so there is quite a bit of overhead (recent builds use caching to reduce disk access).</p>
+
+<p>Still, the benefits are great. You've probably seen the pages with PHP embedded in HTML, with CSS and
+Javascript highlighting all in the same source, or perhaps you tried it for yourself at
+<a href="http://geshi.org/">http://geshi.org/</a>. And, as long as I can find authors for languages, highlighting
+for other languages will be just as good. Which brings me to a point: <em>I can't maintain everything on my own
+anymore!</em> If you want to help out with the GeSHi project, and have a good understanding of a programming
+language and think you're up to the task of maintaining the language file(s) for that language, please
+<a href="mailto:nigel@geshi.org">contact me</a>! Excluded languages are PHP, (X)HTML, CSS, and possibly
+Javascript and Doxygen, because I like those languages too much ;). But if you know any other language,
+perhaps Java, C, SQL, XML or similar, posts are available :)</p>
+
+<h3>Caching support</h3>
+
+<p>I'll say it again: GeSHi is sloooooow. If you have a good server with a decent hunk of RAM and you're
+only ever highlighting small chunks of source, you probably won't notice any issues. But in other circumstances,
+caching is a good idea. But why should I make everyone who uses GeSHi write their own caching solution? So
+GeSHi 1.2.X will come with caching options to speed things up.</p>
+
+<p>The caching will be configurable. You'll be able to specify a maximum cache size, cache file lifetimes,
+the cache directory, and you'll be able to clear the cache when options are changed.</p>
+
+<p>You'll also benefit from a script cacher such as PHPAccelarator or Turk-MMCache because of the size
+of the scripts, although many people won't have access to such things.</p>
+
+<h3>Reduced CPU load/increased speed</h3>
+
+<p>This will be achieved because 1.2 won't use regular expressions to parse code, however I don't think
+there will be a large improvement. I have been testing GeSHi using a language that was deliberately as
+complicated as they come (HTML with CSS, Javascript and PHP all in one as part of the "PHP" language
+is *huge* compared with most languages), so I haven't really tried it with a smaller language like
+SQL/QBasic or similar. Speed will again be an issue - for small sources the context tree still has to
+be loaded, which will be a large overhead, larger in fact than actually parsing the source, but it
+will scale well to larger pieces of source. Caching will help in this regard.</p>
+
+<h3>Access to the parsed source</h3>
+
+<p>What 1.1 currently does is use the context tree to parse the source, and add bits of the source to an
+array indexed by the context name. Here's an example:
+
+<pre>&lt;?php
+echo &quot;Hello, world!&quot;;
+?&gt;</pre>
+
+<p>Will be converted to (assuming use of the PHP language):</p>
+
+<pre>array(
+    'php/php/start' => '&lt;?php
+',
+    'php/php/kw2' => 'echo',
+    'php/php/double_string' => '&quot;Hello, world!&quot;',
+    'php/php/sym0' => ';
+',
+    'php/php/end' => '?&gt;'
+);</pre>
+
+<p>Or similar. Then the highlighting is achieved by simply running through this array building a string
+with the appropriate &lt;span&gt; tags around it.</p>
+
+<p>But, what if access was given to this array? Then people could use it to check all sorts of things -
+for example, if there was a php/php/kw2 index with the contents &quot;function&quot;, then the next
+index would hold the name of a user-defined function or method. With a bit of time and effort, the
+possibilities could be endless! That's why the GeSHi class being able to highlight source code will
+become deprecated behaviour - instead you'll be expected to create a GeSHi_Highlighter object instead
+and use that.</p>
+
+<h3>Release into mainstream Linux distributions</h3>
+
+<p>This would make GeSHi available on a larger scale, as well as introduce me to how program releases
+are made in the open-source world. However, I am looking for someone to help with this - if you have
+experience in releasing programs for Debian, Redhat etc. and you want to help then please
+<a href="mailto:nigel@geshi.org">contact me</a>.</p>
+
+<h2>Using/Testing GeSHi 1.1.X</h2>
+
+<p>If you have the source to a build of 1.1.X (which I assume you do if you're reading this), then test
+away! API documentation is included in the docs/api/ directory of each build so you can use that to
+have an idea of what is currently supported, though there's no guarantee that the documentation is correct,
+and no better reference than the source code.</p>
+
+<p>If a method is publically available, test it until it bleeds, and e-mail me at
+<a href="nigel@geshi.org">nigel@geshi.org</a> if you find a bug. You're welcome to propose a patch or
+solution to the bug as well.</p>
+
+<p>However, for larger bugs, including feature ideas and implementations of the current API, <em>it is very
+unlikely that I will accept code</em>. I have a definite idea of how GeSHi 1.2 is going to work and how many
+of the old API methods will be implemented, I just haven't coded them yet. Still, your suggestions are welcome
+and &quot;votes&quot; for methods to implement will be considered ;)</p>
+
+<h2>The source</h2>
+
+<p>Is a mess. There may be conflicting/dead comments, errant whitespace, useless code and todos about me
+needing a haircut in there, please wear your safety firewall before inspecting. If you see an algorithm in
+the source that you can improve, by all means send me a patch. If you break up some of the complicated bits
+into easier to read bits, send me a patch (especially if it has helpful comments explaining how stuff works!)
+If you need to debug the source, define the GESHI_DBG constant to a value like 1023 before including the
+class.geshi.php file. Oh, and remember to output &lt;pre&gt; tags before calling any methods, because you will
+get a *huge* amount of debug output. I understand the output and when/why the calls are made, if you also
+understand it then you're probably ready to fix bigger bugs.</p>
+
+<h2>Things that need testing</h2>
+
+<p>Apart from the obvious &quot;all of it!&quot; part, the following methods are worth you testing
+to see that they work properly:</p>
+
+<ul>
+    <li><p><strong>cacheRootContext</strong>: This method should be called if you wish to use the
+    same language to highlight many bits of source code - this will save on GeSHi having to load
+    the language every time you want to highlight something. Example usage:</p>
+    
+    <pre>$geshi =& new GeSHi($source, $language);
+$geshi->cacheRootContext();
+// do other things...
+$code = $geshi->parseCode();
+// other things
+$geshi->setSource($new_source);
+$code = $geshi->parseCode();
+// and repeat ad infinitum</pre>
+
+    <p>You can check with the getTime() method how long things took to parse - in particular,
+    calling it with the 'pre' parameter will return the same result while caching of the root
+    context is on. The time recorded will be of how long it took to load the context data the
+    first time.</p>
+    
+    <p>To turn caching of the root context off, call the cacheRootContext method with false
+    as the only parameter.</p>
+    
+    <p>It should be possible to turn caching on and then change the language also - the new
+    language data should be cached instead. Not using caching if not needed will save some memory.</p>
+    </li>
+</ul>
+<hr />
+
+<p>That's all I can think of right now. Thanks for reading this document!</p>
+
+<em><code>$Id$</code></em>
+
+</body>
+</html> 
