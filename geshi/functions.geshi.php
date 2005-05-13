@@ -10,8 +10,8 @@
  * You can view a copy of the GNU GPL in the LICENSE file that comes
  * with GeSHi, in the docs/ directory.
  *
- * @package   test
- * @author    Nigel McNie <oracle.shinoda@gmail.com>
+ * @package   core
+ * @author    Nigel McNie <nigel@geshi.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
@@ -30,11 +30,11 @@
  */
 function geshi_dbg ($message, $context, $add_nl = true, $return_counts = false)
 {
-    static $warn_count, $err_count;
-    if (!$warn_count) $warn_count = 0;
-    if (!$err_count) $err_count = 0;
+    //static $warn_count, $err_count;
+    //if (!$warn_count) $warn_count = 0;
+    //if (!$err_count) $err_count = 0;
     
-    if (!$return_counts) {
+    //if (!$return_counts) {
         if (GESHI_DBG & $context) {
             //
             // Message can have the following symbols at start
@@ -85,9 +85,9 @@ function geshi_dbg ($message, $context, $add_nl = true, $return_counts = false)
             echo $start . htmlspecialchars(str_replace("\n", '', $message)) . $end;
             if ($add_nl) echo "\n";
         } 
-    } else {
-            return array('w' => $warn_count, 'e' => $err_count);
-    }
+    //} else {
+    //        return array('w' => $warn_count, 'e' => $err_count);
+    //}
 }
 
 
@@ -116,9 +116,9 @@ function geshi_can_include ($file_name)
  * @param int    The offset in the string in which to start searching
  * @param boolean Whether the search is case sensitive or not
  * @return array An array of data:
- *               'pos' => position in string of needle,
- *               'len' => length of match
- *               'tab' => a table of the stuff matched in brackets for a regular expression
+ * <pre> 'pos' => position in string of needle,
+ * 'len' => length of match
+ * 'tab' => a table of the stuff matched in brackets for a regular expression</pre>
  */
 function geshi_get_position ($haystack, $needle, $offset, $case_sensitive = false)
 {
@@ -146,6 +146,7 @@ function geshi_get_position ($haystack, $needle, $offset, $case_sensitive = fals
     //if ( DEBUG ) echo "    length of replaced string: $length, pos of replace string: " . strpos($str, $foo) . "\n";
 
     // ADD SOME MORE: Return matching table (?)
+    // @todo Don't generate table if not needed
     preg_match_all($regex, $string, $matches);
     //$table = $matches;
     $i = 0;
@@ -174,8 +175,8 @@ function geshi_get_position ($haystack, $needle, $offset, $case_sensitive = fals
  */
 function geshi_use_integers ($prefix)
 {
-    $banned = '[^a-zA-Z_0-9]';
-    $plus_minus = '[\-\+]?';
+    //$banned = '[^a-zA-Z_0-9]';
+    //$plus_minus = '[\-\+]?';
 
     return array(
         0 => array(
@@ -218,6 +219,7 @@ function geshi_use_doubles ( $prefix )
 }
 
 
+// @todo fix this up
 // +----------------------------------------------------------------------+
 // | PHP Version 4                                                        |
 // +----------------------------------------------------------------------+
