@@ -11,7 +11,7 @@
  * with project_name, in the docs/ directory.
  *
  * @package   scripts
- * @author    Nigel McNie <oracle.shinoda@gmail.com>
+ * @author    Nigel McNie <nigel@geshi.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
@@ -40,11 +40,7 @@ EOF;
 
 function show_version ()
 {
-    print <<<EOF
-\$Id\$
-@todo replacement on this for releases
-
-EOF;
+    print "$Id$\n";
     exit;
 }
 ?>
