@@ -62,12 +62,12 @@ function geshi_dbg ($message, $context, $add_nl = true, $return_counts = false)
                 
                 case '@w':
                     $start = '<span style="color:#660;background-color:#ffe;border:1px solid #993;">';
-                    ++$warn_count;
+                    //++$warn_count;
                     break;
     
                 case '@e':
                     $start = '<span style="color:red;background-color:#fee;border:1px solid #933;">';
-                    ++$err_count;
+                    //++$err_count;
                     break;
                     
                 default:
