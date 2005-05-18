@@ -20,7 +20,7 @@
 
 $this->_contextDelimiters = array(
     0 => array(
-        0 => array('REGEX#<[/a-z_]+#i'),
+        0 => array('REGEX#<[/a-z_0-6]+#i'),
         1 => array('>'),
         2 => false
     )
