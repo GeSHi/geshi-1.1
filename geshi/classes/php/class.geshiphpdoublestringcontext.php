@@ -32,12 +32,15 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
     {
         parent::load($styler);
         $this->_parentName = parent::getName();
+        //echo $this->_parentName;
     }
     
     /**
      * Overrides loadStyleData to load style data for variables
+     * @todo remove this completely? Not needed for this,which is the main reason for it
+     * @todo blocking 1.1.0beta1 Have another look at namespaces
      */
-    function loadStyleData ()
+    /*function loadStyleData ()
     {
         $this->_styler->setStyle($this->_styleName . '/var',
             $this->_styler->getStyle($this->_parentName . '/var'));
@@ -48,7 +51,7 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
             //echo $this->_styler->getStyle($root_parent_name . '/method');
             
         parent::loadStyleData();
-    }
+    }*/
     
     function _addParseData ($code, $first_char_of_next_context = '')
     {
@@ -67,6 +70,7 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
             $earliest_data = array('pos' => false, 'len' => 0);
             foreach ($regexes as $regex) {
                 $data = geshi_get_position($code, $regex, 0);
+                //print_r($data);
                 if ((false != $data['pos'] && false === $earliest_data['pos']) ||
                     (false !== $data['pos']) &&
                     (($data['pos'] < $earliest_data['pos']) ||
@@ -74,15 +78,21 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
                     $earliest_data = $data;
                 }
             }
+            //'edata:' . print_r($earliest_data);
             if (false === $earliest_data['pos']) {
                 // No more variables in this string
                 break;
             }
             //print_r($earliest_data['tab']);
-            parent::_addParseData(substr($code, 0, $earliest_data['pos'] - 1));
+            // Bug fix: if pos was 0 then last param was -1 so we duplicated all but the last char in
+            // the string!
+            //if ($earliest_data['pos'] > 0) {
+                parent::_addParseData(substr($code, 0, $earliest_data['pos']/* - 1*/));
+            //}
             
             // Now the entire possible var is in:
             $possible_var = substr($code, $earliest_data['pos'], $earliest_data['len']);
+            geshi_dbg('Found variable at position ' . $earliest_data['pos'] . '(' . $possible_var . ')', GESHI_DBG_PARSE);
             
             // Check that the dollar sign that started this variable was not escaped
             $first_part = str_replace('\\\\', '', substr($code, 0, $earliest_data['pos']));
@@ -90,28 +100,39 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
                 // This variable has been escaped, so add the escaped dollar sign
                 // as the correct context, and the rest of the variable (recurse to catch
                 // other variables inside this possible variable)
+                geshi_dbg('Variable was escaped', GESHI_DBG_PARSE);
                 $this->_styler->addParseData('\\$', $this->_parentName . '/esc');
                 $this->_addParseData(substr($possible_var, 1));
             } else {
-                parent::_addParseData(substr($code, $earliest_data['pos'] - 1, 1));
+                if ($earliest_data['pos']) {
+                    //geshi_dbg('Variable valid, parsing stuff before it', GESHI_DBG_PARSE);
+                    //$this->_addParseData(substr($code, 0, $earliest_data['pos']));
+                    //$code = substr($code, 0, $earliest_data['pos']);
+                }
                 // Many checks could go in here...
                 
+                if (isset($earliest_data['tab'][5])) {
+                    $start_brace = '{';
+                } else {
+                    $start_brace = '';
+                }
                 if ('{' == substr($possible_var, 0, 1)) {
                     if ('}' != substr($possible_var, -1)) {
                         // Open { without closer
                         parent::_addParseData('{');
                         $possible_var = substr($possible_var, 1);
+                        $start_brace = '';
                     }
                 }
                 
                 if (isset($earliest_data['tab'][5])) {
                     // Then we matched off the second regex - the one that does objects
                     // The first { if there is one, and $this (which is in index 2
-                    $this->_styler->addParseData($earliest_data['tab'][1] . $earliest_data['tab'][2], $this->_parentName . '/var');
+                    $this->_styler->addParseData($start_brace . $earliest_data['tab'][2], $this->_parentName . '/var');
                     // The -> with any whitespace around it
                     $this->_styler->addParseData($earliest_data['tab'][3], $this->_parentName . '/sym0');
                     // The method name
-                    $this->_styler->addParseData($earliest_data['tab'][4], $this->_parentName . '/method');
+                    $this->_styler->addParseData($earliest_data['tab'][4], $this->_parentName . '/oodynamic');
                     // The closing }, if any
                     if ($earliest_data['tab'][5]) {
                         $this->_styler->addParseData($earliest_data['tab'][5], $this->_parentName . '/var');
