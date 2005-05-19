@@ -78,7 +78,7 @@ if (KeywordGetter::isError($keywords)) {
 // Simply echo to standard out, although a todo would be to make this customisable
 // @todo Customise the output of keywords (to a file perhaps?)
 foreach ($keywords as $keyword) {
-    echo $keyword . "\n";
+    echo "'".$keyword . "',\n";
 }
 
 ?>
