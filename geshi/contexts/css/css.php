@@ -26,7 +26,8 @@ $this->_contextDelimiters = array();
 
 $this->_childContexts = array(
     new GeSHiContext('css/inline_media'),
-    new GeSHiCodeContext('css/rule', 'rule')
+    new GeSHiCodeContext('css/rule', 'rule'),
+    new GeSHiContext('common/multi_comment', 'multi_comment')
 );
 
 $this->_styler->setStyle($this->_styleName, 'color:#000;');
@@ -34,5 +35,40 @@ $this->_contextStyleType = GESHI_STYLE_NONE;
 // irrelevant if no delimiters...
 $this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
 
+$this->_contextKeywords = array();
+$this->_contextCharactersDisallowedBeforeKeywords = array();
+$this->_contextCharactersDisallowedAfterKeywords  = array();
 
+$this->_contextSymbols  = array(
+    0 => array(
+        0 => array(
+            ',', '*', '>'
+            ),
+        // name (should names have / in them like normal contexts? YES
+        1 => $this->_styleName . '/sym',
+        // style
+        2 => 'color:#008000;'
+        )
+);
+
+$this->_contextRegexps  = array(
+    0 => array(
+        0 => array(
+            '#(\.[a-zA-Z][a-zA-Z0-9\-_]*)#'
+        ),
+        1 => '.',
+        2 => array(
+            1 => array($this->_styleName . '/class', 'color:#c9c;')
+        )
+    ),
+    1 => array(
+        0 => array(
+            '/(#[a-zA-Z][a-zA-Z0-9\-_]*)/'
+        ),
+        1 => '#',
+        2 => array(
+            1 => array($this->_styleName . '/id', 'color:#c9c;font-weight:bold;')
+        )
+    )
+);
 ?>
