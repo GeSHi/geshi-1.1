@@ -11,7 +11,7 @@
  * with GeSHi, in the docs/ directory.
  *
  * @package   lang
- * @author    Nigel McNie <oracle.shinoda@gmail.com>
+ * @author    Nigel McNie <nigel@geshi.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
@@ -37,7 +37,7 @@ $this->_contextDelimiters = array(
 $this->_childContexts = array(
     new GeSHiStringContext('common/single_string', 'single_string'),
     new GeSHiPHPDoubleStringContext('php/double_string', 'double_string'),
-    new GeSHiContext('php/heredoc', 'heredoc'),
+    new GeSHiPHPDoubleStringContext('php/heredoc', 'heredoc'),
     // PHP single comment, with # starter and end-php-context ender
     new GeSHiContext('php/single_comment', 'single_comment'),
     // Use common multi comment since it is a PHP comment...
@@ -284,13 +284,15 @@ $this->_contextCharactersDisallowedAfterKeywords  = array("'", '_');
 $this->_contextSymbols  = array(
         0 => array(
             0 => array(
-                '(', ')', ',', ';', ':', '[', ']'
+                '(', ')', ',', ';', ':', '[', ']',
+                '+', '-', '*', '/', '&', '|', '!', '<', '>',
+                '{', '}', '=', '@'
                 ),
             // name (should names have / in them like normal contexts? YES
             1 => $this->_styleName . '/sym0',
             // style
             2 => 'color:#008000;'
-            ),
+            )/*,
         1 => array(
             0 => array(
                 '+', '-', '*', '/', '&', '|', '!', '<', '>'
@@ -304,7 +306,7 @@ $this->_contextSymbols  = array(
                 ),
             1 => $this->_styleName . '/sym2',
             2 => 'color:#008000;'
-            )
+            )*/
 );
 $this->_contextRegexps  = array(
     0 => array(
@@ -342,12 +344,12 @@ $this->_objectSplitters = array(
     0 => array(
         0 => array('->'),
         1 => $this->_styleName . '/oodynamic',
-        2 => 'color: yellow;'
+        2 => 'color:#933;'
     ),
     1 => array(
         0 => array('::'),
         1 => $this->_styleName . '/oostatic',
-        2 => 'color: red; font-style:italic'
+        2 => 'color:#933;font-weight:bold;'
     )
 );
 
