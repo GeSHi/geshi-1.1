@@ -11,7 +11,7 @@
  * with GeSHi, in the docs/ directory.
  *
  * @package   core
- * @author    Nigel McNie <oracle.shinoda@gmail.com>
+ * @author    Nigel McNie <nigel@geshi.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
@@ -66,11 +66,17 @@ class GeSHiStyler
     function setStyle ($context_name, $style)
     {
         $this->_styleData[$context_name] = $style;
+        if (!isset($this->_styleData[$context_name . '/start'])) {
+           $this->setStartStyle($context_name, $style);
+        }
+        if (!isset($this->_styleData[$context_name . '/end'])) {
+           $this->setEndStyle($context_name, $style);
+        }
     }
     
     function setStartStyle ($context_name, $style)
     {
-        $this->setStyle($context_name . '/start', $style);
+        $this->_styleData[$context_name . '/start'] = $style;
     }
     
     function removeStyleData ($context_name)
@@ -83,22 +89,36 @@ class GeSHiStyler
     
     function setEndStyle ($context_name, $style)
     {
-        $this->setStyle($context_name . '/end', $style);
+        $this->_styleData[$context_name . '/end'] = $style;
     }
     
     function getStyle ($context_name)
     {
-        return $this->_styleData[$context_name];
+        if (isset($this->_styleData[$context_name])) {
+            return $this->_styleData[$context_name];
+        }
+        //@todo Make the default style for otherwise unstyled elements configurable
+        $this->_styleData[$context_name] = 'color:#000;';
+        return 'color:#000;';
     }
     
     function getStyleStart ($context_name)
     {
+        if (isset($this->_styleData[$context_name . '/start'])) {
+            return $this->_styleData[$context_name . '/start'];
+        }
+        // @todo Use style of actual context?
+        $this->_styleData[$context_name . '/start'] = $this->getStyle($context_name);
         return $this->_styleData[$context_name . '/start'];
     }
     
     function getStyleEnd ($context_name) 
     {
-        return $this->_styleData[$context_name . '/end'];
+        if (isset($this->_styleData[$context_name . '/end'])) {
+            return $this->_styleData[$context_name . '/end'];
+        }
+        $this->_styleData[$context_name . '/end'] = $this->getStyle($context_name);
+        return $this->_styleData[$context_name . '/start'];
     }
     
     function startIsUnique ($context_name)
