@@ -11,7 +11,7 @@
  * with GeSHi, in the docs/ directory.
  *
  * @package   lang
- * @author    Nigel McNie <oracle.shinoda@gmail.com>
+ * @author    Nigel McNie <nigel@geshi.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
@@ -43,6 +43,6 @@ $this->_styler->setStyle($this->_styleName . '/esc', 'color:#006;font-weight:bol
 // GeSHiPHPDoubleStringContext stuff
 $this->_styler->setStyle($this->_styleName . '/var', 'color:#22f;');
 $this->_styler->setStyle($this->_styleName . '/sym0', 'color:#008000;');
-$this->_styler->setStyle($this->_styleName . '/oodynamic', 'color:#ffb;');
+$this->_styler->setStyle($this->_styleName . '/oodynamic', 'color:#933;');
 
 ?>
