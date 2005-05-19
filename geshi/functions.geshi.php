@@ -122,6 +122,7 @@ function geshi_can_include ($file_name)
  */
 function geshi_get_position ($haystack, $needle, $offset, $case_sensitive = false)
 {
+    geshi_dbg('Checking haystack: ' . $haystack . ' against needle ' . $needle . ' (' . $offset . ')',GESHI_DBG_PARSE, false);
     if ('REGEX' != substr($needle, 0, 5)) {
         if (!$case_sensitive) {
             return array('pos' => stripos($haystack, $needle, $offset), 'len' => strlen($needle));
