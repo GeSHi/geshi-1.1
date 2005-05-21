@@ -340,7 +340,7 @@ class GeSHiContext
         
         // Highlight the starter (?)
         // if (conditions under which we want to have the starter highlighted separately)...
-        // @todo blocking 1.1.0beta2 Should this be || true? Have to test and
+        // Should this be || true? Have to test and
         // analyse why this is done only if $context_start_delimiter is set, perhaps I
         // can put something in context files that says this should be done if it doesn't
         // always work?
@@ -372,7 +372,6 @@ class GeSHiContext
             $code = substr($code, strlen($context_start_delimiter));
         }*/
         // Add the start of this context to the parse data if it is already known
-        // @todo blocking 1.1.0beta1 Fixes bug #2
         // @todo Make a method in this class to add start parse data so it can be overridden
         if ($context_start_delimiter) {
             $this->_styler->addParseDataStart($context_start_delimiter, $this->_styleName);
