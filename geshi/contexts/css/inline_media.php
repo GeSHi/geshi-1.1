@@ -35,9 +35,5 @@ $this->_styler->setStyle($this->_styleName, 'color:#b1b100;');
 //$this->_styler->setEndStyle($this->_styleName, 'color:red;');
 $this->_contextStyleType = GESHI_STYLE_NONE;
 $this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
-$this->_strictDelimiters = true;
- // @todo blocking 1.1.0beta1 This just fixes a bug really... have to anaylse whether the other
- // way (false) is even needed at all...
-
 
 ?>
