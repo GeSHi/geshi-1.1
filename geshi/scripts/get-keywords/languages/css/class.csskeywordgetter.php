@@ -30,7 +30,19 @@ require_once 'class.cssxmlparser.php';
  */
 class cssKeywordGetterStrategy extends KeywordGetterStrategy
 {
-    
+
+    /**
+     * Creates a new CSS Keyword Getter Strategy. Defines allowed
+     * keyword groups for CSS.
+     */
+    function cssKeywordGetterStrategy ()
+    {
+        $this->_language = 'CSS';
+        $this->_validKeywordGroups = array(
+            'properties', 'types', 'colors', 'paren', 'mediatypes', 'pseudoclasses'
+        );
+    }
+        
     /**
      * Implementation of abstract method {@link KeywordGetterStrategy::getKeywords()}
      * to get keywords for CSS
@@ -43,10 +55,7 @@ class cssKeywordGetterStrategy extends KeywordGetterStrategy
     function getKeywords ($keyword_group)
     {
         // Check that keyword group listed is valid
-        // @todo Move valid group list to be member var and add getter so
-        //       someone can ask for the keyword groups supported
-        $valid_keyword_groups = array('properties');
-        $group_valid = $this->keywordGroupIsValid($keyword_group, $valid_keyword_groups);
+        $group_valid = $this->keywordGroupIsValid($keyword_group);
         if (KeywordGetter::isError($group_valid)) {
             return $group_valid;
         }
@@ -60,7 +69,6 @@ class cssKeywordGetterStrategy extends KeywordGetterStrategy
         $xml_parser->setInputFile('/usr/share/apps/katepart/syntax/css.xml');
         
         if (!$xml_parser->parse()) {
-            // @todo define this constant
             return new KeywordGetterError(PARSE_ERROR, $this->_language);
         }
         
