@@ -47,6 +47,12 @@ class CSS_XML_Parser extends Keyword_XML_Parser
      * is made true when we encounter an ITEM node
      */
     var $_addKeyword;
+    
+    /**
+     * A list of keywords to ignore
+     * @var array
+     */
+    var $_keywordsToIgnore = array('100', '200', '300', '400', '500', '600', '700', '800', '900');
     /**#@-*/
     
     /**
@@ -81,10 +87,10 @@ class CSS_XML_Parser extends Keyword_XML_Parser
      */    
     function cdataHandler ($xp, $cdata)
     {
-        if ($this->_addKeyword) {
+        if ($this->_addKeyword && !in_array(trim($cdata), $this->_keywordsToIgnore)) {
             array_push($this->_keywords, trim($cdata));
-            $this->_addKeyword = false;
         }
+       $this->_addKeyword = false;
     }
     
 }
