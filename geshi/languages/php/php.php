@@ -25,7 +25,6 @@ require_once GESHI_CLASSES_ROOT . 'class.geshicodecontext.php';
  * PHP Language file for GeSHi
  */ 
 $this->_humanLanguageName = 'PHP';
-$this->_rootContext =& new GeSHiCodeContext('html/html', '', array());
-$this->_rootContext->addInfectiousContext(new GeSHiCodeContext('php'));
+$this->_rootContext =& new GeSHiCodeContext('html/html', '', array(), new GeSHiCodeContext('php'));
 
 ?>
