@@ -25,9 +25,18 @@
  */
 class GeSHiPHPDoubleStringContext extends GeSHiStringContext
 {
-    
+    /**
+     * A cached copy of the parent name
+     * @var string
+     * @access private
+     */
     var $_parentName;
     
+    /**
+     * Loads data for a PHP Double String Context.
+     * 
+     * @var GeSHiStyler The styler to be used for this context 
+     */
     function load (&$styler)
     {
         parent::load($styler);
@@ -35,23 +44,6 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
         //echo $this->_parentName;
     }
     
-    /**
-     * Overrides loadStyleData to load style data for variables
-     * @todo remove this completely? Not needed for this,which is the main reason for it
-     * @todo blocking 1.1.0beta1 Have another look at namespaces
-     */
-    /*function loadStyleData ()
-    {
-        $this->_styler->setStyle($this->_styleName . '/var',
-            $this->_styler->getStyle($this->_parentName . '/var'));
-        $this->_styler->setStyle($this->_styleName . '/sym0',
-            $this->_styler->getStyle($this->_parentName . '/sym0'));
-        $this->_styler->setStyle($this->_styleName . '/oodynamic',
-            $this->_styler->getStyle($this->_parentName . '/oodynamic'));
-            //echo $this->_styler->getStyle($root_parent_name . '/method');
-            
-        parent::loadStyleData();
-    }*/
     
     function _addParseData ($code, $first_char_of_next_context = '')
     {
