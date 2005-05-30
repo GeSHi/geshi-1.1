@@ -11,7 +11,7 @@
  * with GeSHi, in the docs/ directory.
  *
  * @package   core
- * @author    Nigel McNie <oracle.shinoda@gmail.com>
+ * @author    Nigel McNie <nigel@geshi.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
@@ -43,7 +43,7 @@
  * ),</pre>
  *
  * @package   core
- * @author    Nigel McNie <oracle.shinoda@gmail.com>
+ * @author    Nigel McNie <nigel@geshi.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2004, 2005 Nigel McNie
  * @version   $Id$
@@ -59,7 +59,7 @@ class GeSHiCodeContext extends GeSHiContext
      */
 
     /**
-     * 
+     * Keywords for this code context
      */
     var $_contextKeywords;
 
@@ -92,6 +92,12 @@ class GeSHiCodeContext extends GeSHiContext
      * An array of object "splitters"
      */
     var $_objectSplitters;
+    
+    /**
+     * Whether this code context has finished loading yet
+	 * @todo Do this by static variable?
+     */
+    var $_codeContextLoaded = false;
      
      /**#@-*/
 
@@ -105,6 +111,11 @@ class GeSHiCodeContext extends GeSHiContext
     {
         parent::load($styler);
 
+        if ($this->_codeContextLoaded) {
+            return;
+        }
+        $this->_codeContextLoaded = true;
+        
         // Add regex for methods (???)
         if ($this->_objectSplitters) {
             foreach ($this->_objectSplitters as $data) {
@@ -112,11 +123,6 @@ class GeSHiCodeContext extends GeSHiContext
                 foreach ($data[0] as $splitter) {
                         $splitter_match .= preg_quote($splitter) . '|';
                 }
-
-                // If we are using namespaces, give the object stuff the correct name
-                //if ($this->_styler->useNamespaces) {
-                //    $data[1] = $this->_styleName . '/' . $data[1];
-                //}
                         
                 $this->_contextRegexps[] = array(
                     0 => array(
@@ -138,6 +144,7 @@ class GeSHiCodeContext extends GeSHiContext
      */
      function loadStyleData ()
      {
+        // @todo Skip if already loaded???
         // Set styles for keywords
         //geshi_dbg('Loading style data for context ' . $this->getName(), GESHI_DBG_PARSE);
         // @todo Style data for infectious context loaded many times, could be reduced to one?
@@ -162,10 +169,13 @@ class GeSHiCodeContext extends GeSHiContext
      }
 
     /**
-     * @todo [blocking 1.1.1] Each character parsed is added individually to the $result array, and it shouldn't
-     * @todo [blocking 1.1.1] Optimise by not checking for keywords if there are none
+     * Overrides {@link GeSHiContext::_addParseData()} to highlight a code context, including
+     * keywords, symbols and regular expression matches
+     * 
+     * @param string The code to add as parse data
+     * @param string The first character of the context after this
      */
-    function _addParseData ($code, $first_char_of_next_context = ''/*, $inherit_styles = false */)
+    function _addParseData ($code, $first_char_of_next_context = '')
     {
         //$first_char_of_next_context = '';
         geshi_dbg('GeSHiCodeContext::_addParseData(' . substr($code, 0, 15) . ', ' . $first_char_of_next_context . ')', GESHI_DBG_PARSE);
@@ -234,11 +244,6 @@ class GeSHiCodeContext extends GeSHiContext
                         }
                     }
                     // Else, don't add it at all...
-                    // SO: for regular expression, if you want a bracket group highlighted, you
-                    // set a name and style for it. If you want to catch a group simply to output
-                    // it as code, set its value to true in the style array. Otherwise, the bracket
-                    // group won't be counted in output. This is a good thing for nested brackets -
-                    // simply set a name/style for the outer brackets and nothing for the inner brackets.
                 }
             }
         }
@@ -287,7 +292,8 @@ class GeSHiCodeContext extends GeSHiContext
             $this->_createContextKeywordLookup();
         }
         
-        $result = array();
+        $result = array(0 => array('', ''));
+        $result_pointer = 0;
         $length = strlen($code);
         $keyword_match_allowed  = true;
         $earliest_pos           = false;
@@ -300,13 +306,19 @@ class GeSHiCodeContext extends GeSHiContext
                 geshi_dbg('  Regex replacements available at position ' . $i . ': ' . $regex_replacements[$i][0][0] . '...', GESHI_DBG_PARSE);
                 // There's regular expressions expected to go here
                 foreach ($regex_replacements[$i] as $replacement) {
-                    $result[] = $replacement;
+                    $result[++$result_pointer] = $replacement;
                 }
             }
             
             $char = substr($code, $i, 1);
             if ("\0" == $char) {
                 // Not interested in null characters inserted by regex replacements
+                continue;
+            }
+            
+            // Take symbols into account before doing this
+            if (!$this->_contextKeywordLookup) {
+                $this->_checkForSymbol($char, $result, $result_pointer);
                 continue;
             }
             
@@ -370,8 +382,9 @@ class GeSHiCodeContext extends GeSHiContext
                 geshi_dbg('Keyword matched: ' . $earliest_keyword, GESHI_DBG_PARSE);
                 // there's a keyword match!
 
-                $result[] = array($earliest_keyword, $this->_contextKeywords[$earliest_keyword_group][1],
-                    $this->_getURL($earliest_keyword, $earliest_keyword_group));
+                $result[++$result_pointer] = array($earliest_keyword,
+                                                   $this->_contextKeywords[$earliest_keyword_group][1],
+                                                   $this->_getURL($earliest_keyword, $earliest_keyword_group));
                 $i += strlen($earliest_keyword) - 1;
                 geshi_dbg("strlen of earliest keyword is " . strlen($earliest_keyword) . " (pos is $i)", GESHI_DBG_PARSE);
                 // doesn't help
@@ -379,23 +392,8 @@ class GeSHiCodeContext extends GeSHiContext
                 $earliest_keyword = '';
             } else {
                 // Check for a symbol instead
-                $skip = false;
-                foreach ($this->_contextSymbols as $symbol_data) {
-                    if (in_array($char, $symbol_data[0])) {
-                        // we've matched the symbol in $symbol_group
-                        // start the current symbols string
-                        $result[] = array($char, $symbol_data[1]);
-                        $skip = true;
-                        break;
-                    }
-                }
-                if (!$skip) {
-                    $result[] = array($char, $this->_styleName);
-                }   
+                $this->_checkForSymbol($char, $result, $result_pointer);
             }
-            //else
-           // {
-            //    if ( defined('DEBUG') || defined('DEBUG_CODE_PARSER') ) echo "Checking for symbol... ";
 
             /// If we move this to the end we might be able to get rid of the last one [DONE]
             /// The second test on the first line is a little contentious  - allows functions that don't
@@ -407,7 +405,8 @@ class GeSHiCodeContext extends GeSHiContext
             geshi_dbg('  Keyword matching allowed: ' . $keyword_match_allowed, GESHI_DBG_PARSE);
             geshi_dbg('    [checked ' . substr($code, $i, 1) . ' against ' . print_r($this->_contextCharactersDisallowedBeforeKeywords, true), GESHI_DBG_PARSE);
         }
-        
+
+        unset($result[0]);        
         geshi_dbg('@b  Resultant Parse Data:', GESHI_DBG_PARSE);
         geshi_dbg(str_replace("\n", "\r", print_r($result, true)), GESHI_DBG_PARSE);
         //return array(array($code, $this->_styleName));
@@ -415,279 +414,39 @@ class GeSHiCodeContext extends GeSHiContext
      }
 
 
-    /*function _doHighlightingMain ($code, $regex_replacements = array(), $first_char_of_next_context = '')
+    /**
+     * Checks the specified character to see if it is a symbol, and
+     * adds it to the result array according to its findings.
+     * 
+     * @param string The possible symbol to check
+     * @param array  The current result data that will be appended to
+     * @param int    The pointer to the current result record
+     */
+    function _checkForSymbol($possible_symbol, &$result,&$result_pointer)
     {
-        // What's the isset($regex_replacements[$i] gonna turn into?
-        // if (isset()) {
-        //    foreach($rr[$i] as $data) {
-        //      $this->_styler->addParseData($data[0], $data[1]);
-        //    }
-        // }
-        $result = '';
-        $length = strlen($code);
-        $current_symbol_group = false;
-        $current_symbols = '';
-        $keyword_match_allowed = true;
-
-        if ( defined('DEBUG') || defined('DEBUG_CODE_PARSER') ) echo "<b>Checking code:</b>\n";
-        if ( defined('DEBUG') || defined('DEBUG_CODE_PARSER') ) echo htmlspecialchars($code) . "\n";
-
-        for ( $i = 0; $i < $length; $i++ )
-        {
-            // add regexes if there aren't any symbols in the buffer
-            if ( isset($regex_replacements[$i]) )
-            {
-                // if there's a symbol string, we'll have to finish it so we can put the regex in
-                if ( $current_symbols )
-                {
-                    // ADDED HTMLSPECIALCHARS
-                    $result .= $current_symbols;
-                    $current_symbols = '';
-                    $current_symbol_group = false;
+        $skip = false;
+        geshi_dbg('Checking ' . $possible_symbol . ' for symbol match', GESHI_DBG_PARSE); 
+        foreach ($this->_contextSymbols as $symbol_data) {
+            if (in_array($possible_symbol, $symbol_data[0])) {
+                // we've matched the symbol in $symbol_group
+                // start the current symbols string
+                if ($result[$result_pointer][1] == $symbol_data[1]) {
+                    $result[$result_pointer][0] .= $possible_symbol;
+                } else {
+                    $result[++$result_pointer] = array($possible_symbol, $symbol_data[1]);
                 }
-                $result .= $regex_replacements[$i];
-                //$i += 3;
+                $skip = true;
+                break;
             }
-
-            $char = substr($code, $i, 1);
-            if ( "\0" == $char ) continue; // not interested in the nulls created by regexes
-            if ( defined('DEBUG') || defined('DEBUG_CODE_PARSER') ) echo "\n<b>Char is $char</b>\n";
-
-            $earliest_pos = false;
-            $earliest_keyword = '';
-            $pos = 0;
-
-            if ( defined('DEBUG') || defined('DEBUG_CODE_PARSER') ) echo "current char is " . htmlspecialchars($char) . "\n";
-            //echo htmlspecialchars(print_r($this->_context_keyword_lookup[$char], true));
-            /// If we move this to the end we might be able to get rid of the last one
-            /// The second test on the first line is a little contentious  - allows functions that don't
-            /// start with an alpha character to be within other words.
-            $last_char_alpha = ctype_alpha(substr($code, $i - 1, 1));
-            $keyword_match_allowed = ( !$last_char_alpha || ($last_char_alpha && !ctype_alpha($char)) );
-            $keyword_match_allowed = ( $keyword_match_allowed && !in_array(substr($code, $i - 1, 1), $this->_contextCharactersDisallowedBeforeKeywords) );
-            $keyword_match_allowed = ( $keyword_match_allowed || (0 == $i) );
-
-            if ( $keyword_match_allowed && /*array_key_exists($char, $this->_context_keyword_lookup)*//* isset($this->_contextKeywordLookup[$char]) )
-            {
-                foreach ( $this->_contextKeywordLookup[$char] as $keyword_array )
-                {
-                    // keyword array is 0 => keyword, 1 => kwgroup
-                    // WRONG!!!!
-                    //$pos = stripos($code, $keyword_array[0], $i);
-
-                    if ( defined('DEBUG') || defined('DEBUG_CODE_PARSER') ) echo "Checking code for " . htmlspecialchars($keyword_array[0]) . "\n";
-                    //if ( defined('DEBUG') || defined('DEBUG_CODE_PARSER') ) echo htmlspecialchars($code) . "\n";
-
-                    if ( $this->_contextKeywords[$keyword_array[1]][3] )
-                    {
-                        $next_part_is_keyword = ( $keyword_array[0] == substr($code, $i, strlen($keyword_array[0])) );
-                    }
-                    else
-                    {
-                        $next_part_is_keyword = ( strtolower($keyword_array[0]) == strtolower(substr($code, $i, strlen($keyword_array[0]))) );
-                    }
-
-                    // OPTIMIZE (use lookup to remember for length $foo(1 => false, 2 => false) so if kw is length 1 or 2 then don't need to check
-                    //$after_allowed = ( !in_array(substr($code, $i + strlen($keyword_array[0]), 1), array_diff($this->_context_characters_disallowed_after_keywords, $this->_context_keywords[$keyword_array[1]][4])) );
-                    // the first char of the keyword is always $char???
-                    $after_char = substr($code, $i + strlen($keyword_array[0]), 1);
-                    // if '' == $after_char, it's at the end of the context so we need
-                    // the first char from the next context...
-                    if ( '' == $after_char ) $after_char = $first_char_of_next_context;
-
-                    if ( defined('DEBUG') || defined('DEBUG_CODE_PARSER') ) echo "  after char to check: |$after_char|\n";
-                    $after_allowed = ( !ctype_alpha(substr($code, $i + strlen($keyword_array[0]), 1)) || (ctype_alpha(substr($code, $i + strlen($keyword_array[0]), 1)) && !ctype_alpha($char)) );
-                    $after_allowed = ( $after_allowed && !in_array($after_char, $this->_contextCharactersDisallowedAfterKeywords) );
-                    //
-                    // Try this: before_allowed is true if the last character is not alpha, or if it is but the first char
-                    // of the matched keyword is not
-                    //$before_allowed = ( !ctype_alpha(substr($code, $i - 1, 1)) || (ctype_alpha(substr($code, $i - 1, 1)) && !ctype_alpha(substr($keyword_array[0], 0, 1))) );//true; //( !in_array(substr($code, $i - 1, 1), array_diff($this->_context_characters_disallowed_before_keywords, $this->_context_keywords[$keyword_array[1]][5])) );
-                    if ( $next_part_is_keyword && $after_allowed /*&& $before_allowed*//* )
-                    {
-                        //if ( false === $earliest_pos || $pos < $earliest_pos || ($pos == $earliest_pos && strlen($keyword_array[0]) > strlen($earliest_keyword)) )
-                        if ( strlen($keyword_array[0]) > strlen($earliest_keyword) )
-                        {
-                            if ( defined('DEBUG') || defined('DEBUG_CODE_PARSER') ) echo " <b>found</b>\n";
-                            $earliest_pos = true;//$pos;
-                            $earliest_keyword = $keyword_array[0];
-                            $earliest_keyword_group = $keyword_array[1];
-                        }
-                    }
-                }
-            }
-
-            // reset matching of keywords
-            //$keyword_match_allowed = false;
-
-            //echo "Current pos = $i, earliest keyword is " . htmlspecialchars($earliest_keyword) . ' at ' . $earliest_pos . "\n";
-            //echo "Symbol string is |$current_symbols|\n";
-
-            if ( false !== $earliest_pos )
-            {
-                if ( defined('DEBUG') || defined('DEBUG_CODE_PARSER') ) echo "Keyword matched: " . htmlspecialchars($earliest_keyword) . "\n";
-                // there's a keyword match!
-
-                // firstly, if there are symbols we should add those
-                if ( $current_symbols )
-                {
-                    // ADDED HTMLSPECIALCHARS
-                    $result .= /*$this->_addMarkers(htmlspecialchars(*//*$current_symbols/*), true, $this->_contextSymbols[$current_symbol_group][1], $this->_contextSymbols[$current_symbol_group][2])*//*;
-                    $current_symbols = '';
-                    $current_symbol_group = false;
-                }
-
-
-                // ADDED HTMLSPECIALCHARS
-                $result .= $this->_linkify(substr($code, $i, strlen($earliest_keyword))/*, true, $this->_contextKeywords[$earliest_keyword_group][1], $this->_contextKeywords[$earliest_keyword_group][2])*//*, $earliest_keyword, $earliest_keyword_group);
-                //echo "strlen of earliest keyword is " . strlen($earliest_keyword) . " (pos is $i)\n";
-                $i += strlen($earliest_keyword) - 1;
-                if ( defined('DEBUG') || defined('DEBUG_CODE_PARSER') ) echo "    $i\n";
-                // doesn't help
-                //$earliest_pos = false;
-            }
-            else
-            {
-                if ( defined('DEBUG') || defined('DEBUG_CODE_PARSER') ) echo "Checking for symbol... ";
-                // Now ask: Is this character a symbol?
-                if ( false === $current_symbol_group )
-                {
-                    foreach ( $this->_contextSymbols as $symbol_group => $symbol_data )
-                    {
-                        if ( in_array($char, $symbol_data[0]) )
-                        {
-                            // we've matched the symbol in $symbol_group
-                            // start the current symbols string
-                            $current_symbols = $char;
-                            $current_symbol_group = $symbol_group;
-                            if ( defined('DEBUG') || defined('DEBUG_CODE_PARSER') ) echo "found!\n";
-                            break;
-                        }
-                    }
-                    if ( !$current_symbols )
-                    {
-                        // if we got here, we went through all the arrays and couldn't find
-                        // a symbol, so add it and break
-                        // ADDED HTMLSPECIALCHARS
-                        $result .= htmlspecialchars($char);
-                    }
-                    //
-                    // IMPORTANT - this is the array that decides what characters are allowed
-                    // before a keyword. This may need to be configurable for each language
-                    //
-                    // Commented out, as we now check this above when we check the character after
-                    // this allows more flexible handling of disallowed characters
-                    /*
-                    if ( !in_array(strtolower($char), $this->_context_characters_disallowed_before_keywords) )
-                    {
-                        // we haven't matched a keyword or symbol, but this char
-                        // is a whitespace character so on the next character we can
-                        // match a keyword safely
-                        $keyword_match_allowed = true;
-                    }*//*
-                    $keyword_match_allowed = true;
-                }
-                else
-                {
-
-                    // check as for above, just in case the symbol group ends (?)
-                    /*
-                    if ( !in_array(strtolower($char), $this->_context_characters_disallowed_before_keywords) )
-                    {
-                        // we haven't matched a keyword or symbol, but this char
-                        // is a whitespace character so on the next character we can
-                        // match a keyword safely
-                        $keyword_match_allowed = true;
-                    }*//*
-                    $keyword_match_allowed = true;
-
-
-                    // we already have a current symbol group
-                    if ( in_array($char, $this->_contextSymbols[$current_symbol_group][0]) )
-                    {
-                        // the current char is part of the current symbol group
-                        // this is good, as we can save on <span>s
-                        if ( defined('DEBUG') || defined('DEBUG_CODE_PARSER') ) echo "found2!\n";
-                        $current_symbols .= $char;
-                    }
-                    else
-                    {
-                        // no symbol match... if it's whitespace though, we can
-                        // add it to the symbols string in the hope that the next
-                        // symbol to come along is in this group, thus saving on
-                        // <span[symbol]>{symbols...}</span>{whitespace}<span[symbol]>...
-                        if ( in_array($char, array(' ', "\n", "\t")) )
-                        {
-                            if ( defined('DEBUG') || defined('DEBUG_CODE_PARSER') ) echo "found3!\n";
-                            $current_symbols .= $char;
-                        }
-                        else
-                        {
-                            // nothing more we can do...
-                            /// NO!!! this may well always be true...
-                            if ( $current_symbols )
-                            {
-                                // if we have a symbols string, we can add
-                                // it to the result
-                                if ( defined('DEBUG') || defined('DEBUG_CODE_PARSER') ) echo "Adding symbols to result\n";
-                                // ADDED HTMLSPECIALCHARS
-                                $result .= $current_symbols;
-
-                                $current_symbols = ''; // yes needed really!!!
-                                // why needed?
-                                // because of check above [if ( $current_symbols )]
-
-                                /// Here, check to see if the current character is a symbol. If it
-                                /// is, we can start a new group.
-                                foreach ( $this->_contextSymbols as $symbol_group => $symbol_data )
-                                {
-                                    if ( in_array($char, $symbol_data[0]) )
-                                    {
-                                        // we've matched the symbol in $symbol_group
-                                        // start the current symbols string
-                                        $current_symbols = $char;
-                                        $current_symbol_group = $symbol_group;
-                                        if ( defined('DEBUG') || defined('DEBUG_CODE_PARSER') ) echo "next char is a symbols, so starting a group\n";
-                                        break;
-                                    }
-                                }
-                            }
-                            /*else
-                            {
-                                echo "Nothing found - add char to result\n";*//*
-                                // absolutely nothing to do at all.....
-                            // ADDED HTMLSPECIALCHARS
-                            if ( !$current_symbols )
-                            {
-                                // then the test for a new symbol group above failed
-                                $result .= htmlspecialchars($char);
-                                $current_symbol_group = false;
-                            }
-
-                            //}
-                        }
-                    }
-                }
-            }
-            //$i+= $pos;
-
-            if ( defined('DEBUG') || defined('DEBUG_CODE_PARSER') ) echo "<i>At end: pos is now $i</i>\n";
         }
-
-
-        // if there's any symbols left, add them now
-        if ( $current_symbols )
-        {
-            $result .= $current_symbols;
-        }
-
-        // get rid of null characters used for padding
-        $result = str_replace("\0", '', $result);
-
-        return $result;
-    }*/
-
-
-
+        if (!$skip) {
+            if ($result[$result_pointer][1] == $this->_styleName) {
+                $result[$result_pointer][0] .= $possible_symbol;
+            } else {
+                $result[++$result_pointer] = array($possible_symbol, $this->_styleName);
+            }
+        }   
+    }        
     /// THIS FUNCTION NEEDS TO DIE!!!
     /// When language files are able to be compiled, they should list their keywords
     /// in this form already.
