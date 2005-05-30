@@ -31,8 +31,10 @@ $this->_childContexts = array(
 );
 
 $this->_styler->setStyle($this->_styleName, 'color:#b1b100;');
-//$this->_styler->setStartStyle($this->_styleName, 'color:green;');
-//$this->_styler->setEndStyle($this->_styleName, 'color:red;');
+$this->_styler->setStartStyle($this->_styleName, 'color:#000;font-weight:bold;');
+$this->_styler->setEndStyle($this->_styleName, 'color:#000;font-weight:bold;');
+// GeSHiCSSInlineMediaContext stuff
+$this->_styler->setStyle($this->_styleName . '/starter', 'color:#c9c;font-weight:bold;');
 $this->_contextStyleType = GESHI_STYLE_NONE;
 $this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
 
