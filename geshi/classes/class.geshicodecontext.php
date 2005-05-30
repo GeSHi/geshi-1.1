@@ -162,13 +162,8 @@ class GeSHiCodeContext extends GeSHiContext
      }
 
     /**
-     * MASSIVE REWRITE REQUIRED
-     * ------------------------
-     * 
-     * Just plugging in the old one won't work - it's based on too much bullshit
-     * 
-     * Keywords need to be added using addParseData, likewise regexps and other stuff
-     * Algos may be the same.
+     * @todo [blocking 1.1.1] Each character parsed is added individually to the $result array, and it shouldn't
+     * @todo [blocking 1.1.1] Optimise by not checking for keywords if there are none
      */
     function _addParseData ($code, $first_char_of_next_context = ''/*, $inherit_styles = false */)
     {
