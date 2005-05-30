@@ -139,7 +139,8 @@ class GeSHiCodeContext extends GeSHiContext
      function loadStyleData ()
      {
         // Set styles for keywords
-        geshi_dbg('Loading style data for context ' . $this->getName(), GESHI_DBG_PARSE);
+        //geshi_dbg('Loading style data for context ' . $this->getName(), GESHI_DBG_PARSE);
+        // @todo Style data for infectious context loaded many times, could be reduced to one?
         //@todo array_keys loop construct if possible
         foreach ($this->_contextKeywords as $keyword_group_array) {
             $this->_styler->setStyle($keyword_group_array[1], $keyword_group_array[2]);
