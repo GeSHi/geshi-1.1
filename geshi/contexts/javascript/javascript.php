@@ -39,7 +39,7 @@ $this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
 $this->_contextKeywords = array(
     0 => array(
         0 => array(
-            'function', 'new', 'this', 'return', 'true', 'false', 'var'
+            'function', 'new', 'this', 'return', 'true', 'false', 'var', 'for', 'if'
         ),
         1 => $this->_styleName . '/kw1',
         2 => 'color:#000;font-weight:bold;',
