@@ -114,9 +114,9 @@ class GeSHiCodeContext extends GeSHiContext
                 }
 
                 // If we are using namespaces, give the object stuff the correct name
-                if ($this->_styler->useNamespaces) {
-                    $data[1] = $this->_styleName . '/' . $data[1];
-                }
+                //if ($this->_styler->useNamespaces) {
+                //    $data[1] = $this->_styleName . '/' . $data[1];
+                //}
                         
                 $this->_contextRegexps[] = array(
                     0 => array(
