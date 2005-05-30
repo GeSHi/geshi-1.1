@@ -80,6 +80,11 @@ class GeSHiContext
      * Whether this context is an overriding child context
      */
     var $_isOCC;
+    
+    /**
+     * Whether this context has been already loaded
+     */
+    var $_loaded = false;
         
     /**#@-*/
     
@@ -94,7 +99,7 @@ class GeSHiContext
         }
         $this->_contextName   = $context_name;
         $this->_childContexts = $child_contexts;
-        $this->_infectiousContext = $infectious_context;
+        //$this->_infectiousContext = $infectious_context;
         $this->_styleName     = ($style_name) ? $style_name : $this->_contextName;
         $this->_isOCC         = $occ;
     }
@@ -114,7 +119,14 @@ class GeSHiContext
      */
     function load (&$styler)
     {
-        //geshi_dbg('Loading context: ' . $this->_styleName, GESHI_DBG_PARSE);
+        geshi_dbg('Loading context: ' . $this->_styleName, GESHI_DBG_PARSE);
+        
+        if ($this->_loaded) {
+            geshi_dbg('@oAlready loaded', GESHI_DBG_PARSE);
+            return;
+        }
+        $this->_loaded = true;
+        
         $this->_styler =& $styler;
         
         if (!geshi_can_include(GESHI_CONTEXTS_ROOT . $this->_contextName . $this->_styler->fileExtension)) {
@@ -129,19 +141,22 @@ class GeSHiContext
 
         // Get the data for this context
         // @todo This needs testing to see if it is faster
-        $language_file_name = GESHI_CONTEXTS_ROOT . $this->_contextName . $this->_styler->fileExtension;
-        $cached_data = $this->_styler->getCacheData($language_file_name);
-        if (null == $cached_data) {
-            // Data not loaded for this context yet
-            //geshi_dbg('@wLoading data for context ' . $this->_contextName, GESHI_DBG_PARSE);
-            // Get the data, stripping the start/end PHP code markers which aren't allowed in eval()
-            $cached_data = substr(implode('', file($language_file_name)), 5, -3);
-            $this->_styler->setCacheData($language_file_name, $cached_data);
+        if (false) {
+            $language_file_name = GESHI_CONTEXTS_ROOT . $this->_contextName . $this->_styler->fileExtension;
+            $cached_data = $this->_styler->getCacheData($language_file_name);
+            if (null == $cached_data) {
+                // Data not loaded for this context yet
+                //geshi_dbg('@wLoading data for context ' . $this->_contextName, GESHI_DBG_PARSE);
+                // Get the data, stripping the start/end PHP code markers which aren't allowed in eval()
+                $cached_data = substr(implode('', file($language_file_name)), 5, -3);
+                $this->_styler->setCacheData($language_file_name, $cached_data);
+            } else {
+                //geshi_dbg('@oRetrieving data from cache for context ' . $this->_contextName, GESHI_DBG_PARSE);
+            }
+            eval($cached_data);
         } else {
-            //geshi_dbg('@oRetrieving data from cache for context ' . $this->_contextName, GESHI_DBG_PARSE);
+            require GESHI_CONTEXTS_ROOT . $this->_contextName . $this->_styler->fileExtension;
         }
-        eval($cached_data);
-        //require GESHI_CONTEXTS_ROOT . $this->_contextName . $this->_styler->fileExtension;
             
         if (isset($saved_contexts)) {
         	$this->_childContexts = $saved_contexts;
@@ -155,20 +170,21 @@ class GeSHiContext
                 $this->_childContexts[$key]->addInfectiousContext($this->_infectiousContext);
             }
             // And add the infectious context to this context itself
-            $this->_childContexts[] = $this->_infectiousContext;
-            //geshi_dbg('  Added infectious context ' . $this->_infectiousContext->getName() . ' to ' . $this->getName(), GESHI_DBG_PARSE);
+            $this->_childContexts[] =& $this->_infectiousContext;
+            geshi_dbg('  Added infectious context ' . $this->_infectiousContext->getName() . ' to ' . $this->getName(), GESHI_DBG_PARSE);
         }
 
+        
         $keys = array_keys($this->_childContexts);
         // Set the style name for the children
         //echo 'NAME: ' . $this->getName() . '<br />';
         foreach ($keys as $key) {
             //echo $this->_childContexts[$key]->_contextName . ' (' . $this->_childContexts[$key]->_styleName . ') (' .
             //    $this->_childContexts[$key]->isOCC() . ')<br />'; 
-            if ($this->_styler->useNamespaces) {
+            /*if ($this->_styler->useNamespaces) {
                 $this->_childContexts[$key]->_styleName = $this->_styleName . '/' .
                     $this->_childContexts[$key]->_styleName;
-            } elseif (!$this->_childContexts[$key]->isOCC()) {
+            } else*/if (!$this->_childContexts[$key]->isOCC()) {
                 $this->_childContexts[$key]->_styleName = $this->_childContexts[$key]->_contextName;
                 if (0 === strpos($this->_childContexts[$key]->_contextName, 'common')) {
                     //echo '&nbsp; name conversion...<br />';
@@ -181,14 +197,16 @@ class GeSHiContext
                 //echo '&nbsp; styleName = ' . $this->_childContexts[$key]->_styleName . '<br />';
             }
         }
+        
+        
         // Override our name if we are an OCC 
-        if (!$this->_styler->useNamespaces) {
+        //if (!$this->_styler->useNamespaces) {
             if ($this->_isOCC) {
                 //echo $this->getName() . ' is an OCC: name changed to ' . $this->_contextName . '<br />';
                 $this->_styleName = $this->_contextName;
             }
             //$this->_overridingChildContext->_styleName = $this->_overridingChildContext->_contextName;
-        }
+        //}
         // Recursively load the child contexts
         foreach ($keys as $key) {
             $this->_childContexts[$key]->load($styler);
@@ -204,7 +222,7 @@ class GeSHiContext
         
         
         // Infectious context not needed anymore, so it can be removed to save memory
-        $this->_infectiousContext = null;
+        //$this->_infectiousContext = null;
         
         //geshi_dbg('@o  Finished loading context ' . $this->_styleName . ' successfully', GESHI_DBG_PARSE);
     }
@@ -222,14 +240,25 @@ class GeSHiContext
      * 
      * Relies on child being a subclass of or actually being a GeSHiContext
      */
-    function addInfectiousContext ($context)
+    function addInfectiousContext (&$context)
     {
-        $this->_infectiousContext = $context;
+        // Push the infectious context into the child contexts
+        // Add the context to each of the current contexts...
+        /*$keys = array_keys($this->_childContexts);
+        foreach ($keys as $key) {
+            $this->_childContexts[$key]->addInfectiousContext($context);
+        }
+        // And add the infectious context to this context itself
+        $this->_childContexts[] =& $context;*/
+        $this->_infectiousContext =& $context;
+        //geshi_dbg('  Added infectious context ' . $context->getName() . ' to ' . $this->getName(), GESHI_DBG_PARSE);
     }
     
     /**
      * Loads style data for the given context. Not implemented here, but can be overridden
      * by a child class to get style data from its parent
+     * 
+     * Note to self: This is needed by GeSHiCodeContext, so don't touch it!
      */
      function loadStyleData ()
      {
