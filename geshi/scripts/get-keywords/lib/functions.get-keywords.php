@@ -55,7 +55,7 @@ EOF;
 
 function show_version ()
 {
-    print "$Id$\n";
+    print "\$Id$\n";
     exit;
 }
 ?>
