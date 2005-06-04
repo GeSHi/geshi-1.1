@@ -59,7 +59,12 @@ error_reporting(E_ALL);
 require_once 'lib/functions.get-keywords.php';
 /** Get the KeywordGetter class */
 require_once 'lib/class.keywordgetter.php';
-//@todo [blocking 1.1.0beta1] Add pear classes required into lib and require them from there
+/** Get the console options reader class */
+require_once 'lib/pear/Console/Getopt.php';
+
+// Parse command line options
+$args = Console_Getopt::getopt2(array_shift($argv), array('h', 'v'), array());
+print_r($args);
 
 // Do the easy options first
 if (in_array('-h', $argv) || in_array('--help', $argv)) {
