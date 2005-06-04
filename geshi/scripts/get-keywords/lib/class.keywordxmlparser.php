@@ -34,7 +34,7 @@
  */
 
 /** @todo move Parser.php... */
-require_once '../../../../geshi/inc/pear/XML/Parser.php';
+require_once 'lib/pear/XML/Parser.php';
 
 /**
  * @todo comment
