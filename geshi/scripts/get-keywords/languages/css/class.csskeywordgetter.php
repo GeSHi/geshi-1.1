@@ -88,7 +88,7 @@ class cssKeywordGetterStrategy extends KeywordGetterStrategy
         }
         
         $keywords =& $xml_parser->getKeywords();
-        return $keywords;
+        return array_unique($keywords);
     }
         
 }
