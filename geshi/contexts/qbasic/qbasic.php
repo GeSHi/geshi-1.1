@@ -33,44 +33,35 @@
  * 
  */
 
-$this->_contextDelimiters = array();
-
 $this->_childContexts = array(
-    new GeSHiContext('qbasic/string', 'string'),
-    new GeSHiContext('qbasic/comment', 'comment')
+    new GeSHiContext('qbasic',  $DIALECT, 'string'),
+    new GeSHiContext('qbasic',  $DIALECT, 'comment')
 );
 
-$this->_styler->setStyle($this->_contextName, '');
-$this->_contextStyleType = GESHI_STYLE_NONE;
-$this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
-
-// GeSHiCodeContext stuff
 $this->_contextKeywords = array(
     0 => array(
         0 => array('and', 'as', 'call', 'dim', 'end', 'goto', 'if', 'integer', 'print', 'sub', 'then'),
-        1 => $this->_contextName . '/kw0',
+        1 => $CONTEXT . '/kw0',
         2 => 'color: #006;',
         3 => false,
         4 => 'http://qboho.qbasicnews.com/qboho/qck{FNAME}.html'
     )
 );
 
-$this->_contextCharactersDisallowedBeforeKeywords = array();
-$this->_contextCharactersDisallowedAfterKeywords  = array();
 $this->_contextSymbols  = array(
     0 => array(
         0 => array(
             '(', ')', ',', ':', ';', '=', '<', '>'
             ),
         // name (should names have / in them like normal contexts? YES
-        1 => $this->_contextName . '/sym0',
+        1 => $CONTEXT . '/sym0',
         // style
         2 => 'color:#008000;'
     )
 );
 $this->_contextRegexps  = array(
-    0 => geshi_use_doubles($this->_contextName),
-    1 => geshi_use_integers($this->_contextName)
+    0 => geshi_use_doubles($CONTEXT),
+    1 => geshi_use_integers($CONTEXT)
 );
 // @todo languages should be able to set the styles of their numbers
 

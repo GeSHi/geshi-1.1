@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -33,33 +32,24 @@
  * 
  */
 
-$this->_contextDelimiters = array();
-
 $this->_childContexts = array(
-    new GeSHiContext('html/doctype'),
-    new GeSHiCodeContext('html/tag'),
-    new GeSHiContext('html/comment'),
-    new GeSHiContext('html/css', array(), null, true), // add the true part at the end if this context
-    new GeSHiContext('html/javascript', array(), null, true) // is going to be used as an OCC
+    new GeSHiContext('html',  $DIALECT, 'doctype'),
+    new GeSHiCodeContext('html',  $DIALECT, 'tag'),
+    new GeSHiContext('html',  $DIALECT, 'comment'),
+    new GeSHiContext('html',  $DIALECT, 'css'),
+    new GeSHiContext('html',  $DIALECT, 'javascript')
 );
 
-$this->_styler->setStyle($this->_contextName, 'color:#000;');
-$this->_contextStyleType = GESHI_STYLE_NONE;
-$this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
+$this->_styler->setStyle($CONTEXT, 'color:#000;');
 
-$this->_contextKeywords = array();
-$this->_contextCharactersDisallowedBeforeKeywords = array();
-$this->_contextCharactersDisallowedAfterKeywords = array();
-$this->_contextSymbols = array();
 $this->_contextRegexps = array(
     0 => array(
-        //0 => array('#(&(\#[0-9]{2-4})|([a-z0-9]+);)#'),
         0 => array('#(&(([a-z0-9]{2,5})|(\#[0-9]{2,4}));)#'),
         1 => '&',
         2 => array(
-            1 => array($this->_contextName . '/entity', 'color: #00c;')
+            1 => array($CONTEXT . '/entity', 'color: #00c;')
         )
     )
 );
-// No objects
+
 ?>

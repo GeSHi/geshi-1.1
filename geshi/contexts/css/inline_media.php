@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -42,15 +41,13 @@ $this->_contextDelimiters = array(
 );
 
 $this->_childContexts = array(
-    new GeSHiCodeContext('css/rule')
+    new GeSHiCodeContext('css',  $DIALECT, 'rule')
 );
 
-$this->_styler->setStyle($this->_contextName, 'color:#b1b100;');
-$this->_styler->setStartStyle($this->_contextName, 'color:#000;font-weight:bold;');
-$this->_styler->setEndStyle($this->_contextName, 'color:#000;font-weight:bold;');
+$this->_styler->setStyle($CONTEXT, 'color:#b1b100;');
+$this->_styler->setStartStyle($CONTEXT, 'color:#000;font-weight:bold;');
+$this->_styler->setEndStyle($CONTEXT, 'color:#000;font-weight:bold;');
 // GeSHiCSSInlineMediaContext stuff
-$this->_styler->setStyle($this->_contextName . '/starter', 'color:#c9c;font-weight:bold;');
-$this->_contextStyleType = GESHI_STYLE_NONE;
-$this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
+$this->_styler->setStyle($CONTEXT . '/starter', 'color:#c9c;font-weight:bold;');
 
 ?>

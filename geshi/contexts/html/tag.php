@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -43,15 +42,12 @@ $this->_contextDelimiters = array(
 
 $this->_childContexts = array(
     // HTML strings have no escape characters, so the don't need to be GeSHiStringContexts
-    new GeSHiContext('html/string', 'string')
+    new GeSHiContext('html',  $DIALECT, 'string')
 );
 
-$this->_styler->setStyle($this->_contextName, 'color:#008000;');
-$this->_styler->setStartStyle($this->_contextName, 'font-weight:bold;color:#000;');
-$this->_styler->setEndStyle($this->_contextName, 'font-weight:bold;color:#000;');
-$this->_contextStyleType = GESHI_STYLE_NONE;
-$this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
-
+$this->_styler->setStyle($CONTEXT, 'color:#008000;');
+$this->_styler->setStartStyle($CONTEXT, 'font-weight:bold;color:#000;');
+$this->_styler->setEndStyle($CONTEXT, 'font-weight:bold;color:#000;');
 
 $this->_contextKeywords = array(
     0 => array(
@@ -64,7 +60,7 @@ $this->_contextKeywords = array(
             'onfocus', 'onblur', 'rows', 'cols', 'selected', 'checked', 'enctype', 'language'
             ),
         // name
-        1 => $this->_contextName . '/attrs',
+        1 => $CONTEXT . '/attrs',
         // style
         2 => 'color:#006;',
         // case sensitive
@@ -74,23 +70,16 @@ $this->_contextKeywords = array(
         )
 );
 
-$this->_contextCharactersDisallowedBeforeKeywords = array();
-$this->_contextCharactersDisallowedAfterKeywords  = array();
-
 $this->_contextSymbols  = array(
     0 => array(
         0 => array(
             '='
             ),
         // name (should names have / in them like normal contexts? YES
-        1 => $this->_contextName . '/sym',
+        1 => $CONTEXT . '/sym',
         // style
         2 => 'color:#008000;'
         )
 );
-
-$this->_contextRegexps  = array(
-);
-
 
 ?>

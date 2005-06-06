@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -33,7 +32,9 @@
  * 
  */
 
+/** Get the GeSHiStringContext class */
 require_once GESHI_CLASSES_ROOT . 'class.geshistringcontext.php';
+/** Get the GeSHiPHPDoubleStringContext class */
 require_once GESHI_CLASSES_ROOT . 'php' . GESHI_DIR_SEPARATOR . 'class.geshiphpdoublestringcontext.php';
 
 $this->_contextDelimiters = array(
@@ -50,23 +51,19 @@ $this->_contextDelimiters = array(
 );
 
 $this->_childContexts = array(
-    new GeSHiStringContext('common|php/single_string'),
-    new GeSHiPHPDoubleStringContext('php/double_string'),
-    new GeSHiContext('php/heredoc'),
+    new GeSHiStringContext('php',  $DIALECT, 'single_string'),
+    new GeSHiPHPDoubleStringContext('php',  $DIALECT, 'double_string'),
+    new GeSHiPHPDoubleStringContext('php',  $DIALECT, 'heredoc'),
     // PHP single comment, with # starter and end-php-context ender
-    new GeSHiContext('php/single_comment'),
+    new GeSHiContext('php',  $DIALECT, 'single_comment'),
     // Use common multi comment since it is a PHP comment...
-    new GeSHiContext('common|php/multi_comment'),
-    new GeSHiContext('php/doxygen')
+    new GeSHiContext('php',  $DIALECT, 'multi_comment'),
+    new GeSHiContext('php',  $DIALECT, 'doxygen')
 );
 
-$this->_styler->setStyle($this->_contextName, '');
-$this->_styler->setStartStyle($this->_contextName, 'font-weight:bold;color:red;'); // signals to me it's php4
-$this->_styler->setEndStyle($this->_contextName, 'font-weight:bold;color:red;');
-$this->_contextStyleType = GESHI_STYLE_NONE;
-$this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
+$this->_styler->setStartStyle($CONTEXT, 'font-weight:bold;color:red;'); // signals to me it's php4
+$this->_styler->setEndStyle($CONTEXT, 'font-weight:bold;color:red;');
 
-// GeSHiCodeContext stuff
 $this->_contextKeywords = array(
         0 => array(
             // keywords
@@ -76,7 +73,7 @@ $this->_contextKeywords = array(
                 'endswitch', 'endforeach', 'return', 'break', 'continue'
                 ),
             // name
-            1 => $this->_contextName . '/kw0',
+            1 => $CONTEXT . '/kw0',
             // style
             2 => 'color:#b1b100;',
             // case sensitive
@@ -98,8 +95,8 @@ $this->_contextKeywords = array(
                 'E_CORE_ERROR', 'E_CORE_WARNING', 'E_COMPILE_ERROR', 'E_COMPILE_WARNING', 'E_USER_ERROR',
                 'E_USER_WARNING', 'E_USER_NOTICE', 'E_ALL'
                 ),
-            1 => $this->_contextName . '/kw1',
-            2 => 'font-weight:bold;',
+            1 => $CONTEXT . '/kw1',
+            2 => 'color:#000;font-weight:bold;',
             3 => false,
             4 => ''
             ),
@@ -284,41 +281,29 @@ $this->_contextKeywords = array(
                 'acos','abs','echo', 'print', 'global', 'static', 'exit', 'array', 'empty', 'eval', 'isset', 'unset', 'die'
 
                 ),
-            1 => $this->_contextName . '/kw2',
+            1 => $CONTEXT . '/kw2',
             2 => 'color: #006;',
             3 => false,
             // urls (the name of a function, with brackets at the end, or a string with {FNAME} in it like GeSHi 1.0.X)
             // e.g. geshi_php_convert_url(), or http://www.php.net/{FNAME}
-            4 => 'geshi_php_convert_url()'
+            4 => 'http://www.php.net/{FNAME}'
             )
 );
 
 $this->_contextCharactersDisallowedBeforeKeywords = array('$', '_');
 $this->_contextCharactersDisallowedAfterKeywords  = array("'", '_');
 $this->_contextSymbols  = array(
+    0 => array(
         0 => array(
-            0 => array(
-                '(', ')', ',', ';', ':', '[', ']'
-                ),
-            // name (should names have / in them like normal contexts? YES
-            1 => $this->_contextName . '/sym0',
-            // style
-            2 => 'color:#008000;'
+            '(', ')', ',', ';', ':', '[', ']',
+            '+', '-', '*', '/', '&', '|', '!', '<', '>',
+            '{', '}', '=', '@'
             ),
-        1 => array(
-            0 => array(
-                '+', '-', '*', '/', '&', '|', '!', '<', '>'
-                ),
-            1 => $this->_contextName . '/sym1',
-            2 => 'color:#008000;'
-            ),
-        2 => array(
-            0 => array(
-                '{', '}', '=', '@'
-                ),
-            1 => $this->_contextName . '/sym2',
-            2 => 'color:#008000;'
-            )
+        // name (should names have / in them like normal contexts? YES
+        1 => $CONTEXT . '/sym0',
+        // style
+        2 => 'color:#008000;'
+    )
 );
 $this->_contextRegexps  = array(
     0 => array(
@@ -341,26 +326,23 @@ $this->_contextRegexps  = array(
             // the beginning $
             
             //
-            1 => array($this->_contextName . '/var', 'color:#33f;'),
-            //1 => array('', ''),
-            //2 => array('php/php4/var2', 'color:#44f')
-                
-                )
-            ),
+            1 => array($CONTEXT . '/var', 'color:#33f;'),
+        )
+    ),
 
-    1 => geshi_use_doubles($this->_contextName),
-    2 => geshi_use_integers($this->_contextName)
+    1 => geshi_use_doubles($CONTEXT),
+    2 => geshi_use_integers($CONTEXT)
 );
 $this->_objectSplitters = array(
     0 => array(
         0 => array('->'),
-        1 => $this->_contextName . '/oodynamic',
-        2 => 'color: yellow;'
+        1 => $CONTEXT . '/oodynamic',
+        2 => 'color:#933;'
     ),
     1 => array(
         0 => array('::'),
-        1 => $this->_contextName . '/oostatic',
-        2 => 'color: red; font-style:italic'
+        1 => $CONTEXT . '/oostatic',
+        2 => 'color:#933;font-weight:bold;'
     )
 );
 

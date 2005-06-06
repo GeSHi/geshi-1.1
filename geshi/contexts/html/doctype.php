@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -43,11 +42,9 @@ $this->_contextDelimiters = array(
 
 $this->_childContexts = array(
     // HTML strings have no escape characters, so the don't need to be GeSHiStringContexts
-    new GeSHiContext('html/string', 'string')
+    new GeSHiContext('html',  $DIALECT, 'string')
 );
 
-$this->_styler->setStyle($this->_contextName, 'font-weight:bold;color:#933;');
-$this->_contextStyleType = GESHI_STYLE_NONE;
-$this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
+$this->_styler->setStyle($CONTEXT, 'font-weight:bold;color:#933;');
 
 ?>

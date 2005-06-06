@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -41,17 +40,6 @@ $this->_contextDelimiters = array(
     )
 );
 
-// This stuff is irrelevant if there is an overriding child context
-$this->_childContexts = array();
+$this->_overridingChildContext = new GeSHiContext('doxygen');
 
-//$this->_styler->setStyle($this->_contextName, 'color:#200;');
-//$this->_styler->setStartStyle($this->_contextName, 'font-style:italic;');
-//$this->_styler->setEndStyle($this->_contextName, 'font-weight:bold;');
-$this->_contextStyleType = GESHI_STYLE_NONE;
-// This applies to what the OCC parses!! So if GESHI_CHILD_PARSE_NONE for
-// example, then the occ won't parse the delimiters
-// or if GESHI_CHILD_PARSE_LEFT, the occ will parse the start one only
-$this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
-
-$this->_overridingChildContext = new GeSHiContext('doxygen', $this->_contextName . '/doxygen');
 ?>

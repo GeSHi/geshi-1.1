@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -33,19 +32,13 @@
  * 
  */
 
-// Delimiters have no bearing on OCCs
-$this->_contextDelimiters = array();
-
 $this->_childContexts = array(
-    new GeSHiContext('doxygen/tag'),
-    new GeshiContext('doxygen/link'),
-    new GeSHiContext('html/tag')
+    new GeSHiContext('doxygen',  $DIALECT, 'tag'),
+    new GeshiContext('doxygen',  $DIALECT, 'link'),
+    new GeSHiContext('html',  $DIALECT, 'tag')
 );
 
-$this->_styler->setStyle($this->_contextName, 'color:#555;font-style:italic;');
-//$this->_styler->setStartStyle($this->_contextName, '');
-//$this->_styler->setEndStyle($this->_contextName, '');
-$this->_contextStyleType = GESHI_STYLE_NONE;
-$this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
+$this->_styler->setStyle($CONTEXT, 'color:#555;font-style:italic;');
+$this->_contextStyleType = GESHI_STYLE_COMMENTS;
 
 ?>

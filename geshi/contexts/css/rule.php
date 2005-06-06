@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -33,6 +32,7 @@
  * 
  */
 
+/** Get the GeSHiStringContext class */
 require_once GESHI_CLASSES_ROOT . 'class.geshistringcontext.php';
 
 $this->_contextDelimiters = array(
@@ -44,16 +44,12 @@ $this->_contextDelimiters = array(
 );
 
 $this->_childContexts = array(
-    new GeSHiStringContext('css/string'),
-    new GeSHiContext('common|css/multi_comment')
+    new GeSHiStringContext('css',  $DIALECT, 'string'),
+    new GeSHiContext('css',  $DIALECT, 'common/multi_comment')
 );
 
-$this->_styler->setStyle($this->_contextName, 'color:#000;');
-$this->_styler->setStartStyle($this->_contextName, 'font-weight:bold;color:#000;');
-$this->_styler->setEndStyle($this->_contextName, 'font-weight:bold;color:#000;');
-$this->_contextStyleType = GESHI_STYLE_NONE;
-$this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
-
+$this->_styler->setStartStyle($CONTEXT, 'font-weight:bold;color:#000;');
+$this->_styler->setEndStyle($CONTEXT, 'font-weight:bold;color:#000;');
 
 $this->_contextKeywords = array(
     0 => array(
@@ -84,7 +80,7 @@ $this->_contextKeywords = array(
             'definition-src', 'baseline', 'centerline', 'mathline', 'topline', '!important'
             ),
         // name
-        1 => $this->_contextName . '/attrs',
+        1 => $CONTEXT . '/attrs',
         // style
         2 => 'color:#000;font-weight:bold;',
         // case sensitive
@@ -96,7 +92,7 @@ $this->_contextKeywords = array(
         0 => array(
             'url', 'attr', 'rect', 'rgb', 'counter', 'counters', 'local', 'format'
         ),
-        1 => $this->_contextName . '/paren',
+        1 => $CONTEXT . '/paren',
         2 => 'color:#933;',
         3 => false,
         4 => ''
@@ -111,7 +107,7 @@ $this->_contextKeywords = array(
             'ThreeDDarkShadow', 'ThreeDFace', 'ThreeDHighlight', 'ThreeDLightShadow', 'ThreeDShadow',
             'Window', 'WindowFrame', 'WindowText'
         ),
-        1 => $this->_contextName . '/colors',
+        1 => $CONTEXT . '/colors',
         2 => 'color:#339;',
         3 => false,
         4 => ''
@@ -269,15 +265,12 @@ $this->_contextKeywords = array(
             'fantasy',
             'monospace'
         ),
-        1 => $this->_contextName . '/types',
+        1 => $CONTEXT . '/types',
         2 => 'color:#393;',
         3 => false,
         4 => ''
     )
 );
-
-$this->_contextCharactersDisallowedBeforeKeywords = array();
-$this->_contextCharactersDisallowedAfterKeywords  = array();
 
 $this->_contextSymbols  = array(
     0 => array(
@@ -285,22 +278,13 @@ $this->_contextSymbols  = array(
             ':', ';', '(', ')', ','
             ),
         // name (should names have / in them like normal contexts? YES
-        1 => $this->_contextName . '/sym',
+        1 => $CONTEXT . '/sym',
         // style
         2 => 'color:#008000;'
         )
 );
 
 $this->_contextRegexps  = array(
-    /*0 => array(
-        0 => array(
-            '/(#[0-9a-fA-F]{3,6})/'
-        ),
-        1 => '#',
-        2 => array(
-            1 => array($this->_styleName . '/color', 'color:#933;')
-        )
-    ),*/
     0 => array(
         0 => array(
             '#([-+]?[0-9]((em)|(ex)|(px)|(in)|(cm)|(mm)|(pt)|(pc)|%))#',
@@ -309,7 +293,7 @@ $this->_contextRegexps  = array(
         ),
         1 => '',
         2 => array(
-            1 => array($this->_contextName . '/value', 'color: #933;')
+            1 => array($CONTEXT . '/value', 'color: #933;')
         )
     )
 );
