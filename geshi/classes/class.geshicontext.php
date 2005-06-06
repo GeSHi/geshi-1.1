@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -52,116 +51,120 @@ class GeSHiContext
      * The context name. A unique identifier that corresponds to a path under
      * the GESHI_CLASSES_ROOT folder where the configuration file for this
      * context is.
-     * 
      * @var string
      */
     var $_contextName;
     
     /**
-     * The style name for this context. If this is set, then by default setStyles
-     * will match agains this instead of the context name. This is useful when
-     * a "common" context is used
+     * The file name from where to load data for this context
+     * @var string
      */
-    // var $_styleName;
-    
-    //var $_languageName;
-    //var $_conName;
     var $_fileName;
     
     /**
+     * The dialect name of this context
+     * @var string
+     */
+    var $_dialectName;
+    
+    /**
      * The styler helper object
+     * @var GeSHiStyler
      */
     var $_styler;
     
     /**
      * The context delimiters
+     * @var array
      */
-    var $_contextDelimiters;
+    var $_contextDelimiters = array();
     
     /**
      * The child contexts
+     * @var array
      */
-    var $_childContexts;
+    var $_childContexts = array();
+    
+    /**
+     * The style type of this context, used for backward compatibility
+     * with GeSHi 1.0.X
+     * @var int
+     */
+    var $_contextStyleType = GESHI_STYLE_NONE;
+    
+    /**
+     * Delimiter parse data. Controls which context - the parent or child -
+     * should parse the delimiters for a context
+     * @var int
+     */
+    var $_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
     
     /**
      * The overriding child context, if any
+     * @var GeSHiContext
      */
     var $_overridingChildContext;
     
     /**
      * The matching regex table for regex starters
+     * @var array
      */
-     var $_startRegexTable;
+     var $_startRegexTable = array();
     
     /**
      * The "infectious context". Will be used to "infect" the context
      * tree with itself - this is how PHP inserts itself into HTML contexts
+     * @var GeSHiContext
      */
     var $_infectiousContext;
     
     /**
-     * Whether this context is an overriding child context
-     */
-    var $_isOCC;
-    
-    /**
      * Whether this context has been already loaded
+     * @var boolean
      */
     var $_loaded = false;
 
     /**#@-*/
     
     /**
-     * Constructor.
+     * Creates a new GeSHiContext.
+     * 
+     * @param string The name of the language this context represents
+     * @param string The dialect of the language this context represents
+     * @param string The name of the context
+     * @todo  Better comment
      */
-    function GeSHiContext ($context_name, $language_name = '', $child_contexts = array(),
-        $infectious_context = null, $occ = false)
+    function GeSHiContext ($language_name, $dialect_name = '', $context_name = '')
     {
-        if (false === strpos($context_name, '/')) {
-            $context_name .= '/' . $context_name;
+        // Set dialect
+        if ('' == $dialect_name) {
+            $dialect_name = $language_name;
         }
-
-        $last_part_pos = strrpos($context_name, '/');
-        // Last part of context name is context name (e.g. single_string)
-        $con_name = substr($context_name, $last_part_pos + 1);
-        $lang_name = substr($context_name, 0, $last_part_pos);
+        $this->_dialectName = $dialect_name;
         
-        // Get proper filename
-        if ('common' == substr($context_name, 0, 6)) {
-            $this->_fileName = 'common/' . $con_name;
-            $lang_name = substr($lang_name, 7, $last_part_pos);
-        } else {
+        // Set the context and file names
+        if ('' == $context_name) {
+            // Root of a language
+            $this->_fileName = $this->_contextName = $language_name . '/' . $dialect_name;
+            return;
+        }
+        if (0 === strpos($context_name, 'common')) {
             $this->_fileName = $context_name;
-        }
-        
-        if (false === strpos($lang_name, '/')) {
-            $lang_name .= '/' . $lang_name;
-        }
-        
-        // Root context name is blank
-        if (substr($lang_name, strrpos($lang_name, '/') + 1) == $con_name) {
-            $con_name = '';
+            // Strip "common/" from context name to get the actual name...
+            $context_name = substr($context_name, 7);
         } else {
-            $con_name = '/' . $con_name;
+            $this->_fileName = $language_name . '/' . $context_name;
         }
-        //echo $context_name . ': ' . $this->_languageName . '   ' . $this->_conName . '<br />';
-        
-        $this->_contextName   = $lang_name . $con_name;
-        
-        $this->_childContexts = $child_contexts;
-        $this->_infectiousContext = $infectious_context;
-        //$this->_styleName     = ($style_name) ? $style_name : $this->_contextName;
-        $this->_isOCC         = $occ;
+        $this->_contextName = "$language_name/$dialect_name/$context_name";
     }
     
     /**
-     * Returns this context's name
+     * Returns the name of this context
      * 
-     * @return string This context's name
+     * @return string The full name of this context (language, dialect and context)
      */
     function getName ()
     {
-        //return $this->_styleName;
         return $this->_contextName;
     }
     
@@ -181,16 +184,14 @@ class GeSHiContext
         $this->_styler =& $styler;
         
         if (!geshi_can_include(GESHI_CONTEXTS_ROOT . $this->_fileName . $this->_styler->fileExtension)) {
-            geshi_dbg('@e  Cannot get context information for ' . $this->_contextName . ' from file ' . GESHI_CONTEXTS_ROOT . $this->_fileName . $this->_styler->fileExtension, GESHI_DBG_ERR);
+            geshi_dbg('@e  Cannot get context information for ' . $this->getName() . ' from file '
+                . GESHI_CONTEXTS_ROOT . $this->_fileName . $this->_styler->fileExtension, GESHI_DBG_ERR);
             return array('code' => GESHI_ERROR_FILE_UNAVAILABLE, 'name' => $this->_contextName);
         }
         
         // Load the data for this context
-        if (!empty($this->_childContexts)) {
-        	$saved_contexts = $this->_childContexts;
-        }
-
-        // Get the data for this context
+        $CONTEXT = $this->_contextName;
+        $DIALECT = $this->_dialectName;
         // @todo This needs testing to see if it is faster
         if (false) {
             $language_file_name = GESHI_CONTEXTS_ROOT . $this->_contextName . $this->_styler->fileExtension;
@@ -208,57 +209,22 @@ class GeSHiContext
         } else {
             require GESHI_CONTEXTS_ROOT . $this->_fileName . $this->_styler->fileExtension;
         }
-            
-        if (isset($saved_contexts)) {
-        	$this->_childContexts = $saved_contexts;
-        }
         
         // Push the infectious context into the child contexts
         if (null != $this->_infectiousContext) {
             // Add the context to each of the current contexts...
             $keys = array_keys($this->_childContexts);
             foreach ($keys as $key) {
-                $this->_childContexts[$key]->addInfectiousContext($this->_infectiousContext);
+                $this->_childContexts[$key]->infectWith($this->_infectiousContext);
             }
             // And add the infectious context to this context itself
             $this->_childContexts[] =& $this->_infectiousContext;
-            geshi_dbg('  Added infectious context ' . $this->_infectiousContext->getName() . ' to ' . $this->getName(), GESHI_DBG_PARSE);
+            geshi_dbg('  Added infectious context ' . $this->_infectiousContext->getName()
+                . ' to ' . $this->getName(), GESHI_DBG_PARSE);
         }
 
-        
-        $keys = array_keys($this->_childContexts);
-        // Set the style name for the children
-        //echo 'NAME: ' . $this->getName() . '<br />';
-        /*foreach ($keys as $key) {
-            //echo $this->_childContexts[$key]->_contextName . ' (' . $this->_childContexts[$key]->_styleName . ') (' .
-            //    $this->_childContexts[$key]->isOCC() . ')<br />'; 
-            /*if ($this->_styler->useNamespaces) {
-                $this->_childContexts[$key]->_styleName = $this->_styleName . '/' .
-                    $this->_childContexts[$key]->_styleName;
-            } else*//*if (!$this->_childContexts[$key]->isOCC()) {
-                $this->_childContexts[$key]->_styleName = $this->_childContexts[$key]->_contextName;
-                if (0 === strpos($this->_childContexts[$key]->_contextName, 'common')) {
-                    //echo '&nbsp; name conversion...<br />';
-                    // Strip the "common" part out to get a better name
-                    $this->_childContexts[$key]->_styleName = $this->getName() .
-                        substr($this->_childContexts[$key]->_contextName, 6);
-                }
-                // If the context was an overriding child context, it needs to use its own style name...
- 
-                //echo '&nbsp; styleName = ' . $this->_childContexts[$key]->_styleName . '<br />';
-            }
-        }*/
-        
-        
-        // Override our name if we are an OCC 
-        //if (!$this->_styler->useNamespaces) {
-            if ($this->_isOCC) {
-                //echo $this->getName() . ' is an OCC: name changed to ' . $this->_contextName . '<br />';
-                //$this->_styleName = $this->_contextName;
-            }
-            //$this->_overridingChildContext->_styleName = $this->_overridingChildContext->_contextName;
-        //}
         // Recursively load the child contexts
+        $keys = array_keys($this->_childContexts);
         foreach ($keys as $key) {
             $this->_childContexts[$key]->load($styler);
         }
@@ -266,44 +232,25 @@ class GeSHiContext
         // Load the overriding child context, if any
         if ($this->_overridingChildContext) {
             if (null != $this->_infectiousContext) {
-                $this->_overridingChildContext->addInfectiousContext($this->_infectiousContext);
+                $this->_overridingChildContext->infectWith($this->_infectiousContext);
             }
             $this->_overridingChildContext->load($styler);
         }
-        
-        
-        // Infectious context not needed anymore, so it can be removed to save memory
-        //$this->_infectiousContext = null;
-        
         //geshi_dbg('@o  Finished loading context ' . $this->_styleName . ' successfully', GESHI_DBG_PARSE);
     }
-    
-    /**
-     * Returns whether this context is an overriding child context
-     */
-    function isOCC ()
-    {
-        return $this->_isOCC;
-    }
-    
+
     /**
      * Adds an "infectious child" to this context.
      * 
      * Relies on child being a subclass of or actually being a GeSHiContext
      */
-    function addInfectiousContext (&$context)
+    function infectWith (&$context)
     {
-        // Push the infectious context into the child contexts
-        // Add the context to each of the current contexts...
-        /*$keys = array_keys($this->_childContexts);
-        foreach ($keys as $key) {
-            $this->_childContexts[$key]->addInfectiousContext($context);
-        }
-        // And add the infectious context to this context itself
-        $this->_childContexts[] =& $context;*/
         $this->_infectiousContext =& $context;
-        //geshi_dbg('  Added infectious context ' . $context->getName() . ' to ' . $this->getName(), GESHI_DBG_PARSE);
+        //geshi_dbg('  Added infectious context ' . $context->getName()
+        //    . ' to ' . $this->getName(), GESHI_DBG_PARSE);
     }
+    
     
     /**
      * Loads style data for the given context. Not implemented here, but can be overridden
@@ -313,21 +260,7 @@ class GeSHiContext
      */
      function loadStyleData ()
      {
-        // Set styles for keywords
         //geshi_dbg('Loading style data for context ' . $this->getName(), GESHI_DBG_PARSE);
-        /*$context_name = $this->getName();
-        $start_style = $this->_styler->getStyleStart($context_name);
-        $end_style = $this->_styler->getStyleEnd($context_name);
-        if ('' == $start_style) {
-            $style = $this->_styler->getStyle($context_name);
-            // @todo careful with this line! Needs documenting
-            if ('' == $style) $style = 'color:#000;';
-            $this->_styler->setStartStyle($context_name, $style);
-        }
-        if ('' == $end_style) {
-            $style = $this->_styler->getStyle($context_name);
-            if ('' == $style) $style =
-        */
         // Recursively load the child contexts
         $keys = array_keys($this->_childContexts);
         foreach ($keys as $key) {
@@ -356,12 +289,9 @@ class GeSHiContext
                 //geshi_dbg('@buseless, removed', GESHI_DBG_PARSE);
                 // RAM saving technique
                 $this->_styler->removeStyleData($this->_childContexts[$key]->getName());
-            } else {
-                //geshi_dbg('ok, left alone', GESHI_DBG_PARSE);
-                $new_children[] = $this->_childContexts[$key];
+                unset($this->_childContexts[$key]);
             }
         }
-        $this->_childContexts = $new_children;
         
         // Recurse into the remaining children, checking them
         $keys = array_keys($this->_childContexts);
@@ -515,7 +445,6 @@ class GeSHiContext
                 }
             }
         }
-        //return array(0 => array($code,  $this->_contextName));
     }
 
     /**
@@ -685,17 +614,6 @@ class GeSHiContext
             geshi_dbg(' converted to ' . $ender, GESHI_DBG_PARSE);
              
             $offset = 0;
-            //$p = geshi_get_position($code, $context_opener, 0);
-            //geshi_dbg(' geshi_get_pos: ' . print_r($p, true), GESHI_DBG_PARSE);
-            //if ($p) {
-            //    $l = $p['pos'];
-                //@todo For the same reason that we don't need to change the starter offset we might
-                // not need to change the ender here...
-                /*if ($context_opener == $ender && substr($code, 0, strlen($ender)) == $ender && $beginning_of_context) {
-                    $offset = strlen($ender);
-                    //$offset = $p['len'];
-                }*/
-            //}
             $position = geshi_get_position($code, $ender, $offset, false);
             //geshi_dbg('    Ender ' . $ender . ': ' . print_r($position, true), GESHI_DBG_PARSE);
             $length   = $position['len'];
