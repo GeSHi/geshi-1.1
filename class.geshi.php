@@ -152,9 +152,10 @@ define('GESHI_DEFAULT_FILE_EXTENSION', '.php');
 
 /**
  * The GeSHi class
- * 
- * @author Nigel McNie
- * @since  1.0.0
+ *
+ * @package core 
+ * @author  Nigel McNie <nigel@geshi.org>
+ * @since   1.0.0
  */
 class GeSHi
 {
@@ -250,10 +251,6 @@ class GeSHi
             $options = $path;
         }
         // @todo Move this into a setOption(s) method
-        // @todo Remove all references to namespaces
-        //if (isset($options['useNamespaces'])) {
-        //    $this->useNamespaces($options['useNamespaces']);
-        //}
         
         $this->setFileExtension(GESHI_DEFAULT_FILE_EXTENSION);
         //$this->setOutputFormat(GESHI_OUTPUT_HTML);
@@ -675,6 +672,7 @@ class GeSHi
         $result .= '</pre>';
         
         // @todo [blocking 1.1.1] Evaluate feasability and get working if possible the functionality below...
+        $result = preg_replace('#([^"])(((https?)|(ftp))://[a-z0-9\-]+\.([a-z0-9\-\.]+)+/?([a-zA-Z0-9\.\-_%]+/?)*\??([a-zA-Z0-9=&\[\];%]+)?(\#[a-zA-Z0-9\-_]+)?)#', '\\1<a href="\\2">\\2</a>', $result);
         $result = preg_replace('#([a-z0-9\._\-]+@[[a-z0-9\-\.]+[a-z]+)#si', '<a href="mailto:\\1">\\1</a>', $result);
                 
         return $result;        
