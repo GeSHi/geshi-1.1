@@ -62,7 +62,6 @@ require_once 'class.keywordgetterstrategy.php';
  */
 class KeywordGetter
 {
-
     /**#@+
      * @access private
      */
@@ -83,6 +82,10 @@ class KeywordGetter
      * Constructor
      * 
      * @param KeywordGetterStrategy The strategy to use to get keywords
+     * @private
+     * {@internal Yes, that's right, PRIVATE. Use KeywordGetter::factory
+     * to create new KeywordGetters}
+     * @todo @internal format?
      */
     function KeywordGetter ($kwstrategy)
     {
@@ -129,7 +132,7 @@ class KeywordGetter
     }
     
     /**
-     * Gets the keywords
+     * Gets the keywords for a language
      * 
      * @param  The keyword group to get keywords for
      * @return array An array of the keywords for this language/keyword group
@@ -140,15 +143,43 @@ class KeywordGetter
     }
     
     /**
-     * Gets valid keyword groups
+     * Gets valid keyword groups for a language
      * 
-     * @return array
+     * @return array An array of valid keyword groups for the language
+     *               that this KeywordGetter is representing
      */
     function &getValidKeywordGroups ()
     {
         return $this->_keywordStrategy->getValidKeywordGroups();
     }
     
+    /**
+     * Gets a list of all supported languages
+     * 
+     * @return array
+     * @static
+     */
+    function &getSupportedLanguages ()
+    {
+        $files_to_ignore = array('.', '..', 'CVS');
+        $supported_languages = array();
+        
+        $dh = @opendir('languages');
+        if (false === $dh) {
+            return false;
+        }
+        
+        while (false !== ($file = @readdir($dh))) {
+            if (in_array($file, $files_to_ignore)) {
+                continue;
+            }
+            if (file_exists('languages/' . $file . '/class.' . $file . 'keywordgetter.php')) {
+                array_push($supported_languages, $file);
+            }
+        }
+        
+        return $supported_languages;
+    }
 }
     
 ?>
