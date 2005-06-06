@@ -37,6 +37,10 @@
  * The GeSHiContext class
  * 
  * @package core
+ * @author  Nigel McNie
+ * @since   1.1.0
+ * @todo    Investigate possibility of using singleton pattern to create classes in language files
+ * (a la infectious context) that would reduce mem usage and increase speed even more
  */
 class GeSHiContext
 {
@@ -58,7 +62,11 @@ class GeSHiContext
      * will match agains this instead of the context name. This is useful when
      * a "common" context is used
      */
-     var $_styleName;
+    // var $_styleName;
+    
+    //var $_languageName;
+    //var $_conName;
+    var $_fileName;
     
     /**
      * The styler helper object
@@ -106,16 +114,43 @@ class GeSHiContext
     /**
      * Constructor.
      */
-    function GeSHiContext ($context_name, $style_name = '', $child_contexts = array(),
+    function GeSHiContext ($context_name, $language_name = '', $child_contexts = array(),
         $infectious_context = null, $occ = false)
     {
         if (false === strpos($context_name, '/')) {
             $context_name .= '/' . $context_name;
         }
-        $this->_contextName   = $context_name;
+
+        $last_part_pos = strrpos($context_name, '/');
+        // Last part of context name is context name (e.g. single_string)
+        $con_name = substr($context_name, $last_part_pos + 1);
+        $lang_name = substr($context_name, 0, $last_part_pos);
+        
+        // Get proper filename
+        if ('common' == substr($context_name, 0, 6)) {
+            $this->_fileName = 'common/' . $con_name;
+            $lang_name = substr($lang_name, 7, $last_part_pos);
+        } else {
+            $this->_fileName = $context_name;
+        }
+        
+        if (false === strpos($lang_name, '/')) {
+            $lang_name .= '/' . $lang_name;
+        }
+        
+        // Root context name is blank
+        if (substr($lang_name, strrpos($lang_name, '/') + 1) == $con_name) {
+            $con_name = '';
+        } else {
+            $con_name = '/' . $con_name;
+        }
+        //echo $context_name . ': ' . $this->_languageName . '   ' . $this->_conName . '<br />';
+        
+        $this->_contextName   = $lang_name . $con_name;
+        
         $this->_childContexts = $child_contexts;
         $this->_infectiousContext = $infectious_context;
-        $this->_styleName     = ($style_name) ? $style_name : $this->_contextName;
+        //$this->_styleName     = ($style_name) ? $style_name : $this->_contextName;
         $this->_isOCC         = $occ;
     }
     
@@ -126,7 +161,8 @@ class GeSHiContext
      */
     function getName ()
     {
-        return $this->_styleName;
+        //return $this->_styleName;
+        return $this->_contextName;
     }
     
     /**
@@ -134,7 +170,7 @@ class GeSHiContext
      */
     function load (&$styler)
     {
-        geshi_dbg('Loading context: ' . $this->_styleName, GESHI_DBG_PARSE);
+        geshi_dbg('Loading context: ' . $this->_contextName, GESHI_DBG_PARSE);
         
         if ($this->_loaded) {
             geshi_dbg('@oAlready loaded', GESHI_DBG_PARSE);
@@ -144,8 +180,8 @@ class GeSHiContext
         
         $this->_styler =& $styler;
         
-        if (!geshi_can_include(GESHI_CONTEXTS_ROOT . $this->_contextName . $this->_styler->fileExtension)) {
-            //geshi_dbg('@e  Cannot get context information for ' . $this->_contextName . ' from file ' . GESHI_CONTEXTS_ROOT . $this->_contextName . $this->_styler->fileExtension, GESHI_DBG_ERR);
+        if (!geshi_can_include(GESHI_CONTEXTS_ROOT . $this->_fileName . $this->_styler->fileExtension)) {
+            geshi_dbg('@e  Cannot get context information for ' . $this->_contextName . ' from file ' . GESHI_CONTEXTS_ROOT . $this->_fileName . $this->_styler->fileExtension, GESHI_DBG_ERR);
             return array('code' => GESHI_ERROR_FILE_UNAVAILABLE, 'name' => $this->_contextName);
         }
         
@@ -170,7 +206,7 @@ class GeSHiContext
             }
             eval($cached_data);
         } else {
-            require GESHI_CONTEXTS_ROOT . $this->_contextName . $this->_styler->fileExtension;
+            require GESHI_CONTEXTS_ROOT . $this->_fileName . $this->_styler->fileExtension;
         }
             
         if (isset($saved_contexts)) {
@@ -193,13 +229,13 @@ class GeSHiContext
         $keys = array_keys($this->_childContexts);
         // Set the style name for the children
         //echo 'NAME: ' . $this->getName() . '<br />';
-        foreach ($keys as $key) {
+        /*foreach ($keys as $key) {
             //echo $this->_childContexts[$key]->_contextName . ' (' . $this->_childContexts[$key]->_styleName . ') (' .
             //    $this->_childContexts[$key]->isOCC() . ')<br />'; 
             /*if ($this->_styler->useNamespaces) {
                 $this->_childContexts[$key]->_styleName = $this->_styleName . '/' .
                     $this->_childContexts[$key]->_styleName;
-            } else*/if (!$this->_childContexts[$key]->isOCC()) {
+            } else*//*if (!$this->_childContexts[$key]->isOCC()) {
                 $this->_childContexts[$key]->_styleName = $this->_childContexts[$key]->_contextName;
                 if (0 === strpos($this->_childContexts[$key]->_contextName, 'common')) {
                     //echo '&nbsp; name conversion...<br />';
@@ -211,14 +247,14 @@ class GeSHiContext
  
                 //echo '&nbsp; styleName = ' . $this->_childContexts[$key]->_styleName . '<br />';
             }
-        }
+        }*/
         
         
         // Override our name if we are an OCC 
         //if (!$this->_styler->useNamespaces) {
             if ($this->_isOCC) {
                 //echo $this->getName() . ' is an OCC: name changed to ' . $this->_contextName . '<br />';
-                $this->_styleName = $this->_contextName;
+                //$this->_styleName = $this->_contextName;
             }
             //$this->_overridingChildContext->_styleName = $this->_overridingChildContext->_contextName;
         //}
@@ -693,7 +729,7 @@ class GeSHiContext
      */
     function _addParseData ($code, $first_char_of_next_context = '')
     {
-       $this->_styler->addParseData($code, $this->_styleName);
+       $this->_styler->addParseData($code, $this->_contextName);
     }
     
     /**
@@ -701,7 +737,7 @@ class GeSHiContext
      */
     function _addParseDataStart ($code)
     {
-        $this->_styler->addParseDataStart($code, $this->_styleName);
+        $this->_styler->addParseDataStart($code, $this->_contextName);
     }
 
     /**
@@ -709,7 +745,7 @@ class GeSHiContext
      */
     function _addParseDataEnd ($code)
     {
-        $this->_styler->addParseDataEnd($code, $this->_styleName);
+        $this->_styler->addParseDataEnd($code, $this->_contextName);
     }
     
     /**
