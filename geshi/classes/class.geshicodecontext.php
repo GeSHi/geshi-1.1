@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -67,7 +66,6 @@
  */
 class GeSHiCodeContext extends GeSHiContext
 {
-
     /**#@+
      * @var array
      * @access private
@@ -75,38 +73,44 @@ class GeSHiCodeContext extends GeSHiContext
 
     /**
      * Keywords for this code context
+     * @var array
      */
-    var $_contextKeywords;
+    var $_contextKeywords = array();
 
     /**
-     * 
+     * Characters that cannot appear before a keyword
+     * @var array
      */
-    var $_contextCharactersDisallowedBeforeKeywords;
+    var $_contextCharactersDisallowedBeforeKeywords = array();
 
     /**
-     * 
+     * Characters that cannot appear after a keyword
+     * @var array
      */
-    var $_contextCharactersDisallowedAfterKeywords;
+    var $_contextCharactersDisallowedAfterKeywords = array();
 
     /**
-     *
+     * A lookup table for use with regex matched starters/enders
+     * @var array
      */
     var $_contextKeywordLookup;
 
     /**
-     * 
+     * A symbol array
+     * @var array
      */
-    var $_contextSymbols;
+    var $_contextSymbols = array();
 
     /**
-     * 
+     * A regex array
+     * @var array
      */
-    var $_contextRegexps;
+    var $_contextRegexps = array();
     
     /**
      * An array of object "splitters"
      */
-    var $_objectSplitters;
+    var $_objectSplitters = array();
     
     /**
      * Whether this code context has finished loading yet
@@ -132,25 +136,23 @@ class GeSHiCodeContext extends GeSHiContext
         $this->_codeContextLoaded = true;
         
         // Add regex for methods (???)
-        if ($this->_objectSplitters) {
-            foreach ($this->_objectSplitters as $data) {
-                $splitter_match = '';
-                foreach ($data[0] as $splitter) {
-                        $splitter_match .= preg_quote($splitter) . '|';
-                }
-                        
-                $this->_contextRegexps[] = array(
-                    0 => array(
-                        "#(" . substr($splitter_match, 0, -1) . ")(\s*)([a-zA-Z\*\(_][a-zA-Z0-9_\*]*)#"
-                    ),
-                    1 => '', // char to check for
-                    2 => array(
-                        1 => true,
-                        2 => true, // highlight splitter
-                        3 => array($data[1], $data[2])
-                    )
-                );
+        foreach ($this->_objectSplitters as $data) {
+            $splitter_match = '';
+            foreach ($data[0] as $splitter) {
+                    $splitter_match .= preg_quote($splitter) . '|';
             }
+                    
+            $this->_contextRegexps[] = array(
+                0 => array(
+                    "#(" . substr($splitter_match, 0, -1) . ")(\s*)([a-zA-Z\*\(_][a-zA-Z0-9_\*]*)#"
+                ),
+                1 => '', // char to check for
+                2 => array(
+                    1 => true,
+                    2 => true, // highlight splitter
+                    3 => array($data[1], $data[2])
+                )
+            );
         }
     }
     
