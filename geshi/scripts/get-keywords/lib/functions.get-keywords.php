@@ -33,6 +33,11 @@
  * 
  */
 
+/**
+ * Shows help text for get-keywords script and exits
+ * 
+ * @since 0.1.0
+ */
 function show_help ()
 {
     global $argv;
@@ -42,20 +47,52 @@ Language is a language supported by GeSHi and
 that also has a katepart language file or similar.
 
 Options:
-    -h  --help       Show this help text
-    -v  --version    Show version information
+    -h  --help           Show this help text
+    -v  --version        Show version information
+    --list-groups [lang] List keyword groups for language [lang]
+    --list-langs         List supported languages
 
 @todo Get stuff from anywhere - the net mainly
-@todo show version
-@todo list-supported-languages
 
 EOF;
     exit;
 }
 
+/**
+ * Shows the version number of get-keywords and exits
+ * 
+ * @since 0.1.0
+ */
 function show_version ()
 {
-    print "\$Id$\n";
+    print GESHI_GET_KEYWORDS_VERSION . 
+        "\n\$Id$\n";
     exit;
 }
+
+/**
+ * Checks whether the specified options were passed on the command
+ * line, and returns the value of the option if specified.
+ * 
+ * @param string|array The options to check for
+ * @param array The arguments as parsed by Console_Getopt::getopt()
+ * @return True if the argument exists, the value of the argument if there is a value, else false
+ * @since 0.1.0
+ * @todo Move this into console_getopt class
+ * @todo Check about what is returned when option does exist
+ */
+function get_option ($options, $args)
+{
+    $options = (array) $options;
+    $args = $args[0];
+    foreach ($args as $arg) {
+        foreach ($options as $option) {
+            if ($option == $arg[0] || '--' . $option == $arg[0]) {
+                return ($arg[1]) ? $arg[1] : true;
+            }
+        }
+    }
+    return false;
+}
+
 ?>
