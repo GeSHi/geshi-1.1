@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -37,6 +36,7 @@
  * The GeSHiPHPDoubleStrincContext class represents a PHP double string
  * 
  * @package lang
+ * @author  Nigel McNie <nigel@geshi.org>
  */
 class GeSHiPHPDoubleStringContext extends GeSHiStringContext
 {
@@ -56,10 +56,11 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
     {
         parent::load($styler);
         $this->_parentName = parent::getName();
-        //echo $this->_parentName;
     }
     
-    
+    /**
+     * Adds code detected as being in this context to the parse data
+     */    
     function _addParseData ($code, $first_char_of_next_context = '')
     {
         geshi_dbg('GeSHiPHPDoubleStringContext::_addParseData(' . substr($code, 0, 15) . ')', GESHI_DBG_PARSE);
