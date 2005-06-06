@@ -33,12 +33,19 @@
  *
  */
 
+/*
+ * QBasic language file for GeSHi
+ * 
+ * [notes about language]
+ * 
+ * [notes about this implementation of the language]
+ * 
+ */
+
 /** Get the GeSHiCodeContext class */ 
 require_once GESHI_CLASSES_ROOT . 'class.geshicodecontext.php';
 
-/**
- * QBasic Language file for GeSHi
- */ 
+
 $this->_humanLanguageName = 'QBasic';
 
 $this->_rootContext =& new GeSHiCodeContext('qbasic');

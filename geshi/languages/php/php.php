@@ -33,13 +33,22 @@
  *
  */
 
+/*
+ * PHP language file for GeSHi
+ * 
+ * [notes about language]
+ * 
+ * [notes about this implementation of the language]
+ * 
+ */
+
 /** Get the GeSHiCodeContext class */ 
 require_once GESHI_CLASSES_ROOT . 'class.geshicodecontext.php';
 
-/**
- * PHP Language file for GeSHi
- */ 
+
 $this->_humanLanguageName = 'PHP';
-$this->_rootContext =& new GeSHiCodeContext('html/html', '', array(), new GeSHiCodeContext('php'));
+
+$this->_rootContext =& new GeSHiCodeContext('html');
+$this->_rootContext->infectWith(new GeSHiCodeContext('php'));
 
 ?>

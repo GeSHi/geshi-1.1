@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -33,12 +32,19 @@
  *
  */
 
+/*
+ * CSS language file for GeSHi
+ * 
+ * [notes about language]
+ * 
+ * [notes about this implementation of the language]
+ * 
+ */
+
 /** Get the GeSHiCodeContext class */ 
 require_once GESHI_CLASSES_ROOT . 'class.geshicodecontext.php';
 
-/**
- * CSS Language file for GeSHi
- */ 
+
 $this->_humanLanguageName = 'CSS';
 
 $this->_rootContext =& new GeSHiCodeContext('css');
