@@ -382,25 +382,6 @@ class GeSHi
         $this->_styler->fileExtension = ('.' == substr($extension, 0, 1)) ? $extension : '.' . $extension;
         geshi_dbg('GeSHi::setFileExtension(' . $this->_styler->fileExtension . ')', GESHI_DBG_API);
     }
-    
-    /**
-     * Sets whether namespaces should be used or not.
-     * 
-     * Namespaces enable distinguishing between, for example, the PHP code embedded
-     * in CSS and the PHP code embedded in javascript in the same source code
-     * 
-     * This is off by default however, as most people will want all of their (as in
-     * the example) PHP code highlighted the same.
-     * 
-     * @param boolean Whether to use namespaces or not
-     * @since 1.2.0
-     */
-    /*
-    function useNamespaces ($flag = true)
-    {
-        $this->_styler->useNamespaces = ($flag) ? true : false;
-    }
-    */
 
     /**
      * Returns various timings related to this object.
@@ -460,7 +441,6 @@ class GeSHi
             return $result;
         }
 
-        
         // Kill the cached root context, replacing with
         // the new root context if needed
         $this->_rootContext = ($this->_cacheRootContext) ? $this->_cachedRootContext : $this->_rootContext;
@@ -472,10 +452,6 @@ class GeSHi
         // Remove contexts from the parse tree that aren't interesting
         $this->_rootContext->trimUselessChildren($code);
         // The important bit - parse the code
-        /*if ($this->_cacheRootContext) {
-            // Use the cached context
-            $this->_rootContet = $this->_cachedRootContext;
-        }*/
         $this->_rootContext->parseCode($code);
 
 
@@ -663,7 +639,9 @@ class GeSHi
             if ($token[2]) {
                 $result .= '<a href="' . $token[2] . '">';
             }
-            $result .= '<span style="' . $this->_styler->getStyle($token[1]) . '" class="' . str_replace(array('/', '_'), '-', $token[1]) . '">' . htmlspecialchars($token[0]) . '</span>';
+            $result .= '<span style="' . $this->_styler->getStyle($token[1]) . '" ';
+            $result .= 'class="' . str_replace(array('/', '_'), '-', $token[1]) . '" ';
+            $result .= 'title="' . $token[1] . '">' . htmlspecialchars($token[0]) . '</span>';
             if ($token[2]) {
                 // there's a URL associated with this token
                 $result .= '</a>';
