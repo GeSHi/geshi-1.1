@@ -33,6 +33,7 @@
  * 
  */
 
+define('GESHI_GET_KEYWORDS_VERSION', '0.1.0alpha3');
 
 /**
  * Script to get keywords for languages from katepart kde package
@@ -42,13 +43,11 @@
  * get-keywords.php css attributes
  * get-keywords.php php statements
  * get-keywords.php php keywords
- * get-keywords.php list-langs
+ * get-keywords.php --list-langs
  * get-keywords.php --list-groups css
  * ...
  * 
- * @todo support list-langs, version options
  * @todo customise output format options (one per line, formatted for pasting into lang file, HTML)
- * @todo Move needed PEAR files inside here
  * @todo Example of getting keywords from somewhere non-XML
  */
   
@@ -63,30 +62,56 @@ require_once 'lib/class.keywordgetter.php';
 require_once 'lib/pear/Console/Getopt.php';
 
 // Parse command line options
-$args = Console_Getopt::getopt2(array_shift($argv), array('h', 'v'), array());
-print_r($args);
+$opt_parser =& new Console_Getopt;
+$args = $opt_parser->getopt($argv, 'hv', array('help', 'version', 'list-groups=', 'list-langs'));
+//if (!is_a($args, 'pear_error')); print_r($args);
 
+// Print error if there was an argument not recognised
+if (PEAR::isError($args)) {
+    echo str_replace('Console_Getopt', $argv[0], $args->getMessage()) . '
+Try `' . $argv[0] . " --help' for more information.\n";
+    exit(1);
+}
+
+
+//
 // Do the easy options first
-if (in_array('-h', $argv) || in_array('--help', $argv)) {
+//
+
+// Check for help
+if (get_option(array('h', 'help'), $args)) {
     show_help();
     exit;
 }
 
-if (in_array('-v', $argv) || in_array('--version', $argv)) {
+// Check for version
+if (get_option(array('v', 'version'), $args)) {
     show_version();
     exit;
 }
 
+// Check for --list-langs
+if (get_option('list-langs', $args)) {
+    $languages = KeywordGetter::getSupportedLanguages();
+    print_r($languages);
+    exit;
+}
 
 // Check for --list-groups
-if (count($argv) > 2 && $argv[1] == '--list-groups') {
-    $kwgetter =& KeywordGetter::factory($argv[2]);
+if (false !== ($language = get_option('list-groups', $args))) {
+    $kwgetter =& KeywordGetter::factory($language);
     if (KeywordGetter::isError($kwgetter)) {
         die($kwgetter->lastError());
     }
     print_r($kwgetter->getValidKeywordGroups());
     exit;
 }
+
+
+//
+// Simple options are not being used - time to actually
+// get keywords if we can
+//
 
 // If we don't have a language and a keyword type, show the help and exit
 if (!isset($argv[1]) || !isset($argv[2])) {
