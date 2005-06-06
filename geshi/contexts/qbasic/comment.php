@@ -41,11 +41,7 @@ $this->_contextDelimiters = array(
     )
 );
 
-$this->_childContexts = array();
-
-$this->_styler->setStyle($this->_contextName, 'color:#888;font-style:italic;');
-//$this->_styler->setStartStyle($this->_contextName, 'font-weight:bold;');
-//$this->_styler->setEndStyle($this->_contextName, 'font-weight:bold;');
+$this->_styler->setStyle($CONTEXT, 'color:#888;font-style:italic;');
 $this->_contextStyleType = GESHI_STYLE_COMMENTS;
 $this->_delimiterParseData = GESHI_CHILD_PARSE_LEFT;
 

@@ -35,18 +35,13 @@
 
 $this->_contextDelimiters = array(
     0 => array(
-        0 => array('"'),    // openers
-        1 => array('"'),    // closers
-        2 => false          // case-sensitive? 
+        0 => array('"'),
+        1 => array('"'),
+        2 => false 
     )
 );
 
-$this->_childContexts = array();
-
-$this->_styler->setStyle($this->_contextName, 'color:#f00;');
-//$this->_styler->setStartStyle($this->_contextName, '');
-//$this->_styler->setEndStyle($this->_contextName, '');
+$this->_styler->setStyle($CONTEXT, 'color:#f00;');
 $this->_contextStyleType = GESHI_STYLE_STRINGS;
-$this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
 
 ?>
