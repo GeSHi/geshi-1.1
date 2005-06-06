@@ -46,7 +46,7 @@ $this->_childContexts = array(
     new GeSHiContext('html/string', 'string')
 );
 
-$this->_styler->setStyle($this->_styleName, 'font-weight:bold;color:#933;');
+$this->_styler->setStyle($this->_contextName, 'font-weight:bold;color:#933;');
 $this->_contextStyleType = GESHI_STYLE_NONE;
 $this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
 

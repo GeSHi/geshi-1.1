@@ -51,9 +51,9 @@ $this->_childContexts = array(
     new GeSHiContext('html/string_javascript', 'js', array(), null, true)
 );
 
-$this->_styler->setStyle($this->_styleName, 'color:#933;');
-//$this->_styler->setStartStyle($this->_styleName, '');
-//$this->_styler->setEndStyle($this->_styleName, '');
+$this->_styler->setStyle($this->_contextName, 'color:#933;');
+//$this->_styler->setStartStyle($this->_contextName, '');
+//$this->_styler->setEndStyle($this->_contextName, '');
 $this->_contextStyleType = GESHI_STYLE_STRINGS;
 $this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
 

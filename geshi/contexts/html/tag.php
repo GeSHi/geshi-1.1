@@ -46,9 +46,9 @@ $this->_childContexts = array(
     new GeSHiContext('html/string', 'string')
 );
 
-$this->_styler->setStyle($this->_styleName, 'color:#008000;');
-$this->_styler->setStartStyle($this->_styleName, 'font-weight:bold;color:#000;');
-$this->_styler->setEndStyle($this->_styleName, 'font-weight:bold;color:#000;');
+$this->_styler->setStyle($this->_contextName, 'color:#008000;');
+$this->_styler->setStartStyle($this->_contextName, 'font-weight:bold;color:#000;');
+$this->_styler->setEndStyle($this->_contextName, 'font-weight:bold;color:#000;');
 $this->_contextStyleType = GESHI_STYLE_NONE;
 $this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
 
@@ -64,7 +64,7 @@ $this->_contextKeywords = array(
             'onfocus', 'onblur', 'rows', 'cols', 'selected', 'checked', 'enctype', 'language'
             ),
         // name
-        1 => $this->_styleName . '/attrs',
+        1 => $this->_contextName . '/attrs',
         // style
         2 => 'color:#006;',
         // case sensitive
@@ -83,7 +83,7 @@ $this->_contextSymbols  = array(
             '='
             ),
         // name (should names have / in them like normal contexts? YES
-        1 => $this->_styleName . '/sym',
+        1 => $this->_contextName . '/sym',
         // style
         2 => 'color:#008000;'
         )

@@ -48,6 +48,13 @@ class GeSHiStringContext extends GeSHiContext
     // Characters that should be escaped
     var $_charsToEscape;
     
+    /**
+     * This is used by the 'DELIM' "character" in the _charsToEscape array. We
+     * abuse the fact that _addParseData will be called right after _getContextEndData
+     * if the context is to be passed
+     */
+    var $_lastOpener;
+    
     /**#@-*/
     
     /**
@@ -56,8 +63,8 @@ class GeSHiStringContext extends GeSHiContext
     function _getContextEndData ($code, $context_open_key, $context_opener)
     {
         geshi_dbg('GeSHiContext::_getContextEndData(' . $this->_contextName . ', ' . $context_open_key . ', ' . $context_opener . ')', GESHI_DBG_API | GESHI_DBG_PARSE);
-        
-        
+        $this->_lastOpener = $context_opener;
+                
         foreach ($this->_contextDelimiters[$context_open_key][1] as $ender) {
             geshi_dbg('  Checking ender: ' . $ender, GESHI_DBG_PARSE);
 
@@ -102,6 +109,7 @@ class GeSHiStringContext extends GeSHiContext
      function _addParseData ($code, $first_char_of_next_context = '')
      {
         geshi_dbg('GeSHiStringContext::_addParseData(' . substr($code, 0, 15) . ')', GESHI_DBG_PARSE);
+        
         //$this->_styler->addParseData($code, $this->_contextName);
         $length = strlen($code);
         $string = '';
@@ -115,11 +123,11 @@ class GeSHiStringContext extends GeSHiContext
                 if ($char == $escape_char && (false !== ($len = $this->_shouldBeEscaped(substr($code, $i + 1))))) {
                     geshi_dbg('Match: len = ' . $len, GESHI_DBG_PARSE);
                     if ($string) {
-                        $this->_styler->addParseData($string, $this->_styleName);
+                        $this->_styler->addParseData($string, $this->_contextName);
                         $string = '';
                     }
                     // Needs a better name than /esc
-                    $this->_styler->addParseData($escape_char . substr($code, $i + 1, $len), $this->_styleName . '/esc');
+                    $this->_styler->addParseData($escape_char . substr($code, $i + 1, $len), $this->_contextName . '/esc');
                     // FastForward
                     $i += $len;
                     $skip = true;
@@ -132,7 +140,7 @@ class GeSHiStringContext extends GeSHiContext
             }
         }
         if ($string) {
-            $this->_styler->addParseData($string, $this->_styleName);
+            $this->_styler->addParseData($string, $this->_contextName);
         }
      }
      
@@ -145,8 +153,13 @@ class GeSHiStringContext extends GeSHiContext
       */
       function _shouldBeEscaped ($code)
       {
+        
+        // Feature: If 'DELIM' is one of the "characters" in the _charsToEscape array, then it is
+        // replaced by the context opener
+        $chars_to_escape = str_replace('DELIM', $this->_lastOpener, $this->_charsToEscape);
+        
         geshi_dbg('Checking: ' . substr($code, 0, 15), GESHI_DBG_PARSE);
-          foreach ($this->_charsToEscape as $match) {
+          foreach ($chars_to_escape as $match) {
               if ('REGEX' != substr($match, 0, 5)) {
                 geshi_dbg('Test: ' . $match, GESHI_DBG_PARSE);
                   if (substr($code, 0, 1) == $match) {

@@ -424,7 +424,7 @@ class GeSHiCodeContext extends GeSHiContext
         unset($result[0]);        
         geshi_dbg('@b  Resultant Parse Data:', GESHI_DBG_PARSE);
         geshi_dbg(str_replace("\n", "\r", print_r($result, true)), GESHI_DBG_PARSE);
-        //return array(array($code, $this->_styleName));
+        //return array(array($code, $this->_contextName));
         return $result;
      }
 
@@ -455,10 +455,10 @@ class GeSHiCodeContext extends GeSHiContext
             }
         }
         if (!$skip) {
-            if ($result[$result_pointer][1] == $this->_styleName) {
+            if ($result[$result_pointer][1] == $this->_contextName) {
                 $result[$result_pointer][0] .= $possible_symbol;
             } else {
-                $result[++$result_pointer] = array($possible_symbol, $this->_styleName);
+                $result[++$result_pointer] = array($possible_symbol, $this->_contextName);
             }
         }   
     }        

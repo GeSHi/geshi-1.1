@@ -38,15 +38,15 @@ require_once GESHI_CLASSES_ROOT . 'class.geshistringcontext.php';
 $this->_contextDelimiters = array();
 
 $this->_childContexts = array(
-    new GeSHiContext('common/multi_comment', 'multi_comment'),
-    new GeSHiContext('common/single_comment', 'single_comment'),
-    new GeSHiStringContext('common/single_string', 'single_string'),
-    new GeSHiStringContext('common/double_string','double_string')
+    new GeSHiContext('common|javascript/multi_comment'),
+    new GeSHiContext('common|javascript/single_comment'),
+    new GeSHiStringContext('common|javascript/single_string'),
+    new GeSHiStringContext('common|javascript/double_string')
 );
 
-$this->_styler->setStyle($this->_styleName, '');
-//$this->_styler->setStartStyle($this->_styleName, 'font-weight:bold;');
-//$this->_styler->setEndStyle($this->_styleName, 'font-weight:bold;');
+$this->_styler->setStyle($this->_contextName, '');
+//$this->_styler->setStartStyle($this->_contextName, 'font-weight:bold;');
+//$this->_styler->setEndStyle($this->_contextName, 'font-weight:bold;');
 $this->_contextStyleType = GESHI_STYLE_NONE;
 // irrelevant if no delimiters...
 $this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
@@ -56,7 +56,7 @@ $this->_contextKeywords = array(
         0 => array(
             'function', 'new', 'this', 'return', 'true', 'false', 'var', 'for', 'if', 'else'
         ),
-        1 => $this->_styleName . '/kw1',
+        1 => $this->_contextName . '/kw1',
         2 => 'color:#000;font-weight:bold;',
         3 => true,
         4 => ''
@@ -65,7 +65,7 @@ $this->_contextKeywords = array(
         0 => array(
             'document', 'window', 'alert', 'navigator'
         ),
-        1 => $this->_styleName . '/kw2',
+        1 => $this->_contextName . '/kw2',
         2 => 'color:#933;',
         3 => true,
         4 => ''
@@ -80,7 +80,7 @@ $this->_contextSymbols  = array(
                 '(', ')', ',', ';', ':', '[', ']'
                 ),
             // name (should names have / in them like normal contexts? YES
-            1 => $this->_styleName . '/sym0',
+            1 => $this->_contextName . '/sym0',
             // style
             2 => 'color:#008000;'
             ),
@@ -88,25 +88,25 @@ $this->_contextSymbols  = array(
             0 => array(
                 '+', '-', '*', '/', '&', '|', '!', '<', '>'
                 ),
-            1 => $this->_styleName . '/sym1',
+            1 => $this->_contextName . '/sym1',
             2 => 'color:#008000;'
             ),
         2 => array(
             0 => array(
                 '{', '}', '=', '@'
                 ),
-            1 => $this->_styleName . '/sym2',
+            1 => $this->_contextName . '/sym2',
             2 => 'color:#008000;'
             )
 );
 $this->_contextRegexps  = array(
-    0 => geshi_use_doubles($this->_styleName),
-    1 => geshi_use_integers($this->_styleName)
+    0 => geshi_use_doubles($this->_contextName),
+    1 => geshi_use_integers($this->_contextName)
 );
 $this->_objectSplitters = array(
     0 => array(
         0 => array('.'),
-        1 => $this->_styleName . '/oodynamic',
+        1 => $this->_contextName . '/oodynamic',
         2 => 'color: green;'
     )
 );

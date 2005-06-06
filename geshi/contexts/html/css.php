@@ -35,7 +35,9 @@
 
 $this->_contextDelimiters = array(
     0 => array(
-        0 => array('REGEX#<style[^>]+>#i'),
+        //@todo The <![CDATA[ was added to stop CSS jumping into attribute selector context
+        //the moment it was encountered, but this only really applies to XML
+        0 => array('REGEX#<style[^>]+>\s*(<!\[CDATA\[)?#i'),
         1 => array('</style>'),
         2 => false
     )
@@ -45,5 +47,5 @@ $this->_childContexts = array();
 $this->_contextStyleType = GESHI_STYLE_NONE;
 $this->_delimiterParseData = GESHI_CHILD_PARSE_NONE;
 
-$this->_overridingChildContext = new GeSHiCodeContext('css', $this->_styleName . '/css');
+$this->_overridingChildContext = new GeSHiCodeContext('css', $this->_contextName . '/css');
 ?>

@@ -43,9 +43,9 @@ $this->_contextDelimiters = array(
 
 $this->_childContexts = array();
 
-$this->_styler->setStyle($this->_styleName, 'color:#f00;');
-$this->_styler->setStartStyle($this->_styleName, 'color:#006;font-weight:bold;');
-$this->_styler->setEndStyle($this->_styleName, 'color:#006;font-weight:bold;');
+$this->_styler->setStyle($this->_contextName, 'color:#f00;');
+$this->_styler->setStartStyle($this->_contextName, 'color:#006;font-weight:bold;');
+$this->_styler->setEndStyle($this->_contextName, 'color:#006;font-weight:bold;');
 $this->_contextStyleType = GESHI_STYLE_STRINGS;
 $this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
 
@@ -54,11 +54,11 @@ $this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
 $this->_escapeCharacters = array('\\');
 // Escapes can be defined by regular expressions. 
 $this->_charsToEscape = array('n', 'r', 't', 'REGEX#[0-7]{1,3}#', 'REGEX#x[0-9a-f]{1,2}#i', '\\', '"');
-$this->_styler->setStyle($this->_styleName . '/esc', 'color:#006;font-weight:bold;');
+$this->_styler->setStyle($this->_contextName . '/esc', 'color:#006;font-weight:bold;');
 
 // GeSHiPHPDoubleStringContext stuff
-$this->_styler->setStyle($this->_styleName . '/var', 'color:#22f;');
-$this->_styler->setStyle($this->_styleName . '/sym0', 'color:#008000;');
-$this->_styler->setStyle($this->_styleName . '/oodynamic', 'color:#933;');
+$this->_styler->setStyle($this->_contextName . '/var', 'color:#22f;');
+$this->_styler->setStyle($this->_contextName . '/sym0', 'color:#008000;');
+$this->_styler->setStyle($this->_contextName . '/oodynamic', 'color:#933;');
 
 ?>

@@ -44,9 +44,9 @@ $this->_contextDelimiters = array(
 
 $this->_childContexts = array();
 
-$this->_styler->setStyle($this->_styleName, 'color:#0095ff;font-weight:bold;');
-//$this->_styler->setStartStyle($this->_styleName, '');
-//$this->_styler->setEndStyle($this->_styleName, '');
+$this->_styler->setStyle($this->_contextName, 'color:#0095ff;font-weight:bold;');
+//$this->_styler->setStartStyle($this->_contextName, '');
+//$this->_styler->setEndStyle($this->_contextName, '');
 $this->_contextStyleType = GESHI_STYLE_NONE;
 $this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
 

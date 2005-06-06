@@ -43,15 +43,15 @@ $this->_contextDelimiters = array(
 
 $this->_childContexts = array();
 
-$this->_styler->setStyle($this->_styleName, 'color:#f00;');
-//$this->_styler->setStartStyle($this->_styleName, '');
-//$this->_styler->setEndStyle($this->_styleName, '');
+$this->_styler->setStyle($this->_contextName, 'color:#f00;');
+//$this->_styler->setStartStyle($this->_contextName, '');
+//$this->_styler->setEndStyle($this->_contextName, '');
 $this->_contextStyleType = GESHI_STYLE_STRINGS;
 $this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
 
 // String only stuff
 $this->_escapeCharacters = array('\\');
 $this->_charsToEscape = array('n', 'r', 't', '\\', '"');
-$this->_styler->setStyle($this->_styleName . '/esc', 'color:#006;font-weight:bold;');
+$this->_styler->setStyle($this->_contextName . '/esc', 'color:#006;font-weight:bold;');
 
 ?>

@@ -41,8 +41,8 @@ class GeSHiCSSInlineMediaContext extends GeSHiContext
      */
     function _addParseDataStart ($code)
     {
-        $this->_styler->addParseData('@media', $this->_styleName . '/starter');
-        $this->_styler->addParseDataStart(substr($code, 6), $this->_styleName);
+        $this->_styler->addParseData('@media', $this->_contextName . '/starter');
+        $this->_styler->addParseDataStart(substr($code, 6), $this->_contextName);
     }
 }
 
