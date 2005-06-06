@@ -41,27 +41,49 @@ require_once GESHI_CLASSES_ROOT . 'css' . GESHI_DIR_SEPARATOR . 'class.geshicssi
 $this->_contextDelimiters = array();
 
 $this->_childContexts = array(
-    new GeSHiCSSInlineMediaContext('css/inline_media', 'inline_media'),
-    new GeSHiCodeContext('css/rule', 'rule'),
-    new GeSHiContext('common/multi_comment', 'multi_comment')
+    new GeSHiCSSInlineMediaContext('css/inline_media'),
+    new GeSHiCodeContext('css/rule'),
+    new GeSHiContext('common|css/multi_comment'),
+    new GeSHiContext('css/attribute_selector'),
+    new GeSHiCodeContext('css/at_rule')
 );
 
-$this->_styler->setStyle($this->_styleName, 'color:#000;');
+$this->_styler->setStyle($this->_contextName, 'color:#000;');
 $this->_contextStyleType = GESHI_STYLE_NONE;
 // irrelevant if no delimiters...
 $this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
 
-$this->_contextKeywords = array();
+$this->_contextKeywords = array(
+    0 => array(
+        0 => array(
+            '@font-face'
+        ),
+        1 => $this->_contextName . '/atrules',
+        2 => 'color:#c9c;font-weight:bold;',
+        3 => false,
+        4 => ''
+    ),
+    1 => array(
+        0 => array(
+            'hover', 'link', 'visited', 'active', 'focus', 'first-child', 'first-letter',
+            'first-line', 'before', 'after'
+         ),
+         1 => $this->_contextName . '/psuedoclasses',
+         2 => 'color:#33f;',
+         3 => false,
+         4 => ''
+     )
+);
 $this->_contextCharactersDisallowedBeforeKeywords = array();
 $this->_contextCharactersDisallowedAfterKeywords  = array();
 
 $this->_contextSymbols  = array(
     0 => array(
         0 => array(
-            ',', '*', '>'
+            ',', '*', '>', '+'
             ),
         // name (should names have / in them like normal contexts? YES
-        1 => $this->_styleName . '/sym',
+        1 => $this->_contextName . '/sym',
         // style
         2 => 'color:#008000;'
         )
@@ -74,7 +96,7 @@ $this->_contextRegexps  = array(
         ),
         1 => '.',
         2 => array(
-            1 => array($this->_styleName . '/class', 'color:#c9c;')
+            1 => array($this->_contextName . '/class', 'color:#c9c;')
         )
     ),
     1 => array(
@@ -83,7 +105,7 @@ $this->_contextRegexps  = array(
         ),
         1 => '#',
         2 => array(
-            1 => array($this->_styleName . '/id', 'color:#c9c;font-weight:bold;')
+            1 => array($this->_contextName . '/id', 'color:#c9c;font-weight:bold;')
         )
     )
 );
