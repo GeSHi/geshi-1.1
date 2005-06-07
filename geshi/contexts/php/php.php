@@ -51,7 +51,7 @@ $this->_contextDelimiters = array(
 );
 
 $this->_childContexts = array(
-    new GeSHiStringContext('php',  $DIALECT, 'single_string'),
+    new GeSHiStringContext('php',  $DIALECT, 'common/single_string'),
     new GeSHiPHPDoubleStringContext('php',  $DIALECT, 'double_string'),
     new GeSHiPHPDoubleStringContext('php',  $DIALECT, 'heredoc'),
     // PHP single comment, with # starter and end-php-context ender
