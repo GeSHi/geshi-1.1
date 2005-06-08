@@ -382,7 +382,9 @@ class GeSHiCodeContext extends GeSHiContext
                             // what is _pos for?
                             // What are any of them for??
                             $earliest_pos           = true;//$pos;
-                            $earliest_keyword       = $keyword_array[0];
+                            // BUGFIX: just in case case sensitive matching used, get data from string
+                            // instead of from data array
+                            $earliest_keyword       = substr($code, $i, strlen($keyword_array[0]));
                             $earliest_keyword_group = $keyword_array[1];
                         }
                     }
@@ -424,8 +426,8 @@ class GeSHiCodeContext extends GeSHiContext
         }
 
         unset($result[0]);        
-        geshi_dbg('@b  Resultant Parse Data:', GESHI_DBG_PARSE);
-        geshi_dbg(str_replace("\n", "\r", print_r($result, true)), GESHI_DBG_PARSE);
+        //geshi_dbg('@b  Resultant Parse Data:', GESHI_DBG_PARSE);
+        //geshi_dbg(str_replace("\n", "\r", print_r($result, true)), GESHI_DBG_PARSE);
         //return array(array($code, $this->_contextName));
         return $result;
      }
