@@ -53,12 +53,25 @@ $this->_contextKeywords = array(
     0 => array(
         // keywords
         0 => array(
-            'lang', 'cellspacing', 'cellpadding', 'http-equiv', 'content', 'type', 'border',
-            'class', 'id', 'href', 'width', 'align', 'height', 'colspan', 'nowrap', 'alt',
-            'valign', 'name', 'size', 'value', 'maxlength', 'clear', 'rowspan', 'src', 'method',
-            'action', 'bgcolor', 'background', 'onload', 'onsubmit', 'onmouseup', 'onmousedown',
-            'onfocus', 'onblur', 'rows', 'cols', 'selected', 'checked', 'enctype', 'language'
-            ),
+            'abbr', 'accept-charset', 'accept', 'accesskey', 'action', 'align',
+            'alink', 'alt', 'archive', 'axis', 'background', 'bgcolor', 'border',
+            'cellpadding', 'cellspacing', 'char', 'charoff', 'charset', 'checked',
+            'cite', 'class', 'classid', 'clear', 'code', 'codebase', 'codetype',
+            'color', 'cols', 'colspan', 'compact', 'content', 'coords', 'data',
+            'datetime', 'declare', 'defer', 'dir', 'disabled', 'enctype', 'face',
+            'for', 'frame', 'frameborder', 'headers', 'height', 'href', 'hreflang',
+            'hspace', 'http-equiv', 'id', 'ismap', 'label', 'lang', 'language',
+            'link', 'longdesc', 'marginheight', 'marginwidth', 'maxlength', 'media',
+            'method', 'multiple', 'name', 'nohref', 'noresize', 'noshade', 'nowrap',
+            'object', 'onblur', 'onchange', 'onclick', 'ondblclick', 'onfocus',
+            'onkeydown', 'onkeypress', 'onkeyup', 'onload', 'onmousedown',
+            'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onreset',
+            'onselect', 'onsubmit', 'onunload', 'profile', 'prompt', 'readonly',
+            'rel', 'rev', 'rows', 'rowspan', 'rules', 'scheme', 'scope', 'scrolling',
+            'selected', 'shape', 'size', 'span', 'src', 'standby', 'start', 'style',
+            'summary', 'tabindex', 'target', 'text', 'title', 'type', 'usemap',
+            'valign', 'value', 'valuetype', 'version', 'vlink', 'vspace', 'width'
+        ),
         // name
         1 => $CONTEXT . '/attrs',
         // style
