@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -45,7 +44,6 @@ require_once 'class.cssxmlparser.php';
  */
 class cssKeywordGetterStrategy extends KeywordGetterStrategy
 {
-
     /**
      * Creates a new CSS Keyword Getter Strategy. Defines allowed
      * keyword groups for CSS.
@@ -81,16 +79,21 @@ class cssKeywordGetterStrategy extends KeywordGetterStrategy
         // Set the file to parse to Nigel's local CSS syntax file.
         // @todo Find online if possible (check kde.org) and link to that
         // @todo Make configurable the file? Have at least hardcoded ones for me and for the web
-        $xml_parser->setInputFile('/usr/share/apps/katepart/syntax/css.xml');
-        
-        if (!$xml_parser->parse()) {
-            return new KeywordGetterError(PARSE_ERROR, $this->_language);
+        $result =& $xml_parser->setInputFile('/usr/share/apps/katepart/syntax/css.xml');
+        if (PEAR::isError($result)) {
+            return new KeywordGetterError(FILE_UNAVAILABLE, $this->_language,
+                array('{FILENAME}' => '/usr/share/apps/katepart/syntax/css.xml'));
+        }        
+
+        $result =& $xml_parser->parse();
+        if (PEAR::isError($result)) {
+            return new KeywordGetterError(PARSE_ERROR, $this->_language,
+                array('{PARSE_ERROR}' => $result->getMessage()));
         }
         
         $keywords =& $xml_parser->getKeywords();
         return array_unique($keywords);
     }
-        
 }
 
 ?>
