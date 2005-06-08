@@ -33,7 +33,7 @@
  * 
  */
 
-define('GESHI_GET_KEYWORDS_VERSION', '0.1.0alpha3');
+define('GESHI_GET_KEYWORDS_VERSION', '0.1.1');
 
 /**
  * Script to get keywords for languages from katepart kde package
@@ -64,7 +64,6 @@ require_once 'lib/pear/Console/Getopt.php';
 // Parse command line options
 $opt_parser =& new Console_Getopt;
 $args = $opt_parser->getopt($argv, 'hv', array('help', 'version', 'list-groups=', 'list-langs'));
-//if (!is_a($args, 'pear_error')); print_r($args);
 
 // Print error if there was an argument not recognised
 if (PEAR::isError($args)) {
@@ -134,8 +133,13 @@ if (KeywordGetter::isError($keywords)) {
 
 // Simply echo to standard out, although a todo would be to make this customisable
 // @todo Customise the output of keywords (to a file perhaps?)
+$result = '';
+$spaces = '            ';
 foreach ($keywords as $keyword) {
-    echo "'".$keyword . "',\n";
+    $result .= "'".$keyword . "', ";
 }
+$result = wordwrap($result, 75);
+$result = $spaces . str_replace("\n", "\n$spaces", $result);
+echo substr($result, 0, -2) . "\n";
 
 ?>
