@@ -45,18 +45,109 @@ $this->_childContexts = array(
 $this->_contextKeywords = array(
     0 => array(
         0 => array(
-            'function', 'new', 'this', 'return', 'true', 'false', 'var', 'for', 'if', 'else', 'null'
+            'if', 'else', 'for', 'in', 'while', 'do', 'continue', 'break', 'with',
+            'try', 'catch', 'finally', 'switch', 'case', 'new', 'var', 'function',
+            'return', 'delete', 'true', 'false', 'void', 'throw', 'typeof', 'const',
+            'default'
         ),
-        1 => $CONTEXT . '/kw1',
+        1 => $CONTEXT . '/keywords',
         2 => 'color:#000;font-weight:bold;',
         3 => true,
         4 => ''
     ),
     1 => array(
         0 => array(
-            'document', 'window', 'alert', 'navigator', 'typeof'
+            'escape', 'isFinite', 'isNaN', 'Number', 'parseFloat', 'parseInt',
+            'reload', 'taint', 'unescape', 'untaint', 'write'
         ),
-        1 => $CONTEXT . '/kw2',
+        1 => $CONTEXT . '/functions',
+        2 => 'color:#006;',
+        3 => true,
+        4 => ''
+    ),
+    2 => array(
+        0 => array(
+            'Anchor', 'Applet', 'Area', 'Array', 'Boolean', 'Button', 'Checkbox',
+            'Date', 'document', 'window', 'Image', 'FileUpload', 'Form', 'Frame',
+            'Function', 'Hidden', 'Link', 'MimeType', 'Math', 'Max', 'Min', 'Layer',
+            'navigator', 'Object', 'Password', 'Plugin', 'Radio', 'RegExp', 'Reset',
+            'Screen', 'Select', 'String', 'Text', 'Textarea', 'this', 'Window'
+        ),
+        1 => $CONTEXT . '/objects',
+        2 => 'color:#393;font-weight:bold;',
+        3 => true,
+        4 => ''
+    ),
+    3 => array(
+        0 => array(
+            'abs', 'acos', 'asin', 'atan', 'atan2', 'ceil', 'cos', 'ctg', 'E', 'exp',
+            'floor', 'LN2', 'LN10', 'log', 'LOG2E', 'LOG10E', 'PI', 'pow', 'round',
+            'sin', 'sqrt', 'SQRT1_2', 'SQRT2', 'tan'
+        ),
+        1 => $CONTEXT . '/math',
+        2 => 'color:#fd0;',
+        3 => true,
+        4 => ''
+    ),
+    4 => array(
+        0 => array(
+            'onAbort', 'onBlur', 'onChange', 'onClick', 'onError', 'onFocus', 'onLoad',
+            'onMouseOut', 'onMouseOver', 'onReset', 'onSelect', 'onSubmit', 'onUnload'
+        ),
+        1 => $CONTEXT . '/events',
+        2 => 'color:#fdb;',
+        3 => true,
+        4 => ''
+    ),
+    5 => array(
+        0 => array(
+            'above', 'action', 'alinkColor', 'alert', 'anchor', 'anchors',
+            'appCodeNam', 'applets', 'apply', 'appName', 'appVersion', 'argument',
+            'arguments', 'arity', 'availHeight', 'availWidth', 'back', 'background',
+            'below', 'bgColor', 'border', 'big', 'blink', 'blur', 'bold', 'call',
+            'caller', 'charAt', 'charCodeAt', 'checked', 'clearInterval',
+            'clearTimeout', 'click', 'clip', 'close', 'closed', 'colorDepth',
+            'complete', 'compile', 'constructor', 'confirm', 'cookie', 'current',
+            'cursor', 'data', 'defaultChecked', 'defaultSelected', 'defaultStatus',
+            'defaultValue', 'description', 'disableExternalCapture', 'domain',
+            'elements', 'embeds', 'enabledPlugin', 'enableExternalCapture',
+            'encoding', 'eval', 'exec', 'fgColor', 'filename', 'find', 'fixed',
+            'focus', 'fontcolor', 'fontsize', 'form', 'forms', 'formName', 'forward',
+            'frames', 'fromCharCode', 'getDate', 'getDay', 'getHours',
+            'getMiliseconds', 'getMinutes', 'getMonth', 'getSeconds', 'getSelection',
+            'getTime', 'getTimezoneOffset', 'getUTCDate', 'getUTCDay',
+            'getUTCFullYear', 'getUTCHours', 'getUTCMilliseconds', 'getUTCMinutes',
+            'getUTCMonth', 'getUTCSeconds', 'getYear', 'global', 'go', 'hash',
+            'height', 'history', 'home', 'host', 'hostname', 'href', 'hspace',
+            'ignoreCase', 'images', 'index', 'indexOf', 'innerHeight', 'innerWidth',
+            'input', 'italics', 'javaEnabled', 'join', 'language', 'lastIndex',
+            'lastIndexOf', 'lastModified', 'lastParen', 'layers', 'layerX', 'layerY',
+            'left', 'leftContext', 'length', 'link', 'linkColor', 'links', 'location',
+            'locationbar', 'load', 'lowsrc', 'match', 'MAX_VALUE', 'menubar', 'method',
+            'mimeTypes', 'MIN_VALUE', 'modifiers', 'moveAbove', 'moveBelow', 'moveBy',
+            'moveTo', 'moveToAbsolute', 'multiline', 'name', 'NaN',
+            'NEGATIVE_INFINITY', 'negative_infinity', 'next', 'open', 'opener',
+            'options', 'outerHeight', 'outerWidth', 'pageX', 'pageY', 'pageXoffset',
+            'pageYoffset', 'parent', 'parse', 'pathname', 'personalbar', 'pixelDepth',
+            'platform', 'plugins', 'pop', 'port', 'POSITIVE_INFINITY',
+            'positive_infinity', 'preference', 'previous', 'print', 'prompt',
+            'protocol', 'prototype', 'push', 'referrer', 'refresh', 'releaseEvents',
+            'reload', 'replace', 'reset', 'resizeBy', 'resizeTo', 'reverse',
+            'rightContext', 'screenX', 'screenY', 'scroll', 'scrollbar', 'scrollBy',
+            'scrollTo', 'search', 'select', 'selected', 'selectedIndex', 'self',
+            'setDate', 'setHours', 'setMinutes', 'setMonth', 'setSeconds', 'setTime',
+            'setTimeout', 'setUTCDate', 'setUTCDay', 'setUTCFullYear', 'setUTCHours',
+            'setUTCMilliseconds', 'setUTCMinutes', 'setUTCMonth', 'setUTCSeconds',
+            'setYear', 'shift', 'siblingAbove', 'siblingBelow', 'small', 'sort',
+            'source', 'splice', 'split', 'src', 'status', 'statusbar', 'strike',
+            'sub', 'submit', 'substr', 'substring', 'suffixes', 'sup', 'taintEnabled',
+            'target', 'test', 'text', 'title', 'toGMTString', 'toLocaleString',
+            'toLowerCase', 'toolbar', 'toSource', 'toString', 'top', 'toUpperCase',
+            'toUTCString', 'type', 'URL', 'unshift', 'unwatch', 'userAgent', 'UTC',
+            'value', 'valueOf', 'visibility', 'vlinkColor', 'vspace', 'width',
+            'watch', 'which', 'write', 'writeln', 'x', 'y', 'zIndex'
+        ),
+        1 => $CONTEXT . '/methods',
         2 => 'color:#933;',
         3 => true,
         4 => ''
@@ -64,41 +155,24 @@ $this->_contextKeywords = array(
 );
 
 $this->_contextCharactersDisallowedBeforeKeywords = array('_');
+$this->_contextCharactersDisallowedAfterKeywords = array('_');
 
 $this->_contextSymbols  = array(
+    0 => array(
         0 => array(
-            0 => array(
-                '(', ')', ',', ';', ':', '[', ']'
-                ),
-            // name (should names have / in them like normal contexts? YES
-            1 => $CONTEXT . '/sym0',
-            // style
-            2 => 'color:#008000;'
+            '(', ')', ',', ';', ':', '[', ']',
+            '+', '-', '*', '/', '&', '|', '!', '<', '>',
+            '{', '}', '='
             ),
-        1 => array(
-            0 => array(
-                '+', '-', '*', '/', '&', '|', '!', '<', '>'
-                ),
-            1 => $CONTEXT . '/sym1',
-            2 => 'color:#008000;'
-            ),
-        2 => array(
-            0 => array(
-                '{', '}', '=', '@'
-                ),
-            1 => $CONTEXT . '/sym2',
-            2 => 'color:#008000;'
-            )
+        // name (should names have / in them like normal contexts? YES
+        1 => $CONTEXT . '/symbols',
+        // style
+        2 => 'color:#008000;'
+    )
 );
 $this->_contextRegexps  = array(
     0 => geshi_use_doubles($CONTEXT),
     1 => geshi_use_integers($CONTEXT)
 );
-$this->_objectSplitters = array(
-    0 => array(
-        0 => array('.'),
-        1 => $CONTEXT . '/oodynamic',
-        2 => 'color:green;'
-    )
-);
+
 ?>
