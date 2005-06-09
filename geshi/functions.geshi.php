@@ -44,66 +44,55 @@
  */
 function geshi_dbg ($message, $context, $add_nl = true, $return_counts = false)
 {
-    //static $warn_count, $err_count;
-    //if (!$warn_count) $warn_count = 0;
-    //if (!$err_count) $err_count = 0;
-    
-    //if (!$return_counts) {
-        if (GESHI_DBG & $context) {
-            //
-            // Message can have the following symbols at start
-            //
-            // @b: bold
-            // @i: italic
-            // @o: ok (green colour)
-            // @w: warn (yellow colour)
-            // @e: err (red colour)
-            $test  = substr($message, 0, 2);
-            $start = '';
-            $end   = '</span>';
-            switch ($test) {
-                case '@b':
-                    $start = '<span style="font-weight:bold;">';
-                    break;
-                
-                case '@i':
-                    $start = '<span style="font-style:italic;">';
-                    break;
-                    
-                case '@o':
-                    $start = '<span style="color:green;background-color:#efe;border:1px solid #393;">';
-                    break;
-                
-                case '@w':
-                    $start = '<span style="color:#660;background-color:#ffe;border:1px solid #993;">';
-                    //++$warn_count;
-                    break;
-    
-                case '@e':
-                    $start = '<span style="color:red;background-color:#fee;border:1px solid #933;">';
-                    //++$err_count;
-                    break;
-                    
-                default:
-                    $end = '';
-            }
-            
-            if(preg_match('#(.*?)::(.*?)\((.*?)\)#si', $message)) {
+    if (GESHI_DBG & $context) {
+        //
+        // Message can have the following symbols at start
+        //
+        // @b: bold
+        // @i: italic
+        // @o: ok (green colour)
+        // @w: warn (yellow colour)
+        // @e: err (red colour)
+        $test  = substr($message, 0, 2);
+        $start = '';
+        $end   = '</span>';
+        switch ($test) {
+            case '@b':
                 $start = '<span style="font-weight:bold;">';
-                $end   = '</span>';
-            }
+                break;
             
-            if (preg_match('#^@[a-z]#', $message)) {
-                $message = substr($message, 2);
-            }
-            echo $start . htmlspecialchars(str_replace("\n", '', $message)) . $end;
-            if ($add_nl) echo "\n";
-        } 
-    //} else {
-    //        return array('w' => $warn_count, 'e' => $err_count);
-    //}
-}
+            case '@i':
+                $start = '<span style="font-style:italic;">';
+                break;
+                
+            case '@o':
+                $start = '<span style="color:green;background-color:#efe;border:1px solid #393;">';
+                break;
+            
+            case '@w':
+                $start = '<span style="color:#660;background-color:#ffe;border:1px solid #993;">';
+                break;
 
+            case '@e':
+                $start = '<span style="color:red;background-color:#fee;border:1px solid #933;">';
+                break;
+                
+            default:
+                $end = '';
+        }
+        
+        if(preg_match('#(.*?)::(.*?)\((.*?)\)#si', $message)) {
+            $start = '<span style="font-weight:bold;">';
+            $end   = '</span>';
+        }
+        
+        if (preg_match('#^@[a-z]#', $message)) {
+            $message = substr($message, 2);
+        }
+        echo $start . htmlspecialchars(str_replace("\n", '', $message)) . $end;
+        if ($add_nl) echo "\n";
+    } 
+}
 
 /**
  * Checks whether a file name is able to be read by GeSHi
@@ -173,13 +162,8 @@ function geshi_get_position ($haystack, $needle, $offset, $case_sensitive = fals
         }
     commented out to catch the whole thing*/    $table[$i++] = (isset($match[0])) ? $match[0] : null;
     }
-//     echo htmlspecialchars(print_r($table, true));
-//     exit;
 
-    //return strpos($str, $foo);
-    //return array('pos' => strpos($str, $foo), 'len' => $length);
     return array('pos' => strpos($str, $foo), 'len' => $length, 'tab' => $table);
-    
 }
 
 /**
@@ -190,13 +174,8 @@ function geshi_get_position ($haystack, $needle, $offset, $case_sensitive = fals
  */
 function geshi_use_integers ($prefix)
 {
-    //$banned = '[^a-zA-Z_0-9]';
-    //$plus_minus = '[\-\+]?';
-
     return array(
         0 => array(
-            // the regexps
-            //"#($banned|^)({$plus_minus}[0-9]+)($banned)?#"  // basic integers
             '#([^a-zA-Z_])([-]?[0-9]+)#'
             ),
         1 => '',
@@ -205,14 +184,18 @@ function geshi_use_integers ($prefix)
             2 => array(
                 0 => $prefix . '/' . GESHI_NUM_INT,
                 1 => 'color:#11e;'
-                )/*,
-            3 => array(0=>'',1=>'')*/
+                )
             )
         );
 }
 
-/// And the same for doubles
-function geshi_use_doubles ( $prefix )
+/**
+ * Returns the regexp for double numbers, for use with GeSHiCodeContexts
+ * 
+ * @param string The prefix to use for the name of this number match
+ * @return array
+ */
+function geshi_use_doubles ($prefix)
 {
     $banned = '[^a-zA-Z_0-9]';
     $plus_minus = '[\-\+]?';
@@ -251,57 +234,34 @@ function geshi_use_doubles ( $prefix )
 // | Authors: Aidan Lister <aidan@php.net>                                |
 // +----------------------------------------------------------------------+
 //
-// $Id$
 /**
  * Replace stripos()
- * @category    PHP
- * @link        http://php.net/function.stripos
- * @author      Aidan Lister <aidan@php.net>
-  * @version     $Revision$
-  * @since       PHP 5
-  * @require     PHP 4.0.1 (trigger_error)
-  */
-if ( !function_exists('stripos') )
-{
+ * 
+ * This function lifted from the PHP_Compat PEAR package, and optimised
+ * 
+ * @author      Aidan Lister <aidan@php.net>, Nigel McNie <nigel@geshi.org>
+ * @version     $Revision$
+ */
+if (!function_exists('stripos')) {
 	function stripos ( $haystack, $needle, $offset = null )
 	{
-		/*if ( !is_scalar($haystack) )
-		{
-			trigger_error('stripos() expects parameter 1 to be string, ' . gettype($haystack) . ' given', E_USER_WARNING);
-			return false;
-			}
-		if ( !is_scalar($needle) )
-		{
-			trigger_error('stripos() needle is not a string or an integer.', E_USER_WARNING);
-			return false;
-		}
-		if ( !is_int($offset) && !is_bool($offset) && !is_null($offset) )
-		{
-			trigger_error('stripos() expects parameter 3 to be long, ' . gettype($offset) . ' given', E_USER_WARNING);
-			return false;
-		}*/
-
 		// Manipulate the string if there is an offset
 		$fix = 0;
-		if ( !is_null($offset) )
-		{
-			if ( $offset > 0 )
-			{
-				$haystack = substr($haystack, $offset/*, strlen($haystack) - $offset*/);
+		if (!is_null($offset)) {
+			if ($offset > 0) {
+				$haystack = substr($haystack, $offset);
 				$fix = $offset;
 			}
 		}
 		$segments = explode(strtolower($needle), strtolower($haystack), 2);
 
 		// Check there was a match
-		if ( count($segments) == 1 )
-		{
+		if (count($segments) == 1) {
 			return false;
 		}
 
-		$position = strlen($segments[0]) + $fix;
-		return $position;
+		return strlen($segments[0]) + $fix;
 	}
-
 }
+
 ?>
