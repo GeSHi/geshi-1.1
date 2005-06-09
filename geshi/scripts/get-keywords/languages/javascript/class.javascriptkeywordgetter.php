@@ -32,7 +32,7 @@
  * 
  */
 
-/** Get the CSS XML parser used for getting CSS keywords */
+/** Get the Javascript XML parser used for getting Javascript keywords */
 require_once 'class.javascriptxmlparser.php';
 
 /**

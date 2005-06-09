@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -42,10 +41,10 @@
  */
 class htmlKeywordGetterStrategy extends KeywordGetterStrategy
 {
-
     /**
      * The file from which the attribute names will be raided
      * @var string
+     * @access private
      */
     var $_fileName = '/usr/share/doc/w3-recs/RECS/html4/index/attributes.html';
     
@@ -89,7 +88,6 @@ class htmlKeywordGetterStrategy extends KeywordGetterStrategy
         
         return array_unique($keywords);
     }
-        
 }
 
 ?>

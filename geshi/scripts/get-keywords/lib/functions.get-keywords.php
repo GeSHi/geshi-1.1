@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -52,8 +51,6 @@ Options:
     --list-groups [lang] List keyword groups for language [lang]
     --list-langs         List supported languages
 
-@todo Get stuff from anywhere - the net mainly
-
 EOF;
     exit;
 }
@@ -66,7 +63,7 @@ EOF;
 function show_version ()
 {
     print GESHI_GET_KEYWORDS_VERSION . 
-        "\n\$Id$\n";
+        "\n\$Date$\n";
     exit;
 }
 

@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -159,7 +158,6 @@ define('GESHI_DEFAULT_FILE_EXTENSION', '.php');
  */
 class GeSHi
 {
-    
     /**#@+
      * @access private
      * @var string
@@ -244,18 +242,12 @@ class GeSHi
         );
         
         $this->_styler =& new GeSHiStyler;
-        
-        // Set some defaults
-        // We can abuse the weak typing here to check if $path is actually a config array
-        if (is_array($path)) {
-            $options = $path;
-        }
-        // @todo Move this into a setOption(s) method
+
+        // @todo Make third parameter an option array thing        
         
         $this->setFileExtension(GESHI_DEFAULT_FILE_EXTENSION);
         //$this->setOutputFormat(GESHI_OUTPUT_HTML);
         //$this->setEncoding(GESHI_DEFAULT_ENCODING);
-        //$this->useNamespaces(false);
 
         // Set the initial source/language
         $this->setSource($source);
@@ -443,8 +435,11 @@ class GeSHi
 
         // Kill the cached root context, replacing with
         // the new root context if needed
-        $this->_rootContext = ($this->_cacheRootContext) ? $this->_cachedRootContext : $this->_rootContext;
+        if ($this->_cacheRootContext) {
+            $this->_rootContext = $this->_cachedRootContext;
+        }
         
+        //@todo does this space still need to be added?
         $code = ' ' . $this->_source;
         // Runtime setup of context tree/styler info
         // Reset the parse data to nothing 
@@ -674,7 +669,6 @@ class GeSHi
         geshi_dbg('Language file is ' . $language_file, GESHI_DBG_API);
         return GESHI_LANGUAGES_ROOT . $language_file;
     }
-
     /**#@-*/    
 }
 ?>

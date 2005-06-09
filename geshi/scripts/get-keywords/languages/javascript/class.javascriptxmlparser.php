@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -46,7 +45,6 @@ require_once 'lib/class.keywordxmlparser.php';
  */
 class Javascript_XML_Parser extends Keyword_XML_Parser
 {
-    
     /**#@+
      * @var boolean
      * @access private
@@ -69,11 +67,11 @@ class Javascript_XML_Parser extends Keyword_XML_Parser
      * Called when the start tag of a node of the
      * XML document is encountered
      * 
-     * @param ?
-     * @param string The name of the node encountered
-     * @param array  Any attributes the node has
+     * @param resource XML Parser resource
+     * @param string   The name of the node encountered
+     * @param array    Any attributes the node has
      */
-    function startHandler($xp, $name, $attributes)
+    function startHandler ($xp, $name, $attributes)
     {
         if ('LIST' == $name) {
             if ($attributes['NAME'] == $this->_keywordGroup) {
@@ -92,8 +90,8 @@ class Javascript_XML_Parser extends Keyword_XML_Parser
     /**
      * Called when CDATA is encountered
      * 
-     * @param ?
-     * @param string The CDATA encountered
+     * @param resource XML Parser Resource
+     * @param string   The CDATA encountered
      */    
     function cdataHandler ($xp, $cdata)
     {
@@ -102,7 +100,6 @@ class Javascript_XML_Parser extends Keyword_XML_Parser
         }
        $this->_addKeyword = false;
     }
-    
 }
 
 ?>
