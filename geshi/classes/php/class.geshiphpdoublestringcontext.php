@@ -48,6 +48,23 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
     var $_parentName;
     
     /**
+     * The regular expressions used to match variables
+     * in this context.
+     * 
+     * {@internal Do Not Change These! The code logic
+     * depends on them, they are just assigned here so
+     * that they aren't assigned every time the
+     * _addParseData method is called}}
+     * 
+     * @var array
+     * @access private
+     */
+    var $_regexes = array(
+        'REGEX#(\{?\$\$?[a-zA-Z_][a-zA-Z0-9_\'\[\]]*\}?)#',
+        'REGEX#(\{?)(\$this)(\s*->\s*)([a-zA-Z_][a-zA-Z0-9_]*)(\}?)#'
+    );
+     
+    /**
      * Loads data for a PHP Double String Context.
      * 
      * @var GeSHiStyler The styler to be used for this context 
@@ -64,21 +81,11 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
     function _addParseData ($code, $first_char_of_next_context = '')
     {
         geshi_dbg('GeSHiPHPDoubleStringContext::_addParseData(' . substr($code, 0, 15) . ')', GESHI_DBG_PARSE);
-        $regexes = array(
-            //'REGEX#(\$this->[a-zA-Z_][a-zA-Z0-9_\[\]\'\$]*)#',
-            //'REGEX#(\$\$?[a-zA-Z_][a-zA-Z0-9_\[\]\'\$]*)#',
-            //'REGEX#(\$\$?[a-zA-Z_][a-zA-Z0-9_]*)#'
-            //'REGEX#([\{]?\$this[\s]*\-&gt;[\s]*)([a-zA-Z_][\[\]\\\'\\\$a-zA-Z0-9_]*[\}]?)#',
-            //'REGEX#(^|[^\\\\])([\{]?[\$]{1,2}[a-zA-Z_][\[\]\\\'\\\$a-zA-Z0-9_]*[\}]?)#'
-            'REGEX#(\{?\$\$?[a-zA-Z_][a-zA-Z0-9_\'\[\]]*\}?)#',
-            'REGEX#(\{?)(\$this)(\s*->\s*)([a-zA-Z_][a-zA-Z0-9_]*)(\}?)#'
-        );
-        
+
         while (true) {
             $earliest_data = array('pos' => false, 'len' => 0);
-            foreach ($regexes as $regex) {
+            foreach ($this->_regexes as $regex) {
                 $data = geshi_get_position($code, $regex, 0);
-                //print_r($data);
                 if ((false != $data['pos'] && false === $earliest_data['pos']) ||
                     (false !== $data['pos']) &&
                     (($data['pos'] < $earliest_data['pos']) ||
@@ -86,17 +93,13 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
                     $earliest_data = $data;
                 }
             }
-            //'edata:' . print_r($earliest_data);
+
             if (false === $earliest_data['pos']) {
                 // No more variables in this string
                 break;
             }
-            //print_r($earliest_data['tab']);
-            // Bug fix: if pos was 0 then last param was -1 so we duplicated all but the last char in
-            // the string!
-            //if ($earliest_data['pos'] > 0) {
-                parent::_addParseData(substr($code, 0, $earliest_data['pos']/* - 1*/));
-            //}
+            
+            parent::_addParseData(substr($code, 0, $earliest_data['pos']));
             
             // Now the entire possible var is in:
             $possible_var = substr($code, $earliest_data['pos'], $earliest_data['len']);
@@ -112,13 +115,7 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
                 $this->_styler->addParseData('\\$', $this->_parentName . '/esc');
                 $this->_addParseData(substr($possible_var, 1));
             } else {
-                if ($earliest_data['pos']) {
-                    //geshi_dbg('Variable valid, parsing stuff before it', GESHI_DBG_PARSE);
-                    //$this->_addParseData(substr($code, 0, $earliest_data['pos']));
-                    //$code = substr($code, 0, $earliest_data['pos']);
-                }
                 // Many checks could go in here...
-                
                 if (isset($earliest_data['tab'][5])) {
                     $start_brace = '{';
                 } else {
@@ -145,15 +142,12 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
                     if ($earliest_data['tab'][5]) {
                         $this->_styler->addParseData($earliest_data['tab'][5], $this->_parentName . '/var');
                     } 
-
-                    //print_r($earliest_data['tab']);
                 } else {
                     $this->_styler->addParseData($possible_var, $this->_parentName . '/var');
-                }//print_r($this->_styler->_styleData);
+                }
                 
             }
             
-            //$this->_styler->addParseData(, 'php/double_string/var');
             // Chop off what we have done
             $code = substr($code, $earliest_data['pos'] + $earliest_data['len']);
         }

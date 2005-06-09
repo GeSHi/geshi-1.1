@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -37,6 +36,8 @@
  * The GeSHiStringContext class
  * 
  * @package core
+ * @author  Nigel McNie <nigel@geshi.org>
+ * @see GeSHiContet
  */
 class GeSHiStringContext extends GeSHiContext
 {
@@ -71,7 +72,6 @@ class GeSHiStringContext extends GeSHiContext
             // Prepare ender regexes if needed
             $ender = $this->_substitutePlaceholders($ender);
 
-            
             $pos = 0;
             while (true) {
                 $pos = geshi_get_position($code, $ender, $pos);
@@ -110,7 +110,6 @@ class GeSHiStringContext extends GeSHiContext
      {
         geshi_dbg('GeSHiStringContext::_addParseData(' . substr($code, 0, 15) . ')', GESHI_DBG_PARSE);
         
-        //$this->_styler->addParseData($code, $this->_contextName);
         $length = strlen($code);
         $string = '';
         for ($i = 0; $i < $length; $i++) {
@@ -144,39 +143,39 @@ class GeSHiStringContext extends GeSHiContext
         }
      }
      
-     /**
-      * Checks whether the character(s) at the start of the parameter string are
-      * characters that should be escaped.
-      * 
-      * @param string The string to check the beginning of for escape characters
-      * @return int|false The length of the escape character sequence, else false
-      */
-      function _shouldBeEscaped ($code)
-      {
-        
+    /**
+     * Checks whether the character(s) at the start of the parameter string are
+     * characters that should be escaped.
+     * 
+     * @param string The string to check the beginning of for escape characters
+     * @return int|false The length of the escape character sequence, else false
+     */
+    function _shouldBeEscaped ($code)
+    {
         // Feature: If 'DELIM' is one of the "characters" in the _charsToEscape array, then it is
         // replaced by the context opener
         $chars_to_escape = str_replace('DELIM', $this->_lastOpener, $this->_charsToEscape);
-        
+
         geshi_dbg('Checking: ' . substr($code, 0, 15), GESHI_DBG_PARSE);
-          foreach ($chars_to_escape as $match) {
-              if ('REGEX' != substr($match, 0, 5)) {
+        foreach ($chars_to_escape as $match) {
+            if ('REGEX' != substr($match, 0, 5)) {
                 geshi_dbg('Test: ' . $match, GESHI_DBG_PARSE);
-                  if (substr($code, 0, 1) == $match) {
-                      return 1;
-                  }
-              } else {
+                if (substr($code, 0, 1) == $match) {
+                    return 1;
+                }
+            } else {
                 geshi_dbg('  Testing via regex: ' . $match . '... ', GESHI_DBG_PARSE, false);
-                  $data = geshi_get_position($code, $match, 0);
-                  if (0 === $data['pos']) {
+                $data = geshi_get_position($code, $match, 0);
+                if (0 === $data['pos']) {
                     geshi_dbg('match, data = ' . print_r($data, true), GESHI_DBG_PARSE);
-                      return $data['len'];
-                  }
-                  geshi_dbg('no match', GESHI_DBG_PARSE);
-              }
-          }
-          // No matches...
-          return false;
-      }
+                    return $data['len'];
+                }
+                geshi_dbg('no match', GESHI_DBG_PARSE);
+            }
+        }
+        // No matches...
+        return false;
+    }
 }
+
 ?>

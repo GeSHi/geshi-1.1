@@ -38,8 +38,6 @@
  * @package core
  * @author  Nigel McNie
  * @since   1.1.0
- * @todo    Investigate possibility of using singleton pattern to create classes in language files
- * (a la infectious context) that would reduce mem usage and increase speed even more
  */
 class GeSHiContext
 {
@@ -258,8 +256,8 @@ class GeSHiContext
      * 
      * Note to self: This is needed by GeSHiCodeContext, so don't touch it!
      */
-     function loadStyleData ()
-     {
+    function loadStyleData ()
+    {
         //geshi_dbg('Loading style data for context ' . $this->getName(), GESHI_DBG_PARSE);
         // Recursively load the child contexts
         $keys = array_keys($this->_childContexts);
@@ -271,10 +269,13 @@ class GeSHiContext
         if ($this->_overridingChildContext) {
             $this->_overridingChildContext->loadStyleData();
         }        
-     }
+    }
      
     /**
      * Checks each child to see if it's useful. If not, then remove it
+     * 
+     * @param string The code that can be used to check if a context
+     *               is needed.
      */
     function trimUselessChildren ($code)
     {
@@ -397,16 +398,11 @@ class GeSHiContext
                 if (isset($foo)) geshi_dbg('Earliest data but not finish data', GESHI_DBG_PARSE);
                 // Highlight up to delimiter
                 ///The "+ len" can be manipulated to do starter and ender data
-                //$override = ($this->getName() == 'css/inline_media');
-                //if ($override) echo 'OVERRIDE';
-                if (!$earliest_context_data['con']->shouldParseStarter()/* || $override*/) {
+                if (!$earliest_context_data['con']->shouldParseStarter()) {
                      $earliest_context_data['pos'] += $earliest_context_data['len'];
                 }
-                
-                // This is wrong:
-                //$this->_styler->addParseData(substr($code, 0, $earliest_context_data['pos']), $this->_contextName);
-                
-                // Instead, we should parseCode() the substring.
+                                
+                // We should parseCode() the substring.
                 // BUT we have to remember that we should ignore the child context we've matched,
                 // else we'll have a wee recursion problem on our hands...
                 $tmp = substr($code, 0, $earliest_context_data['pos']);
@@ -538,15 +534,7 @@ class GeSHiContext
     {
         //geshi_dbg('    GeSHi::getContextStartInformation(' . $this->_contextName . ')', GESHI_DBG_PARSE | GESHI_DBG_API);
         geshi_dbg('  ' . $this->_contextName, GESHI_DBG_PARSE);
-        //static $cached_result;
-        
-        // The result is cached if there is no way this context
-        // can start. If it cannot start from where we're up to,
-        // it is always true that it will never be able to start
-        // again.
-        /*if ($cached_result && !$start_of_context) {
-            return $cached_result;
-        }*/
+
         $first_position = -1;
         $first_length   = -1;
         $first_key      = -1;
@@ -555,11 +543,7 @@ class GeSHiContext
         foreach ($this->_contextDelimiters as $key => $delim_array) {
             foreach ($delim_array[0] as $delimiter) {
                 geshi_dbg('    Checking delimiter ' . $delimiter . '... ', GESHI_DBG_PARSE, false);
-                $offset = 0;
-                /*if ($start_of_context == $delimiter && substr($code, 0, strlen($delimiter)) == $delimiter) {
-                    $offset = strlen($delimiter);
-                }*/
-                $data     = geshi_get_position($code, $delimiter, $offset, $delim_array[2]);
+                $data     = geshi_get_position($code, $delimiter, 0, $delim_array[2]);
                 geshi_dbg(print_r($data, true), GESHI_DBG_PARSE, false);
                 $position = $data['pos'];
                 $length   = $data['len'];
@@ -585,11 +569,8 @@ class GeSHiContext
             }
         }
         
-        /*if (-1 == $first_position && $start_of_context) {
-            // We can set the cached result
-            $cached_result = array('pos' => $first_position); // Don't think we need the other entries...
-        }*/
-        return array('pos' => $first_position, 'len' => $first_length, 'key' => $first_key, 'dlm' => $first_dlm);
+        return array('pos' => $first_position, 'len' => $first_length,
+                     'key' => $first_key, 'dlm' => $first_dlm);
     }
     
     /**
@@ -602,19 +583,12 @@ class GeSHiContext
         $context_end_len = -1;
         $context_end_dlm = '';
         
-        /*static $cached_result;
-        
-        if (!is_null($cached_result)) {
-            return $cached_result;
-        }*/
-        
         foreach ($this->_contextDelimiters[$context_open_key][1] as $ender) {
             geshi_dbg('  Checking ender: ' . str_replace("\n", '\n', $ender), GESHI_DBG_PARSE, false);
             $ender = $this->_substitutePlaceholders($ender);
             geshi_dbg(' converted to ' . $ender, GESHI_DBG_PARSE);
              
-            $offset = 0;
-            $position = geshi_get_position($code, $ender, $offset, false);
+            $position = geshi_get_position($code, $ender);
             //geshi_dbg('    Ender ' . $ender . ': ' . print_r($position, true), GESHI_DBG_PARSE);
             $length   = $position['len'];
             $position = $position['pos'];
@@ -630,7 +604,6 @@ class GeSHiContext
         if (false !== $context_end_pos) {
             return array('pos' => $context_end_pos, 'len' => $context_end_len, 'dlm' => $context_end_dlm);
         } else {
-            //$cached_result = false;
             return false;
         }
     }
@@ -681,6 +654,6 @@ class GeSHiContext
         }
         return $ender;
     }
-    
 }
+
 ?>
