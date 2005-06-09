@@ -123,7 +123,7 @@ function geshi_can_include ($file_name)
  * 'len' => length of match
  * 'tab' => a table of the stuff matched in brackets for a regular expression</pre>
  */
-function geshi_get_position ($haystack, $needle, $offset, $case_sensitive = false)
+function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = false)
 {
     geshi_dbg('Checking haystack: ' . $haystack . ' against needle ' . $needle . ' (' . $offset . ')',GESHI_DBG_PARSE, false);
     if ('REGEX' != substr($needle, 0, 5)) {
