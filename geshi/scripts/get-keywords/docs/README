@@ -1,21 +1,23 @@
 get-keywords.php is a script to get a current list of all the keywords for a particular language.
 
 Currently it's very alpha, just like the rest of this stuff. I run Debian and KDE, and so I have
-access to the katepart XML files in /usr/share/apps/katepart/syntax. Thus, the CSS keyword getter
-strategy works for me.
+access to the katepart XML files in /usr/share/apps/katepart/syntax. Thus, the keyword getter
+strategies that use parser those files work for me.
 
 If you know where these files are online, feel free to write a strategy implementation that gets
 the file from the 'net and uses that (perhaps from KDE SVN?).
 
-No real documentation I'm afraid... just look through the code and look at how the CSS keyword
-strategy stuff is implemented in language/css/.
+No real documentation I'm afraid... just look through the code and look at how the various keyword
+strategy stuff is implemented in language/*/class.*getterstrategy.php.
 
 Oh, and to use:
 
-php get-keywords.php css properties    # only one supported at the moment
+php get-keywords.php [lang] [group[
+php get-keywords.php --list-langs
+php get-keywords.php --list-groups [language]
 
 In the future:
 
-php get-keywords.php [otherlang] ... --output-format=[HTML|text|special]
-php get-keywords.php --list-langs
-php get-keywords.php css --list-groups
+php get-keywords.php ... --output-format=[HTML|text|special]
+
+     $Id$
