@@ -135,7 +135,7 @@ class GeSHiCodeContext extends GeSHiContext
         }
         $this->_codeContextLoaded = true;
         
-        // Add regex for methods (???)
+        // Add regex for methods
         foreach ($this->_objectSplitters as $data) {
             $splitter_match = '';
             foreach ($data[0] as $splitter) {
@@ -466,6 +466,7 @@ class GeSHiCodeContext extends GeSHiContext
             }
         }   
     }        
+
     /// THIS FUNCTION NEEDS TO DIE!!!
     /// When language files are able to be compiled, they should list their keywords
     /// in this form already.
@@ -502,13 +503,12 @@ class GeSHiCodeContext extends GeSHiContext
 
 
     /**
-     * Turns keywords into <<a href="url">>keyword<</a>> if needed
+     * Turns keywords into <a href="url">>keyword<</a> if needed
      *
      * @todo This method still needs to listen to set_link_target, set_link_styles etc
      */
     function _getURL ($keyword, $earliest_keyword_group)
     {
-        // I want to remove the isset test - this can be done if every keyword group context defines the URL (4th) key
         if ($this->_contextKeywords[$earliest_keyword_group][4] != '') {
             // Remove function_exists() call? Valid language files will define functions required...
             if (substr($this->_contextKeywords[$earliest_keyword_group][4], -2) == '()' &&
