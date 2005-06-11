@@ -39,17 +39,21 @@ define('GESHI_DIR_SEPARATOR', ('WIN' != substr(PHP_OS, 0, 3)) ? '/' : '\\');
 if (!defined('GESHI_ROOT')) {
     /** The root directory for GeSHi */
     define('GESHI_ROOT', dirname(__FILE__) . GESHI_DIR_SEPARATOR);
-    /** The data directory for GeSHi */
-    define('GESHI_DATA_ROOT', GESHI_ROOT.'geshi' . GESHI_DIR_SEPARATOR);
-    /** The classes directory for GeSHi */
-    define('GESHI_CLASSES_ROOT', GESHI_DATA_ROOT . 'classes' . GESHI_DIR_SEPARATOR);
-    /** The languages directory for GeSHi */
-    define('GESHI_LANGUAGES_ROOT', GESHI_DATA_ROOT . 'languages' . GESHI_DIR_SEPARATOR);
-    /** The context files directory for GeSHi */
-    define('GESHI_CONTEXTS_ROOT', GESHI_DATA_ROOT . 'contexts' . GESHI_DIR_SEPARATOR);
-    /** The theme files directory for GeSHi */
-    define('GESHI_THEMES_ROOT', GESHI_DATA_ROOT . 'themes' . GESHI_DIR_SEPARATOR);
 }
+/**#@+
+ * @access private
+ */
+/** The data directory for GeSHi */
+define('GESHI_DATA_ROOT', GESHI_ROOT . 'geshi' . GESHI_DIR_SEPARATOR);
+/** The classes directory for GeSHi */
+define('GESHI_CLASSES_ROOT', GESHI_DATA_ROOT . 'classes' . GESHI_DIR_SEPARATOR);
+/** The languages directory for GeSHi */
+define('GESHI_LANGUAGES_ROOT', GESHI_DATA_ROOT . 'languages' . GESHI_DIR_SEPARATOR);
+/** The context files directory for GeSHi */
+define('GESHI_CONTEXTS_ROOT', GESHI_DATA_ROOT . 'contexts' . GESHI_DIR_SEPARATOR);
+/** The theme files directory for GeSHi */
+define('GESHI_THEMES_ROOT', GESHI_DATA_ROOT . 'themes' . GESHI_DIR_SEPARATOR);
+/**#@-*/
 
 /** Get required functions */
 require GESHI_DATA_ROOT . 'functions.geshi.php';
