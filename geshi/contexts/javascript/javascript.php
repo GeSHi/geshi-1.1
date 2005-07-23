@@ -45,10 +45,10 @@ $this->_childContexts = array(
 $this->_contextKeywords = array(
     0 => array(
         0 => array(
-            'if', 'else', 'for', 'in', 'while', 'do', 'continue', 'break', 'with',
-            'try', 'catch', 'finally', 'switch', 'case', 'new', 'var', 'function',
-            'return', 'delete', 'true', 'false', 'void', 'throw', 'typeof', 'const',
-            'default'
+            'break', 'case', 'catch', 'const', 'continue', 'default', 'delete', 'do',
+            'else', 'false', 'finally', 'for', 'function', 'if', 'in', 'new', 'null',
+            'return', 'switch', 'throw', 'true', 'try', 'typeof', 'var', 'void',
+            'while', 'with'
         ),
         1 => $CONTEXT . '/keywords',
         2 => 'color:#000;font-weight:bold;',
@@ -101,40 +101,40 @@ $this->_contextKeywords = array(
     ),
     5 => array(
         0 => array(
-            'above', 'action', 'alinkColor', 'alert', 'anchor', 'anchors',
-            'appCodeNam', 'applets', 'apply', 'appName', 'appVersion', 'argument',
-            'arguments', 'arity', 'availHeight', 'availWidth', 'back', 'background',
-            'below', 'bgColor', 'border', 'big', 'blink', 'blur', 'bold', 'call',
-            'caller', 'charAt', 'charCodeAt', 'checked', 'clearInterval',
-            'clearTimeout', 'click', 'clip', 'close', 'closed', 'colorDepth',
-            'complete', 'compile', 'constructor', 'confirm', 'cookie', 'current',
-            'cursor', 'data', 'defaultChecked', 'defaultSelected', 'defaultStatus',
-            'defaultValue', 'description', 'disableExternalCapture', 'domain',
-            'elements', 'embeds', 'enabledPlugin', 'enableExternalCapture',
+            'MAX_VALUE', 'MIN_VALUE', 'NEGATIVE_INFINITY', 'NaN', 'POSITIVE_INFINITY',
+            'URL', 'UTC', 'above', 'action', 'alert', 'alinkColor', 'anchor',
+            'anchors', 'appCodeNam', 'appName', 'appVersion', 'applets', 'apply',
+            'argument', 'arguments', 'arity', 'availHeight', 'availWidth', 'back',
+            'background', 'below', 'bgColor', 'big', 'blink', 'blur', 'bold',
+            'border', 'call', 'caller', 'charAt', 'charCodeAt', 'checked',
+            'clearInterval', 'clearTimeout', 'click', 'clip', 'close', 'closed',
+            'colorDepth', 'compile', 'complete', 'confirm', 'constructor', 'cookie',
+            'current', 'cursor', 'data', 'defaultChecked', 'defaultSelected',
+            'defaultStatus', 'defaultValue', 'description', 'disableExternalCapture',
+            'domain', 'elements', 'embeds', 'enableExternalCapture', 'enabledPlugin',
             'encoding', 'eval', 'exec', 'fgColor', 'filename', 'find', 'fixed',
-            'focus', 'fontcolor', 'fontsize', 'form', 'forms', 'formName', 'forward',
-            'frames', 'fromCharCode', 'getDate', 'getDay', 'getHours',
-            'getMiliseconds', 'getMinutes', 'getMonth', 'getSeconds', 'getSelection',
-            'getTime', 'getTimezoneOffset', 'getUTCDate', 'getUTCDay',
+            'focus', 'fontcolor', 'fontsize', 'form', 'formName', 'forms', 'forward',
+            'frames', 'fromCharCode', 'getDate', 'getDay', 'getElementById',
+            'getHours', 'getMiliseconds', 'getMinutes', 'getMonth', 'getSeconds',
+            'getSelection', 'getTime', 'getTimezoneOffset', 'getUTCDate', 'getUTCDay',
             'getUTCFullYear', 'getUTCHours', 'getUTCMilliseconds', 'getUTCMinutes',
             'getUTCMonth', 'getUTCSeconds', 'getYear', 'global', 'go', 'hash',
             'height', 'history', 'home', 'host', 'hostname', 'href', 'hspace',
             'ignoreCase', 'images', 'index', 'indexOf', 'innerHeight', 'innerWidth',
             'input', 'italics', 'javaEnabled', 'join', 'language', 'lastIndex',
-            'lastIndexOf', 'lastModified', 'lastParen', 'layers', 'layerX', 'layerY',
-            'left', 'leftContext', 'length', 'link', 'linkColor', 'links', 'location',
-            'locationbar', 'load', 'lowsrc', 'match', 'MAX_VALUE', 'menubar', 'method',
-            'mimeTypes', 'MIN_VALUE', 'modifiers', 'moveAbove', 'moveBelow', 'moveBy',
-            'moveTo', 'moveToAbsolute', 'multiline', 'name', 'NaN',
-            'NEGATIVE_INFINITY', 'negative_infinity', 'next', 'open', 'opener',
-            'options', 'outerHeight', 'outerWidth', 'pageX', 'pageY', 'pageXoffset',
-            'pageYoffset', 'parent', 'parse', 'pathname', 'personalbar', 'pixelDepth',
-            'platform', 'plugins', 'pop', 'port', 'POSITIVE_INFINITY',
+            'lastIndexOf', 'lastModified', 'lastParen', 'layerX', 'layerY', 'layers',
+            'left', 'leftContext', 'length', 'link', 'linkColor', 'links', 'load',
+            'location', 'locationbar', 'lowsrc', 'match', 'menubar', 'method',
+            'mimeTypes', 'modifiers', 'moveAbove', 'moveBelow', 'moveBy', 'moveTo',
+            'moveToAbsolute', 'multiline', 'name', 'negative_infinity', 'next',
+            'open', 'opener', 'options', 'outerHeight', 'outerWidth', 'pageX',
+            'pageXoffset', 'pageY', 'pageYoffset', 'parent', 'parse', 'pathname',
+            'personalbar', 'pixelDepth', 'platform', 'plugins', 'pop', 'port',
             'positive_infinity', 'preference', 'previous', 'print', 'prompt',
             'protocol', 'prototype', 'push', 'referrer', 'refresh', 'releaseEvents',
             'reload', 'replace', 'reset', 'resizeBy', 'resizeTo', 'reverse',
-            'rightContext', 'screenX', 'screenY', 'scroll', 'scrollbar', 'scrollBy',
-            'scrollTo', 'search', 'select', 'selected', 'selectedIndex', 'self',
+            'rightContext', 'screenX', 'screenY', 'scroll', 'scrollBy', 'scrollTo',
+            'scrollbar', 'search', 'select', 'selected', 'selectedIndex', 'self',
             'setDate', 'setHours', 'setMinutes', 'setMonth', 'setSeconds', 'setTime',
             'setTimeout', 'setUTCDate', 'setUTCDay', 'setUTCFullYear', 'setUTCHours',
             'setUTCMilliseconds', 'setUTCMinutes', 'setUTCMonth', 'setUTCSeconds',
@@ -142,10 +142,11 @@ $this->_contextKeywords = array(
             'source', 'splice', 'split', 'src', 'status', 'statusbar', 'strike',
             'sub', 'submit', 'substr', 'substring', 'suffixes', 'sup', 'taintEnabled',
             'target', 'test', 'text', 'title', 'toGMTString', 'toLocaleString',
-            'toLowerCase', 'toolbar', 'toSource', 'toString', 'top', 'toUpperCase',
-            'toUTCString', 'type', 'URL', 'unshift', 'unwatch', 'userAgent', 'UTC',
-            'value', 'valueOf', 'visibility', 'vlinkColor', 'vspace', 'width',
-            'watch', 'which', 'write', 'writeln', 'x', 'y', 'zIndex'
+            'toLowerCase', 'toSource', 'toString', 'toUTCString', 'toUpperCase',
+            'toolbar', 'top', 'type', 'unshift', 'unwatch', 'userAgent', 'value',
+            'valueOf', 'visibility', 'vlinkColor', 'vspace', 'watch', 'which',
+            'width', 'write', 'writeln', 'x', 'y', 'zIndex'
+            //@todo Some important and recent DOM additions for js seem to be ommited...
         ),
         1 => $CONTEXT . '/methods',
         2 => 'color:#933;',
@@ -175,4 +176,12 @@ $this->_contextRegexps  = array(
     1 => geshi_use_integers($CONTEXT)
 );
 
+$this->_objectSplitters = array(
+    0 => array(
+        0 => array('.'),
+        1 => $CONTEXT . '/oodynamic',
+        2 => 'color:#559;',
+        3 => true // Check that matched method isn't a keyword first
+    )
+);
 ?>
