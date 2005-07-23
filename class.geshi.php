@@ -37,9 +37,10 @@ define('GESHI_DIR_SEPARATOR', ('WIN' != substr(PHP_OS, 0, 3)) ? '/' : '\\');
 
 // Define the root directory for the GeSHi code tree
 if (!defined('GESHI_ROOT')) {
-    /** The root directory for GeSHi */
+    /** The root directory for GeSHi (where class.geshi.php is located) */
     define('GESHI_ROOT', dirname(__FILE__) . GESHI_DIR_SEPARATOR);
 }
+
 /**#@+
  * @access private
  */
@@ -202,11 +203,13 @@ class GeSHi
     /**
      * Whether this object should be prepared as if it will be used
      * many times
+     * @var boolean
      */
     var $_cacheRootContext;
     
     /**
      * The cached root context, if caching of context trees is enabled
+     * @var GeSHiContext
      */
     var $_cachedRootContext;
 
@@ -274,9 +277,11 @@ class GeSHi
         if ($this->_error) {
             $msg = $this->_getErrorMessage();
             geshi_dbg('  ERR: ' . $this->_error . ': ' . $msg, GESHI_DBG_API | GESHI_DBG_ERR);
-            return sprintf('<br /><strong>GeSHi Error:</strong> %s (code #%s)<br />"',
-                    '<a href="http://geshi.org/developers/error-codes/">{$this->_error}</a>',
-                    $this->_error);
+            return sprintf('<br /><strong>GeSHi Error:</strong> %s (code %s)<br />',
+                    $msg,
+                    '<a href="http://geshi.org/developers/error-codes/#' . $this->_error
+                    . '">#' . $this->_error . '</a>'
+            );
         }
         geshi_dbg('  No error', GESHI_DBG_ERR | GESHI_DBG_API);
         return false;
@@ -385,7 +390,18 @@ class GeSHi
      * For example, how long it took to load a specific context,
      * or parse the source code.
      *
-     * @todo Better documentation here
+     * You can pass a string to this method, it will return various timings based
+     * on what string you pass:
+     * 
+     * <ul>
+     *   <li>If you pass <b>'total'</b> (default), you will get the time it took to
+     *   load, parse and post-process the last call to {@link GeSHi::parseCode()}.</li>
+     *   <li>If you pass <b>'pre'</b>, you will get the time it took to load the last
+     *   language. If caching of the root context is enabled, then this time will likely
+     *   be close to zero if you are calling this method after second and subsequent calls
+     *   to {@link GeSHi::parseCode()}.</li>
+     *   <li>If youpass <b>'parse'</b>, you will get the time it took to parse the last
+     *   time {@link GeSHi::parseCode()} was called.
      *
      * @param string What time you want to access
      * @return false|double The time if there is a time, else false if there was an error
