@@ -141,7 +141,7 @@ class GeSHiCodeContext extends GeSHiContext
             foreach ($data[0] as $splitter) {
                     $splitter_match .= preg_quote($splitter) . '|';
             }
-                    
+            
             $this->_contextRegexps[] = array(
                 0 => array(
                     "#(" . substr($splitter_match, 0, -1) . ")(\s*)([a-zA-Z\*\(_][a-zA-Z0-9_\*]*)#"
@@ -150,7 +150,7 @@ class GeSHiCodeContext extends GeSHiContext
                 2 => array(
                     1 => true,
                     2 => true, // highlight splitter
-                    3 => array($data[1], $data[2])
+                    3 => array($data[1], $data[2], $data[3]) // $data[3] says whether to give code a go at the match first
                 )
             );
         }
@@ -249,7 +249,22 @@ class GeSHiCodeContext extends GeSHiContext
                 if ($key) {
                     // If there is a name for this bracket group ($key) in this regex group ($data[1])...
                     if (isset($this->_contextRegexps[$data[1]][2][$key]) && is_array($this->_contextRegexps[$data[1]][2][$key])) {
-                        $regex_replacements[$data[0]][] = array($match, $this->_contextRegexps[$data[1]][2][$key][0]); //name in [0], s in [1]
+                        // If we should be attempting to have a go at code highlighting first... 
+                        if (/*isset($this->_contextRegexps[$data[1]][2][$key][2]) && */
+                            true === $this->_contextRegexps[$data[1]][2][$key][2]) {
+                            // Highlight the match, and put the code into the result
+                            $highlighted_matches = $this->_codeContextHighlight($match);
+                            foreach ($highlighted_matches as $stuff) {
+                                if ($stuff[1] == $this->_contextName) {
+                                    $regex_replacements[$data[0]][] = array($stuff[0], $this->_contextRegexps[$data[1]][2][$key][0]);
+                                } else {
+                                    $regex_replacements[$data[0]][] = $stuff;
+                                } 
+                            }
+                        } else {
+                            $regex_replacements[$data[0]][] = array($match,
+                                $this->_contextRegexps[$data[1]][2][$key][0]); //name in [0], s in [1]
+                        }
                     // Else, perhaps it is simply set. If so, we highlight it as if it were
                     // part of the code context 
                     } elseif (isset($this->_contextRegexps[$data[1]][2][$key])) {
