@@ -44,6 +44,22 @@ require_once 'class.javascriptxmlparser.php';
  */
 class javascriptKeywordGetterStrategy extends KeywordGetterStrategy
 {
+    
+    /**
+     * Extra keywords missed by the language file
+     * 
+     * @var array
+     * @access private
+     */
+    var $_missedKeywords = array(
+        'keywords' => array(
+            'null'
+        ),
+        'methods' => array(
+            'getElementById'
+        )
+    );
+    
     /**
      * Creates a new Javascript Keyword Getter Strategy. Defines allowed
      * keyword groups for Javascript.
@@ -90,6 +106,12 @@ class javascriptKeywordGetterStrategy extends KeywordGetterStrategy
         }
         
         $keywords =& $xml_parser->getKeywords();
+        //@todo move missedkeywords functionality into common place
+        // as well as unique and sorts
+        if (isset($this->_missedKeywords[$keyword_group])) {
+            $keywords = array_merge($keywords, $this->_missedKeywords[$keyword_group]);
+        }
+        sort($keywords);
         return array_unique($keywords);
     }
 }
