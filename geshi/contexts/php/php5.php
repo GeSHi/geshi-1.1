@@ -851,7 +851,7 @@ $this->_contextRegexps  = array(
             // in place for the first open bracket), then the
             // name and style for this part would not include
             // the beginning $
-            1 => array($CONTEXT . '/var', 'color:#33f;'),
+            1 => array($CONTEXT . '/var', 'color:#33f;', false),
             )
         ),
     // These are prebuild functions that can be called to add number
@@ -863,12 +863,14 @@ $this->_objectSplitters = array(
     0 => array(
         0 => array('->'),
         1 => $CONTEXT . '/oodynamic',
-        2 => 'color:#933;'
+        2 => 'color:#933;',
+        3 => false
     ),
     1 => array(
         0 => array('::'),
         1 => $CONTEXT . '/oostatic',
-        2 => 'color:#933;font-weight:bold;'
+        2 => 'color:#933;font-weight:bold;',
+        3 => false
     )
 );
 
