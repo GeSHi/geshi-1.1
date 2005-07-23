@@ -543,7 +543,7 @@ class GeSHiContext
         foreach ($this->_contextDelimiters as $key => $delim_array) {
             foreach ($delim_array[0] as $delimiter) {
                 geshi_dbg('    Checking delimiter ' . $delimiter . '... ', GESHI_DBG_PARSE, false);
-                $data     = geshi_get_position($code, $delimiter, 0, $delim_array[2]);
+                $data     = geshi_get_position($code, $delimiter, 0, $delim_array[2], true);
                 geshi_dbg(print_r($data, true), GESHI_DBG_PARSE, false);
                 $position = $data['pos'];
                 $length   = $data['len'];
