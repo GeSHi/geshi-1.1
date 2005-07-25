@@ -32,6 +32,13 @@
  * 
  */
 
+/**
+ * MAJOR TODOs:
+ * 
+ * @todo [blocking 1.1.1] Support balanced context endings
+ * @todo [blocking 1.1.1] OCCs should be able to modify their parent context
+ * @todo [blocking 1.1.5] Language aliasing should be possible
+ */
 /** Set the correct directory separator */
 define('GESHI_DIR_SEPARATOR', ('WIN' != substr(PHP_OS, 0, 3)) ? '/' : '\\');
 
@@ -250,7 +257,7 @@ class GeSHi
         
         $this->_styler =& new GeSHiStyler;
 
-        // @todo Make third parameter an option array thing        
+        // @todo [blocking 1.1.5] Make third parameter an option array thing        
         
         $this->setFileExtension(GESHI_DEFAULT_FILE_EXTENSION);
         //$this->setOutputFormat(GESHI_OUTPUT_HTML);
@@ -266,7 +273,7 @@ class GeSHi
      * but not recommended for use on a live site.
      * 
      * The last error that occured is returned by this method
-     * @todo Documentation: has this changed from 1.0.X?
+     * @todo [blocking 1.1.9] Documentation: has this changed from 1.0.X?
      *
      * @return false|string A message if there is an error, else false
      * @since  1.0.0
@@ -459,7 +466,7 @@ class GeSHi
             $this->_rootContext = $this->_cachedRootContext;
         }
         
-        //@todo does this space still need to be added?
+        //@todo [blocking 1.1.5] does this space still need to be added?
         $code = ' ' . $this->_source;
         // Runtime setup of context tree/styler info
         // Reset the parse data to nothing 
@@ -493,7 +500,7 @@ class GeSHi
     {
         if ($this->_error) {
             $messages = array (
-                // @todo Move out of here
+                // @todo [blocking 1.1.5] Move out of here
                 GESHI_ERROR_NO_SUCH_LANG => 'GeSHi could not find the language {LANGUAGE} (using path {LANGPATH})',
                 GESHI_ERROR_NO_INPUT => 'No source code passed to GeSHi to highlight',
                 GESHI_ERROR_LANG_NAME_ILLEGAL_CHARS => 'The language name {LANGUAGE} contains illegal characters',
@@ -577,7 +584,7 @@ class GeSHi
         }
         geshi_dbg('@o  Source code OK', GESHI_DBG_API);
         return true;
-        // @todo Other things can go in here - checks against max and min length etc
+        // @todo [blocking 1.1.9] Other things can go in here - checks against max and min length etc
     }
 
     /**

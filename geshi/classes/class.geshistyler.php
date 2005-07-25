@@ -104,7 +104,7 @@ class GeSHiStyler
         if (isset($this->_styleData[$context_name])) {
             return $this->_styleData[$context_name];
         }
-        //@todo Make the default style for otherwise unstyled elements configurable
+        //@todo [blocking 1.1.5] Make the default style for otherwise unstyled elements configurable
         $this->_styleData[$context_name] = 'color:#000;';
         return 'color:#000;';
     }
@@ -114,7 +114,6 @@ class GeSHiStyler
         if (isset($this->_styleData[$context_name . '/start'])) {
             return $this->_styleData[$context_name . '/start'];
         }
-        // @todo Use style of actual context?
         $this->_styleData[$context_name . '/start'] = $this->getStyle($context_name);
         return $this->_styleData[$context_name . '/start'];
     }

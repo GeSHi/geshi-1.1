@@ -97,7 +97,7 @@ $this->_contextKeywords = array(
     ),
     2 => array(
         0 => array(
-            // @todo This list of functions is for php5... should get one for php4 only
+            // @todo [blocking 1.1.9] This list of functions is for php5... should get one for php4 only
             'abs', 'acos', 'acosh', 'addcslashes', 'addslashes',
             'apache_child_terminate', 'apache_lookup_uri', 'apache_note',
             'apache_setenv', 'array', 'array_change_key_case', 'array_chunk',

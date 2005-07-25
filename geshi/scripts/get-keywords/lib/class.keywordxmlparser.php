@@ -33,11 +33,11 @@
  * 
  */
 
-/** @todo move Parser.php... */
+/** Get the XML parser class */
 require_once 'lib/pear/XML/Parser.php';
 
 /**
- * @todo comment
+ * @todo [blocking 1.1.9] comment
  */
 class Keyword_XML_Parser extends XML_Parser
 {

@@ -839,7 +839,7 @@ $this->_contextRegexps  = array(
             '#(\$\$?[a-zA-Z_][a-zA-Z0-9_]*)#', // This is a variable in PHP
             ),
         // index 1 is a string that strpos can use
-        // @todo maybe later let this string be a regex or something
+        // @todo [blocking 1.1.1] maybe later let this string be a regex or something
         1 => '$',
         // This is the special bit ;)
         // For each bracket pair in the regex above, you can specify a name and style for it
@@ -851,7 +851,7 @@ $this->_contextRegexps  = array(
             // in place for the first open bracket), then the
             // name and style for this part would not include
             // the beginning $
-            // NOTE:NEW AFTER 1.1.0a5: if third index of this array is true,
+            // Note:NEW AFTER 1.1.0a5: if third index of this array is true,
             // then you are saying: "Try to highlight as code first, if
             // it isn't code then use the styles in the second index".
             // This is really aimed at the OO support. For example, this

@@ -146,7 +146,7 @@ $this->_contextKeywords = array(
             'toolbar', 'top', 'type', 'unshift', 'unwatch', 'userAgent', 'value',
             'valueOf', 'visibility', 'vlinkColor', 'vspace', 'watch', 'which',
             'width', 'write', 'writeln', 'x', 'y', 'zIndex'
-            //@todo Some important and recent DOM additions for js seem to be ommited...
+            //@todo [blocking 1.1.5] Some important and recent DOM additions for js seem to be ommited...
         ),
         1 => $CONTEXT . '/methods',
         2 => 'color:#933;',

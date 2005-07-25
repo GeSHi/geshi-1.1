@@ -114,7 +114,7 @@ class GeSHiCodeContext extends GeSHiContext
     
     /**
      * Whether this code context has finished loading yet
-	 * @todo Do this by static variable?
+	 * @todo [blocking 1.1.1] Do this by static variable?
      */
     var $_codeContextLoaded = false;
      
@@ -161,11 +161,11 @@ class GeSHiCodeContext extends GeSHiContext
      */
      function loadStyleData ()
      {
-        // @todo Skip if already loaded???
+        // @todo [blocking 1.1.1] Skip if already loaded???
         // Set styles for keywords
         //geshi_dbg('Loading style data for context ' . $this->getName(), GESHI_DBG_PARSE);
-        // @todo Style data for infectious context loaded many times, could be reduced to one?
-        //@todo array_keys loop construct if possible
+        // @todo [blocking 1.1.1] Style data for infectious context loaded many times, could be reduced to one?
+        //@todo [blocking 1.1.1] array_keys loop construct if possible
         foreach ($this->_contextKeywords as $keyword_group_array) {
             $this->_styler->setStyle($keyword_group_array[1], $keyword_group_array[2]);
         }
@@ -269,7 +269,7 @@ class GeSHiCodeContext extends GeSHiContext
                     // part of the code context 
                     } elseif (isset($this->_contextRegexps[$data[1]][2][$key])) {
                         // this may end up as array(array(match,name),array(match,name),array..)
-                        //@todo may need to pass the first char of next context here if it's at the end...
+                        //@todo [blocking 1.1.1] may need to pass the first char of next context here if it's at the end...
                         $parse_data = $this->_codeContextHighlight($match);
                         foreach ($parse_data as $pdata) { 
                             $regex_replacements[$data[0]][] = $pdata;
@@ -520,7 +520,7 @@ class GeSHiCodeContext extends GeSHiContext
     /**
      * Turns keywords into <a href="url">>keyword<</a> if needed
      *
-     * @todo This method still needs to listen to set_link_target, set_link_styles etc
+     * @todo [blocking 1.1.5] This method still needs to listen to set_link_target, set_link_styles etc
      */
     function _getURL ($keyword, $earliest_keyword_group)
     {

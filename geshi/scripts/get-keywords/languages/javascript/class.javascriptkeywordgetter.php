@@ -106,7 +106,7 @@ class javascriptKeywordGetterStrategy extends KeywordGetterStrategy
         }
         
         $keywords =& $xml_parser->getKeywords();
-        //@todo move missedkeywords functionality into common place
+        //@todo [blocking 1.1.1] move missedkeywords functionality into common place
         // as well as unique and sorts
         if (isset($this->_missedKeywords[$keyword_group])) {
             $keywords = array_merge($keywords, $this->_missedKeywords[$keyword_group]);
