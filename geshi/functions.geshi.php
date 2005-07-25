@@ -151,7 +151,6 @@ function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = 
     //if ( DEBUG ) echo "    length of replaced string: $length, pos of replace string: " . strpos($str, $foo) . "\n";
 
     // ADD SOME MORE: Return matching table (?)
-    // @todo Don't generate table if not needed
     if ($need_table) {
         preg_match_all($regex, $string, $matches);
         //$table = $matches;
@@ -220,7 +219,7 @@ function geshi_use_doubles ($prefix)
 }
 
 
-// @todo fix this up
+// @todo [blocking 1.1.9] fix this up
 // +----------------------------------------------------------------------+
 // | PHP Version 4                                                        |
 // +----------------------------------------------------------------------+
