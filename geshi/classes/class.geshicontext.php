@@ -578,10 +578,17 @@ class GeSHiContext
      */
     function _getContextEndData ($code, $context_open_key, $context_opener, $beginning_of_context)
     {
-        geshi_dbg('GeSHiContext::_getContextEndData(' . $this->_contextName . ', ' . $context_open_key . ', ' . $context_opener . ', ' . $beginning_of_context . ')', GESHI_DBG_API | GESHI_DBG_PARSE);
+        geshi_dbg('GeSHiContext::_getContextEndData(' . $this->_contextName . ', ' . $context_open_key . ', '
+        	. $context_opener . ', ' . $beginning_of_context . ')', GESHI_DBG_API | GESHI_DBG_PARSE);
         $context_end_pos = false;
         $context_end_len = -1;
         $context_end_dlm = '';
+        
+        // Bail out if context open key tells us that there is no ender for this context
+        if (-1 == $context_open_key) {
+        	geshi_dbg('  no opener so no ender', GESHI_DBG_PARSE);
+        	return false;
+        }
         
         foreach ($this->_contextDelimiters[$context_open_key][1] as $ender) {
             geshi_dbg('  Checking ender: ' . str_replace("\n", '\n', $ender), GESHI_DBG_PARSE, false);
