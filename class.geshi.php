@@ -39,6 +39,10 @@
  * @todo [blocking 1.1.1] OCCs should be able to modify their parent context
  * @todo [blocking 1.1.5] Language aliasing should be possible
  */
+
+/** GeSHi Version */
+define('GESHI_VERSION', '1.1.0alpha6');
+
 /** Set the correct directory separator */
 define('GESHI_DIR_SEPARATOR', ('WIN' != substr(PHP_OS, 0, 3)) ? '/' : '\\');
 
@@ -439,6 +443,29 @@ class GeSHi
      {
         geshi_dbg('GeSHi::setStyles(' . $selector . ', ' . $styles . ')', GESHI_DBG_API);
         $this->_styler->setStyle($selector, $styles);
+     }
+     
+     /**
+      * Returns the version of this GeSHi
+      * 
+      * @return string The version of this GeSHi
+      * @static
+      */
+     function getVersion ()
+     {
+     	geshi_dbg('GeSHi::getVersion()', GESHI_DBG_API);
+     	return GESHI_VERSION;
+     }
+     
+     /**
+      * Returns the version of this GeSHi
+      * 
+      * @return string The version of this GeSHi
+      * @deprecated in favour of {@link GeSHi::getVersion()}
+      */
+     function get_version ()
+     {
+     	return GeSHi::getVersion();
      }
 
     /**
