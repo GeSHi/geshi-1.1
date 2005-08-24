@@ -41,7 +41,8 @@ $this->_contextDelimiters = array(
 );
 
 $this->_styler->setStyle($CONTEXT, 'color:#f00;');
-$this->_contextStyleType = GESHI_STYLE_NONE;
+//$this->_contextStyleType = GESHI_STYLE_NONE;
 $this->_delimiterParseData = GESHI_CHILD_PARSE_NONE;
+$this->_overridingChildContext =& new GeSHiCodeContext('codeworker', 'cwt');
 
 ?>
