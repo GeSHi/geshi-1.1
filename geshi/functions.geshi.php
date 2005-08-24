@@ -126,7 +126,7 @@ function geshi_can_include ($file_name)
  */
 function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = false, $need_table = false)
 {
-    geshi_dbg('Checking haystack: ' . $haystack . ' against needle ' . $needle . ' (' . $offset . ')',GESHI_DBG_PARSE, false);
+    //geshi_dbg('Checking haystack: ' . $haystack . ' against needle ' . $needle . ' (' . $offset . ')',GESHI_DBG_PARSE, false);
     if ('REGEX' != substr($needle, 0, 5)) {
         if (!$case_sensitive) {
             return array('pos' => stripos($haystack, $needle, $offset), 'len' => strlen($needle));
@@ -170,6 +170,7 @@ function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = 
  * 
  * @param string The prefix to use for the name of this number match
  * @return array
+ * @todo [blocking 1.1.0] Handle Int64 example (4 is highlighted...)
  */
 function geshi_use_integers ($prefix)
 {
