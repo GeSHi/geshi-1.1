@@ -33,7 +33,7 @@
  */
 
 /** Get the GeSHiStringContext class */
-require GESHI_CLASSES_ROOT . 'class.geshistringcontext.php';
+require_once GESHI_CLASSES_ROOT . 'class.geshistringcontext.php';
 
 $this->_childContexts = array(
     new GeSHiContext('codeworker',  $DIALECT, 'common/multi_comment'),
@@ -115,4 +115,12 @@ $this->_contextRegexps  = array(
     2 => geshi_use_integers($CONTEXT)
 );
 
+$this->_objectSplitters = array(
+    0 => array(
+        0 => array('.'),
+        1 => $CONTEXT . '/oodynamic',
+        2 => 'color:#559;',
+        3 => true // Check that matched method isn't a keyword first
+    )
+);
 ?>
