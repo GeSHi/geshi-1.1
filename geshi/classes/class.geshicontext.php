@@ -309,6 +309,7 @@ class GeSHiContext
     {
         geshi_dbg('*** GeSHiContext::parseCode(' . $this->_contextName . ') ***', GESHI_DBG_PARSE);
         geshi_dbg('CODE: ' . str_replace("\n", "\r", substr($code, 0, 100)) . "<<<<<\n", GESHI_DBG_PARSE);
+        if ($context_start_delimiter) geshi_dbg('Delimiter: ' . $context_start_delimiter, GESHI_DBG_PARSE);
         // Skip empty/almost empty contexts
         if (!$code || ' ' == $code) {
             $this->_addParseData($code);
@@ -400,6 +401,8 @@ class GeSHiContext
                 ///The "+ len" can be manipulated to do starter and ender data
                 if (!$earliest_context_data['con']->shouldParseStarter()) {
                      $earliest_context_data['pos'] += $earliest_context_data['len'];
+                     //BUGFIX: null out dlm so it doesn't squash the actual rest of context
+                     $earliest_context_data['dlm'] = '';
                 }
                                 
                 // We should parseCode() the substring.
