@@ -599,9 +599,14 @@ class GeSHiContext
             geshi_dbg(' converted to ' . $ender, GESHI_DBG_PARSE);
              
             $position = geshi_get_position($code, $ender);
-            //geshi_dbg('    Ender ' . $ender . ': ' . print_r($position, true), GESHI_DBG_PARSE);
+            geshi_dbg('    Ender ' . $ender . ': ' . print_r($position, true), GESHI_DBG_PARSE);
             $length   = $position['len'];
             $position = $position['pos'];
+            
+            // BUGFIX:skip around crap starters
+            if (false === $position) {
+                continue;
+            }
             
             if ((false === $context_end_pos) || ($position < $context_end_pos) || ($position == $context_end_pos && strlen($ender) > $context_end_len)) {
                 $context_end_pos = $position;
