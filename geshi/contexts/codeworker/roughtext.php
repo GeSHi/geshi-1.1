@@ -1,10 +1,10 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  *  This file is part of GeSHi.
  *
  *  GeSHi is free software; you can redistribute it and/or modify
@@ -29,12 +29,22 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
- * 
+ *
  */
 
 $this->_contextDelimiters = array(
     0 => array(
         0 => array('REGEX#generate\s*\(\s*\{#'),
+        1 => array('}'),
+        2 => false
+    )
+    1 => array(
+        0 => array('REGEX#generateString\s*\(\s*\{#'),
+        1 => array('}'),
+        2 => false
+    )
+    2 => array(
+        0 => array('REGEX#expand\s*\(\s*\{#'),
         1 => array('}'),
         2 => false
     )
