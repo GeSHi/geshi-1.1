@@ -39,6 +39,7 @@
  * @todo [blocking 1.1.1] OCCs should be able to modify their parent context
  * @todo [blocking 1.1.5] Language aliasing should be possible
  * @todo [blocking 1.1.0] Better Delphi and Codeworker support
+ * @todo [blocking 1.1.0] Who controls the style of an OCC? The parent or child?
  */
 
 /** GeSHi Version */
