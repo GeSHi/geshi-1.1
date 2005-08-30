@@ -37,12 +37,12 @@ $this->_contextDelimiters = array(
         0 => array('REGEX#generate\s*\(\s*\{#'),
         1 => array('}'),
         2 => false
-    )
+    ),
     1 => array(
         0 => array('REGEX#generateString\s*\(\s*\{#'),
         1 => array('}'),
         2 => false
-    )
+    ),
     2 => array(
         0 => array('REGEX#expand\s*\(\s*\{#'),
         1 => array('}'),
