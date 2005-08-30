@@ -37,7 +37,9 @@
  * 
  * [notes about language]
  * 
- * [notes about this implementation of the language]
+ * This implementation of delphi uses it's own version of ASM. It might
+ * be the case in the future that another version of ASM is similar enough
+ * for it to be used instead of the current delphi-specific one.
  * 
  */
 
