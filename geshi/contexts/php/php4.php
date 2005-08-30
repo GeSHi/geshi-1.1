@@ -57,7 +57,7 @@ $this->_childContexts = array(
     // PHP single comment, with # starter and end-php-context ender
     new GeSHiContext('php',  $DIALECT, 'single_comment'),
     // Use common multi comment since it is a PHP comment...
-    new GeSHiContext('php',  $DIALECT, 'multi_comment'),
+    new GeSHiContext('php',  $DIALECT, 'common/multi_comment'),
     new GeSHiContext('php',  $DIALECT, 'doxygen')
 );
 
