@@ -36,8 +36,8 @@ $this->_childContexts = array(
     new GeSHiContext('delphi',  $DIALECT, 'multi_comment'),
     new GeSHiContext('delphi', $DIALECT, 'common/single_comment'),
     new GeSHiContext('delphi', $DIALECT, 'common/single_string_eol'),
-    new GeSHiContext('delphi', $DIALECT, 'preprocessor')
-    //@todo inline asm
+    new GeSHiContext('delphi', $DIALECT, 'preprocessor'),
+    new GeSHiCodeContext('delphi', $DIALECT, 'asm')
 );
 
 $this->_styler->setStyle($CONTEXT, 'color:#000;');
@@ -46,12 +46,13 @@ $this->_contextKeywords = array(
     0 => array(
         0 => array(
             //@todo get keywords normal way
-            'function', 'begin', 'end', 'if', 'else', 'div', 'var', 'string', 'type', 'record',
+            'function', 'begin', 'end', 'if', 'then', 'else', 'div', 'var', 'string', 'type', 'record',
             'array', 'of', 'const', 'case', 'in', 'and', 'nil', 'try', 'finally', 'shr', 'while',
-            'do', 'asm', 'for', 'to', 'procedure', 'shl', 'with', 'repeat', 'until', 'unit' 
+            'do', 'asm', 'for', 'to', 'procedure', 'shl', 'with', 'repeat', 'until', 'unit',
+            'interface', 'uses', 'implementation', 'or' 
         ),
         1 => $CONTEXT . '/keywords',
-        2 => 'color:#db9;font-weight:bold;',
+        2 => 'color:#ca8;font-weight:bold;',
         3 => false,
         4 => ''
     )
@@ -60,19 +61,47 @@ $this->_contextKeywords = array(
 $this->_contextSymbols  = array(
     0 => array(
         0 => array(
-            //@todo which symbols?
-                '|', '=', '!', ':', '(', ')', ',', '<', '>', '&', '$', '+', '-', '*', '/',
-                '{', '}', ';', '[', ']', '~', '?'
+            '+', '-', '*', '/'
             ),
-        1 => $CONTEXT . '/sym',
+        1 => $CONTEXT . '/mathsym',
+        2 => 'color:#008000;'
+        ),
+    1 => array(
+        0 => array(
+            ':', ';', '@'
+            ),
+        1 => $CONTEXT . '/ctrlsym',
+        2 => 'color:#008000;'
+        ),
+    2 => array(
+        0 => array(
+            '<', '=', '>'
+            ),
+        1 => $CONTEXT . '/cmpsym',
+        2 => 'color:#008000;'
+        ),
+    3 => array(
+        0 => array(
+            '(', ')', '[', ']'
+            ),
+        1 => $CONTEXT . '/brksym',
+        2 => 'color:#008000;'
+        ),
+    4 => array(
+        0 => array(
+            '.', '^'
+            ),
+        1 => $CONTEXT . '/oopsym',
         2 => 'color:#008000;'
         )
+//                        '|', '=', '!', ':', '(', ')', ',', '<', '>', '&', '$', '+', '-', '*', '/',
+//                '{', '}', ';', '[', ']', '~', '?'
 );
 
 $this->_contextRegexps  = array(
     0 => array(
         0 => array(
-            '/(#[0-9]+)/'
+            '/(#\$[0-9]+)/'
         ),
         1 => '#',
         2 => array(
@@ -81,7 +110,7 @@ $this->_contextRegexps  = array(
     ),
     1 => array(
         0 => array(
-            '/(\$[0-9a-fA-F]+)/'
+            '/(\$[0-9a-fA-F_]+)/'
         ),
         1 => '$',
         2 => array(
