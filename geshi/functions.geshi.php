@@ -176,7 +176,7 @@ function geshi_use_integers ($prefix)
 {
     return array(
         0 => array(
-            '#([^a-zA-Z_])([-]?[0-9]+)#'
+            '#([^a-zA-Z_0-9])([-]?[0-9]+)#'
             ),
         1 => '',
         2 => array(
