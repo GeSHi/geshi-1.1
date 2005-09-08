@@ -666,6 +666,7 @@ class GeSHi
         // $this->_data should hold an array(
         //   0 => array(0=>string of code, 1=> context name identifier
         $result = '';
+        // @todo [blocking 1.1.0] add _styler member to GeSHi class
         $data = $this->_styler->getParseData();
         // TO BE REMOVED from stable release
         if (GESHI_DBG & GESHI_DBG_PARSE) {
@@ -691,7 +692,7 @@ class GeSHi
                 $result .= '<a href="' . $token[2] . '">';
             }
             $result .= '<span style="' . $this->_styler->getStyle($token[1]) . '" ';
-            $result .= 'class="' . str_replace(array('/', '_'), '-', $token[1]) . '" ';
+//            $result .= 'class="' . str_replace(array('/', '_'), '-', $token[1]) . '" ';
             $result .= 'title="' . $token[1] . '">' . htmlspecialchars($token[0]) . '</span>';
             if ($token[2]) {
                 // there's a URL associated with this token
@@ -701,8 +702,8 @@ class GeSHi
         $result .= '</pre>';
         
         // @todo [blocking 1.1.1] Evaluate feasability and get working if possible the functionality below...
-        $result = preg_replace('#([^"])(((https?)|(ftp))://[a-z0-9\-]+\.([a-z0-9\-\.]+)+/?([a-zA-Z0-9\.\-_%]+/?)*\??([a-zA-Z0-9=&\[\];%]+)?(\#[a-zA-Z0-9\-_]+)?)#', '\\1<a href="\\2">\\2</a>', $result);
-        $result = preg_replace('#([a-z0-9\._\-]+@[[a-z0-9\-\.]+[a-z]+)#si', '<a href="mailto:\\1">\\1</a>', $result);
+        //$result = preg_replace('#([^"])(((https?)|(ftp))://[a-z0-9\-]+\.([a-z0-9\-\.]+)+/?([a-zA-Z0-9\.\-_%]+/?)*\??([a-zA-Z0-9=&\[\];%]+)?(\#[a-zA-Z0-9\-_]+)?)#', '\\1<a href="\\2">\\2</a>', $result);
+        //$result = preg_replace('#([a-z0-9\._\-]+@[[a-z0-9\-\.]+[a-z]+)#si', '<a href="mailto:\\1">\\1</a>', $result);
                 
         return $result;        
     }
