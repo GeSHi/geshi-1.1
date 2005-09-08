@@ -40,7 +40,7 @@ $this->_contextDelimiters = array(
 	),
     1 => array(
         0 => array('(*'),
-        1 => array('*}'),
+        1 => array('*)'),
         2 => false
     )
 );
