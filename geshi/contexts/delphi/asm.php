@@ -69,7 +69,17 @@ $this->_contextSymbols  = array(
             ),
         1 => $CONTEXT . '/sym',
         2 => 'color:#008000;'
-        ),
+        )
+);
+
+$this->_contextRegexps  = array(
+    0 => array(
+        0 => array('#([a-zA-Z]+:)#'),
+        1 => ':',
+        2 => array(
+            1 => array($CONTEXT . '/label', 'color:#933;', false)
+        )
+    ),
     1 => array(
         0 => array(
             '/(\$[0-9a-fA-F_]+)/'
@@ -80,16 +90,6 @@ $this->_contextSymbols  = array(
         )
     ),
     2 => geshi_use_integers($CONTEXT)
-);
-
-$this->_contextRegexps  = array(
-    0 => array(
-        0 => array('#([a-zA-Z]+:)#'),
-        1 => ':',
-        2 => array(
-            1 => array($CONTEXT . '/label', 'color:#933;', false)
-        )
-    )
 );
 
 $this->_objectSplitters = array(
