@@ -148,6 +148,7 @@ function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = 
 
     // ADD SOME MORE: Return matching table (?)
     if ($need_table) {
+        $matches = array();
         preg_match_all($regex, $string, $matches);
         //$table = $matches;
         $i = 0;
