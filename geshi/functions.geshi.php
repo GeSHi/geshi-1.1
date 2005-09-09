@@ -142,13 +142,9 @@ function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = 
     
     $foo = microtime();
     $foo_len = strlen($foo);
-    //if ( DEBUG ) echo "    md5: $foo\n";
     $len = strlen($string);
-    //if ( DEBUG ) echo "    length of \$string: $len\n";
     $str = preg_replace($regex, $foo, $string, 1);
-    //if ( DEBUG ) echo "    new replaced string: " . htmlspecialchars($str) . "\n";
     $length = $len - (strlen($str) - $foo_len);
-    //if ( DEBUG ) echo "    length of replaced string: $length, pos of replace string: " . strpos($str, $foo) . "\n";
 
     // ADD SOME MORE: Return matching table (?)
     if ($need_table) {
