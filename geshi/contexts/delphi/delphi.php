@@ -32,6 +32,7 @@
  * 
  */
 
+// @todo [blocking 1.1.1] Rename OCCs with parent's name in front for theming
 $this->_childContexts = array(
     new GeSHiContext('delphi',  $DIALECT, 'multi_comment'),
     new GeSHiContext('delphi', $DIALECT, 'common/single_comment'),
