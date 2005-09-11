@@ -1,10 +1,10 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  *  This file is part of GeSHi.
  *
  *  GeSHi is free software; you can redistribute it and/or modify
@@ -47,13 +47,106 @@ $this->_contextKeywords = array(
     0 => array(
         0 => array(
             //@todo get keywords normal way
-            'function', 'begin', 'end', 'if', 'then', 'else', 'div', 'var', 'string', 'type', 'record',
-            'array', 'of', 'const', 'case', 'in', 'and', 'nil', 'try', 'finally', 'shr', 'while',
-            'do', 'asm', 'for', 'to', 'procedure', 'shl', 'with', 'repeat', 'until', 'unit',
-            'interface', 'uses', 'implementation', 'or' 
+            //@todo handle special keyword cases for exports, read, write, index, default, stored, nodefault, message ...
+            'And',
+            'Array',
+            'As',
+            'Asm',
+            'Assembler',
+            'At',
+            'Begin',
+            'Case',
+            'Class',
+            'Const',
+            'Constructor',
+            'Contains',
+            'Destructor',
+            'Div',
+            'Do',
+            'DownTo',
+            'Else',
+            'End',
+            'Except',
+            'File',
+            'Finalization',
+            'Finally',
+            'For',
+            'Function',
+            'Goto',
+            'If',
+            'Implementation',
+            'In',
+            'Inherited',
+            'Initialization',
+            'Interface',
+            'Is',
+            'Mod',
+            'Nil',
+            'Not',
+            'Object',
+            'Of',
+            'On',
+            'Or',
+            'Packed',
+            'Package',
+            'Procedure',
+            'Program',
+            'Property',
+            'Raise',
+            'Record',
+            'Requires',
+            'Repeat',
+            'Set',
+            'Shl',
+            'Shr',
+            'Then',
+            'ThreadVar',
+            'To',
+            'Try',
+            'Type',
+            'Unit',
+            'Until',
+            'Uses',
+            'Var',
+            'While',
+            'With',
+            'Xor',
+
+            'Private', 'Protected', 'Public', 'Published',
+
+            'Virtual', 'Abstract', 'Override', 'Overload',
+
+            'cdecl', 'stdcall', 'register', 'pascal', 'safecall', 'near', 'far'
         ),
         1 => $CONTEXT . '/keywords',
-        2 => 'color:#ca8;font-weight:bold;',
+        2 => 'color:#f00; font-weight:bold;',
+        3 => false,
+        4 => ''
+    ),
+    1 => array(
+        0 => array(
+            //@todo get keywords normal way
+            'Boolean', 'ByteBool', 'LongBool', 'WordBool', 'Bool',
+
+            'Byte',  'SmallInt',
+            'ShortInt', 'Word',
+            'Integer', 'Cardinal',
+            'LongInt', 'DWORD',
+            'Int64',
+
+            'Single', 'Double', 'Extended',
+            'Real48', 'Real', 'Comp', 'Currency',
+
+            'Pointer',
+
+            'Char', 'AnsiChar', 'WideChar',
+            'PChar', 'PAnsiChar', 'PWideChar',
+            'String', 'AnsiString', 'WideString',
+
+            'THandle'
+        ),
+        1 => $CONTEXT . '/keytypes',
+        2 => 'color:#000; font-weight:bold;',
         3 => false,
         4 => ''
     )
@@ -69,7 +162,7 @@ $this->_contextSymbols  = array(
         ),
     1 => array(
         0 => array(
-            ':', ';', '@'
+            ':', ';', ','
             ),
         1 => $CONTEXT . '/ctrlsym',
         2 => 'color:#008000;'
@@ -90,7 +183,7 @@ $this->_contextSymbols  = array(
         ),
     4 => array(
         0 => array(
-            '.', '^'
+            '.', '@', '^'
             ),
         1 => $CONTEXT . '/oopsym',
         2 => 'color:#008000;'
@@ -102,7 +195,7 @@ $this->_contextSymbols  = array(
 $this->_contextRegexps  = array(
     0 => array(
         0 => array(
-            '/(#\$[0-9]+)/'
+            '/(#[0-9]+)/'
         ),
         1 => '#',
         2 => array(
@@ -111,6 +204,15 @@ $this->_contextRegexps  = array(
     ),
     1 => array(
         0 => array(
+            '/(#\$[0-9a-fA-F]+)/'
+        ),
+        1 => '#',
+        2 => array(
+            1 => array($CONTEXT . '/charhex', 'color:#db9;', false)
+        )
+    ),
+    2 => array(
+        0 => array(
             '/(\$[0-9a-fA-F_]+)/'
         ),
         1 => '$',
@@ -118,8 +220,8 @@ $this->_contextRegexps  = array(
             1 => array($CONTEXT . '/hex', 'color: #2bf;', false)
         )
     ),
-    2 => geshi_use_doubles($CONTEXT),
-    3 => geshi_use_integers($CONTEXT)
+    3 => geshi_use_doubles($CONTEXT),
+    4 => geshi_use_integers($CONTEXT)
 );
 
 $this->_objectSplitters = array(
