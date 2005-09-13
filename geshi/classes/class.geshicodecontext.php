@@ -211,6 +211,7 @@ class GeSHiCodeContext extends GeSHiContext
             if (!$regex_data[1] || false !== strpos($code, $regex_data[1])) {
                 foreach ($regex_data[0] as $regex) {
                     geshi_dbg('    Trying regex ' . $regex . '... ', GESHI_DBG_PARSE, false);
+                    $matches = array();
                     preg_match_all($regex, $code, $matches);
                     geshi_dbg('found ' . count($matches[0]) . ' matches', GESHI_DBG_PARSE);
                     
@@ -373,6 +374,7 @@ class GeSHiCodeContext extends GeSHiContext
                         $next_part_is_keyword = (strtolower($keyword_array[0]) == strtolower(substr($code, $i, strlen($keyword_array[0]))));
                     }
 
+                    geshi_dbg("  next part is keyword: $next_part_is_keyword", GESHI_DBG_PARSE);
                     // OPTIMIZE (use lookup to remember for length $foo(1 => false, 2 => false) so if kw is length 1 or 2 then don't need to check
                     //$after_allowed = ( !in_array(substr($code, $i + strlen($keyword_array[0]), 1), array_diff($this->_context_characters_disallowed_after_keywords, $this->_context_keywords[$keyword_array[1]][4])) );
                     // the first char of the keyword is always $char???
@@ -382,9 +384,9 @@ class GeSHiCodeContext extends GeSHiContext
                     if ( '' == $after_char ) $after_char = $first_char_of_next_context;
 
                     geshi_dbg("  after char to check: |$after_char|", GESHI_DBG_PARSE);
-                    $after_allowed = (!ctype_alpha(substr($code, $i + strlen($keyword_array[0]), 1)) ||
-                        (ctype_alpha(substr($code, $i + strlen($keyword_array[0]), 1)) &&
-                        !ctype_alpha($char)) );
+                    $after_allowed = ('' == $after_char || !ctype_alnum($after_char) ||
+                        (ctype_alnum($after_char) &&
+                        !ctype_alnum($char)) );
                     $after_allowed = ($after_allowed &&
                         !in_array($after_char, $this->_contextCharactersDisallowedAfterKeywords));
 
