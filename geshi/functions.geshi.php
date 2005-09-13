@@ -32,6 +32,11 @@
  * 
  */
 
+$GLOBALS['geshi_dbg_level'] = 0;
+function geshi_dbg_level ($level) {
+    $GLOBALS['geshi_dbg_level'] = $level;
+}
+
 /**
  * Handles debugging by printing a message according to current debug level,
  * mask of context and other things.
@@ -44,7 +49,7 @@
  */
 function geshi_dbg ($message, $context, $add_nl = true, $return_counts = false)
 {
-    if (GESHI_DBG & $context) {
+    if ((GESHI_DBG & $context) || ($GLOBALS['geshi_dbg_level'] & $context)) {
         //
         // Message can have the following symbols at start
         //
@@ -167,13 +172,12 @@ function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = 
  * 
  * @param string The prefix to use for the name of this number match
  * @return array
- * @todo [blocking 1.1.0] Handle Int64 example (4 is highlighted...)
  */
 function geshi_use_integers ($prefix)
 {
     return array(
         0 => array(
-            '#([^a-zA-Z_0-9])([-]?[0-9]+)#'
+            '#([^a-zA-Z_0-9])([-]?[0-9]+)([^a-zA-Z_0-9])#'
             ),
         1 => '',
         2 => array(
@@ -182,7 +186,8 @@ function geshi_use_integers ($prefix)
                 0 => $prefix . '/' . GESHI_NUM_INT,
                 1 => 'color:#11e;',
                 2 => false
-                )
+                ),
+            3 => true
             )
     );
 }
