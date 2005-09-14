@@ -341,6 +341,8 @@ class GeSHiCodeContext extends GeSHiContext
                 foreach ($regex_replacements[$i] as $replacement) {
                     $result[++$result_pointer] = $replacement;
                 }
+                // Allow keyword matching immediately after regular expressions
+                $keyword_match_allowed = true;
             }
             
             $char = substr($code, $i, 1);
@@ -434,8 +436,8 @@ class GeSHiCodeContext extends GeSHiContext
             /// If we move this to the end we might be able to get rid of the last one [DONE]
             /// The second test on the first line is a little contentious  - allows functions that don't
             /// start with an alpha character to be within other words, e.g abc<?php, where <?php is a kw
-            $last_char_is_alpha = ctype_alpha(substr($code, $i, 1));
-            $keyword_match_allowed = (!$last_char_is_alpha || ($last_char_is_alpha && !ctype_alpha($char)));
+            $last_char_is_alpha = ctype_alnum(substr($code, $i, 1));
+            $keyword_match_allowed = (!$last_char_is_alpha || ($last_char_is_alpha && !ctype_alnum($char)));
             $keyword_match_allowed = ($keyword_match_allowed && !in_array(substr($code, $i, 1),
                 $this->_contextCharactersDisallowedBeforeKeywords));
             geshi_dbg('  Keyword matching allowed: ' . $keyword_match_allowed, GESHI_DBG_PARSE);
