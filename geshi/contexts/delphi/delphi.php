@@ -29,7 +29,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
- * 
+ *
  */
 
 // @todo [blocking 1.1.1] Rename OCCs with parent's name in front for theming
@@ -38,7 +38,9 @@ $this->_childContexts = array(
     new GeSHiContext('delphi', $DIALECT, 'common/single_comment'),
     new GeSHiContext('delphi', $DIALECT, 'common/single_string_eol'),
     new GeSHiContext('delphi', $DIALECT, 'preprocessor'),
-    new GeSHiCodeContext('delphi', $DIALECT, 'asm')
+    new GeSHiCodeContext('delphi', $DIALECT, 'asm'),
+    new GeSHiCodeContext('delphi', $DIALECT, 'extern'),
+    new GeSHiCodeContext('delphi', $DIALECT, 'property')
 );
 
 $this->_styler->setStyle($CONTEXT, 'color:#000;');
@@ -52,7 +54,6 @@ $this->_contextKeywords = array(
             'Array',
             'As',
             'Asm',
-            'Assembler',
             'At',
             'Begin',
             'Case',
@@ -61,6 +62,7 @@ $this->_contextKeywords = array(
             'Constructor',
             'Contains',
             'Destructor',
+            'DispInterface',
             'Div',
             'Do',
             'DownTo',
@@ -80,8 +82,8 @@ $this->_contextKeywords = array(
             'Initialization',
             'Interface',
             'Is',
+            'Label',
             'Mod',
-            'Nil',
             'Not',
             'Object',
             'Of',
@@ -116,7 +118,9 @@ $this->_contextKeywords = array(
 
             'Virtual', 'Abstract', 'Override', 'Overload',
 
-            'cdecl', 'stdcall', 'register', 'pascal', 'safecall', 'near', 'far'
+            'cdecl', 'stdcall', 'register', 'pascal', 'safecall', 'near', 'far', 'varargs',
+
+            'assembler'
         ),
         1 => $CONTEXT . '/keywords',
         2 => 'color:#f00; font-weight:bold;',
@@ -149,7 +153,141 @@ $this->_contextKeywords = array(
         2 => 'color:#000; font-weight:bold;',
         3 => false,
         4 => ''
-    )
+    ),
+    
+    2 => array(
+        0 => array(
+            //@todo get keywords normal way
+            'nil',
+            'false', 'true'
+        ),
+        1 => $CONTEXT . '/keyidents',
+        2 => 'color:#000; font-weight:bold;',
+        3 => false,
+        4 => ''
+    ),
+
+    //Standard functions of Unit System
+    3 => array(
+        0 => array(
+            //@todo get keywords normal way
+            'Abs','AcquireExceptionObject','Addr','AnsiToUtf8','Append','ArcTan','Assert','Assigned','AssignFile',
+            'BeginThread','BlockRead','BlockWrite','Break','ChDir','Chr','Close','CloseFile','CompToCurrency',
+            'CompToDouble','Concat','Continue','Copy','Cos','Dec','Delete','Dispose','DoubleToComp','EndThread',
+            'EnumModules','EnumResourceModules','Eof','Eoln','Erase','ExceptAddr','ExceptObject','Exclude','Exit',
+            'Exp','FilePos','FileSize','FillChar','Finalize','FindClassHInstance','FindHInstance','FindResourceHInstance',
+            'Flush','Frac','FreeMem','Get8087CW','GetDir','GetLastError','GetMem','GetMemoryManager',
+            'GetModuleFileName','GetVariantManager','Halt','Hi','High','Inc','Include','Initialize','Insert',
+            'Int','IOResult','IsMemoryManagerSet','IsVariantManagerSet','Length','Ln','Lo','Low','MkDir','Move',
+            'New','Odd','OleStrToString','OleStrToStrVar','Ord','ParamCount','ParamStr','Pi','Pos','Pred','Ptr',
+            'PUCS4Chars','Random','Randomize','Read','ReadLn','ReallocMem','ReleaseExceptionObject','Rename',
+            'Reset','Rewrite','RmDir','Round','RunError','Seek','SeekEof','SeekEoln','Set8087CW','SetLength',
+            'SetLineBreakStyle','SetMemoryManager','SetString','SetTextBuf','SetVariantManager','Sin','SizeOf',
+            'Slice','Sqr','Sqrt','Str','StringOfChar','StringToOleStr','StringToWideChar','Succ','Swap','Trunc',
+            'Truncate','TypeInfo','UCS4StringToWideString','UnicodeToUtf8','UniqueString','UpCase','UTF8Decode',
+            'UTF8Encode','Utf8ToAnsi','Utf8ToUnicode','Val','VarArrayRedim','VarClear','WideCharLenToString',
+            'WideCharLenToStrVar','WideCharToString','WideCharToStrVar','WideStringToUCS4String','Write','WriteLn'
+        ),
+        1 => $CONTEXT . '/stdprocs/system',
+        2 => 'color:#444;',
+        3 => false,
+        4 => ''
+    ),
+
+    //Standard functions of Unit SysUtils
+    4 => array(
+        0 => array(
+            //@todo get keywords normal way
+            'Abort','AddExitProc','AddTerminateProc','AdjustLineBreaks','AllocMem','AnsiCompareFileName',
+            'AnsiCompareStr','AnsiCompareText','AnsiDequotedStr','AnsiExtractQuotedStr','AnsiLastChar',
+            'AnsiLowerCase','AnsiLowerCaseFileName','AnsiPos','AnsiQuotedStr','AnsiSameStr','AnsiSameText',
+            'AnsiStrComp','AnsiStrIComp','AnsiStrLastChar','AnsiStrLComp','AnsiStrLIComp','AnsiStrLower',
+            'AnsiStrPos','AnsiStrRScan','AnsiStrScan','AnsiStrUpper','AnsiUpperCase','AnsiUpperCaseFileName',
+            'AppendStr','AssignStr','Beep','BoolToStr','ByteToCharIndex','ByteToCharLen','ByteType',
+            'CallTerminateProcs','ChangeFileExt','CharLength','CharToByteIndex','CharToByteLen','CompareMem',
+            'CompareStr','CompareText','CreateDir','CreateGUID','CurrentYear','CurrToStr','CurrToStrF','Date',
+            'DateTimeToFileDate','DateTimeToStr','DateTimeToString','DateTimeToSystemTime','DateTimeToTimeStamp',
+            'DateToStr','DayOfWeek','DecodeDate','DecodeDateFully','DecodeTime','DeleteFile','DirectoryExists',
+            'DiskFree','DiskSize','DisposeStr','EncodeDate','EncodeTime','ExceptionErrorMessage',
+            'ExcludeTrailingBackslash','ExcludeTrailingPathDelimiter','ExpandFileName','ExpandFileNameCase',
+            'ExpandUNCFileName','ExtractFileDir','ExtractFileDrive','ExtractFileExt','ExtractFileName',
+            'ExtractFilePath','ExtractRelativePath','ExtractShortPathName','FileAge','FileClose','FileCreate',
+            'FileDateToDateTime','FileExists','FileGetAttr','FileGetDate','FileIsReadOnly','FileOpen','FileRead',
+            'FileSearch','FileSeek','FileSetAttr','FileSetDate','FileSetReadOnly','FileWrite','FinalizePackage',
+            'FindClose','FindCmdLineSwitch','FindFirst','FindNext','FloatToCurr','FloatToDateTime',
+            'FloatToDecimal','FloatToStr','FloatToStrF','FloatToText','FloatToTextFmt','FmtLoadStr','FmtStr',
+            'ForceDirectories','Format','FormatBuf','FormatCurr','FormatDateTime','FormatFloat','FreeAndNil',
+            'GetCurrentDir','GetEnvironmentVariable','GetFileVersion','GetFormatSettings',
+            'GetLocaleFormatSettings','GetModuleName','GetPackageDescription','GetPackageInfo','GUIDToString',
+            'IncAMonth','IncludeTrailingBackslash','IncludeTrailingPathDelimiter','IncMonth','InitializePackage',
+            'InterlockedDecrement','InterlockedExchange','InterlockedExchangeAdd','InterlockedIncrement',
+            'IntToHex','IntToStr','IsDelimiter','IsEqualGUID','IsLeapYear','IsPathDelimiter','IsValidIdent',
+            'Languages','LastDelimiter','LoadPackage','LoadStr','LowerCase','MSecsToTimeStamp','NewStr',
+            'NextCharIndex','Now','OutOfMemoryError','QuotedStr','RaiseLastOSError','RaiseLastWin32Error',
+            'RemoveDir','RenameFile','ReplaceDate','ReplaceTime','SafeLoadLibrary','SameFileName','SameText',
+            'SetCurrentDir','ShowException','Sleep','StrAlloc','StrBufSize','StrByteType','StrCat',
+            'StrCharLength','StrComp','StrCopy','StrDispose','StrECopy','StrEnd','StrFmt','StrIComp',
+            'StringReplace','StringToGUID','StrLCat','StrLComp','StrLCopy','StrLen','StrLFmt','StrLIComp',
+            'StrLower','StrMove','StrNew','StrNextChar','StrPas','StrPCopy','StrPLCopy','StrPos','StrRScan',
+            'StrScan','StrToBool','StrToBoolDef','StrToCurr','StrToCurrDef','StrToDate','StrToDateDef',
+            'StrToDateTime','StrToDateTimeDef','StrToFloat','StrToFloatDef','StrToInt','StrToInt64',
+            'StrToInt64Def','StrToIntDef','StrToTime','StrToTimeDef','StrUpper','Supports','SysErrorMessage',
+            'SystemTimeToDateTime','TextToFloat','Time','GetTime','TimeStampToDateTime','TimeStampToMSecs',
+            'TimeToStr','Trim','TrimLeft','TrimRight','TryEncodeDate','TryEncodeTime','TryFloatToCurr',
+            'TryFloatToDateTime','TryStrToBool','TryStrToCurr','TryStrToDate','TryStrToDateTime','TryStrToFloat',
+            'TryStrToInt','TryStrToInt64','TryStrToTime','UnloadPackage','UpperCase','WideCompareStr',
+            'WideCompareText','WideFmtStr','WideFormat','WideFormatBuf','WideLowerCase','WideSameStr',
+            'WideSameText','WideUpperCase','Win32Check','WrapText'
+        ),
+        1 => $CONTEXT . '/stdprocs/sysutils',
+        2 => 'color:#444;',
+        3 => false,
+        4 => ''
+    ),
+
+    //Standard functions of Unit Classes
+    5 => array(
+        0 => array(
+            //@todo get keywords normal way
+            'ActivateClassGroup','AllocateHwnd','BinToHex','CheckSynchronize','CollectionsEqual','CountGenerations',
+            'DeallocateHwnd','EqualRect','ExtractStrings','FindClass','FindGlobalComponent','GetClass',
+            'GroupDescendantsWith','HexToBin','IdentToInt','InitInheritedComponent','IntToIdent','InvalidPoint',
+            'IsUniqueGlobalComponentName','LineStart','ObjectBinaryToText','ObjectResourceToText',
+            'ObjectTextToBinary','ObjectTextToResource','PointsEqual','ReadComponentRes','ReadComponentResEx',
+            'ReadComponentResFile','Rect','RegisterClass','RegisterClassAlias','RegisterClasses',
+            'RegisterComponents','RegisterIntegerConsts','RegisterNoIcon','RegisterNonActiveX','SmallPoint',
+            'StartClassGroup','TestStreamFormat','UnregisterClass','UnregisterClasses','UnregisterIntegerConsts',
+            'UnregisterModuleClasses','WriteComponentResFile'
+        ),
+        1 => $CONTEXT . '/stdprocs/classes',
+        2 => 'color:#444;',
+        3 => false,
+        4 => ''
+    ),
+
+    //Standard functions of Unit Math
+    6 => array(
+        0 => array(
+            //@todo get keywords normal way
+            'ArcCos', 'ArcCosh', 'ArcCot', 'ArcCotH', 'ArcCsc', 'ArcCscH', 'ArcSec', 'ArcSecH', 'ArcSin',
+            'ArcSinh', 'ArcTan2', 'ArcTanh', 'Ceil', 'CompareValue', 'Cosecant', 'Cosh', 'Cot', 'Cotan',
+            'CotH', 'Csc', 'CscH', 'CycleToDeg', 'CycleToGrad', 'CycleToRad', 'DegToCycle', 'DegToGrad',
+            'DegToRad', 'DivMod', 'DoubleDecliningBalance', 'EnsureRange', 'Floor', 'Frexp', 'FutureValue',
+            'GetExceptionMask', 'GetPrecisionMode', 'GetRoundMode', 'GradToCycle', 'GradToDeg', 'GradToRad',
+            'Hypot', 'InRange', 'InterestPayment', 'InterestRate', 'InternalRateOfReturn', 'IntPower',
+            'IsInfinite', 'IsNan', 'IsZero', 'Ldexp', 'LnXP1', 'Log10', 'Log2', 'LogN', 'Max', 'MaxIntValue',
+            'MaxValue', 'Mean', 'MeanAndStdDev', 'Min', 'MinIntValue', 'MinValue', 'MomentSkewKurtosis',
+            'NetPresentValue', 'Norm', 'NumberOfPeriods', 'Payment', 'PeriodPayment', 'Poly', 'PopnStdDev',
+            'PopnVariance', 'Power', 'PresentValue', 'RadToCycle', 'RadToDeg', 'RadToGrad', 'RandG', 'RandomRange',
+            'RoundTo', 'SameValue', 'Sec', 'Secant', 'SecH', 'SetExceptionMask', 'SetPrecisionMode', 'SetRoundMode',
+            'Sign', 'SimpleRoundTo', 'SinCos', 'Sinh', 'SLNDepreciation', 'StdDev', 'Sum', 'SumInt', 'SumOfSquares',
+            'SumsAndSquares', 'SYDDepreciation', 'Tan', 'Tanh', 'TotalVariance', 'Variance'
+        ),
+        1 => $CONTEXT . '/stdprocs/math',
+        2 => 'color:#444;',
+        3 => false,
+        4 => ''
+    ),
 );
 
 $this->_contextSymbols  = array(
@@ -213,7 +351,7 @@ $this->_contextRegexps  = array(
     ),
     2 => array(
         0 => array(
-            '/(\$[0-9a-fA-F_]+)/'
+            '/(\$[0-9a-fA-F]+)/'
         ),
         1 => '$',
         2 => array(
