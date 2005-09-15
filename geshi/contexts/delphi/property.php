@@ -40,14 +40,18 @@ $this->_contextDelimiters = array(
     )
 );
 
+
 $this->_childContexts = array(
-    new GeSHiContext('delphi', $CONTEXT, 'preprocessor'),
-    new GeSHiContext('delphi', $CONTEXT, 'multi_comment')
+    new GeSHiContext('delphi', $DIALECT, 'preprocessor'),
+    new GeSHiContext('delphi', $DIALECT, 'multi_comment'),
+    new GeSHiCodeContext('delphi', $DIALECT, 'property_index', 'delphi/' . $DIALECT)
 );
 
-$this->_styler->setStyle($CONTEXT, 'color:#000;');
-$this->_styler->setStartStyle($CONTEXT, 'color:#f00;font-weight:bold;');
-$this->_styler->setEndStyle($CONTEXT, 'color:#00f;');
+//$this->_styler->setStyle($CONTEXT, 'color:#000;');
+//$this->_styler->setStartStyle($CONTEXT, 'color:#f00;font-weight:bold;');
+//$this->_styler->setEndStyle($CONTEXT, 'color:#00f;');
+$this->_startName = 'keywords'; // highlight starter as if it was a keyword
+$this->_endName   = 'ctrlsym';  // highlight ender as if it was a ctrlsym
 
 $this->_contextKeywords = array(
     0 => array(
@@ -59,15 +63,42 @@ $this->_contextKeywords = array(
         2 => 'color:#f00; font-weight:bold;',
         3 => false,
         4 => ''
-        )
+        ),
+    1 => array(
+        0 => array(
+            //@todo get keywords normal way
+            'Boolean', 'ByteBool', 'LongBool', 'WordBool', 'Bool',
+
+            'Byte',  'SmallInt',
+            'ShortInt', 'Word',
+            'Integer', 'Cardinal',
+            'LongInt', 'DWORD',
+            'Int64',
+
+            'Single', 'Double', 'Extended',
+            'Real48', 'Real', 'Comp', 'Currency',
+
+            'Pointer',
+
+            'Char', 'AnsiChar', 'WideChar',
+            'PChar', 'PAnsiChar', 'PWideChar',
+            'String', 'AnsiString', 'WideString',
+
+            'THandle'
+        ),
+        1 => $CONTEXT . '/keytypes',
+        2 => 'color:#000; font-weight:bold;',
+        3 => false,
+        4 => ''
+    )
 );
 
 $this->_contextSymbols  = array(
     0 => array(
         0 => array(
-            ',', '[', ']', '.'
+            ':'
             ),
-        1 => $CONTEXT . '/sym',
+        1 => $CONTEXT . '/ctrlsym',
         2 => 'color:#008000;'
         )
 );
