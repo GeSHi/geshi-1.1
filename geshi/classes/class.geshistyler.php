@@ -70,77 +70,99 @@ class GeSHiStyler
      */
     var $_contextCacheData = array();
         
-    function setStyle ($context_name, $style)
+    function setStyle ($context_name, $style, $start_name = 'start', $end_name = 'end')
     {
         $this->_styleData[$context_name] = $style;
-        if (!isset($this->_styleData[$context_name . '/start'])) {
-           $this->setStartStyle($context_name, $style);
+        /*if (!isset($this->_styleData["$context_name/$start_name"])) {
+           $this->_styleData["$context_name/$start_name"] = $style;
         }
-        if (!isset($this->_styleData[$context_name . '/end'])) {
-           $this->setEndStyle($context_name, $style);
-        }
+        if (!isset($this->_styleData["$context_name/$end_name"])) {
+           $this->_styleData["$context_name/$end_name"] = $style;
+        }*/
     }
     
-    function setStartStyle ($context_name, $style)
+    /*function setStartStyle ($context_name, $style)
     {
-        $this->_styleData[$context_name . '/start'] = $style;
+        $this->_styleData["$context_name/$this->_startName"] = $style;
     }
     
-    function removeStyleData ($context_name)
+    function setStartName ($name)
+    {
+        $this->_startName = $name;
+    }*/
+    
+    function removeStyleData ($context_name, $context_start_name = 'start', $context_end_name = 'end')
     {
         unset($this->_styleData[$context_name]);
-        unset($this->_styleData[$context_name . '/start']);
-        unset($this->_styleData[$context_name . '/end']);
+        unset($this->_styleData["$context_name/$context_start_name"]);
+        unset($this->_styleData["$context_name/$context_end_name"]);
         //geshi_dbg('  removed style data for ' . $context_name, GESHI_DBG_PARSE);
     }
     
-    function setEndStyle ($context_name, $style)
+    /*function setEndStyle ($context_name, $style)
     {
-        $this->_styleData[$context_name . '/end'] = $style;
+        $this->_styleData["$context_name/$this->_endName"] = $style;
     }
+    
+    function setEndName ($name)
+    {
+        $this->_endName = $name;
+    }*/
     
     function getStyle ($context_name)
     {
         if (isset($this->_styleData[$context_name])) {
             return $this->_styleData[$context_name];
         }
+        // If style for starter/ender requested and we got here, use the default
+        if ('/end' == substr($context_name, -4)) {
+            $this->_styleData[$context_name] = $this->_styleData[substr($context_name, 0, -4)];
+            return $this->_styleData[$context_name]; 
+        }
+        if ('/start' == substr($context_name, -6)) {
+            $this->_styleData[$context_name] = $this->_styleData[substr($context_name, 0, -6)];
+            return $this->_styleData[$context_name]; 
+        }
+         
         //@todo [blocking 1.1.5] Make the default style for otherwise unstyled elements configurable
         $this->_styleData[$context_name] = 'color:#000;';
         return 'color:#000;';
     }
-    
+    /*
     function getStyleStart ($context_name)
     {
-        if (isset($this->_styleData[$context_name . '/start'])) {
-            return $this->_styleData[$context_name . '/start'];
+        if (isset($this->_styleData["$context_name/$this->_startName"])) {
+            return $this->_styleData["$context_name/$this->_startName"];
         }
-        $this->_styleData[$context_name . '/start'] = $this->getStyle($context_name);
-        return $this->_styleData[$context_name . '/start'];
+        $this->_styleData["$context_name/$this->_startName"] = $this->getStyle($context_name);
+        return $this->_styleData["$context_name/$this->_startName"];
     }
     
     function getStyleEnd ($context_name) 
     {
-        if (isset($this->_styleData[$context_name . '/end'])) {
-            return $this->_styleData[$context_name . '/end'];
+        if (isset($this->_styleData["$context_name/$this->_endName"])) {
+            return $this->_styleData["$context_name/$this->_endName"];
         }
-        $this->_styleData[$context_name . '/end'] = $this->getStyle($context_name);
-        return $this->_styleData[$context_name . '/start'];
-    }
-    
+        $this->_styleData["$context_name/$this->_endName"] = $this->getStyle($context_name);
+        return $this->_styleData["$context_name/$this->_endName"];
+    }*/
+    /*
     function startIsUnique ($context_name)
     {
-        return (isset($this->_styleData[$context_name . '/start']) && '' != $this->_styleData[$context_name . '/start']
-            && $this->_styleData[$context_name . '/start'] != $this->_styleData[$context_name]);
+        return (isset($this->_styleData["$context_name/$this->_startName"])
+            && '' != $this->_styleData["$context_name/$this->_startName"]
+            && $this->_styleData["$context_name/$this->_startName"] != $this->_styleData[$context_name]);
     } 
 
     function endIsUnique ($context_name)
     {
-        $r = (isset($this->_styleData[$context_name . '/end']) && '' != $this->_styleData[$context_name . '/end']
-            && $this->_styleData[$context_name . '/end'] != $this->_styleData[$context_name]);
+        $r = (isset($this->_styleData["$context_name/$this->_endName"])
+            && '' != $this->_styleData["$context_name/$this->_endName"]
+            && $this->_styleData["$context_name/$this->_endName"] != $this->_styleData[$context_name]);
         geshi_dbg('GeSHiStyler::endIsUnique(' . $context_name . ') = ' . $r, GESHI_DBG_PARSE);
         return $r;
     } 
-    
+    */
     function resetParseData ()
     {
         $this->_parseData        = null;
@@ -162,14 +184,14 @@ class GeSHiStyler
         }
     }
     
-    function addParseDataStart ($code, $context_name)
+    function addParseDataStart ($code, $context_name, $start_name = 'start')
     {
-    	$this->addParseData($code, $context_name . '/start');
+    	$this->addParseData($code, "$context_name/$start_name");
     }
     
-    function addParseDataEnd ($code, $context_name)
+    function addParseDataEnd ($code, $context_name, $end_name = 'end')
     {
-    	$this->addParseData($code, $context_name . '/end');
+    	$this->addParseData($code, "$context_name/$end_name");
     }
     
     function getParseData ()
