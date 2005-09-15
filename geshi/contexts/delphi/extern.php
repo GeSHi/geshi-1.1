@@ -46,14 +46,16 @@ $this->_contextDelimiters = array(
 );
 
 $this->_childContexts = array(
-    new GeSHiContext('delphi', $CONTEXT, 'preprocessor'),
-    new GeSHiContext('delphi', $CONTEXT, 'multi_comment'),
+    new GeSHiContext('delphi', $DIALECT, 'preprocessor'),
+    new GeSHiContext('delphi', $DIALECT, 'multi_comment'),
     new GeSHiContext('delphi', $DIALECT, 'common/single_string_eol')
 );
 
-$this->_styler->setStyle($CONTEXT, 'color:#000;');
-$this->_styler->setStartStyle($CONTEXT, 'color:#f00;font-weight:bold;');
-$this->_styler->setEndStyle($CONTEXT, 'color:#00f;');
+//$this->_styler->setStyle($CONTEXT, 'color:#000;');
+//$this->_styler->setStyle($CONTEXT_START, 'color:#f00;font-weight:bold;');
+//$this->_styler->setStyle($CONTEXT_END, 'color:#00f;');
+$this->_startName = 'keywords';
+$this->_endName   = 'ctrlsym';
 
 $this->_contextKeywords = array(
     0 => array(
