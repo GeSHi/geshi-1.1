@@ -44,8 +44,8 @@ $this->_childContexts = array(
     new GeSHiStringContext('css', $DIALECT, 'string')
 );
 
-$this->_styler->setStartStyle($this->_contextName, 'color:#c9c;font-weight:bold;');
-$this->_styler->setEndStyle($this->_contextName, 'color:#008000;');
+$this->_styler->setStyle($CONTEXT_START, 'color:#c9c;font-weight:bold;');
+$this->_styler->setStyle($CONTEXT_END, 'color:#008000;');
 
 $this->_contextKeywords = array(
     0 => array(

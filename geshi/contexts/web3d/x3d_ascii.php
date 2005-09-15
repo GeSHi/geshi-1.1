@@ -70,7 +70,7 @@ $this->_contextKeywords = array(
                 'Inline', 'Script', 'WorldInfo'
                 ),
             // name
-            1 => $this->_contextName . '/node',
+            1 => $CONTEXT . '/node',
             // style
             2 => 'color:#b1b100;',
             // case sensitive
@@ -153,7 +153,7 @@ $this->_contextKeywords = array(
             	// Z
             	'zDimension', 'zSpacing' 
                 ),
-            1 => $this->_contextName . '/field',
+            1 => $CONTEXT . '/field',
             2 => 'font-weight:bold;color:red;',
             3 => true,
             4 => ''
@@ -166,7 +166,7 @@ $this->_contextKeywords = array(
             	// X3D
             	'IMPORT', 'EXPORT', 'PROFILE', 'COMPONENT', 'META'
                 ),
-            1 => $this->_contextName . '/keyword',
+            1 => $CONTEXT . '/keyword',
             2 => 'font-weight:bold;color:blue;',
             3 => true,
             4 => ''
@@ -178,7 +178,7 @@ $this->_contextKeywords = array(
             	// X3D
             	'inputOnly', 'outputOnly', 'inputOutput', 'initializeOnly'
                 ),
-            1 => $this->_contextName . '/fieldaccess',
+            1 => $CONTEXT . '/fieldaccess',
             2 => 'font-weight:bold;color:purple;',
             3 => true,
             4 => ''
@@ -194,7 +194,7 @@ $this->_contextKeywords = array(
             	'SFColorRGBA', 'SFDouble', 'SFVec2d', 'SFVec3d',
             	'MFBool', 'MFColorRGBA', 'MFDouble', 'MFImage', 'MFVec2d', 'MFVec3d'
                 ),
-            1 => $this->_contextName . '/fieldtype',
+            1 => $CONTEXT . '/fieldtype',
             2 => 'color:green;',
             3 => true,
             4 => ''

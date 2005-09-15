@@ -46,8 +46,8 @@ $this->_childContexts = array(
 );
 
 $this->_styler->setStyle($CONTEXT, 'color:#008000;');
-$this->_styler->setStartStyle($CONTEXT, 'font-weight:bold;color:#000;');
-$this->_styler->setEndStyle($CONTEXT, 'font-weight:bold;color:#000;');
+$this->_styler->setStyle($CONTEXT_START, 'font-weight:bold;color:#000;');
+$this->_styler->setStyle($CONTEXT_END, 'font-weight:bold;color:#000;');
 
 $this->_contextKeywords = array(
     0 => array(

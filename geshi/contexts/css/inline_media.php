@@ -45,9 +45,10 @@ $this->_childContexts = array(
 );
 
 $this->_styler->setStyle($CONTEXT, 'color:#b1b100;');
-$this->_styler->setStartStyle($CONTEXT, 'color:#000;font-weight:bold;');
-$this->_styler->setEndStyle($CONTEXT, 'color:#000;font-weight:bold;');
+$this->_styler->setStyle($CONTEXT_START, 'color:#000;font-weight:bold;');
+$this->_styler->setStyle($CONTEXT_END, 'color:#000;font-weight:bold;');
 // GeSHiCSSInlineMediaContext stuff
+// @todo do this with new alias stuff?
 $this->_styler->setStyle($CONTEXT . '/starter', 'color:#c9c;font-weight:bold;');
 
 ?>

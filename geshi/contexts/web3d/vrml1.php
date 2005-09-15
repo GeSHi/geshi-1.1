@@ -70,7 +70,7 @@ $this->_contextKeywords = array(
                 'Inline', 'Script', 'WorldInfo'
                 ),
             // name
-            1 => $this->_contextName . '/node',
+            1 => $CONTEXT . '/node',
             // style
             2 => 'color:#b1b100;',
             // case sensitive
@@ -153,7 +153,7 @@ $this->_contextKeywords = array(
             	// Z
             	'zDimension', 'zSpacing' 
                 ),
-            1 => $this->_contextName . '/field',
+            1 => $CONTEXT . '/field',
             2 => 'font-weight:bold;color:red;',
             3 => true,
             4 => ''
@@ -164,7 +164,7 @@ $this->_contextKeywords = array(
             	'DEF', 'USE', 'IS', 'PROTO', 'EXTERNPROTO', 'TO', 'ROUTE',
             	'TRUE', 'FALSE', 'NULL',
                 ),
-            1 => $this->_contextName . '/keyword',
+            1 => $CONTEXT . '/keyword',
             2 => 'font-weight:bold;color:blue;',
             3 => true,
             4 => ''
@@ -174,7 +174,7 @@ $this->_contextKeywords = array(
         	0 => array(
             	'eventIn', 'eventOut', 'exposedField', 'field', 
                 ),
-            1 => $this->_contextName . '/fieldaccess',
+            1 => $CONTEXT . '/fieldaccess',
             2 => 'font-weight:bold;color:purple;',
             3 => true,
             4 => ''
@@ -187,7 +187,7 @@ $this->_contextKeywords = array(
             	'MFColor', 'MFFloat', 'MFInt32', 'MFNode',
             	'MFRotation', 'MFString', 'MFTime', 'MFVec2f', 'MFVec3f',
                 ),
-            1 => $this->_contextName . '/fieldtype',
+            1 => $CONTEXT . '/fieldtype',
             2 => 'color:green;',
             3 => true,
             4 => ''

@@ -40,9 +40,9 @@ $this->_contextDelimiters = array(
 	)
 );
 
-$this->_styler->setStyle($this->_contextName, 'color:#f00;');
-$this->_styler->setStartStyle($this->_contextName, 'color:#006;font-weight:bold;');
-$this->_styler->setEndStyle($this->_contextName, 'color:#006;font-weight:bold;');
+$this->_styler->setStyle($CONTEXT, 'color:#f00;');
+$this->_styler->setStyle($CONTEXT_START, 'color:#006;font-weight:bold;');
+$this->_styler->setStyle($CONTEXT_END, 'color:#006;font-weight:bold;');
 $this->_contextStyleType = GESHI_STYLE_STRINGS;
 
 //HEREDOC doesn't seem to have anything to escape - just the variable interpolation

@@ -41,6 +41,6 @@ $this->_contextDelimiters = array(
     )
 );
 
-$this->_styler->setStyle($this->_contextName, 'color:#0095ff;font-weight:bold;');
+$this->_styler->setStyle($CONTEXT, 'color:#0095ff;font-weight:bold;');
 
 ?>
