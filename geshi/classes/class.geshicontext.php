@@ -121,6 +121,18 @@ class GeSHiContext
      * @var boolean
      */
     var $_loaded = false;
+    
+    /**
+     * The name for stuff detected in the start of a context
+     * @var string 
+     */
+    var $_startName = 'start';
+    
+    /**
+     * The name for stuff detected in the end of a context
+     * @var string 
+     */
+    var $_endName = 'end';
 
     /**#@-*/
     
@@ -130,9 +142,10 @@ class GeSHiContext
      * @param string The name of the language this context represents
      * @param string The dialect of the language this context represents
      * @param string The name of the context
+     * @param array  The name used for aliasing
      * @todo [blocking 1.1.9] Better comment
      */
-    function GeSHiContext ($language_name, $dialect_name = '', $context_name = '')
+    function GeSHiContext ($language_name, $dialect_name = '', $context_name = '', $alias_name = '')
     {
         // Set dialect
         if ('' == $dialect_name) {
@@ -153,7 +166,11 @@ class GeSHiContext
         } else {
             $this->_fileName = $language_name . '/' . $context_name;
         }
-        $this->_contextName = "$language_name/$dialect_name/$context_name";
+        if ($alias_name) {
+            $this->_contextName = $alias_name;
+        } else {
+            $this->_contextName = "$language_name/$dialect_name/$context_name";
+        }
     }
     
     /**
@@ -164,6 +181,16 @@ class GeSHiContext
     function getName ()
     {
         return $this->_contextName;
+    }
+    
+    function getStartName ()
+    {
+        return $this->_startName;
+    }
+    
+    function getEndName ()
+    {
+        return $this->_endName;
     }
     
     /**
@@ -189,6 +216,8 @@ class GeSHiContext
         
         // Load the data for this context
         $CONTEXT = $this->_contextName;
+        $CONTEXT_START = "$this->_contextName/$this->_startName";
+        $CONTEXT_END   = "$this->_contextName/$this->_endName";
         $DIALECT = $this->_dialectName;
         // @todo [blocking 1.1.5] This needs testing to see if it is faster
         if (false) {
@@ -289,7 +318,9 @@ class GeSHiContext
                 // This context will _never_ be useful - and nor will its children
                 //geshi_dbg('@buseless, removed', GESHI_DBG_PARSE);
                 // RAM saving technique
-                $this->_styler->removeStyleData($this->_childContexts[$key]->getName());
+                $this->_styler->removeStyleData($this->_childContexts[$key]->getName(),
+                    $this->_childContexts[$key]->getStartName(),
+                    $this->_childContexts[$key]->getEndName());
                 unset($this->_childContexts[$key]);
             }
         }
@@ -643,7 +674,7 @@ class GeSHiContext
      */
     function _addParseDataStart ($code)
     {
-        $this->_styler->addParseDataStart($code, $this->_contextName);
+        $this->_styler->addParseDataStart($code, $this->_contextName, $this->_startName);
     }
 
     /**
@@ -651,7 +682,7 @@ class GeSHiContext
      */
     function _addParseDataEnd ($code)
     {
-        $this->_styler->addParseDataEnd($code, $this->_contextName);
+        $this->_styler->addParseDataEnd($code, $this->_contextName, $this->_endName);
     }
     
     /**
