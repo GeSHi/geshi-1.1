@@ -40,10 +40,10 @@ $this->_childContexts = array(
     new GeSHiContext('delphi', $DIALECT, 'preprocessor'),
     new GeSHiCodeContext('delphi', $DIALECT, 'asm'),
     new GeSHiCodeContext('delphi', $DIALECT, 'extern'),
-    new GeSHiCodeContext('delphi', $DIALECT, 'property')
+    new GeSHiCodeContext('delphi', $DIALECT, 'property', 'delphi/' . $DIALECT)
 );
 
-$this->_styler->setStyle($CONTEXT, 'color:#000;');
+//$this->_styler->setStyle($CONTEXT, 'color:#000;');
 
 $this->_contextKeywords = array(
     0 => array(

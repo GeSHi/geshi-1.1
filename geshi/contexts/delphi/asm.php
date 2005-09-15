@@ -41,13 +41,13 @@ $this->_contextDelimiters = array(
 );
 
 $this->_childContexts = array(
-    new GeSHiContext('delphi', $CONTEXT, 'preprocessor'),
-    new GeSHiContext('delphi', $CONTEXT, 'common/single_comment')
+    new GeSHiContext('delphi', $DIALECT, 'preprocessor'),
+    new GeSHiContext('delphi', $DIALECT, 'common/single_comment')
 );
 
 $this->_styler->setStyle($CONTEXT, 'color:#00f;');
-$this->_styler->setStartStyle($CONTEXT, 'color:#f00;font-weight:bold;');
-$this->_styler->setEndStyle($CONTEXT, 'color:#f00;font-weight:bold;');
+$this->_styler->setStyle($CONTEXT_START, 'color:#f00;font-weight:bold;');
+$this->_styler->setStyle($CONTEXT_END, 'color:#f00;font-weight:bold;');
 
 $this->_contextKeywords = array(
     //Assembler Directives
