@@ -134,6 +134,11 @@ class GeSHiContext
      */
     var $_endName = 'end';
 
+    /**
+     * Whether this context is an alias context
+     * @var boolean
+     */
+    var $_isAlias = false;
     /**#@-*/
     
     /**
@@ -168,6 +173,7 @@ class GeSHiContext
         }
         if ($alias_name) {
             $this->_contextName = $alias_name;
+            $this->_isAlias     = true;
         } else {
             $this->_contextName = "$language_name/$dialect_name/$context_name";
         }
@@ -191,6 +197,11 @@ class GeSHiContext
     function getEndName ()
     {
         return $this->_endName;
+    }
+    
+    function isAlias ()
+    {
+        return $this->_isAlias;
     }
     
     /**
@@ -318,9 +329,13 @@ class GeSHiContext
                 // This context will _never_ be useful - and nor will its children
                 //geshi_dbg('@buseless, removed', GESHI_DBG_PARSE);
                 // RAM saving technique
-                $this->_styler->removeStyleData($this->_childContexts[$key]->getName(),
-                    $this->_childContexts[$key]->getStartName(),
-                    $this->_childContexts[$key]->getEndName());
+                // But we shouldn't remove highlight data if the child is an
+                // "alias" context, since the real context might need the data
+                if (!$this->_childContexts[$key]->isAlias()) {
+                    $this->_styler->removeStyleData($this->_childContexts[$key]->getName(),
+                        $this->_childContexts[$key]->getStartName(),
+                        $this->_childContexts[$key]->getEndName());
+                }
                 unset($this->_childContexts[$key]);
             }
         }

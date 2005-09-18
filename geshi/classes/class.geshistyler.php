@@ -53,7 +53,7 @@ class GeSHiStyler
     /**
      * @var array
      */
-    var $_styleData;
+    var $_styleData = array();
     
     /**
      * @var array
@@ -72,6 +72,8 @@ class GeSHiStyler
         
     function setStyle ($context_name, $style, $start_name = 'start', $end_name = 'end')
     {
+        // @todo [blocking 1.1.1] Why is this called sometimes with blank data?
+        geshi_dbg('GeSHiStyler::setStyle(' . $context_name . ', ' . $style . ')', GESHI_DBG_PARSE);
         $this->_styleData[$context_name] = $style;
         /*if (!isset($this->_styleData["$context_name/$start_name"])) {
            $this->_styleData["$context_name/$start_name"] = $style;
@@ -96,7 +98,7 @@ class GeSHiStyler
         unset($this->_styleData[$context_name]);
         unset($this->_styleData["$context_name/$context_start_name"]);
         unset($this->_styleData["$context_name/$context_end_name"]);
-        //geshi_dbg('  removed style data for ' . $context_name, GESHI_DBG_PARSE);
+        geshi_dbg('  removed style data for ' . $context_name, GESHI_DBG_PARSE);
     }
     
     /*function setEndStyle ($context_name, $style)

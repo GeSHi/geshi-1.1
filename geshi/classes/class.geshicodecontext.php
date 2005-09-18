@@ -167,6 +167,7 @@ class GeSHiCodeContext extends GeSHiContext
         // @todo [blocking 1.1.1] Style data for infectious context loaded many times, could be reduced to one?
         //@todo [blocking 1.1.1] array_keys loop construct if possible
         foreach ($this->_contextKeywords as $keyword_group_array) {
+            geshi_dbg($keyword_group_array[1] . ' ' . $keyword_group_array[2], GESHI_DBG_PARSE);
             $this->_styler->setStyle($keyword_group_array[1], $keyword_group_array[2]);
         }
          
