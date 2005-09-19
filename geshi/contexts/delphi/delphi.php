@@ -290,6 +290,9 @@ $this->_contextKeywords = array(
     ),
 );
 
+$this->_contextCharactersDisallowedBeforeKeywords = array('_');
+$this->_contextCharactersDisallowedAfterKeywords = array('_');
+
 $this->_contextSymbols  = array(
     0 => array(
         0 => array(
@@ -358,8 +361,17 @@ $this->_contextRegexps  = array(
             1 => array($CONTEXT . '/hex', 'color: #2bf;', false)
         )
     ),
-    3 => geshi_use_doubles($CONTEXT),
-    4 => geshi_use_integers($CONTEXT)
+    3 => array(
+        0 => array(
+            '/(\.\.)/'
+        ),
+        1 => '.',
+        2 => array(
+            1 => array($CONTEXT . '/ctrlsym', 'color: #008000;', false)
+        )
+    ),
+    4 => geshi_use_doubles($CONTEXT),
+    5 => geshi_use_integers($CONTEXT)
 );
 
 $this->_objectSplitters = array(
