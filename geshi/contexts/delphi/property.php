@@ -63,7 +63,7 @@ $this->_contextKeywords = array(
         2 => 'color:#f00; font-weight:bold;',
         3 => false,
         4 => ''
-        ),
+    ),
     1 => array(
         0 => array(
             //@todo get keywords normal way
@@ -90,7 +90,18 @@ $this->_contextKeywords = array(
         2 => 'color:#000; font-weight:bold;',
         3 => false,
         4 => ''
-    )
+    ),
+    2 => array(
+        0 => array(
+            //@todo get keywords normal way
+            'nil',
+            'false', 'true'
+        ),
+        1 => $CONTEXT . '/keyidents',
+        2 => 'color:#000; font-weight:bold;',
+        3 => false,
+        4 => ''
+    ),
 );
 
 $this->_contextSymbols  = array(
