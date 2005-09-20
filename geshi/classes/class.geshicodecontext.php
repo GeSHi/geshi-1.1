@@ -392,6 +392,8 @@ class GeSHiCodeContext extends GeSHiContext
                         !ctype_alnum($char)) );
                     $after_allowed = ($after_allowed &&
                         !in_array($after_char, $this->_contextCharactersDisallowedAfterKeywords));
+                    // Disallow underscores after keywords
+                    $after_allowed = ($after_allowed && ($after_char != '_'));
 
                     // If where we are up to is a keyword, and it's allowed to be here (before was already
                     // tested by $keyword_match_allowed)
@@ -437,10 +439,13 @@ class GeSHiCodeContext extends GeSHiContext
             /// If we move this to the end we might be able to get rid of the last one [DONE]
             /// The second test on the first line is a little contentious  - allows functions that don't
             /// start with an alpha character to be within other words, e.g abc<?php, where <?php is a kw
-            $last_char_is_alpha = ctype_alnum(substr($code, $i, 1));
-            $keyword_match_allowed = (!$last_char_is_alpha || ($last_char_is_alpha && !ctype_alnum($char)));
-            $keyword_match_allowed = ($keyword_match_allowed && !in_array(substr($code, $i, 1),
+            $before_char = substr($code, $i, 1);
+            $before_char_is_alnum = ctype_alnum($before_char);
+            $keyword_match_allowed = (!$before_char_is_alnum || ($before_char_is_alnum && !ctype_alnum($char)));
+            $keyword_match_allowed = ($keyword_match_allowed && !in_array($before_char,
                 $this->_contextCharactersDisallowedBeforeKeywords));
+            // Disallow underscores before keywords
+            $keyword_match_allowed = ($keyword_match_allowed && ('_' != $before_char));
             geshi_dbg('  Keyword matching allowed: ' . $keyword_match_allowed, GESHI_DBG_PARSE);
             geshi_dbg('    [checked ' . substr($code, $i, 1) . ' against ' . print_r($this->_contextCharactersDisallowedBeforeKeywords, true), GESHI_DBG_PARSE);
         }
