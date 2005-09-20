@@ -50,6 +50,7 @@ $this->_contextKeywords = array(
         0 => array(
             //@todo get keywords normal way
             //@todo handle special keyword cases for exports, read, write, index, default, stored, nodefault, message ...
+            //@todo ben: is Inline a keyword?
             'And',
             'Array',
             'As',
@@ -289,9 +290,6 @@ $this->_contextKeywords = array(
         4 => ''
     ),
 );
-
-$this->_contextCharactersDisallowedBeforeKeywords = array('_');
-$this->_contextCharactersDisallowedAfterKeywords = array('_');
 
 $this->_contextSymbols  = array(
     0 => array(
