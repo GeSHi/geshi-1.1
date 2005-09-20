@@ -180,7 +180,7 @@ function geshi_use_integers ($prefix)
         // @todo add start-of-input marker to banned chars before???
         // It has been added although testing required.
         // Lookahead also added since it's cooler
-            '#([^a-zA-Z_0-9]|^)([-]?[0-9]+)(?![a-zA-Z_0-9]|$)#'
+            '#([^a-zA-Z_0-9]|^)([-]?[0-9]+)(?=[^a-zA-Z_0-9]|$)#'
             ),
         1 => '',
         2 => array(
@@ -208,6 +208,9 @@ function geshi_use_doubles ($prefix)
 
     return array(
         0 => array(
+            "#(^|$banned)?({$plus_minus}[0-9]*\.[0-9]+[eE]{$plus_minus}[0-9]+)($banned|\$)?#", // double precision (.123 or 34.342 for example)
+            "#(^|$banned)?({$plus_minus}[0-9]+[eE]{$plus_minus}[0-9]+)($banned|\$)?#", // double precision (.123 or 34.342 for example)
+        
             //@todo fix - sign in double numbers
             "#(^|$banned)?({$plus_minus}[0-9]*\.[0-9]+)($banned|\$)?#" // double precision (.123 or 34.342 for example)
             ),
