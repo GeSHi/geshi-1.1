@@ -180,7 +180,7 @@ function geshi_use_integers ($prefix)
         // @todo add start-of-input marker to banned chars before???
         // It has been added although testing required.
         // Lookahead also added since it's cooler
-            '#([^a-zA-Z_0-9]|^)([-]?[0-9]+)(?=[^a-zA-Z_0-9]|$)#'
+            '#([^a-zA-Z_0-9\.]|^)([-]?[0-9]+)(?=[^a-zA-Z_0-9]|$)#'
             ),
         1 => '',
         2 => array(
@@ -199,20 +199,24 @@ function geshi_use_integers ($prefix)
  * Returns the regexp for double numbers, for use with GeSHiCodeContexts
  * 
  * @param string The prefix to use for the name of this number match
+ * @param boolean Whether a number is required in front of the decimal point or not.
  * @return array
  */
-function geshi_use_doubles ($prefix)
+function geshi_use_doubles ($prefix, $require_leading_number = false)
 {
     $banned = '[^a-zA-Z_0-9]';
     $plus_minus = '[\-\+]?';
+    $leading_number_symbol = ($require_leading_number) ? '+' : '*';
 
     return array(
         0 => array(
-            "#(^|$banned)?({$plus_minus}[0-9]*\.[0-9]+[eE]{$plus_minus}[0-9]+)($banned|\$)?#", // double precision (.123 or 34.342 for example)
-            "#(^|$banned)?({$plus_minus}[0-9]+[eE]{$plus_minus}[0-9]+)($banned|\$)?#", // double precision (.123 or 34.342 for example)
-        
+             // double precision with e, e.g. 3.5e7 or -.45e2
+            "#(^|$banned)?({$plus_minus}[0-9]$leading_number_symbol\.[0-9]+[eE]{$plus_minus}[0-9]+)($banned|\$)?#",
+            // double precision with e and no decimal place, e.g. 5e2
+            "#(^|$banned)?({$plus_minus}[0-9]+[eE]{$plus_minus}[0-9]+)($banned|\$)?#",
+            // double precision (.123 or 34.342 for example)
             //@todo fix - sign in double numbers
-            "#(^|$banned)?({$plus_minus}[0-9]*\.[0-9]+)($banned|\$)?#" // double precision (.123 or 34.342 for example)
+            "#(^|$banned)?({$plus_minus}[0-9]$leading_number_symbol\.[0-9]+)($banned|\$)?#"
             ),
         1 => '.', //doubles must have a dot
         2 => array(
