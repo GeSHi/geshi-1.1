@@ -39,7 +39,7 @@ $this->_childContexts = array(
     new GeSHiContext('delphi', $DIALECT, 'common/single_string_eol'),
     new GeSHiContext('delphi', $DIALECT, 'preprocessor'),
     new GeSHiCodeContext('delphi', $DIALECT, 'asm'),
-    new GeSHiCodeContext('delphi', $DIALECT, 'extern'),
+    new GeSHiCodeContext('delphi', $DIALECT, 'extern', 'delphi/' . $DIALECT),
     new GeSHiCodeContext('delphi', $DIALECT, 'property', 'delphi/' . $DIALECT)
 );
 
@@ -368,7 +368,7 @@ $this->_contextRegexps  = array(
             1 => array($CONTEXT . '/ctrlsym', 'color: #008000;', false)
         )
     ),
-    4 => geshi_use_doubles($CONTEXT),
+    4 => geshi_use_doubles($CONTEXT, true), // second parameter says leading zero is required.
     5 => geshi_use_integers($CONTEXT)
 );
 
