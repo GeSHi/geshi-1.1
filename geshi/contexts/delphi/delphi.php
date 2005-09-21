@@ -99,6 +99,7 @@ $this->_contextKeywords = array(
             'Record',
             'Requires',
             'Repeat',
+            'Resourcestring',
             'Set',
             'Shl',
             'Shr',
@@ -154,7 +155,7 @@ $this->_contextKeywords = array(
         3 => false,
         4 => ''
     ),
-    
+
     2 => array(
         0 => array(
             'nil',
