@@ -66,7 +66,6 @@ $this->_contextKeywords = array(
     ),
     1 => array(
         0 => array(
-            //@todo get keywords normal way
             'Boolean', 'ByteBool', 'LongBool', 'WordBool', 'Bool',
 
             'Byte',  'SmallInt',
@@ -93,7 +92,6 @@ $this->_contextKeywords = array(
     ),
     2 => array(
         0 => array(
-            //@todo get keywords normal way
             'nil',
             'false', 'true'
         ),

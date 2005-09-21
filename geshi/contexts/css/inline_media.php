@@ -48,7 +48,7 @@ $this->_styler->setStyle($CONTEXT, 'color:#b1b100;');
 $this->_styler->setStyle($CONTEXT_START, 'color:#000;font-weight:bold;');
 $this->_styler->setStyle($CONTEXT_END, 'color:#000;font-weight:bold;');
 // GeSHiCSSInlineMediaContext stuff
-// @todo do this with new alias stuff?
+// @todo [blocking 1.1.1] do this with new alias stuff?
 $this->_styler->setStyle($CONTEXT . '/starter', 'color:#c9c;font-weight:bold;');
 
 ?>

@@ -177,9 +177,6 @@ function geshi_use_integers ($prefix)
 {
     return array(
         0 => array(
-        // @todo add start-of-input marker to banned chars before???
-        // It has been added although testing required.
-        // Lookahead also added since it's cooler
             '#([^a-zA-Z_0-9\.]|^)([-]?[0-9]+)(?=[^a-zA-Z_0-9]|$)#'
             ),
         1 => '',

@@ -56,7 +56,6 @@ $this->_endName   = 'brksym';  // highlight ender as if it was a ctrlsym
 $this->_contextKeywords = array(
     0  => array(
         0 => array(
-            //@todo get keywords normal way
             'Boolean', 'ByteBool', 'LongBool', 'WordBool', 'Bool',
 
             'Byte',  'SmallInt',
@@ -86,7 +85,7 @@ $this->_contextKeywords = array(
 $this->_contextSymbols  = array(
 /*    0 => array(
         0 => array(
-            // @todo are the [ and ] needed? They're handled by starter and ender, do they ever actually
+            // @todo [blocking 1.1.0] are the [ and ] needed? They're handled by starter and ender, do they ever actually
             // occur *inside* this context?
             '(', ']'
             ),
@@ -101,7 +100,7 @@ $this->_contextSymbols  = array(
         2 => 'color:#008000;'
     ),
     2 => array(
-    // @todo is this one needed now?
+    // @todo [blocking 1.1.0] is this one needed now?
         0 => array(
             '.'
             ),

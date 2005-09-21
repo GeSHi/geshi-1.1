@@ -37,9 +37,10 @@
  * 
  * @todo [blocking 1.1.1] Support balanced context endings
  * @todo [blocking 1.1.1] OCCs should be able to modify their parent context
- * @todo [blocking 1.1.5] Language aliasing should be possible
- * @todo [blocking 1.1.0] Better Delphi and Codeworker support
- * @todo [blocking 1.1.0] Who controls the style of an OCC? The parent or child?
+ * [done todo: Language aliasing should be possible]
+ * @todo [blocking 1.1.1] Better Delphi and Codeworker support
+ * [done todo: who controls the style of an OCC?: Who cares since theming
+ * will be coming in soon]
  */
 
 /** GeSHi Version */
@@ -216,15 +217,24 @@ class GeSHi
     /**
      * Whether this object should be prepared as if it will be used
      * many times
+     * 
      * @var boolean
      */
     var $_cacheRootContext;
     
     /**
      * The cached root context, if caching of context trees is enabled
+     * 
      * @var GeSHiContext
      */
     var $_cachedRootContext;
+    
+    /**
+     * The GeSHiStyler object used by this class and all contexts for
+     * assisting parsing.
+     * 
+     * @var GeSHiStyler
+     */
 
     /**#@-*/
     
@@ -666,7 +676,6 @@ class GeSHi
         // $this->_data should hold an array(
         //   0 => array(0=>string of code, 1=> context name identifier
         $result = '';
-        // @todo [blocking 1.1.0] add _styler member to GeSHi class
         $data = $this->_styler->getParseData();
         // TO BE REMOVED from stable release
         if (GESHI_DBG & GESHI_DBG_PARSE) {

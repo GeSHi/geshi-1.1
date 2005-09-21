@@ -48,9 +48,9 @@ $this->_childContexts = array(
 $this->_contextKeywords = array(
     0 => array(
         0 => array(
-            //@todo get keywords normal way
-            //@todo handle special keyword cases for exports, read, write, index, default, stored, nodefault, message ...
-            //@todo ben: is Inline a keyword?
+            //@todo [blocking 1.1.1] get keywords normal way
+            //[done todo:handle special keyword cases for exports, read, write, index, default, stored, nodefault, message ...]
+            //@todo [blocking 1.1.0] ben: is Inline a keyword?
             'And',
             'Array',
             'As',
@@ -130,7 +130,6 @@ $this->_contextKeywords = array(
     ),
     1 => array(
         0 => array(
-            //@todo get keywords normal way
             'Boolean', 'ByteBool', 'LongBool', 'WordBool', 'Bool',
 
             'Byte',  'SmallInt',
@@ -158,7 +157,6 @@ $this->_contextKeywords = array(
     
     2 => array(
         0 => array(
-            //@todo get keywords normal way
             'nil',
             'false', 'true'
         ),
@@ -171,7 +169,6 @@ $this->_contextKeywords = array(
     //Standard functions of Unit System
     3 => array(
         0 => array(
-            //@todo get keywords normal way
             'Abs','AcquireExceptionObject','Addr','AnsiToUtf8','Append','ArcTan','Assert','Assigned','AssignFile',
             'BeginThread','BlockRead','BlockWrite','Break','ChDir','Chr','Close','CloseFile','CompToCurrency',
             'CompToDouble','Concat','Continue','Copy','Cos','Dec','Delete','Dispose','DoubleToComp','EndThread',
@@ -198,7 +195,6 @@ $this->_contextKeywords = array(
     //Standard functions of Unit SysUtils
     4 => array(
         0 => array(
-            //@todo get keywords normal way
             'Abort','AddExitProc','AddTerminateProc','AdjustLineBreaks','AllocMem','AnsiCompareFileName',
             'AnsiCompareStr','AnsiCompareText','AnsiDequotedStr','AnsiExtractQuotedStr','AnsiLastChar',
             'AnsiLowerCase','AnsiLowerCaseFileName','AnsiPos','AnsiQuotedStr','AnsiSameStr','AnsiSameText',
@@ -249,7 +245,6 @@ $this->_contextKeywords = array(
     //Standard functions of Unit Classes
     5 => array(
         0 => array(
-            //@todo get keywords normal way
             'ActivateClassGroup','AllocateHwnd','BinToHex','CheckSynchronize','CollectionsEqual','CountGenerations',
             'DeallocateHwnd','EqualRect','ExtractStrings','FindClass','FindGlobalComponent','GetClass',
             'GroupDescendantsWith','HexToBin','IdentToInt','InitInheritedComponent','IntToIdent','InvalidPoint',
@@ -269,7 +264,6 @@ $this->_contextKeywords = array(
     //Standard functions of Unit Math
     6 => array(
         0 => array(
-            //@todo get keywords normal way
             'ArcCos', 'ArcCosh', 'ArcCot', 'ArcCotH', 'ArcCsc', 'ArcCscH', 'ArcSec', 'ArcSecH', 'ArcSin',
             'ArcSinh', 'ArcTan2', 'ArcTanh', 'Ceil', 'CompareValue', 'Cosecant', 'Cosh', 'Cot', 'Cotan',
             'CotH', 'Csc', 'CscH', 'CycleToDeg', 'CycleToGrad', 'CycleToRad', 'DegToCycle', 'DegToGrad',
