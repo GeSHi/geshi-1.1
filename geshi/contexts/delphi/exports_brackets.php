@@ -43,9 +43,10 @@ $this->_contextDelimiters = array(
 
 $this->_childContexts = array(
     new GeSHiContext('delphi', $DIALECT, 'preprocessor'),
+    new GeSHiContext('delphi', $DIALECT, 'common/single_comment'),
     new GeSHiContext('delphi', $DIALECT, 'multi_comment')
 );
-    
+
 
 //$this->_styler->setStyle($CONTEXT, 'color:#000;');
 //$this->_styler->setStartStyle($CONTEXT, 'color:#f00;font-weight:bold;');
@@ -55,6 +56,16 @@ $this->_endName   = 'brksym';  // highlight ender as if it was a ctrlsym
 
 $this->_contextKeywords = array(
     0  => array(
+        0 => array(
+            //@todo get keywords normal way
+            'var', 'out', 'const', 'array'
+        ),
+        1 => $CONTEXT . '/keywords',
+        2 => 'color:#f00; font-weight:bold;',
+        3 => false,
+        4 => ''
+    ),
+    1  => array(
         0 => array(
             'Boolean', 'ByteBool', 'LongBool', 'WordBool', 'Bool',
 
@@ -79,6 +90,17 @@ $this->_contextKeywords = array(
         2 => 'color:#000; font-weight:bold;',
         3 => false,
         4 => ''
+    ),
+    2 => array(
+        0 => array(
+            //@todo get keywords normal way
+            'nil',
+            'false', 'true'
+        ),
+        1 => $CONTEXT . '/keyidents',
+        2 => 'color:#000; font-weight:bold;',
+        3 => false,
+        4 => ''
     )
 );
 
@@ -87,6 +109,11 @@ $this->_contextSymbols  = array(
         0 => array(
             // @todo [blocking 1.1.0] are the [ and ] needed? They're handled by starter and ender, do they ever actually
             // occur *inside* this context?
+
+            // BenBE: [] might just well occure as part of a function declaration. But it's thus unlikly that there's no
+            // absolut requirement to handle them. I actually would have to check if the Delphi compiler actually compiles
+            // such source (I doubt it will compile).
+            // @todo Test if exports ABC(A: Array[13..37] of Integer) name 'ABC'; actually compiles.
             '(', ']'
             ),
         1 => $CONTEXT . '/brksym',
@@ -94,13 +121,14 @@ $this->_contextSymbols  = array(
     ),*/
     1 => array(
         0 => array(
-            ':', ';', ','
+            ':', ';', ',', '='
             ),
         1 => $CONTEXT . '/ctrlsym',
         2 => 'color:#008000;'
     ),
     2 => array(
     // @todo [blocking 1.1.0] is this one needed now?
+    // BenBE: Yes, required for Types in other units.
         0 => array(
             '.'
             ),
