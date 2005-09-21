@@ -43,6 +43,7 @@ $this->_contextDelimiters = array(
 
 $this->_childContexts = array(
     new GeSHiContext('delphi', $DIALECT, 'preprocessor'),
+    new GeSHiContext('delphi', $DIALECT, 'common/single_comment'),
     new GeSHiContext('delphi', $DIALECT, 'multi_comment'),
     new GeSHiCodeContext('delphi', $DIALECT, 'property_index', 'delphi/' . $DIALECT)
 );
@@ -92,6 +93,7 @@ $this->_contextKeywords = array(
     ),
     2 => array(
         0 => array(
+            //@todo get keywords normal way
             'nil',
             'false', 'true'
         ),
@@ -99,7 +101,7 @@ $this->_contextKeywords = array(
         2 => 'color:#000; font-weight:bold;',
         3 => false,
         4 => ''
-    ),
+    )
 );
 
 $this->_contextSymbols  = array(
