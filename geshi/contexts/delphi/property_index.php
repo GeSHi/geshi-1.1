@@ -43,9 +43,10 @@ $this->_contextDelimiters = array(
 
 $this->_childContexts = array(
     new GeSHiContext('delphi', $DIALECT, 'preprocessor'),
+    new GeSHiContext('delphi', $DIALECT, 'common/single_comment'),
     new GeSHiContext('delphi', $DIALECT, 'multi_comment')
 );
-    
+
 
 //$this->_styler->setStyle($CONTEXT, 'color:#000;');
 //$this->_styler->setStartStyle($CONTEXT, 'color:#f00;font-weight:bold;');
