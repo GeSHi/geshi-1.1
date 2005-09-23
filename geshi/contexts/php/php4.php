@@ -61,8 +61,8 @@ $this->_childContexts = array(
     new GeSHiContext('php',  $DIALECT, 'doxygen')
 );
 
-$this->_styler->setStyle($CONTEXT_START, 'font-weight:bold;color:red;'); // @todo change (signals to me it's php4 atm)
-$this->_styler->setStyle($CONTEXT_END, 'font-weight:bold;color:red;');
+$this->_styler->setStyle($CONTEXT_START, 'color:#000;font-weight:bold;');
+$this->_styler->setStyle($CONTEXT_END, 'color:#000;font-weight:bold;');
 
 $this->_contextKeywords = array(
     0 => array(
