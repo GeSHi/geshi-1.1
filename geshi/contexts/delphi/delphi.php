@@ -33,6 +33,7 @@
  */
 
 // @todo [blocking 1.1.1] Rename OCCs with parent's name in front for theming
+// BenBE: What do you mean?
 $this->_childContexts = array(
     new GeSHiContext('delphi',  $DIALECT, 'multi_comment'),
     new GeSHiContext('delphi', $DIALECT, 'common/single_comment'),
@@ -51,6 +52,7 @@ $this->_contextKeywords = array(
             //@todo [blocking 1.1.1] get keywords normal way
             //[done todo:handle special keyword cases for exports, read, write, index, default, stored, nodefault, message ...]
             //@todo [blocking 1.1.0] ben: is Inline a keyword?
+            //BenBE: Yeah. it is. I missed it. Added.
             'And',
             'Array',
             'As',
@@ -81,6 +83,7 @@ $this->_contextKeywords = array(
             'In',
             'Inherited',
             'Initialization',
+            'Inline',
             'Interface',
             'Is',
             'Label',
