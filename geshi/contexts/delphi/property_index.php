@@ -84,29 +84,14 @@ $this->_contextKeywords = array(
 );
 
 $this->_contextSymbols  = array(
-/*
     0 => array(
-        0 => array(
-            // @todo are the [ and ] needed? They're handled by starter and ender, do they ever actually
-            // occur *inside* this context?
-            //BenBE: No, not required.
-            '[', ']'
-            ),
-        1 => $CONTEXT . '/brksym',
-        2 => 'color:#008000;'
-    ),
-    */
-
-    1 => array(
         0 => array(
             ':', ';', ','
             ),
         1 => $CONTEXT . '/ctrlsym',
         2 => 'color:#008000;'
     ),
-    2 => array(
-    // @todo [blocking 1.1.0] is this one needed now?
-    // BenBE: Yes. For Types in different units.
+    1 => array(
         0 => array(
             '.'
             ),

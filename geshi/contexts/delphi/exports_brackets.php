@@ -127,8 +127,6 @@ $this->_contextSymbols  = array(
         2 => 'color:#008000;'
     ),
     2 => array(
-    // @todo [blocking 1.1.0] is this one needed now?
-    // BenBE: Yes, required for Types in other units.
         0 => array(
             '.'
             ),
