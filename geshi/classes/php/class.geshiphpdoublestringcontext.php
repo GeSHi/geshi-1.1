@@ -37,6 +37,7 @@
  * 
  * @package lang
  * @author  Nigel McNie <nigel@geshi.org>
+ * @todo [blocking 1.1.0] handle ${foo} style variables (brace after dollar sign)
  */
 class GeSHiPHPDoubleStringContext extends GeSHiStringContext
 {
