@@ -33,11 +33,13 @@
  */
 
 /**
- * The GeSHiPHPDoubleStrincContext class represents a PHP double string
+ * The GeSHiPHPDoubleStringContext class represents a PHP double string
  * 
  * @package lang
  * @author  Nigel McNie <nigel@geshi.org>
- * @todo [blocking 1.1.0] handle ${foo} style variables (brace after dollar sign)
+ * @since   1.1.0
+ * @version $Revision$
+ * @see     GeSHiStringContext, GeSHiContext
  */
 class GeSHiPHPDoubleStringContext extends GeSHiStringContext
 {
@@ -61,9 +63,9 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
      * @access private
      */
     var $_regexes = array(
-        'REGEX#(\{?\$\$?[a-zA-Z_][a-zA-Z0-9_]*\}?)#',
-        'REGEX#(\{?\$\$?[a-zA-Z_][a-zA-Z0-9_]*\[[\$a-zA-Z0-9_\s\[\]\']*\]\}?)#',
-        'REGEX#(\{?)(\$\$?[a-zA-Z_][a-zA-Z0-9_]*)(\s*->\s*)([a-zA-Z_][a-zA-Z0-9_]*)(\}?)#'
+        'REGEX#(\{?\$\$?\{?[a-zA-Z_][a-zA-Z0-9_]*\}?)#',
+        'REGEX#(\{?\$\$?\{?[a-zA-Z_][a-zA-Z0-9_]*\[[\$a-zA-Z0-9_\s\[\]\']*\]\}?)#',
+        'REGEX#(\{?)(\$\$?\{?[a-zA-Z_][a-zA-Z0-9_]*)(\s*->\s*)([a-zA-Z_][a-zA-Z0-9_]*)(\}?)#'
     );
      
     /**
@@ -131,20 +133,8 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
                 }
                 
                 // Many checks could go in here...
-                /*if (isset($earliest_data['tab'][5])) {
-                    $start_brace = '{';
-                } else {
-                    $start_brace = '';
-                }
-                if ('{' == substr($possible_var, 0, 1)) {
-                    if ('}' != substr($possible_var, -1)) {
-                        // Open { without closer
-                        parent::_addParseData('{');
-                        $possible_var = substr($possible_var, 1);
-                        $start_brace = '';
-                    }
-                }*/
-
+                // @todo [blocking 1.1.5] check for ${foo} variables: start { matched by end }
+                // because at the moment ${foo is matched for example.
                 if ('{' == substr($possible_var, 0, 1)) {
                     if ('}' == substr($possible_var, -1)) {
                         $start_brace = '{';
@@ -160,7 +150,7 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
                 }
 
                 if (isset($earliest_data['tab'][5])) {
-                    // Then we matched off the second regex - the one that does objects
+                    // Then we matched off the third regex - the one that does objects
                     // The first { if there is one, and $this (which is in index 2
                     $this->_styler->addParseData($start_brace . $earliest_data['tab'][2], $this->_parentName . '/var');
                     // The -> with any whitespace around it
