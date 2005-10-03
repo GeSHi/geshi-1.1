@@ -37,6 +37,8 @@
  * 
  * @package core
  * @author  Nigel McNie <nigel@geshi.org>
+ * @since   1.1.0
+ * @version $Revision$
  */
 class GeSHiStyler
 {

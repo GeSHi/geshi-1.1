@@ -38,6 +38,7 @@
  * @package core
  * @author  Nigel McNie
  * @since   1.1.0
+ * @version $Revision$
  */
 class GeSHiContext
 {

@@ -32,6 +32,15 @@
  * 
  */
 
+/**
+ * The GeSHiCSSInlineMediaContext class
+ * 
+ * @package lang
+ * @author  Nigel McNie <nigel@geshi.org>
+ * @since   1.1.0
+ * @version $Revision$
+ * @see     GeSHiContext
+ */
 class GeSHiCSSInlineMediaContext extends GeSHiContext
 {
     /**

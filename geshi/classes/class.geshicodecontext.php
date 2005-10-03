@@ -56,12 +56,11 @@
  *   ...
  * ),</pre>
  *
- * @package   core
- * @author    Nigel McNie <nigel@geshi.org>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright (C) 2004, 2005 Nigel McNie
- * @version   $Id$
- * @see GeSHiContext
+ * @package core
+ * @author  Nigel McNie <nigel@geshi.org>
+ * @since   1.1.0
+ * @version $Revision$
+ * @see     GeSHiContext
  * 
  */
 class GeSHiCodeContext extends GeSHiContext

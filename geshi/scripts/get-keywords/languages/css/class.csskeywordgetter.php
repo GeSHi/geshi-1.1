@@ -38,9 +38,11 @@ require_once 'class.cssxmlparser.php';
 /**
  * Implementation of KeywordGetterStrategy for the CSS language.
  * 
- * @author Nigel McNie <nigel@geshi.org>
- * @since  0.1.0
- * @see    KeywordGetterStrategy
+ * @package scripts
+ * @author  Nigel McNie <nigel@geshi.org>
+ * @since   0.1.0
+ * @version $Revision$
+ * @see     KeywordGetterStrategy
  */
 class cssKeywordGetterStrategy extends KeywordGetterStrategy
 {

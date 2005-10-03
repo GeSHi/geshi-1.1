@@ -170,6 +170,7 @@ define('GESHI_DEFAULT_FILE_EXTENSION', '.php');
  *
  * @package core 
  * @author  Nigel McNie <nigel@geshi.org>
+ * @version $Revision$
  * @since   1.0.0
  */
 class GeSHi

@@ -39,9 +39,11 @@ require_once 'lib/class.keywordxmlparser.php';
  * Extends Keyword_XML_Parser as a class to get Javascript keywords from
  * a katepart syntax XML file
  * 
- * @author Nigel McNie <nigel@geshi.org>
- * @since  0.1.1
- * @see    Keyword_XML_Parser
+ * @package scripts
+ * @author  Nigel McNie <nigel@geshi.org>
+ * @since   0.1.1
+ * @version $Revision$
+ * @see     Keyword_XML_Parser
  */
 class Javascript_XML_Parser extends Keyword_XML_Parser
 {

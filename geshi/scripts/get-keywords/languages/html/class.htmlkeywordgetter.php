@@ -35,9 +35,11 @@
 /**
  * Implementation of KeywordGetterStrategy for the HTML language.
  * 
- * @author Nigel McNie <nigel@geshi.org>
- * @since  0.1.1
- * @see    KeywordGetterStrategy
+ * @package scripts
+ * @author  Nigel McNie <nigel@geshi.org>
+ * @since   0.1.1
+ * @version $Revision$
+ * @see     KeywordGetterStrategy
  */
 class htmlKeywordGetterStrategy extends KeywordGetterStrategy
 {
