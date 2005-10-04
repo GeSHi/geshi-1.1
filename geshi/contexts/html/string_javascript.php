@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -33,7 +32,12 @@
  * 
  */
 
-//@todo [blocking 1.1.1] (bug 11) Why does using a ^ before the starters not work?
+//@todo [blocking 1.1.1] (bug 11) Using a ^ before the starters does
+// not work, because when useless contexts are purged neither the ^return
+// nor the ^javascript: are matched so this context is removed.
+// I'm leaving it until 1.1.1 to solve this. One way might be to add a flag
+// to this array or a field to the GeSHiContext class that says "never remove
+// me, even if I am useless"
 $this->_contextDelimiters = array(
     0 => array(
         0 => array('REGEX#return#', 'REGEX#javascript:#'),
