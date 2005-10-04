@@ -85,6 +85,7 @@ class htmlKeywordGetterStrategy extends KeywordGetterStrategy
         }
         
         $file_contents = implode('', file($this->_fileName));
+        $matches = array();
         preg_match_all('#<td title="Name"><a[^>]+>\s*([a-z\-]+)#', $file_contents, $matches);
         $keywords = $matches[1];
         
