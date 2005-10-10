@@ -41,7 +41,7 @@
  */
 
 /** GeSHi Version */
-define('GESHI_VERSION', '1.1.0beta1');
+define('GESHI_VERSION', '1.1.0');
 
 /** Set the correct directory separator */
 define('GESHI_DIR_SEPARATOR', ('WIN' != substr(PHP_OS, 0, 3)) ? '/' : '\\');
