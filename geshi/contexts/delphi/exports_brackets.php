@@ -107,8 +107,8 @@ $this->_contextKeywords = array(
 $this->_contextSymbols  = array(
 /*    0 => array(
         0 => array(
-            // @todo [blocking 1.1.0] are the [ and ] needed? They're handled by starter and ender, do they ever actually
-            // occur *inside* this context?
+            // @todo [blocking 1.1.1] are the [ and ] needed? They're handled by starter and ender, do they ever actually
+            // occur *inside* this context? (deferred to 1.1.1)
 
             // BenBE: [] might just well occure as part of a function declaration. But it's thus unlikly that there's no
             // absolut requirement to handle them. I actually would have to check if the Delphi compiler actually compiles
