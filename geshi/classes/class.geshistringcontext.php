@@ -74,6 +74,7 @@ class GeSHiStringContext extends GeSHiContext
 
             // Prepare ender regexes if needed
             $ender = $this->_substitutePlaceholders($ender);
+            geshi_dbg('  ender after substitution: ' . $ender, GESHI_DBG_PARSE);
 
             $pos = 0;
             while (true) {
@@ -98,7 +99,10 @@ class GeSHiStringContext extends GeSHiContext
                 if (substr($possible_string, -1) != $escape_char) {
                     // We may have found the correct ender. If we haven't, then this string
                     // never ends and we will set the end position to the length of the code
-                    $pos = (substr($code, $pos, 1) == $ender) ? $pos : strlen($code);
+                    // substr($code, $pos, 1) == $ender
+                    $endpos = geshi_get_position($code, $ender, $pos);
+                    geshi_dbg('  position of ender: ' . $endpos['pos'], GESHI_DBG_PARSE);
+                    $pos = ($pos && $endpos['pos'] === $pos) ? $pos : strlen($code);
                     return array('pos' => $pos, 'len' => $len, 'dlm' => $ender);
                 }
                 // else, start further up
