@@ -326,6 +326,14 @@ class GeSHiCodeContext extends GeSHiContext
         }
         
         $result = array(0 => array('', ''));
+        
+        // If no code, don't bother
+        if ('' == $code) {
+            // Set context name
+            $result[0][1] = $this->_contextName;
+            return $result;
+        }
+        
         $result_pointer = 0;
         $length = strlen($code);
         $keyword_match_allowed  = true;
