@@ -44,11 +44,13 @@
 
 /** Get the GeSHiCodeContext class */ 
 require_once GESHI_CLASSES_ROOT . 'class.geshicodecontext.php';
-
+/** Get the GeSHiPHPCodeParser class */
+require_once GESHI_CLASSES_ROOT . 'php' . GESHI_DIR_SEPARATOR . 'class.geshiphpcodeparser.php';
 
 $this->_humanLanguageName = 'PHP4';
 
 $this->_rootContext =& new GeSHiCodeContext('html');
 $this->_rootContext->infectWith(new GeSHiCodeContext('php', 'php4'));
 
+$this->_styler->setCodeParser(new GeSHiPHPCodeParser($this->_styler));
 ?>
