@@ -41,35 +41,61 @@
  * @version $Revision$
  * @abstract
  */
-class GeSHiRenderer {
+class GeSHiRenderer
+{
+    // {{{ properties
     
     /**
+     * The styler object being used
+     * 
      * @var GeSHiStyler
      * @access private
      */
     var $_styler;
     
+    // }}}
+    // {{{ GeSHiRenderer()
     
+    /**
+     * Constructor.
+     */
     function GeSHiRenderer(&$styler)
     {
         $this->_styler =& $styler;
     }
     
+    // }}}
+    // {{{ parseToken()
+    
     /**
      * Abstract. Renderers should implement this method to
      * get access to parse tokens
+     * 
+     * @abstract
      */
     function parseToken ($token, $context_name, $url) {}
     
+    // }}}
+    // {{{ getHeader()
+    
     /**
      * Should return any header data for the renderer
+     * 
+     * @abstract
      */
     function getHeader () {}
     
+    // }}}
+    // {{{ getFooter()
+    
     /**
      * Should return any footer data for the renderer
+     * 
+     * @abstract
      */
     function getFooter () {}
+    
+    // }}}
 }
 
 ?>

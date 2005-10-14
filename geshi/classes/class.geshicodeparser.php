@@ -33,7 +33,13 @@
  */
 
 /**
- * The GeSHiCodeParser class
+ * The GeSHiCodeParser class. An abstract implementation
+ * of a class that can receive tokens, modify them and
+ * send them back.
+ * 
+ * A language might use this to improve highlighting by
+ * detecting things that the context tree cannot detect
+ * by itself.
  * 
  * @package core
  * @author  Nigel McNie <nigel@geshi.org>
@@ -41,14 +47,47 @@
  * @version $Revision$
  * @abstract
  */
-class GeSHiCodeParser {
+class GeSHiCodeParser
+{
+    // {{{ properties
+    
+    /**
+     * The GeSHiStyler being used to highlight the code
+     * 
+     * @var GeSHiStyler
+     * @access private
+     */
     var $_styler;
+    
+    // }}}
+    // {{{ GeSHiCodeParser()
+    
+    /**
+     * Constructor. Assigns the GeSHiStyler object to use
+     * 
+     * @param GeSHiStyler The styler oject to use
+     */
     function GeSHiCodeParser(&$styler)
     {
         $this->_styler =& $styler;
     }
     
+    // }}}
+    // {{{ parseToken()
+    
+    /**
+     * Recieves tokens and returns them, possibly modified
+     * 
+     * @param string The token recieved
+     * @param string The name of the context the token is in
+     * @param string The URL associated with the context (may disappear)
+     * @return mixed Either <code>false</code>, an array($token, $context_name, $url)
+     *               or an array of arrays like this.
+     * @abstract
+     */
     function parseToken ($token, $context_name, $url) {}
+    
+    // }}}
 }
 
 ?>
