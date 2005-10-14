@@ -60,40 +60,29 @@ class GeSHiStyler
     /**
      * @var array
      */
-    var $_parseData;
-           
-    /**
-     * @var int
-     */
-    var $_parseDataPointer = 0;
+    var $_contextCacheData = array();
     
     /**
-     * @var array
+     * @var GeSHiCodeParser
      */
-    var $_contextCacheData = array();
+    var $_codeParser = null;
+    
+    /**
+     * @var GeSHiRenderer
+     */
+    var $_renderer = null;
+    
+    /**
+     * @var string
+     */
+    var $_parsedCode = '';
         
     function setStyle ($context_name, $style, $start_name = 'start', $end_name = 'end')
     {
         // @todo [blocking 1.1.1] Why is this called sometimes with blank data?
         geshi_dbg('GeSHiStyler::setStyle(' . $context_name . ', ' . $style . ')', GESHI_DBG_PARSE);
         $this->_styleData[$context_name] = $style;
-        /*if (!isset($this->_styleData["$context_name/$start_name"])) {
-           $this->_styleData["$context_name/$start_name"] = $style;
-        }
-        if (!isset($this->_styleData["$context_name/$end_name"])) {
-           $this->_styleData["$context_name/$end_name"] = $style;
-        }*/
     }
-    
-    /*function setStartStyle ($context_name, $style)
-    {
-        $this->_styleData["$context_name/$this->_startName"] = $style;
-    }
-    
-    function setStartName ($name)
-    {
-        $this->_startName = $name;
-    }*/
     
     function removeStyleData ($context_name, $context_start_name = 'start', $context_end_name = 'end')
     {
@@ -102,17 +91,7 @@ class GeSHiStyler
         unset($this->_styleData["$context_name/$context_end_name"]);
         geshi_dbg('  removed style data for ' . $context_name, GESHI_DBG_PARSE);
     }
-    
-    /*function setEndStyle ($context_name, $style)
-    {
-        $this->_styleData["$context_name/$this->_endName"] = $style;
-    }
-    
-    function setEndName ($name)
-    {
-        $this->_endName = $name;
-    }*/
-    
+
     function getStyle ($context_name)
     {
         if (isset($this->_styleData[$context_name])) {
@@ -132,47 +111,47 @@ class GeSHiStyler
         $this->_styleData[$context_name] = 'color:#000;';
         return 'color:#000;';
     }
-    /*
-    function getStyleStart ($context_name)
-    {
-        if (isset($this->_styleData["$context_name/$this->_startName"])) {
-            return $this->_styleData["$context_name/$this->_startName"];
-        }
-        $this->_styleData["$context_name/$this->_startName"] = $this->getStyle($context_name);
-        return $this->_styleData["$context_name/$this->_startName"];
-    }
-    
-    function getStyleEnd ($context_name) 
-    {
-        if (isset($this->_styleData["$context_name/$this->_endName"])) {
-            return $this->_styleData["$context_name/$this->_endName"];
-        }
-        $this->_styleData["$context_name/$this->_endName"] = $this->getStyle($context_name);
-        return $this->_styleData["$context_name/$this->_endName"];
-    }*/
-    /*
-    function startIsUnique ($context_name)
-    {
-        return (isset($this->_styleData["$context_name/$this->_startName"])
-            && '' != $this->_styleData["$context_name/$this->_startName"]
-            && $this->_styleData["$context_name/$this->_startName"] != $this->_styleData[$context_name]);
-    } 
 
-    function endIsUnique ($context_name)
-    {
-        $r = (isset($this->_styleData["$context_name/$this->_endName"])
-            && '' != $this->_styleData["$context_name/$this->_endName"]
-            && $this->_styleData["$context_name/$this->_endName"] != $this->_styleData[$context_name]);
-        geshi_dbg('GeSHiStyler::endIsUnique(' . $context_name . ') = ' . $r, GESHI_DBG_PARSE);
-        return $r;
-    } 
-    */
+    /**
+     * Sets up GeSHiStyler for assisting with parsing.
+     * Makes sure that GeSHiStyler has a code parser and
+     * renderer associated with it.
+     */
     function resetParseData ()
     {
-        $this->_parseData        = null;
-        $this->_parseDataPointer = 0;
+        // Set result to empty
+        $this->_parsedCode = '';
+        
+        // If the language we are using does not have a code
+        // parser associated with it, use the default one
+        if (is_null($this->_codeParser)) {
+            /** Get the default code parser class */
+            require_once GESHI_CLASSES_ROOT . 'class.geshidefaultcodeparser.php';
+            $this->_codeParser =& new GeSHiDefaultCodeParser($this);
+        }
+
+        // It the user did not explicitly set a renderer with GeSHi::accept(), then
+        // use the default renderer (HTML)
+        if (is_null($this->_renderer)) {
+            // @todo [blocking 1.1.1] Use GESHI_RENDERERS_ROOT constant or similar?
+            /** Get the renderer class */
+            require_once GESHI_CLASSES_ROOT . 'renderers' . GESHI_DIR_SEPARATOR . 'class.geshirendererhtml.php';
+            $this->_renderer =& new GeSHiRendererHTML($this);
+        }
     }
 
+    /**
+     * Sets the code parser that will be used. This is used by language
+     * files in the geshi/languages directory to set their code parser
+     * 
+     * @param GeSHiCodeParser The code parser to use
+     */
+    function setCodeParser (&$codeparser)
+    {
+        // @todo [immediate] codeparser should be instanceof but a child of GeSHiCodeParser
+        $this->_codeParser =& $codeparser;
+    }
+    
     /**
      * This method adds parse data. It tries to merge it also if two
      * consecutive contexts with the same name add parse data (which is
@@ -180,11 +159,17 @@ class GeSHiStyler
      */    
     function addParseData ($code, $context_name, $url = '')
     {
-        if ($context_name == $this->_parseData[$this->_parseDataPointer][1]) {
-            // same context, same URL
-            $this->_parseData[$this->_parseDataPointer][0] .= $code;
-        } else {
-            $this->_parseData[++$this->_parseDataPointer] = array($code, $context_name, $url);
+        // @todo [immediate] test this, esp. not passing back anything and passing back multiple
+        // can use PHP code parser for this
+        $data = $this->_codeParser->parseToken($code, $context_name, $url);
+        if ($data) {
+            if (!is_array($data[0])) {
+                $this->_parsedCode .= $this->_renderer->parseToken($data[0], $data[1], $data[2]);
+            } else {
+                foreach ($data as $dat) {
+                    $this->_parsedCode .= $this->_renderer->parseToken($dat[0], $dat[1], $dat[2]);
+                }
+            }
         }
     }
     
@@ -198,9 +183,11 @@ class GeSHiStyler
     	$this->addParseData($code, "$context_name/$end_name");
     }
     
-    function getParseData ()
+    function getParsedCode ()
     {
-        return $this->_parseData;
+        $result = $this->_renderer->getHeader() . $this->_parsedCode . $this->_renderer->getFooter();
+        $this->_parsedCode = '';
+        return $result;
     }
     
     /**
