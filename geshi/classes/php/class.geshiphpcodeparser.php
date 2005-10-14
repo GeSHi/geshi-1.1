@@ -43,7 +43,9 @@ require_once GESHI_CLASSES_ROOT . 'class.geshicodeparser.php';
  * @since   1.1.1
  * @version $Revision$
  */
-class GeSHiPHPCodeParser extends GeSHiCodeParser {
+class GeSHiPHPCodeParser extends GeSHiCodeParser
+{
+    // {{{ properties
     
     /**
      * A flag that can be used for the "state" of parsing
@@ -52,35 +54,44 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser {
      */
     var $_state = '';
     
+    // }}}
+    // {{{ parseToken()
+    
     /**
      * This method can either return an array like
      * this one is doing, or nothing (false), or an
-     * array of arrays. This way,
-     * it can hold onto data it needs for parsing
+     * array of arrays. This way, it can hold onto
+     * data it needs for parsing
      * 
-     * @todo [immediate] Use this to highlight function
+     * @todo [blocking 1.1.1] Use this to put class names into a
+     * different context, and highlight them where they occur differently.
+     * 
+     * @todo [blocking 1.1.5] Use this to highlight function
      * names, e.g. function Foo means that Foo is php/php/function_names
      * and anywhere else Foo is encountered it is converted. This
-     * will have to take into account the name and dialect of the language
-     * currently being used (may have to alter GeSHiStyler for this,
-     * and also the & symbol that might be before the function, and
-     * check that the function token is actually in the right context
+     * will have to take into account:
+     * 
+     * - the name and dialect of the language currently being used (may
+     *   have to alter GeSHiStyler for this
+     * - the & symbol that might be before the function
+     * - the function token is actually in the right context (e.g. php/$DIALECT)
+     * - the function isn't actually a method (can highlight those too, of course)
      */
     function parseToken ($token, $context_name, $url)
     {
-        if ($this->_state == 'function') {
+        if ($this->_state == 'class') {
             $this->_state = '';
-            $context_name = 'php/php4/function_name';
+            $context_name = 'php/php4/class_name';
         }
         
-        //echo 'token: ' . $token . '<br />';
-        if ($token == 'function') {
-            //echo 'detected function';
-            $this->_state = 'function';
+        if ($token == 'class') {
+            $this->_state = 'class';
         }
         
         return array($token, $context_name, $url);
     }
+    
+    // }}}
 }
 
 ?>

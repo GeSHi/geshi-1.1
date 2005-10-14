@@ -36,7 +36,8 @@
 require_once GESHI_CLASSES_ROOT . 'class.geshicodeparser.php';
 
 /**
- * The GeSHiDefaultCodeParser class
+ * The GeSHiDefaultCodeParser class. Implements GeSHiCodeParser
+ * to provide for the default method of code parsing - do nothing
  * 
  * @package core
  * @author  Nigel McNie <nigel@geshi.org>
@@ -44,10 +45,15 @@ require_once GESHI_CLASSES_ROOT . 'class.geshicodeparser.php';
  * @version $Revision$
  */
 class GeSHiDefaultCodeParser extends GeSHiCodeParser {
-    var $_code;
+    // {{{ parseToken()
+    
+    /**
+     * Overrides {@link GeSHiCodeParser::parseToken()}
+     */
     function parseToken($token, $context_name, $url) {
         return array($token, $context_name, $url);
     }
+    // }}}
 }
 
 ?>
