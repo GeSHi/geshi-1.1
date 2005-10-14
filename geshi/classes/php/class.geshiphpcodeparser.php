@@ -79,12 +79,12 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
      */
     function parseToken ($token, $context_name, $url)
     {
-        if ($this->_state == 'class') {
+        if ('class' == $this->_state) {
             $this->_state = '';
-            $context_name = 'php/php4/class_name';
+            $context_name = 'php/php/class_name';
         }
         
-        if ($token == 'class') {
+        if ('class' == $token && 'php/php/keywords' == $context_name) {
             $this->_state = 'class';
         }
         
