@@ -142,7 +142,7 @@ class GeSHiStyler
      * Makes sure that GeSHiStyler has a code parser and
      * renderer associated with it.
      */
-    function resetParseData ()
+    function resetParseData ($language)
     {
         // Set result to empty
         $this->_parsedCode = '';
@@ -152,7 +152,7 @@ class GeSHiStyler
         if (is_null($this->_codeParser)) {
             /** Get the default code parser class */
             require_once GESHI_CLASSES_ROOT . 'class.geshidefaultcodeparser.php';
-            $this->_codeParser =& new GeSHiDefaultCodeParser($this);
+            $this->_codeParser =& new GeSHiDefaultCodeParser($this, $language);
         }
 
         // It the user did not explicitly set a renderer with GeSHi::accept(), then
