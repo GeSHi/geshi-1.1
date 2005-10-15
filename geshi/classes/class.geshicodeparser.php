@@ -59,6 +59,14 @@ class GeSHiCodeParser
      */
     var $_styler;
     
+    /**
+     * The language/dialect that is being highlighted
+     * 
+     * @var string
+     * @access private
+     */
+    var $_language;
+    
     // }}}
     // {{{ GeSHiCodeParser()
     
@@ -67,9 +75,10 @@ class GeSHiCodeParser
      * 
      * @param GeSHiStyler The styler oject to use
      */
-    function GeSHiCodeParser(&$styler)
+    function GeSHiCodeParser(&$styler, $language)
     {
         $this->_styler =& $styler;
+        $this->_language = $language;
     }
     
     // }}}
