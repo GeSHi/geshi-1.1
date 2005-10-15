@@ -54,6 +54,14 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
      */
     var $_state = '';
     
+    /**
+     * A store for a token that we can use for remembering tokens
+     * across calls to parseToken().
+     * 
+     * @todo [blocking 1.1.1] Change to a stack and move to parent
+     */
+    var $_store = null;
+    
     // }}}
     // {{{ parseToken()
     
@@ -65,10 +73,40 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
      * 
      * @todo [blocking 1.1.5] delphi fixes:
      *   - highlight default keyword if after ; in property context
-     *   - don't highlight functions if not before "(" brackets
+     *   - don't highlight functions if not before "(" brackets (alpha)
+     * @todo [blocking 1.1.1] add cleanup method to flush any stored tokens
      */
     function parseToken ($token, $context_name, $url)
     {
+        // If we have detected a keyword, instead of passing it back we will make sure it has a bracket
+        // after it, so we know for sure that it is a keyword. So we save it to "_store" and return false
+        if (substr($context_name, 0, strlen($this->_language . '/stdprocs')) == $this->_language . '/stdprocs') {
+            $this->_store = array($token, $context_name, $url);
+            return false;
+        }
+        
+        // If we have a store we can check now to see if the current token is a bracket
+        if ($this->_store && $context_name == $this->_language . '/brksym' && substr(trim($token), 0, 1) == '(') {
+            // The keyword was correctly used
+            $store = $this->_store;
+            $this->_store = null;
+            return array(
+                $store,
+                array($token, $context_name, $url)
+            );
+        } elseif ($this->_store) {
+            // Keyword was *not* correctly put in keywords, maybe it's a variable instead
+            $store = $this->_store;
+            $this->_store = null;
+            // Modify context to say that the keyword is actually just a bareword
+            $store[1] = $this->_language;
+            return array(
+                $store,
+                array($token, $context_name, $url)
+            );
+        }
+        
+        // Default action: just return the token
         return array($token, $context_name, $url);
     }
     
