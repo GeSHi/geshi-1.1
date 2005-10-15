@@ -519,7 +519,7 @@ class GeSHi
         //$code = ' ' . $this->_source;
         // Runtime setup of context tree/styler info
         // Prepare the styler for parsing 
-        $this->_styler->resetParseData();
+        $this->_styler->resetParseData($this->_language);
         // Remove contexts from the parse tree that aren't interesting
         $this->_rootContext->trimUselessChildren($this->_source);
         // The important bit - parse the code
