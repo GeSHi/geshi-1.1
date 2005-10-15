@@ -49,10 +49,32 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
     
     /**
      * A flag that can be used for the "state" of parsing
+     * 
      * @var string
      * @access private
      */
     var $_state = '';
+    
+    /**
+     * A list of class names detected in the source
+     * 
+     * @var array
+     * @access private
+     */
+    var $_classNames = array();
+    
+    // }}}
+    // {{{ GeSHiPHPCodeParser()
+    
+    /**
+     * This will probably disappear from here as theming support
+     * arrives
+     */
+    function GeSHiPHPCodeParser (&$styler, $language)
+    {
+        $this->GeSHiCodeParser($styler, $language);
+        $this->_styler->setStyle($language . '/class_name', 'color:#933;');
+    }
     
     // }}}
     // {{{ parseToken()
@@ -80,12 +102,16 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
     function parseToken ($token, $context_name, $url)
     {
         if ('class' == $this->_state) {
+            // We just read the keyword "class", so this token 
             $this->_state = '';
-            $context_name = 'php/php/class_name';
-        }
-        
-        if ('class' == $token && 'php/php/keywords' == $context_name) {
+            $context_name = $this->_language . '/class_name';
+            $this->_classNames[] = trim($token);
+        } elseif ('class' == $token && $this->_language . '/keywords' == $context_name) {
+            // We are about to read a class name
             $this->_state = 'class';
+        } elseif (in_array(trim($token), $this->_classNames) && $this->_language == $context_name) {
+            // Detected use of class name we have already detected
+            $context_name = $this->_language . '/class_name';
         }
         
         return array($token, $context_name, $url);
