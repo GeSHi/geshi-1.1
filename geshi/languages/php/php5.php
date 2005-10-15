@@ -52,6 +52,6 @@ $this->_humanLanguageName = 'PHP';
 $this->_rootContext =& new GeSHiCodeContext('html');
 $this->_rootContext->infectWith(new GeSHiCodeContext('php', 'php5'));
 
-$this->_styler->setCodeParser(new GeSHiPHPCodeParser($this->_styler));
+$this->_styler->setCodeParser(new GeSHiPHPCodeParser($this->_styler, $this->_language));
 
 ?>
