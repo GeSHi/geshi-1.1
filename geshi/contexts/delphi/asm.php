@@ -241,7 +241,7 @@ $this->_contextSymbols  = array(
 
 $this->_contextRegexps  = array(
     0 => array(
-        0 => array('#([a-zA-Z]+:)#'),
+        0 => array('#([a-zA-Z_]+:)#'),
         1 => ':',
         2 => array(
             1 => array($CONTEXT . '/label', 'color:#933;', false)
