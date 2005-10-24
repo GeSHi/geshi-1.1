@@ -633,19 +633,83 @@ class GeSHiContext
         $context_end_pos = false;
         $context_end_len = -1;
         $context_end_dlm = '';
+        $offset = 0;
         
         // Bail out if context open key tells us that there is no ender for this context
         if (-1 == $context_open_key) {
         	geshi_dbg('  no opener so no ender', GESHI_DBG_PARSE);
         	return false;
         }
+
+        // Balanced endings is handled here        
+        if (isset($this->_contextDelimiters[$context_open_key][3])) {
+            $balance_opener = $this->_contextDelimiters[$context_open_key][3][0];
+            $balance_closer = $this->_contextDelimiters[$context_open_key][3][1];
+
+            // We get the first push for free
+            // @todo [blocking 1.1.1] if what we are balancing against is not related
+            // to the starter of the context then we have a problem... check $context_opener
+            // for starter stuff instead of assuming
+            $balance_count = 1;
+            geshi_dbg('@w  Begun balancing', GESHI_DBG_PARSE);
+            
+            while ($balance_count > 0) {
+                // Look for opener/closers.
+                $opener_pos = geshi_get_position($code, $balance_opener, $offset);
+                $closer_pos = geshi_get_position($code, $balance_closer, $offset);
+                geshi_dbg('  opener pos = ' . print_r($opener_pos,true) . ', closer pos = ' . print_r($closer_pos,true), GESHI_DBG_PARSE);
+                
+                // Check what we found
+                if (false !== $opener_pos['pos']) {
+                    if (false !== $closer_pos['pos']) {
+                        // Opener and closer available
+                        if ($opener_pos['pos'] < $closer_pos['pos']) {
+                            // Opener is closer so inc. counter
+                            ++$balance_count;
+                            geshi_dbg('  opener is closer so inc. to ' . $balance_count, GESHI_DBG_PARSE);
+                            // Start searching from new pos just past where we found the opener
+                            $offset = $opener_pos['pos'] + 1;
+                            // @todo [blocking 1.1.1] could cache closer pos at this point?
+                        } else {
+                            // closer is closer (bad english heh)
+                            --$balance_count;
+                            $offset = $closer_pos['pos'] + 1;
+                            geshi_dbg('  closer is closer so dec. to ' . $balance_count, GESHI_DBG_PARSE);
+                        }
+                    } else {
+                        // No closer will ever be available yet we are still in this context...
+                        // use end of code as end pos
+                        // I've yet to test this case
+                        geshi_dbg('@w  No closer but still in this context!', GESHI_DBG_PARSE);
+                        return array('pos' => strlen($code), 'len' => 0, 'dlm' => '');
+                    }
+                } elseif (false !== $closer_pos['pos']) {
+                    // No opener but closer. Nothing wrong with this
+                    --$balance_count;
+                    $offset = $closer_pos['pos'] + 1;
+                    geshi_dbg('  only closer left, dec. to ' . $balance_count, GESHI_DBG_PARSE);
+                } else {
+                    // No opener or closer
+                    // Assume that we end this context at the end of the code, with
+                    // no delimiter
+                    geshi_dbg('@w  No opener or closer but still in this context!', GESHI_DBG_PARSE);
+                    return array('pos' => strlen($code), 'len' => 0, 'dlm' => '');
+                }
+            }
+            // start looking for real end from the position where balancing ends
+            // because we've found where balancing ends, but the end of the balancing
+            // is likely to be the same as the end of the context
+            --$offset;
+        }        
         
         foreach ($this->_contextDelimiters[$context_open_key][1] as $ender) {
             geshi_dbg('  Checking ender: ' . str_replace("\n", '\n', $ender), GESHI_DBG_PARSE, false);
             $ender = $this->_substitutePlaceholders($ender);
             geshi_dbg(' converted to ' . $ender, GESHI_DBG_PARSE);
-             
-            $position = geshi_get_position($code, $ender);
+            
+            // Use the offset we may have found when handling balancing of contexts (will
+            // be zero if balancing not done).
+            $position = geshi_get_position($code, $ender, $offset);
             geshi_dbg('    Ender ' . $ender . ': ' . print_r($position, true), GESHI_DBG_PARSE);
             $length   = $position['len'];
             $position = $position['pos'];
