@@ -33,9 +33,8 @@
  */
 
 $this->_styler->setStyle($CONTEXT, 'color:#f00;');
-
 $this->_childContexts = array(
-    new GeSHiCodeContext('codeworker', $DIALECT, 'cworkercwt')
+    new GeSHiCodeContext('codeworker', $DIALECT, 'cworkercwt', 'codeworker/codeworker')
 );
 
 ?>

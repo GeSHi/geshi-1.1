@@ -52,8 +52,8 @@ $this->_childContexts = array(
     new GeSHiStringContext('codeworker', 'codeworker', 'common/double_string')
 );
 
-//Skip styling since should already be done in codeworker/codeworker
-//$this->_styler->setStyle($CONTEXT, 'color:#000;');
+//Don't skip cos it ain't always what you think it is
+$this->_styler->setStyle($CONTEXT, 'color:#000;');
 
 $this->_contextKeywords = array(
     0 => array(
@@ -62,7 +62,8 @@ $this->_contextKeywords = array(
 			'value', 'node', 'function', 'return', 'insert', 'pushItem', 'break'
         ),
         // Again, we're faking being like codeworker
-        1 => 'codeworker/codeworker/keywords',
+        //1 => 'codeworker/codeworker/keywords',
+        1 => $CONTEXT . '/keywords',
         2 => 'color:#000;font-weight:bold;',
         3 => false,
         4 => ''
