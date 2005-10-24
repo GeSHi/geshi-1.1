@@ -36,7 +36,10 @@ $this->_contextDelimiters = array(
     0 => array(
         0 => array('REGEX#generate\s*\(\s*\{#'),
         1 => array('}'),
-        2 => false
+        2 => false,
+        3 => array('{', '}')   // number 3 is balancing.
+        // an array opener=>closer
+        // what about cases where you have multiple entries for opener/closer??? (just specify as limitation)
     ),
     1 => array(
         0 => array('REGEX#generateString\s*\(\s*\{#'),
