@@ -40,11 +40,14 @@
 // me, even if I am useless"
 $this->_contextDelimiters = array(
     0 => array(
-        0 => array('REGEX#return#', 'REGEX#javascript:#'),
+        0 => array('REGEX#^return#', 'REGEX#^javascript:#'),
         1 => array('"'),
         2 => false
     )
 );
+
+// Here is mentioned flag:
+$this->_neverTrim = true;
 
 // If this is set to parse any of the delimiters, the OCC swallows it up - setStartStyle and
 // setEndStyle have no meaning in a context with an OCC (actually, nor does setStyle)

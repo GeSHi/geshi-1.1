@@ -143,6 +143,12 @@ class GeSHiContext
     /**#@-*/
     
     /**
+     * Whether this context should never be trimmed
+     * @var boolean
+     */
+    var $_neverTrim = false;
+    
+    /**
      * Creates a new GeSHiContext.
      * 
      * @param string The name of the language this context represents
@@ -258,8 +264,8 @@ class GeSHiContext
             }
             // And add the infectious context to this context itself
             $this->_childContexts[] =& $this->_infectiousContext;
-            geshi_dbg('  Added infectious context ' . $this->_infectiousContext->getName()
-                . ' to ' . $this->getName(), GESHI_DBG_PARSE);
+            //geshi_dbg('  Added infectious context ' . $this->_infectiousContext->getName()
+            //    . ' to ' . $this->getName(), GESHI_DBG_PARSE);
         }
 
         // Recursively load the child contexts
@@ -514,9 +520,12 @@ class GeSHiContext
      */    
     function contextCanStart ($code)
     {
+        if ($this->_neverTrim) {
+            return true;
+        }
         foreach ($this->_contextDelimiters as $key => $delim_array) {
             foreach ($delim_array[0] as $delimiter) {
-                geshi_dbg('    Checking delimiter ' . $delimiter . '... ', GESHI_DBG_PARSE, false);
+                //geshi_dbg('    Checking delimiter ' . $delimiter . '... ', GESHI_DBG_PARSE, false);
                 $data     = geshi_get_position($code, $delimiter, 0, $delim_array[2]);
                 
                 if (false !== $data['pos']) {
