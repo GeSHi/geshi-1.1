@@ -40,6 +40,11 @@
  * @todo [blocking 1.1.1] (bug 16, 17) Better Delphi and Codeworker support
  */
 
+// Set error level to E_ALL. This stops warnings about
+// PHP4-PHP5 compatibility problems when using E_STRICT
+// in PHP5
+$geshi_old_reporting_level = error_reporting(E_ALL);
+
 /** GeSHi Version */
 define('GESHI_VERSION', '1.1.1alpha1');
 
@@ -756,5 +761,8 @@ class GeSHi
     // }}}
     /**#@-*/    
 }
+
+// Reset error reporting level
+error_reporting($geshi_old_reporting_level);
 
 ?>
