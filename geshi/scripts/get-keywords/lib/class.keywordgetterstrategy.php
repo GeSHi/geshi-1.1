@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -68,18 +67,22 @@ class KeywordGetterStrategy
     var $_validKeywordGroups;
     
     /**
-     * used?
+     * Extra keywords missed by the language file
+     * 
+     * @var array
+     * @access private
      */
-    var $_keywords = array();
+    var $_missedKeywords = array();
     
     /**#@-*/
         
     /**
      * @abstract
      */
-    function getKeywords ($keyword_group)
+    function &getKeywords ($keyword_group)
     {
-        return new KeywordGetterError(LANG_NOT_SUPPORTED, $this->_language);
+        $tmp =& new KeywordGetterError(LANG_NOT_SUPPORTED, $this->_language);
+        return $tmp;
     }
     
     /**
@@ -99,6 +102,20 @@ class KeywordGetterStrategy
         }
         return new KeywordGetterError(INVALID_KEYWORD_GROUP, $this->_language,
             array('{KEYWORD_GROUP}' => $keyword_group));
+    }
+
+    /**
+     * Tidies up the keywords that are to be returned
+     */
+    function &tidy ($keywords, $keyword_group)
+    {
+        if (isset($this->_missedKeywords[$keyword_group])) {
+            $keywords = array_merge($keywords, $this->_missedKeywords[$keyword_group]);
+        }
+        
+        sort($keywords);
+        $keywords = array_unique($keywords);
+        return $keywords;
     }
 }
 
