@@ -52,6 +52,8 @@ define('GESHI_GET_KEYWORDS_VERSION', '0.1.2');
 // As always...
 error_reporting(E_ALL);
 
+ini_set('include_path', ini_get('include_path') . ':lib/pear');
+
 /** Get standard functions */
 require_once 'lib/functions.get-keywords.php';
 /** Get the KeywordGetter class */
