@@ -66,8 +66,10 @@ class cssKeywordGetterStrategy extends KeywordGetterStrategy
      *                 group an error is returned
      * @return array  The keywords for CSS for the specified keyword group
      * @throws KeywordGetterError
+     * @todo [blocking 1.1.5] The getKeywords for XML based ones are nearly identical, so I should
+     * try to group them
      */
-    function getKeywords ($keyword_group)
+    function &getKeywords ($keyword_group)
     {
         // Check that keyword group listed is valid
         $group_valid = $this->keywordGroupIsValid($keyword_group);
@@ -81,20 +83,24 @@ class cssKeywordGetterStrategy extends KeywordGetterStrategy
         // Set the file to parse to Nigel's local CSS syntax file.
         // @todo [blocking 1.1.9] Find online if possible (check kde.org) and link to that
         // @todo [blocking 1.1.9] Make configurable the file? Have at least hardcoded ones for me and for the web
-        $result =& $xml_parser->setInputFile('/usr/share/apps/katepart/syntax/css.xml');
+        $result = $xml_parser->setInputFile('/usr/share/apps/katepart/syntax/css.xml');
         if (PEAR::isError($result)) {
-            return new KeywordGetterError(FILE_UNAVAILABLE, $this->_language,
+            $tmp =& new KeywordGetterError(FILE_UNAVAILABLE, $this->_language,
                 array('{FILENAME}' => '/usr/share/apps/katepart/syntax/css.xml'));
+            return $tmp;
         }        
 
-        $result =& $xml_parser->parse();
+        $result = $xml_parser->parse();
         if (PEAR::isError($result)) {
-            return new KeywordGetterError(PARSE_ERROR, $this->_language,
+            $tmp =& new KeywordGetterError(PARSE_ERROR, $this->_language,
                 array('{PARSE_ERROR}' => $result->getMessage()));
+            return $tmp;
         }
         
         $keywords =& $xml_parser->getKeywords();
-        return array_unique($keywords);
+        
+        $keywords = $this->tidy($keywords, $keyword_group);
+        return $keywords;
     }
 }
 

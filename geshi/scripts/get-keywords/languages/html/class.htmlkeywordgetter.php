@@ -71,7 +71,7 @@ class htmlKeywordGetterStrategy extends KeywordGetterStrategy
      * @return array  The keywords for HTML for the specified keyword group
      * @throws KeywordGetterError
      */
-    function getKeywords ($keyword_group)
+    function &getKeywords ($keyword_group)
     {
         // Check that keyword group listed is valid
         $group_valid = $this->keywordGroupIsValid($keyword_group);
@@ -80,8 +80,9 @@ class htmlKeywordGetterStrategy extends KeywordGetterStrategy
         }
         
         if (!is_readable($this->_fileName)) {
-            return new KeywordGetterError(FILE_UNAVAILABLE, $this->_language,
+            $tmp =& new KeywordGetterError(FILE_UNAVAILABLE, $this->_language,
                 array('{FILENAME}' => $this->_fileName));
+            return $tmp;
         }
         
         $file_contents = implode('', file($this->_fileName));
@@ -89,7 +90,8 @@ class htmlKeywordGetterStrategy extends KeywordGetterStrategy
         preg_match_all('#<td title="Name"><a[^>]+>\s*([a-z\-]+)#', $file_contents, $matches);
         $keywords = $matches[1];
         
-        return array_unique($keywords);
+        $keywords = $this->tidy($keywords, $keyword_group);
+        return $keywords;
     }
 }
 

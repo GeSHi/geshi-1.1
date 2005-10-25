@@ -56,6 +56,20 @@ class phpKeywordGetterStrategy extends KeywordGetterStrategy
         $this->_validKeywordGroups = array(
             'controlstructures', 'keywords', 'functions'
         );
+        $this->_missedKeywords = array(
+            'control structures' => array(
+                'endwhile', 'endif', 'endswitch', 'endforeach'
+            ),
+            'keywords' => array(
+                '__FUNCTION__', '__CLASS__', '__METHOD__',
+                'DEFAULT_INCLUDE_PATH', 'PEAR_INSTALL_DIR', 'PEAR_EXTENSION_DIR',
+                'PHP_EXTENSION_DIR', 'PHP_BINDIR', 'PHP_LIBDIR', 'PHP_DATADIR',
+                'PHP_SYSCONFDIR', 'PHP_LOCALSTATEDIR', 'PHP_CONFIG_FILE_PATH',
+                'PHP_OUTPUT_HANDLER_START', 'PHP_OUTPUT_HANDLER_CONT',
+                'PHP_OUTPUT_HANDLER_END', 'E_STRICT', 'E_CORE_ERROR', 'E_CORE_WARNING',
+                'E_COMPILE_ERROR', 'E_COMPILE_WARNING'
+            )
+        );        
     }
         
     /**
@@ -67,7 +81,7 @@ class phpKeywordGetterStrategy extends KeywordGetterStrategy
      * @return array  The keywords for PHP for the specified keyword group
      * @throws KeywordGetterError
      */
-    function getKeywords ($keyword_group)
+    function &getKeywords ($keyword_group)
     {
         // Check that keyword group listed is valid
         $group_valid = $this->keywordGroupIsValid($keyword_group);
@@ -85,35 +99,24 @@ class phpKeywordGetterStrategy extends KeywordGetterStrategy
         $xml_parser->setKeywordGroup($keyword_group);
         
         // Set the file to parse to Nigel's local PHP syntax file.
-        $result =& $xml_parser->setInputFile('/usr/share/apps/katepart/syntax/php.xml');
+        $result = $xml_parser->setInputFile('/usr/share/apps/katepart/syntax/php.xml');
         if (PEAR::isError($result)) {
-            return new KeywordGetterError(FILE_UNAVAILABLE, $this->_language,
+            $tmp =& new KeywordGetterError(FILE_UNAVAILABLE, $this->_language,
                 array('{FILENAME}' => '/usr/share/apps/katepart/syntax/php.xml'));
+            return $tmp;
         }        
 
-        $result =& $xml_parser->parse();
+        $result = $xml_parser->parse();
         if (PEAR::isError($result)) {
-            return new KeywordGetterError(PARSE_ERROR, $this->_language,
+            $tmp =& new KeywordGetterError(PARSE_ERROR, $this->_language,
                 array('{PARSE_ERROR}' => $result->getMessage()));
+            return $tmp;
         }
         
         $keywords =& $xml_parser->getKeywords();
         
-        // Add some keywords that don't seem to be in the XML file
-        if ('control structures' == $keyword_group) {
-            array_push($keywords, 'endwhile', 'endif', 'endswitch', 'endforeach');
-        } elseif ('keywords' == $keyword_group) {
-            array_push($keywords, '__FUNCTION__', '__CLASS__', '__METHOD__',
-            'DEFAULT_INCLUDE_PATH', 'PEAR_INSTALL_DIR', 'PEAR_EXTENSION_DIR',
-            'PHP_EXTENSION_DIR', 'PHP_BINDIR', 'PHP_LIBDIR', 'PHP_DATADIR',
-            'PHP_SYSCONFDIR', 'PHP_LOCALSTATEDIR', 'PHP_CONFIG_FILE_PATH',
-            'PHP_OUTPUT_HANDLER_START', 'PHP_OUTPUT_HANDLER_CONT',
-            'PHP_OUTPUT_HANDLER_END', 'E_STRICT', 'E_CORE_ERROR', 'E_CORE_WARNING',
-            'E_COMPILE_ERROR', 'E_COMPILE_WARNING');
-        }
-        sort($keywords);
-
-        return array_unique($keywords);
+        $keywords =& $this->tidy($keywords, $keyword_group);
+        return $keywords;
     }
 }
 
