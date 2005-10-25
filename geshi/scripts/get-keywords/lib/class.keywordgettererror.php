@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -53,7 +52,7 @@ class KeywordGetterError
 (see php $0 list-langs for a list of supported languages)',
         INVALID_STRATEGY      =>
             'The strategy object given is invalid (this is an internal error,
-if you see this please send a bug report to nigel@geshi.org)',
+if you see this please submit a bug report at http://geshi.org/developers/bugs/)',
         INVALID_KEYWORD_GROUP =>
             'The keyword group "{KEYWORD_GROUP}" given is invalid for the language "{LANGUAGE}"',
         PARSE_ERROR =>
