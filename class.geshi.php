@@ -56,7 +56,7 @@ define('GESHI_DIR_SEP', GESHI_DIR_SEPARATOR);
 // Define the root directory for the GeSHi code tree
 if (!defined('GESHI_ROOT')) {
     /** The root directory for GeSHi (where class.geshi.php is located) */
-    define('GESHI_ROOT', dirname(__FILE__) . GESHI_DIR_SEPARATOR);
+    define('GESHI_ROOT', dirname(__FILE__) . GESHI_DIR_SEP);
 }
 
 /**#@+
