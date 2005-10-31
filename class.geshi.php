@@ -46,7 +46,7 @@
 $geshi_old_reporting_level = error_reporting(E_ALL);
 
 /** GeSHi Version */
-define('GESHI_VERSION', '1.1.1alpha1');
+define('GESHI_VERSION', '1.1.1alpha2');
 
 /** Set the correct directory separator */
 define('GESHI_DIR_SEPARATOR', ('WIN' != substr(PHP_OS, 0, 3)) ? '/' : '\\');
@@ -56,7 +56,7 @@ define('GESHI_DIR_SEP', GESHI_DIR_SEPARATOR);
 // Define the root directory for the GeSHi code tree
 if (!defined('GESHI_ROOT')) {
     /** The root directory for GeSHi (where class.geshi.php is located) */
-    define('GESHI_ROOT', dirname(__FILE__) . GESHI_DIR_SEP);
+    define('GESHI_ROOT', dirname(__FILE__) . GESHI_DIR_SEPARATOR);
 }
 
 /**#@+
