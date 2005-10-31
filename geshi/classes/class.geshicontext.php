@@ -42,6 +42,8 @@
  */
 class GeSHiContext
 {
+    // {{{ properties
+    
     /**#@-
      * @access private
      */
@@ -148,6 +150,9 @@ class GeSHiContext
      */
     var $_neverTrim = false;
     
+    // }}}
+    // {{{ GeSHiContext()
+    
     /**
      * Creates a new GeSHiContext.
      * 
@@ -186,6 +191,9 @@ class GeSHiContext
         }
     }
     
+    // }}}
+    // {{{ getName()
+    
     /**
      * Returns the name of this context
      * 
@@ -196,23 +204,58 @@ class GeSHiContext
         return $this->_contextName;
     }
     
+    // }}}
+    // {{{ getStartName()
+    
+    /**
+     * Returns the name given to the part of this context that is
+     * matched by the starting context delimiter. Typically this is
+     * used by aliased contexts to lie about what they really start
+     * with.
+     * 
+     * @return string
+     */
     function getStartName ()
     {
         return $this->_startName;
     }
     
+    // }}}
+    // {{{ getEndName()
+    
+    /**
+     * Returns the name given to the part of this context that is
+     * matched by the ending context delimiter. Typically this is
+     * used by aliased contexts to lie about what they really end
+     * with.
+     * 
+     * @return string
+     */
     function getEndName ()
     {
         return $this->_endName;
     }
     
+    // }}}
+    // {{{ isAlias()
+    
+    /**
+     * Returns whether this context is an aliased context
+     * 
+     * @return boolean
+     */
     function isAlias ()
     {
         return $this->_isAlias;
     }
     
+    // }}}
+    // {{{ load()
+    
     /**
      * Loads the context data
+     * 
+     * @param GeSHiStyler The styler object to use
      */
     function load (&$styler)
     {
@@ -284,6 +327,9 @@ class GeSHiContext
         //geshi_dbg('@o  Finished loading context ' . $this->_styleName . ' successfully', GESHI_DBG_PARSE);
     }
 
+    // }}}
+    // {{{ infectWith()
+    
     /**
      * Adds an "infectious child" to this context.
      * 
@@ -296,6 +342,8 @@ class GeSHiContext
         //    . ' to ' . $this->getName(), GESHI_DBG_PARSE);
     }
     
+    // }}}
+    // {{{ loadStyleData()
     
     /**
      * Loads style data for the given context. Not implemented here, but can be overridden
@@ -317,7 +365,10 @@ class GeSHiContext
             $this->_overridingChildContext->loadStyleData();
         }        
     }
-     
+    
+    // }}}
+    // {{{ trimUselessChildren()
+    
     /**
      * Checks each child to see if it's useful. If not, then remove it
      * 
@@ -352,7 +403,10 @@ class GeSHiContext
         foreach ($keys as $key) {
             $this->_childContexts[$key]->trimUselessChildren($code);
         }
-    }        
+    }
+    
+    // }}}
+    // {{{ parseCode()        
     
     /**
      * Parses the given code
@@ -498,6 +552,9 @@ class GeSHiContext
             }
         }
     }
+    
+    // }}}
+    // {{{ shouldParseStarter()
 
     /**
      * @return true if this context wants to parse its start delimiters
@@ -507,6 +564,9 @@ class GeSHiContext
         return $this->_delimiterParseData & GESHI_CHILD_PARSE_LEFT;
     }
     
+    // }}}
+    // {{{ shouldParseEnder()
+    
     /**
      * @return true if this context wants to parse its end delimiters
      */
@@ -514,6 +574,9 @@ class GeSHiContext
     {
         return $this->_delimiterParseData & GESHI_CHILD_PARSE_RIGHT;
     }
+    
+    // }}}
+    // {{{ contextCanStart()
 
     /**
      * Return true if it is possible for this context to parse this code at all
@@ -535,7 +598,10 @@ class GeSHiContext
         }
         return false;
     }
-         
+    
+    // }}}
+    // {{{ _getEarliestContextData()
+
     /**
      * Works out the closest child context
      * 
@@ -585,6 +651,9 @@ class GeSHiContext
         }
     }
     
+    // }}}
+    // {{{ getContextStartData()
+    
     /**
      * Checks the context delimiters for this context against the passed
      * code to see if this context can help parse the code
@@ -631,6 +700,9 @@ class GeSHiContext
         return array('pos' => $first_position, 'len' => $first_length,
                      'key' => $first_key, 'dlm' => $first_dlm);
     }
+    
+    // }}}
+    // {{{ _getContextEndData()
     
     /**
      * GetContextEndData
@@ -743,6 +815,9 @@ class GeSHiContext
         }
     }
     
+    // }}}
+    // {{{ _addParseData()
+    
     /**
      * Adds parse data to the overall result
      * 
@@ -758,6 +833,9 @@ class GeSHiContext
        $this->_styler->addParseData($code, $this->_contextName);
     }
     
+    // }}}
+    // {{{ _addParseDataStart()
+    
     /**
      * Adds parse data for the start of a context to the overallresult
      */
@@ -765,6 +843,9 @@ class GeSHiContext
     {
         $this->_styler->addParseDataStart($code, $this->_contextName, $this->_startName);
     }
+    
+    // }}}
+    // {{{ _addParseDataEnd()
 
     /**
      * Adds parse data for the end of a context to the overallresult
@@ -773,6 +854,9 @@ class GeSHiContext
     {
         $this->_styler->addParseDataEnd($code, $this->_contextName, $this->_endName);
     }
+    
+    // }}}
+    // {{{ _substitutePlaceholders()
     
     /**
      * Substitutes placeholders for values matched in opening regular expressions
@@ -789,6 +873,8 @@ class GeSHiContext
         }
         return $ender;
     }
+    
+    // }}}
 }
 
 ?>
