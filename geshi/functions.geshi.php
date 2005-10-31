@@ -106,6 +106,7 @@ function geshi_dbg ($message, $context, $add_nl = true, $return_counts = false)
  * 
  * @param string The absolute pathname of the file to check
  * @return boolean Whether the file is readable by GeSHi
+ * @todo [blocking 1.1.5] Check that path does not contain links etc (bug ??)
  */
 function geshi_can_include ($file_name)
 {
@@ -169,6 +170,8 @@ function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = 
  * 
  * @param string The prefix to use for the name of this number match
  * @return array
+ * @todo [blocking 1.1.5] Octal/hexadecimal numbers are common, so should have functions
+ *       for those, and make sure that integers/doubles do not collide
  */
 function geshi_use_integers ($prefix)
 {
