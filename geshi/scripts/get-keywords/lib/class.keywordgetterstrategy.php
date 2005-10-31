@@ -113,7 +113,7 @@ class KeywordGetterStrategy
             $keywords = array_merge($keywords, $this->_missedKeywords[$keyword_group]);
         }
         
-        sort($keywords);
+        natcasesort($keywords);
         $keywords = array_unique($keywords);
         return $keywords;
     }
