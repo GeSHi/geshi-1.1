@@ -92,7 +92,12 @@ if (get_option(array('v', 'version'), $args)) {
 // Check for --list-langs
 if (get_option('list-langs', $args)) {
     $languages = KeywordGetter::getSupportedLanguages();
-    print_r($languages);
+    // Print one per line, other scripts can use this info
+    $output = '';
+    foreach ($languages as $language) {
+        $output .= "$language\n";
+    }
+    echo $output;
     exit;
 }
 
@@ -102,7 +107,12 @@ if (false !== ($language = get_option('list-groups', $args))) {
     if (KeywordGetter::isError($kwgetter)) {
         die($kwgetter->lastError());
     }
-    print_r($kwgetter->getValidKeywordGroups());
+    $groups = $kwgetter->getValidKeywordGroups();
+    $output = '';
+    foreach ($groups as $group) {
+        $output .= "$group\n";
+    }
+    echo $output;
     exit;
 }
 
