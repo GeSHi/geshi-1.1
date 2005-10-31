@@ -29,6 +29,7 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
+ * @todo [blocking 1.1.1] is the instr_i386 and instr_i387 sets supposed to be named instr/i38[6|7]?
  *
  */
 
@@ -63,9 +64,8 @@ $this->_contextKeywords = array(
 
     1 => array(
         0 => array(
-            'large', 'small',
-            'offset','vmtoffset','dmtindex',
-            'byte', 'word', 'dword', 'qword', 'tbyte', 'ptr'
+            'byte', 'dmtindex', 'dword', 'large', 'offset', 'ptr', 'qword', 'small',
+            'tbyte', 'vmtoffset', 'word'
         ),
         1 => $CONTEXT . '/control',
         2 => 'color:#00f; font-weight: bold;',
@@ -98,30 +98,40 @@ $this->_contextKeywords = array(
             'setpe','setpo','sets','setz','shld','shrd','stosd','bswap','cmpxchg','invd','invlpg',
             'wbinvd','xadd','lock','rep','repe','repne','repnz','repz'
 */
-            'AAA','AAD','AAM','AAS','ADC','ADD','AND','ARPL','BOUND','BSF','BSR','BSWAP','BT','BTC','BTR',
-            'BTS','CALL','CBW','CDQ','CLC','CLD','CLI','CLTS','CMC','CMP','CMPSB','CMPSD','CMPSW',
-            'CMPXCHG','CMPXCHG486','CMPXCHG8B','CPUID','CWD','CWDE',
-            'cmova','cmovae','cmovb','cmovbe','cmovc','cmovcxz','cmove','cmovg','cmovge','cmovl','cmovle',
-            'cmovna','cmovnae','cmovnb','cmovnbe','cmovnc','cmovne','cmovng','cmovnge','cmovnl','cmovnle',
-            'cmovno','cmovnp','cmovns','cmovnz','cmovo','cmovp','cmovpe','cmovpo','cmovs','cmovz',
-            'DAA','DAS','DEC','DIV','EMMS','ENTER','HLT','IBTS','ICEBP','IDIV','IMUL','IN','INC','INSB',
-            'INSD','INSW','INT','INT01','INT1','INT03','INT3','INTO','INVD','INVLPG','IRET','IRETD','IRETW',
-            'JCXZ','JECXZ','JMP','ja','jae','jb','jbe','jc','jcxz','je','jg','jge','jl','jle','jna','jnae',
-            'jnb','jnbe','jnc','jne','jng','jnge','jnl','jnle','jno','jnp','jns','jnz','jo','jp','jpe',
-            'jpo','js','jz','LAHF','LAR','LCALL','LDS','LEA','LEAVE','LES','LFS','LGDT','LGS','LIDT',
-            'LJMP','LLDT','LMSW','LOADALL','LOADALL286','LOCK','LODSB','LODSD','LODSW','LOOP','LOOPE',
-            'LOOPNE','LOOPNZ','LOOPZ','LSL','LSS','LTR','MOV','MOVD','MOVQ','MOVSB','MOVSD','MOVSW','MOVSX',
-            'MOVZX','MUL','NEG','NOP','NOT','OR','OUT','OUTSB','OUTSD','OUTSW','POP','POPA','POPAD','POPAW',
-            'POPF','POPFD','POPFW','PUSH','PUSHA','PUSHAD','PUSHAW','PUSHF','PUSHFD','PUSHFW','RCL','RCR',
-            'RDSHR','RDMSR','RDPMC','RDTSC','REP','REPE','REPNE','REPNZ','REPZ','RET','RETF','RETN','ROL',
-            'ROR','RSDC','RSLDT','RSM','SAHF','SAL','SALC','SAR','SBB','SCASB','SCASD','SCASW','SGDT',
-            'seta','setae','setb','setbe','setc','setcxz','sete','setg','setge','setl','setle','setna',
-            'setnae','setnb','setnbe','setnc','setne','setng','setnge','setnl','setnle','setno','setnp',
-            'setns','setnz','seto','setp','setpe','setpo','sets','setz',
-            'SHL','SHLD','SHR','SHRD','SIDT','SLDT','SMI','SMINT','SMINTOLD','SMSW','STC','STD','STI','STOSB',
-            'STOSD','STOSW','STR','SUB','SVDC','SVLDT','SVTS','SYSCALL','SYSENTER','SYSEXIT','SYSRET','TEST',
-            'UD1','UD2','UMOV','VERR','VERW','WAIT','WBINVD','WRSHR','WRMSR','XADD','XBTS','XCHG','XLAT',
-            'XLATB','XOR'
+            'AAA', 'AAD', 'AAM', 'AAS', 'ADC', 'ADD', 'AND', 'ARPL', 'BOUND', 'BSF',
+            'BSR', 'BSWAP', 'BT', 'BTC', 'BTR', 'BTS', 'CALL', 'CBW', 'CDQ', 'CLC',
+            'CLD', 'CLI', 'CLTS', 'CMC', 'cmova', 'cmovae', 'cmovb', 'cmovbe',
+            'cmovc', 'cmovcxz', 'cmove', 'cmovg', 'cmovge', 'cmovl', 'cmovle',
+            'cmovna', 'cmovnae', 'cmovnb', 'cmovnbe', 'cmovnc', 'cmovne', 'cmovng',
+            'cmovnge', 'cmovnl', 'cmovnle', 'cmovno', 'cmovnp', 'cmovns', 'cmovnz',
+            'cmovo', 'cmovp', 'cmovpe', 'cmovpo', 'cmovs', 'cmovz', 'CMP', 'CMPSB',
+            'CMPSD', 'CMPSW', 'CMPXCHG', 'CMPXCHG8B', 'CMPXCHG486', 'CPUID', 'CWD',
+            'CWDE', 'DAA', 'DAS', 'DEC', 'DIV', 'EMMS', 'ENTER', 'HLT', 'IBTS',
+            'ICEBP', 'IDIV', 'IMUL', 'IN', 'INC', 'INSB', 'INSD', 'INSW', 'INT',
+            'INT01', 'INT03', 'INT1', 'INT3', 'INTO', 'INVD', 'INVLPG', 'IRET',
+            'IRETD', 'IRETW', 'ja', 'jae', 'jb', 'jbe', 'jc', 'jcxz', 'JCXZ', 'je',
+            'JECXZ', 'jg', 'jge', 'jl', 'jle', 'JMP', 'jna', 'jnae', 'jnb', 'jnbe',
+            'jnc', 'jne', 'jng', 'jnge', 'jnl', 'jnle', 'jno', 'jnp', 'jns', 'jnz',
+            'jo', 'jp', 'jpe', 'jpo', 'js', 'jz', 'LAHF', 'LAR', 'LCALL', 'LDS',
+            'LEA', 'LEAVE', 'LES', 'LFS', 'LGDT', 'LGS', 'LIDT', 'LJMP', 'LLDT',
+            'LMSW', 'LOADALL', 'LOADALL286', 'LOCK', 'LODSB', 'LODSD', 'LODSW',
+            'LOOP', 'LOOPE', 'LOOPNE', 'LOOPNZ', 'LOOPZ', 'LSL', 'LSS', 'LTR', 'MOV',
+            'MOVD', 'MOVQ', 'MOVSB', 'MOVSD', 'MOVSW', 'MOVSX', 'MOVZX', 'MUL', 'NEG',
+            'NOP', 'NOT', 'OR', 'OUT', 'OUTSB', 'OUTSD', 'OUTSW', 'POP', 'POPA',
+            'POPAD', 'POPAW', 'POPF', 'POPFD', 'POPFW', 'PUSH', 'PUSHA', 'PUSHAD',
+            'PUSHAW', 'PUSHF', 'PUSHFD', 'PUSHFW', 'RCL', 'RCR', 'RDMSR', 'RDPMC',
+            'RDSHR', 'RDTSC', 'REP', 'REPE', 'REPNE', 'REPNZ', 'REPZ', 'RET', 'RETF',
+            'RETN', 'ROL', 'ROR', 'RSDC', 'RSLDT', 'RSM', 'SAHF', 'SAL', 'SALC',
+            'SAR', 'SBB', 'SCASB', 'SCASD', 'SCASW', 'seta', 'setae', 'setb', 'setbe',
+            'setc', 'setcxz', 'sete', 'setg', 'setge', 'setl', 'setle', 'setna',
+            'setnae', 'setnb', 'setnbe', 'setnc', 'setne', 'setng', 'setnge', 'setnl',
+            'setnle', 'setno', 'setnp', 'setns', 'setnz', 'seto', 'setp', 'setpe',
+            'setpo', 'sets', 'setz', 'SGDT', 'SHL', 'SHLD', 'SHR', 'SHRD', 'SIDT',
+            'SLDT', 'SMI', 'SMINT', 'SMINTOLD', 'SMSW', 'STC', 'STD', 'STI', 'STOSB',
+            'STOSD', 'STOSW', 'STR', 'SUB', 'SVDC', 'SVLDT', 'SVTS', 'SYSCALL',
+            'SYSENTER', 'SYSEXIT', 'SYSRET', 'TEST', 'UD1', 'UD2', 'UMOV', 'VERR',
+            'VERW', 'WAIT', 'WBINVD', 'WRMSR', 'WRSHR', 'XADD', 'XBTS', 'XCHG',
+            'XLAT', 'XLATB', 'XOR'
         ),
         1 => $CONTEXT . '/instr_i386',
         2 => 'color:#00f; font-weight:bold;',
@@ -145,19 +155,23 @@ $this->_contextKeywords = array(
             'fsetpm','fcos','fldenvd','fnsaved','fnstenvd','fprem1','frstord','fsaved','fsin','fsincos',
             'fstenvd','fucom','fucomp','fucompp'
         */
-            'F2XM1','FABS','FADD','FADDP','FBLD','FBSTP','FCHS','FCLEX','FCMOVB','FCMOVBE','FCMOVE','FCMOVNB',
-            'FCMOVNBE','FCMOVNE','FCMOVNU','FCMOVU','FCOM','FCOMI','FCOMIP','FCOMP','FCOMPP','FCOS','FDECSTP',
-            'FDISI','FDIV','FDIVP','FDIVR','FDIVRP','FEMMS','FENI','FFREE','FIADD','FICOM','FICOMP','FIDIV',
-            'FIDIVR','FILD','FIMUL','FINCSTP','FINIT','FIST','FISTP','FISUB','FISUBR','FLD','FLD1','FLDCW',
-            'FLDENV','FLDL2E','FLDL2T','FLDLG2','FLDLN2','FLDPI','FLDZ','FMUL','FMULP','FNCLEX','FNDISI',
-            'FNENI','FNINIT','FNOP','FNSAVE','FNSTCW','FNSTENV','FNSTSW','FPATAN','FPREM','FPREM1','FPTAN',
-            'FRNDINT','FRSTOR','FSAVE','FSCALE','FSETPM','FSIN','FSINCOS','FSQRT','FST','FSTCW','FSTENV',
-            'FSTP','FSTSW','FSUB','FSUBP','FSUBR','FSUBRP','FTST','FUCOM','FUCOMI','FUCOMIP','FUCOMP',
-            'FUCOMPP','FWAIT','FXAM','FXCH','FXTRACT','FYL2X','FYL2XP1'
+            'F2XM1', 'FABS', 'FADD', 'FADDP', 'FBLD', 'FBSTP', 'FCHS', 'FCLEX',
+            'FCMOVB', 'FCMOVBE', 'FCMOVE', 'FCMOVNB', 'FCMOVNBE', 'FCMOVNE',
+            'FCMOVNU', 'FCMOVU', 'FCOM', 'FCOMI', 'FCOMIP', 'FCOMP', 'FCOMPP', 'FCOS',
+            'FDECSTP', 'FDISI', 'FDIV', 'FDIVP', 'FDIVR', 'FDIVRP', 'FEMMS', 'FENI',
+            'FFREE', 'FIADD', 'FICOM', 'FICOMP', 'FIDIV', 'FIDIVR', 'FILD', 'FIMUL',
+            'FINCSTP', 'FINIT', 'FIST', 'FISTP', 'FISUB', 'FISUBR', 'FLD', 'FLD1',
+            'FLDCW', 'FLDENV', 'FLDL2E', 'FLDL2T', 'FLDLG2', 'FLDLN2', 'FLDPI',
+            'FLDZ', 'FMUL', 'FMULP', 'FNCLEX', 'FNDISI', 'FNENI', 'FNINIT', 'FNOP',
+            'FNSAVE', 'FNSTCW', 'FNSTENV', 'FNSTSW', 'FPATAN', 'FPREM', 'FPREM1',
+            'FPTAN', 'FRNDINT', 'FRSTOR', 'FSAVE', 'FSCALE', 'FSETPM', 'FSIN',
+            'FSINCOS', 'FSQRT', 'FST', 'FSTCW', 'FSTENV', 'FSTP', 'FSTSW', 'FSUB',
+            'FSUBP', 'FSUBR', 'FSUBRP', 'FTST', 'FUCOM', 'FUCOMI', 'FUCOMIP',
+            'FUCOMP', 'FUCOMPP', 'FWAIT', 'FXAM', 'FXCH', 'FXTRACT', 'FYL2X',
+            'FYL2XP1'
         ),
         1 => $CONTEXT . '/instr_i387',
         2 => 'color:#00f; font-weight:bold;',
-        3 => false,
         4 => ''
     ),
 
@@ -165,18 +179,18 @@ $this->_contextKeywords = array(
     4 => array(
         0 => array(
             // @todo order the mmx instruction set
-
-            'FFREEP','FXRSTOR','FXSAVE','PREFETCHNTA','PREFETCHT0','PREFETCHT1','PREFETCHT2','SFENCE',
-            'MASKMOVQ','MOVNTQ','PAVGB','PAVGW','PEXTRW','PINSRW','PMAXSW','PMAXUB','PMINSW','PMINUB',
-            'PMOVMSKB','PMULHUW','PSADBW','PSHUFW',
-
-            'PACKSSDW','PACKSSWB','PACKUSWB','PADDB','PADDD','PADDSB','PADDSIW','PADDSW','PADDUSB','PADDUSW',
-            'PADDW','PAND','PANDN','PAVEB','PCMPEQB','PCMPEQD','PCMPEQW','PCMPGTB','PCMPGTD',
-            'PCMPGTW','PDISTIB','PFCMPEQ','PFCMPGE','PFCMPGT','PMACHRIW','PMADDWD',
-            'PMAGW','PMVGEZB','PMVLZB','PMVNZB','PMVZB',
-            'POR','PSLLD','PSLLQ','PSLLW','PSRAD','PSRAW','PSRLD','PSRLQ','PSRLW',
-            'PSUBB','PSUBD','PSUBSB','PSUBSIW','PSUBSW','PSUBUSB','PSUBUSW','PSUBW','PUNPCKHBW','PUNPCKHDQ',
-            'PUNPCKHWD','PUNPCKLBW','PUNPCKLDQ','PUNPCKLWD','PXOR'
+            'FFREEP', 'FXRSTOR', 'FXSAVE', 'MASKMOVQ', 'MOVNTQ', 'PACKSSDW',
+            'PACKSSWB', 'PACKUSWB', 'PADDB', 'PADDD', 'PADDSB', 'PADDSIW', 'PADDSW',
+            'PADDUSB', 'PADDUSW', 'PADDW', 'PAND', 'PANDN', 'PAVEB', 'PAVGB', 'PAVGW',
+            'PCMPEQB', 'PCMPEQD', 'PCMPEQW', 'PCMPGTB', 'PCMPGTD', 'PCMPGTW',
+            'PDISTIB', 'PEXTRW', 'PFCMPEQ', 'PFCMPGE', 'PFCMPGT', 'PINSRW',
+            'PMACHRIW', 'PMADDWD', 'PMAGW', 'PMAXSW', 'PMAXUB', 'PMINSW', 'PMINUB',
+            'PMOVMSKB', 'PMULHUW', 'PMVGEZB', 'PMVLZB', 'PMVNZB', 'PMVZB', 'POR',
+            'PREFETCHNTA', 'PREFETCHT0', 'PREFETCHT1', 'PREFETCHT2', 'PSADBW',
+            'PSHUFW', 'PSLLD', 'PSLLQ', 'PSLLW', 'PSRAD', 'PSRAW', 'PSRLD', 'PSRLQ',
+            'PSRLW', 'PSUBB', 'PSUBD', 'PSUBSB', 'PSUBSIW', 'PSUBSW', 'PSUBUSB',
+            'PSUBUSW', 'PSUBW', 'PUNPCKHBW', 'PUNPCKHDQ', 'PUNPCKHWD', 'PUNPCKLBW',
+            'PUNPCKLDQ', 'PUNPCKLWD', 'PXOR', 'SFENCE'
         ),
         1 => $CONTEXT . '/instr/mmx',
         2 => 'color:#00f; font-weight:bold;',
@@ -188,13 +202,16 @@ $this->_contextKeywords = array(
     5 => array(
         0 => array(
             // @todo order the SSE instruction set
-            'ADDPS','ADDSS','ANDNPS','ANDPS','CMPEQPS','CMPEQSS','CMPLEPS','CMPLESS','CMPLTPS','CMPLTSS',
-            'CMPNEQPS','CMPNEQSS','CMPNLEPS','CMPNLESS','CMPNLTPS','CMPNLTSS','CMPORDPS','CMPORDSS',
-            'CMPUNORDPS','CMPUNORDSS','CMPPS','CMPSS','COMISS','CVTPI2PS','CVTPS2PI','CVTSI2SS','CVTSS2SI',
-            'CVTTPS2PI','CVTTSS2SI','DIVPS','DIVSS','LDMXCSR','MAXPS','MAXSS','MINPS','MINSS','MOVAPS',
-            'MOVHPS','MOVLHPS','MOVLPS','MOVHLPS','MOVMSKPS','MOVNTPS','MOVSS','MOVUPS','MULPS','MULSS',
-            'ORPS','RCPPS','RCPSS','RSQRTPS','RSQRTSS','SHUFPS','SQRTPS','SQRTSS','STMXCSR','SUBPS',
-            'SUBSS','UCOMISS','UNPCKHPS','UNPCKLPS','XORPS'
+            'ADDPS', 'ADDSS', 'ANDNPS', 'ANDPS', 'CMPEQPS', 'CMPEQSS', 'CMPLEPS',
+            'CMPLESS', 'CMPLTPS', 'CMPLTSS', 'CMPNEQPS', 'CMPNEQSS', 'CMPNLEPS',
+            'CMPNLESS', 'CMPNLTPS', 'CMPNLTSS', 'CMPORDPS', 'CMPORDSS', 'CMPPS',
+            'CMPSS', 'CMPUNORDPS', 'CMPUNORDSS', 'COMISS', 'CVTPI2PS', 'CVTPS2PI',
+            'CVTSI2SS', 'CVTSS2SI', 'CVTTPS2PI', 'CVTTSS2SI', 'DIVPS', 'DIVSS',
+            'LDMXCSR', 'MAXPS', 'MAXSS', 'MINPS', 'MINSS', 'MOVAPS', 'MOVHLPS',
+            'MOVHPS', 'MOVLHPS', 'MOVLPS', 'MOVMSKPS', 'MOVNTPS', 'MOVSS', 'MOVUPS',
+            'MULPS', 'MULSS', 'ORPS', 'RCPPS', 'RCPSS', 'RSQRTPS', 'RSQRTSS',
+            'SHUFPS', 'SQRTPS', 'SQRTSS', 'STMXCSR', 'SUBPS', 'SUBSS', 'UCOMISS',
+            'UNPCKHPS', 'UNPCKLPS', 'XORPS'
         ),
         1 => $CONTEXT . '/instr/sse',
         2 => 'color:#00f; font-weight:bold;',
@@ -206,9 +223,10 @@ $this->_contextKeywords = array(
     6 => array(
         0 => array(
             // @todo order the 3Dnow! instruction set
-            'PAVGUSB','PF2ID','PFACC','PFADD','PFMUL','PFRCP','PFRCPIT1','PFRCPIT2','PFRSQIT1','PFRSQRT',
-            'PFSUB','PFSUBR','PFMAX','PFMIN','PI2FD','PMULHRIW','PMULHRWA','PMULHRWC','PMULHW','PMULLW',
-            'PREFETCH','PREFETCHW'
+            'PAVGUSB', 'PF2ID', 'PFACC', 'PFADD', 'PFMAX', 'PFMIN', 'PFMUL', 'PFRCP',
+            'PFRCPIT1', 'PFRCPIT2', 'PFRSQIT1', 'PFRSQRT', 'PFSUB', 'PFSUBR', 'PI2FD',
+            'PMULHRIW', 'PMULHRWA', 'PMULHRWC', 'PMULHW', 'PMULLW', 'PREFETCH',
+            'PREFETCHW'
         ),
         1 => $CONTEXT . '/instr/3Dnow',
         2 => 'color:#00f; font-weight:bold;',
@@ -220,7 +238,7 @@ $this->_contextKeywords = array(
     7 => array(
         0 => array(
             // @todo order the 3Dnow! Ext instruction set
-            'PFNACC','PFPNACC','PI2FW','PF2IW','PSWAPD'
+            'PF2IW', 'PFNACC', 'PFPNACC', 'PI2FW', 'PSWAPD'
         ),
         1 => $CONTEXT . '/instr/3Dnow2',
         2 => 'color:#00f; font-weight:bold;',
@@ -241,7 +259,7 @@ $this->_contextSymbols  = array(
 
 $this->_contextRegexps  = array(
     0 => array(
-        0 => array('#(@*[a-zA-Z0-9_]+):#'),
+        0 => array('#([a-zA-Z_]+:)#'),
         1 => ':',
         2 => array(
             1 => array($CONTEXT . '/label', 'color:#933;', false)
