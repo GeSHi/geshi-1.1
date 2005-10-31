@@ -38,12 +38,14 @@ define('LANG_NOT_SUPPORTED', -1);
 define('INVALID_KEYWORD_GROUP', -2);
 /** There was a parse error parsing an XML document for keywords */
 define('PARSE_ERROR', -3);
+/** The file to be used is unavailable */
+define('FILE_UNAVAILABLE', -4);
 
 /**#@+
  * @access private
  */
 /** The strategy object used to get keywords is invalid */
-define('INVALID_STRATEGY', -4);
+define('INVALID_STRATEGY', -5);
 /**#@-*/
 
 /** Class that handles errors */
@@ -185,5 +187,5 @@ class KeywordGetter
         return $supported_languages;
     }
 }
-    
+
 ?>
