@@ -249,7 +249,7 @@ $this->_contextKeywords = array(
         2 => 'color:#444;',
         3 => false,
         4 => ''
-    ),
+    )
 );
 
 $this->_contextSymbols  = array(
