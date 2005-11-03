@@ -172,6 +172,7 @@ $this->_contextKeywords = array(
         ),
         1 => $CONTEXT . '/instr_i387',
         2 => 'color:#00f; font-weight:bold;',
+        3 => false,
         4 => ''
     ),
 
