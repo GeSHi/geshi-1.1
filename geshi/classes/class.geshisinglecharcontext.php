@@ -50,6 +50,8 @@
  */
 class GeSHiSingleCharContext extends GeSHiContext
 {
+    // {{{ properties
+    
     /**#@-
      * @access private
      */
@@ -60,8 +62,17 @@ class GeSHiSingleCharContext extends GeSHiContext
         
     /**#@-*/
     
+    // }}}
+    // {{{ getContextStartData()
     /**
-     * GetContextEndData
+     * GetContextStartData
+     * 
+     * Overridden to check if this context should even start. If we can't find
+     * a valid end-of-string character in the correct place this context should
+     * not even start.
+     * 
+     * @param string $code
+     * @param string $start_of_context
      */
     function getContextStartData ($code, $start_of_context)
     {
@@ -108,6 +119,9 @@ class GeSHiSingleCharContext extends GeSHiContext
                      'key' => $first_key, 'dlm' => $first_dlm);
     }
     
+    // }}}
+    // {{{ _getContextEndData()
+    
     /**
      * In this case we don't need to worry about much because we have made sure in
      * _getContextStartData that we are starting in the right place.
@@ -124,8 +138,11 @@ class GeSHiSingleCharContext extends GeSHiContext
         return array('pos' => $pos, 'len' => 1 /*see WARN above*/, 'dlm' => '');
     }
     
+    // }}}
+    // {{{ _addParseData()
+    
     /**
-     * Overrides addParseData to add escape characters also
+     * Overrides _addParseData to add escape characters also
      */
     function _addParseData ($code, $first_char_of_next_context = '')
     {
@@ -136,6 +153,8 @@ class GeSHiSingleCharContext extends GeSHiContext
            parent::_addParseData($code, $first_char_of_next_context);
        }
     }
+    
+    // }}}
 }
 
 ?>
