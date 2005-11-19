@@ -133,7 +133,7 @@ $this->_contextKeywords = array(
             'VERW', 'WAIT', 'WBINVD', 'WRMSR', 'WRSHR', 'XADD', 'XBTS', 'XCHG',
             'XLAT', 'XLATB', 'XOR'
         ),
-        1 => $CONTEXT . '/instr_i386',
+        1 => $CONTEXT . '/instr/i386',
         2 => 'color:#00f; font-weight:bold;',
         3 => false,
         4 => ''
@@ -170,7 +170,7 @@ $this->_contextKeywords = array(
             'FUCOMP', 'FUCOMPP', 'FWAIT', 'FXAM', 'FXCH', 'FXTRACT', 'FYL2X',
             'FYL2XP1'
         ),
-        1 => $CONTEXT . '/instr_i387',
+        1 => $CONTEXT . '/instr/i387',
         2 => 'color:#00f; font-weight:bold;',
         3 => false,
         4 => ''
