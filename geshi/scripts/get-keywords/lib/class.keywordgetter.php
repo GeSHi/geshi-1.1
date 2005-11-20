@@ -83,16 +83,18 @@ class KeywordGetter
      * Constructor
      * 
      * @param KeywordGetterStrategy The strategy to use to get keywords
+     * @param string                The language of this keyword getter
      * @private
      * {@internal Yes, that's right, PRIVATE. Use KeywordGetter::factory
      * to create new KeywordGetters}}
      */
-    function KeywordGetter ($kwstrategy)
+    function KeywordGetter ($kwstrategy, $language)
     {
         if (!is_a($kwstrategy, 'KeywordGetterStrategy')) {
             return new KeywordGetterError(INVALID_STRATEGY, $this->_language);
         }
         $this->_keywordStrategy = $kwstrategy;
+        $this->_language = $language;
     }
     
     /**
@@ -107,7 +109,6 @@ class KeywordGetter
             $tmp =& new KeywordGetterError(LANG_NOT_SUPPORTED, $language);
             return $tmp;
         }
-        $this->_language = $language;
         
         /** Get the requested language */
         require_once 'languages/' . $language . '/class.' . $language . 'keywordgetter.php';
@@ -118,7 +119,7 @@ class KeywordGetter
             return $tmp;
         }
         
-        $tmp =& new KeywordGetter(new $class);
+        $tmp =& new KeywordGetter(new $class, $language);
         return $tmp;
     }
     
