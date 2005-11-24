@@ -87,7 +87,7 @@ $this->_contextKeywords = array(
 
     2 => array(
         0 => array(
-            'false', 'nil', 'true'
+            'false', 'nil', 'self', 'true'
         ),
         1 => $CONTEXT . '/keyidents',
         2 => 'color:#000; font-weight:bold;',
