@@ -89,12 +89,12 @@ class GeSHiCodeParser
      * 
      * @param string The token recieved
      * @param string The name of the context the token is in
-     * @param string The URL associated with the context (may disappear)
-     * @return mixed Either <code>false</code>, an array($token, $context_name, $url)
+     * @param string Any extra data associated with the context
+     * @return mixed Either <code>false</code>, an array($token, $context_name, $data)
      *               or an array of arrays like this.
      * @abstract
      */
-    function parseToken ($token, $context_name, $url) {}
+    function parseToken ($token, $context_name, $data) {}
     
     // }}}
 }
