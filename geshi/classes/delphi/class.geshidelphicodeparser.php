@@ -76,12 +76,12 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
      *   - don't highlight functions if not before "(" brackets (alpha)
      * @todo [blocking 1.1.1] add cleanup method to flush any stored tokens
      */
-    function parseToken ($token, $context_name, $url)
+    function parseToken ($token, $context_name, $data)
     {
         // If we have detected a keyword, instead of passing it back we will make sure it has a bracket
         // after it, so we know for sure that it is a keyword. So we save it to "_store" and return false
         if (substr($context_name, 0, strlen($this->_language . '/stdprocs')) == $this->_language . '/stdprocs') {
-            $this->_store = array($token, $context_name, $url);
+            $this->_store = array($token, $context_name, $data);
             return false;
         }
         
@@ -92,7 +92,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
             $this->_store = null;
             return array(
                 $store,
-                array($token, $context_name, $url)
+                array($token, $context_name, $data)
             );
         } elseif ($this->_store) {
             // Keyword was *not* correctly put in keywords, maybe it's a variable instead
@@ -102,12 +102,12 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
             $store[1] = $this->_language;
             return array(
                 $store,
-                array($token, $context_name, $url)
+                array($token, $context_name, $data)
             );
         }
         
         // Default action: just return the token
-        return array($token, $context_name, $url);
+        return array($token, $context_name, $data);
     }
     
     // }}}

@@ -99,7 +99,7 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
      * - the function token is actually in the right context (e.g. php/$DIALECT)
      * - the function isn't actually a method (can highlight those too, of course)
      */
-    function parseToken ($token, $context_name, $url)
+    function parseToken ($token, $context_name, $data)
     {
         if ('class' == $this->_state) {
             // We just read the keyword "class", so this token 
@@ -114,7 +114,7 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
             $context_name = $this->_language . '/class_name';
         }
         
-        return array($token, $context_name, $url);
+        return array($token, $context_name, $data);
     }
     
     // }}}
