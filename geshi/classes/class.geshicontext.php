@@ -142,13 +142,19 @@ class GeSHiContext
      * @var boolean
      */
     var $_isAlias = false;
-    /**#@-*/
+    
+    /**
+     * The name of the context if not aliased
+     * @var string
+     */
+    var $_aliasForContext = '';
     
     /**
      * Whether this context should never be trimmed
      * @var boolean
      */
     var $_neverTrim = false;
+    /**#@-*/
     
     // }}}
     // {{{ GeSHiContext()
@@ -186,6 +192,7 @@ class GeSHiContext
         if ($alias_name) {
             $this->_contextName = $alias_name;
             $this->_isAlias     = true;
+            $this->_aliasForContext = "$language_name/$dialect_name/$context_name";
         } else {
             $this->_contextName = "$language_name/$dialect_name/$context_name";
         }
@@ -830,7 +837,9 @@ class GeSHiContext
      */
     function _addParseData ($code, $first_char_of_next_context = '')
     {
-       $this->_styler->addParseData($code, $this->_contextName);
+       static $data; // dunno if this works or not.
+       $data = ($this->_isAlias ? array('alias_name' => $this->_aliasForContext) : array());
+       $this->_styler->addParseData($code, $this->_contextName, $data);
     }
     
     // }}}
