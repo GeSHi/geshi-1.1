@@ -49,7 +49,7 @@ class GeSHiRendererHTML extends GeSHiRenderer {
      * Implements parseToken to put HTML tags around
      * the tokens
      */
-    function parseToken ($token, $context_name, $url)
+    function parseToken ($token, $context_name, $data)
     {
         // ignore blank tokens
         if ('' == $token) {
@@ -57,12 +57,12 @@ class GeSHiRendererHTML extends GeSHiRenderer {
         }
         //echo $context_name; exit;
         $result = '';
-        if ($url) {
-            $result .= '<a href="' . $url . '">';
+        if (isset($data['url'])) {
+            $result .= '<a href="' . $data['url'] . '">';
         }
         $result .= '<span style="' . $this->_styler->getStyle($context_name) . '" ';
         $result .= 'title="' . $context_name . '">' . htmlspecialchars($token) . '</span>';
-        if ($url) {
+        if (isset($data['url'])) {
             // there's a URL associated with this token
             $result .= '</a>';
         }
