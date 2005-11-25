@@ -302,14 +302,13 @@ class GeSHiCodeContext extends GeSHiContext
         // codeContextHighlight should return something similar
         
         $parse_data = $this->_codeContextHighlight($code, $regex_replacements, $first_char_of_next_context);
-        $data_array = ($this->_isAlias ? array('alias_name' => $this->_aliasForContext) : array());
 
         foreach ($parse_data as $data) {
             if (!(isset($data[2]) && $data[2])) {
-                $this->_styler->addParseData($data[0], $data[1], $data_array);
+                $this->_styler->addParseData($data[0], $data[1], $this->_getExtraParseData());
             } else {
                 // $data[2] is the URL
-                $this->_styler->addParseData($data[0], $data[1], array_merge($data_array, array('url' => $data[2])));
+                $this->_styler->addParseData($data[0], $data[1], $this->_getExtraParseData(array('url' => $data[2])));
             }
         }
     }

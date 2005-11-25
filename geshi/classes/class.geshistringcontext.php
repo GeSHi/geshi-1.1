@@ -135,7 +135,8 @@ class GeSHiStringContext extends GeSHiContext
                         $string = '';
                     }
                     // Needs a better name than /esc
-                    $this->_styler->addParseData($escape_char . substr($code, $i + 1, $len), $this->_contextName . '/esc');
+                    $this->_styler->addParseData($escape_char . substr($code, $i + 1, $len), $this->_contextName . '/esc',
+                        $this->_getExtraParseData());
                     // FastForward
                     $i += $len;
                     $skip = true;
@@ -148,7 +149,7 @@ class GeSHiStringContext extends GeSHiContext
             }
         }
         if ($string) {
-            $this->_styler->addParseData($string, $this->_contextName);
+            $this->_styler->addParseData($string, $this->_contextName, $this->_getExtraParseData());
         }
      }
      
