@@ -837,9 +837,7 @@ class GeSHiContext
      */
     function _addParseData ($code, $first_char_of_next_context = '')
     {
-       static $data; // dunno if this works or not.
-       $data = ($this->_isAlias ? array('alias_name' => $this->_aliasForContext) : array());
-       $this->_styler->addParseData($code, $this->_contextName, $data);
+       $this->_styler->addParseData($code, $this->_contextName, $this->_getExtraParseData());
     }
     
     // }}}
@@ -865,6 +863,14 @@ class GeSHiContext
     }
     
     // }}}
+    // {{{ _getExtraParseData()
+    
+    function _getExtraParseData ($data = array())
+    {
+        $return = ($this->_isAlias ? array('alias_name' => $this->_aliasForContext) : array());
+        return array_merge($return, $data);
+    }
+    
     // {{{ _substitutePlaceholders()
     
     /**
