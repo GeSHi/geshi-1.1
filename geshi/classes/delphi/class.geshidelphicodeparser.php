@@ -62,6 +62,13 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
      */
     var $_store = null;
     
+    /**
+     * Flag for default keyword fix
+     * @var boolean
+     * @access private
+     */
+    var $_defaultFlag = false;
+    
     // }}}
     // {{{ parseToken()
     
@@ -104,6 +111,22 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
                 $store,
                 array($token, $context_name, $data)
             );
+        }
+
+        // @todo for ben: here is an example of how this could work. You can make it better and
+        // experiment with how this functionality works. I tested this only on simple examples, and
+        // I know that currently the _defaultFlag could be reset to 0 earlier than it is if there is
+        // a mistake with parsing.
+        if (2 == $this->_defaultFlag && false !== stripos($token, 'default')) {
+            $context_name = $this->_language . '/keywords';
+            $this->_defaultFlag = 0;
+        }
+
+        if (isset($data['alias_name']) && $data['alias_name'] == $this->_language . '/property') {
+            $this->_defaultFlag = 1;
+        }
+        if (1 == $this->_defaultFlag && ';' == $token) {
+            $this->_defaultFlag = 2;
         }
         
         // Default action: just return the token
