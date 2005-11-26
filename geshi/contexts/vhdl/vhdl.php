@@ -35,9 +35,11 @@
 
 /** Get the GeSHiStringContext class */
 require_once GESHI_CLASSES_ROOT . 'class.geshistringcontext.php';
+/** Get the GeSHiSingleCharContext class */
+require_once GESHI_CLASSES_ROOT . 'class.geshisinglecharcontext.php';
 
 $this->_childContexts = array(
-    new GeSHiStringContext('vhdl',  $DIALECT, 'common/single_string'),
+    new GeSHiSingleCharContext('vhdl',  $DIALECT, 'common/single_string'),
     // VHDL does seem to have "double" strings (strings delimited by " instead of ')
     new GeSHiStringContext('vhdl', $DIALECT, 'common/double_string'),
     new GeshiContext('vhdl', $DIALECT,'comments'),
