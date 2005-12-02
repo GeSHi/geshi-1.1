@@ -59,7 +59,8 @@ $this->_contextKeywords = array(
             'Protected', 'Public', 'Published', 'Raise', 'Record', 'Repeat',
             'Requires', 'Resourcestring', 'Set', 'Shl', 'Shr', 'Then', 'ThreadVar',
             'To', 'Try', 'Type', 'Unit', 'Until', 'Uses', 'Var', 'Virtual', 'While',
-            'With', 'Xor', 'assembler', 'cdecl', 'far', 'near', 'pascal', 'register',
+            'With', 'Xor', 'assembler', 'cdecl', 'far', 'near', 'pascal',
+            //'register', // requires special handling
             'safecall', 'stdcall', 'varargs'
         ),
         1 => $CONTEXT . '/keywords',
