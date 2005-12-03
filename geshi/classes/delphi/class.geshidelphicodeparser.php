@@ -39,7 +39,7 @@ require_once GESHI_CLASSES_ROOT . 'class.geshicodeparser.php';
  * The GeSHiDelphiCodeParser class
  *
  * @package core
- * @author  Nigel McNie <nigel@geshi.org>
+ * @author  Benny Baumann <BenBE@benbe.omorphia.de>, Nigel McNie <nigel@geshi.org>
  * @since   1.1.1
  * @version $Revision$
  */
@@ -68,6 +68,20 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
      * @access private
      */
     var $_defaultFlag = false;
+
+    /**
+     * Flag for register directive handling
+     * @var int
+     * @access private
+     */
+    var $_bracketCount = 0;
+
+    /**
+     * Flag for semicolon detection
+     * @var boolean
+     * @access private
+     */
+    var $_semicolonFlag = false;
 
     // }}}
     // {{{ parseToken()
@@ -106,22 +120,36 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
             $this->_defaultFlag = 2;
         }
 
-        // If we have detected a keyword, instead of passing it back we will make sure it has a bracket
+        // Count opening and closing brackets to avoid highlighting of parameters called register in procedure\function declarations
+        if (substr(trim($token), 0, 1) == '(') {
+            $this->_bracketCount++;
+        }
+        if (substr(trim($token), 0, 1) == ')') {
+            if (--$this->_bracketCount < 0) {
+                $this->_bracketCount = 0;
+            }
+        }
+
+        // If we detect a semicolon we require remembering it, thus we can highlight the register directive correctly.
+        if (trim($token) == ';') {
+            $this->_semicolonFlag = true;
+            return array($token, $context_name, $data);
+        }
+        if ($context_name == $this->_language && $this->_semicolonFlag) {
+            // Register is a directive here
+            $this->_semicolonFlag = false;
+            // Highlight as directive only if all previous opened brackets are closed again
+            $isDirective = (0 == $this->_bracketCount) && ('register' == strtolower(trim($token)));
+            return array($token, $context_name . ($isDirective ? '/keywords' : ''), $data);
+        }
+        // There will be something else than a semicolon, so we finish semicolon detection here
+        $this->_semicolonFlag = false;
+
+        // If we detected a keyword, instead of passing it back we will make sure it has a bracket
         // after it, so we know for sure that it is a keyword. So we save it to "_store" and return false
         if (substr($context_name, 0, strlen($this->_language . '/stdprocs')) == $this->_language . '/stdprocs') {
             $this->_store = array($token, $context_name, $data);
             return false;
-        }
-
-        // If we detect a semicolon we require remembering it, thus we can highlight the register directive correctly.
-        if (substr($context_name, 0, strlen($this->_language . '/ctrlsym')) == $this->_language . '/ctrlsym') {
-            $this->_store = array($token, $context_name, $data);
-            return $this->_store;
-        }
-
-        //If the only thing we got was stupid blanks we append them to the remembered stuff and highlight them in the next pass.
-        if (trim($token) == '') {
-            return array($token, $context_name, $data);
         }
 
         if (isset($this->_store)&&$this->_store) {
@@ -136,14 +164,11 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
                     $store,
                     array($token, $context_name, $data)
                 );
-            } elseif ($context_name == $this->_language && false !== stripos(trim($token), 'register') && $this->_store[0] == ';') {
-                // Register is a directive here
-                $this->_store = null;
-                return array($token, $context_name.'/keywords', $data);
             } else {
                 // Keyword was *not* correctly put in keywords, maybe it's a variable instead
                 $store = $this->_store;
                 $this->_store = null;
+
                 // Modify context to say that the keyword is actually just a bareword
                 $store[1] = $this->_language;
                 return array(
@@ -153,7 +178,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
             }
         }
 
-        //Check if there is still anything in the storage
+        // Return anything that's still in the storage before outputting any default data
         if ($this->_store) {
             $store = $this->_store;
             $this->_store = null;
