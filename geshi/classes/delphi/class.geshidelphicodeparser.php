@@ -131,25 +131,6 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
         }
 
         // If we detect a semicolon we require remembering it, thus we can highlight the register directive correctly.
-        if (trim($token) == ';') {
-            $this->_semicolonFlag = true;
-            if ($this->_store) {
-                $store = $this->_store;
-                $this->_store = null;
-
-                //Check if there's a keyword we shouldn't highlight at this point
-                if (substr($store[1], 0, strlen($this->_language . '/stdprocs')) == $this->_language . '/stdprocs') {
-                    $store[1] = $this->_language;
-                }
-
-                return array(
-                    $store,
-                    array($token, $context_name, $data)
-                );
-            } else {
-                return array($token, $context_name, $data);
-            }
-        }
         if ($context_name == $this->_language && $this->_semicolonFlag) {
             // Register is a directive here
             $this->_semicolonFlag = false;
@@ -159,6 +140,9 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
         }
         // There will be something else than a semicolon, so we finish semicolon detection here
         $this->_semicolonFlag = false;
+        if (trim($token) == ';') {
+            $this->_semicolonFlag = true;
+        }
 
         // If we detected a keyword, instead of passing it back we will make sure it has a bracket
         // after it, so we know for sure that it is a keyword. So we save it to "_store" and return false
