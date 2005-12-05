@@ -25,7 +25,7 @@
  * with GeSHi, in the docs/ directory.
  *
  * @package   core
- * @author    Nigel McNie <nigel@geshi.org>
+ * @author    Benny Baumann <BenBE@benbe.omorphia.de>, Nigel McNie <nigel@geshi.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
@@ -77,11 +77,54 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
     var $_bracketCount = 0;
 
     /**
+     * Flag for detection of directives used inside code blocks where they are not to be highlighted
+     * @var int
+     * @access private
+     */
+    var $_openBlockCount = 0;
+
+    /**
+     * Stores the opening tokens of the blocks detected
+     * @var array
+     * @access private
+     */
+    var $_openBlockType = array();
+
+    /**
      * Flag for semicolon detection
      * @var boolean
      * @access private
      */
     var $_semicolonFlag = false;
+
+    // }}}
+    // {{{ _stackPush()
+
+    /**
+     * This method handles storing of stuff into a stack of elements.
+     */
+    function _stackPush ($token, $context_name, $data)
+    {
+        if ($this->_store) {
+            array_push($this->_store, array($token, $context_name, $data));
+        } else {
+            $this->_store = array(array($token, $context_name, $data));
+        }
+    }
+
+    // }}}
+    // {{{ _stackFlush()
+
+    /**
+     * This method returns the whole stacke including the current (additional) element passed.
+     */
+    function _stackFlush ($token, $context_name, $data)
+    {
+        $this->_stackPush($token, $context_name, $data);
+        $store = $this->_store;
+        $this->_store = false;
+        return $store;
+    }
 
     // }}}
     // {{{ parseToken()
@@ -101,12 +144,29 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
     {
         geshi_dbg('GeSHiDelphiCodeParser::parseToken("' . substr($token, 0, 15) . '"...,' . $context_name . ')', GESHI_DBG_PARSE);
 
+        //Check for linebraks...
+        if (false !== stripos($token, '\n')) {
+            $this->_semicolonFlag = false;
+        }
+
+        //Check if we got a whitespace
+        if ($this->isWhitespace($token)) {
+            //If there's anything in the storage, simply add the whitespace
+            if ($this->_store) {
+                $this->_stackPush($token, $context_name, $data);
+                return false;
+            } else {
+                //Return the token as is ...
+                return $this->_stackFlush($token, $context_name, $data);
+            }
+        }
+
         // @todo for ben: here is an example of how this could work. You can make it better and
         // experiment with how this functionality works. I tested this only on simple examples, and
         // I know that currently the _defaultFlag could be reset to 0 earlier than it is if there is
         // a mistake with parsing.
         if (2 == $this->_defaultFlag) {
-            if (false !== stripos(trim($token), 'default')) {
+            if ('default' == strtolower(trim($token))) {
                 $context_name = $this->_language . '/keywords';
                 $this->_defaultFlag = 0;
             } elseif ('' != trim($token)) {
@@ -121,13 +181,37 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
         }
 
         // Count opening and closing brackets to avoid highlighting of parameters called register in procedure\function declarations
-        if (substr(trim($token), 0, 1) == '(') {
+        if ('(' == trim($token)||'[' == trim($token)) {
             $this->_bracketCount++;
         }
-        if (substr(trim($token), 0, 1) == ')') {
+        if (')' == trim($token)||']' == trim($token)) {
             if (--$this->_bracketCount < 0) {
                 $this->_bracketCount = 0;
             }
+        }
+
+        if ('begin' == strtolower(trim($token)) ||
+            'case' == strtolower(trim($token)) ||
+            'class' == strtolower(trim($token)) ||
+            'object' == strtolower(trim($token)) ||
+            'record' == strtolower(trim($token)) ||
+            'try' == strtolower(trim($token)) ||
+            'asm' == strtolower(trim($token))) {
+            $this->_openBlockCount++;
+            $this->_openBlockType[] = strtolower(trim($token));
+            if (2 <= ($obc = $this->_openBlockCount)) {
+                //Check if we have a casxe statement inside a record definition.
+                if ('record' == $this->_openBlockType[$obc-2] && 'case' == $this->_openBlockType[$obc-1]) {
+                    array_pop($this->_openBlockType);
+                    $this->_openBlockCount--;
+                }
+            }
+        }
+        if ('end' == strtolower(trim($token))) {
+            if (--$this->_openBlockCount < 0) {
+                $this->_openBlockCount = 0;
+            }
+            array_pop($this->_openBlockType);
         }
 
         // If we detect a semicolon we require remembering it, thus we can highlight the register directive correctly.
@@ -135,8 +219,27 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
             // Register is a directive here
             $this->_semicolonFlag = false;
             // Highlight as directive only if all previous opened brackets are closed again
-            $isDirective = (0 == $this->_bracketCount) && ('register' == strtolower(trim($token)));
-            return array($token, $context_name . ($isDirective ? '/keywords' : ''), $data);
+            $isDirective = (0 == $this->_bracketCount);
+            if ('register' == strtolower(trim($token))) {
+                if (1 == $this->_openBlockCount) {
+                    $isDirective &=
+                        'class' == $this->_openBlockType[$this->_openBlockCount-1] ||
+                        'object' == $this->_openBlockType[$this->_openBlockCount-1];
+                    if ('record' == $this->_openBlockType[$this->_openBlockCount-1]) {
+                         $isDirective = true;
+                    }
+                }
+
+                $context_name .= ($isDirective ? '/keywords' : '');
+            } elseif ('message' == strtolower(trim($token))) {
+                if (1 == $this->_openBlockCount) {
+                    $isDirective &= 'class' == $this->_openBlockType[$this->_openBlockCount-1];
+                }
+                $context_name .= ($isDirective ? '/keywords' : '');
+            } else {
+                //Simply ignore ... no changes have to be done ...
+                //return array($token, $context_name, $data);
+            }
         }
         // There will be something else than a semicolon, so we finish semicolon detection here
         $this->_semicolonFlag = false;
@@ -147,48 +250,23 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
         // If we detected a keyword, instead of passing it back we will make sure it has a bracket
         // after it, so we know for sure that it is a keyword. So we save it to "_store" and return false
         if (substr($context_name, 0, strlen($this->_language . '/stdprocs')) == $this->_language . '/stdprocs') {
-            $this->_store = array($token, $context_name, $data);
+            $this->_stackPush($token, $context_name, $data);
             return false;
         }
 
-        if (isset($this->_store) && $this->_store) {
+        if ($this->_store) {
             // Check for various conditions ...
 
             // If we have a store we can check now to see if the current token is a bracket
-            if ($context_name == $this->_language . '/brksym' && substr(trim($token), 0, 1) == '(') {
-                // The keyword was correctly used
-                $store = $this->_store;
-                $this->_store = null;
-                return array(
-                    $store,
-                    array($token, $context_name, $data)
-                );
-            } else {
-                // Keyword was *not* correctly put in keywords, maybe it's a variable instead
-                $store = $this->_store;
-                $this->_store = null;
-
+            if ($context_name != $this->_language . '/brksym' || substr(trim($token), 0, 1) != '(') {
                 // Modify context to say that the keyword is actually just a bareword
-                $store[1] = $this->_language;
-                return array(
-                    $store,
-                    array($token, $context_name, $data)
-                );
+                $this->_store[0][1] = $this->_language;
             }
+            return $this->_stackFlush($token, $context_name, $data);
         }
 
-        // Return anything that's still in the storage before outputting any default data
-        if ($this->_store) {
-            $store = $this->_store;
-            $this->_store = null;
-            return array(
-                $store,
-                array($token, $context_name, $data)
-            );
-        }
-
-        // Default action: just return the token
-        return array($token, $context_name, $data);
+        // Default action: just return the token (including all stored)
+        return $this->_stackFlush($token, $context_name, $data);
     }
 
     // }}}
