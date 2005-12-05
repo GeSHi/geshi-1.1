@@ -99,7 +99,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
      */
     function parseToken ($token, $context_name, $data)
     {
-        geshi_dbg('GeSHiDelphiCodeParser::parseToken(' . substr($token, 0, 15) . '...,' . $context_name . ')', GESHI_DBG_PARSE);
+        geshi_dbg('GeSHiDelphiCodeParser::parseToken("' . substr($token, 0, 15) . '"...,' . $context_name . ')', GESHI_DBG_PARSE);
 
         // @todo for ben: here is an example of how this could work. You can make it better and
         // experiment with how this functionality works. I tested this only on simple examples, and
@@ -151,7 +151,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
             return false;
         }
 
-        if (isset($this->_store)&&$this->_store) {
+        if (isset($this->_store) && $this->_store) {
             // Check for various conditions ...
 
             // If we have a store we can check now to see if the current token is a bracket
