@@ -97,6 +97,18 @@ class GeSHiCodeParser
     function parseToken ($token, $context_name, $data) {}
     
     // }}}
+    // {{{ isWhitespace()
+    
+    /**
+     * Returns true if the token is whitespace only
+     */
+    function isWhitespace ($token)
+    {
+        return !preg_match('/[^\s]/', $token);
+    }
+    
+    // }}}
+    
 }
 
 ?>
