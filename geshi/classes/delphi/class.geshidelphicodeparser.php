@@ -180,13 +180,21 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
             $this->_defaultFlag = 2;
         }
 
-        // Count opening and closing brackets to avoid highlighting of parameters called register in procedure\function declarations
-        if ('(' == trim($token)||'[' == trim($token)) {
-            $this->_bracketCount++;
-        }
-        if (')' == trim($token)||']' == trim($token)) {
-            if (--$this->_bracketCount < 0) {
-                $this->_bracketCount = 0;
+        if ($context_name == $this->_language . '/brksym') {
+            geshi_dbg('Detected bracket symbol context ...', GESHI_DBG_PARSE);
+            for ($t2 = 0; $t2 < strlen($token); $t2++) {
+                $t2sub = substr($token, $t2, 1);
+                // Count opening and closing brackets to avoid highlighting of parameters called register in procedure\function declarations
+                if ('(' == $t2sub||'[' == $t2sub) {
+                    geshi_dbg('Detected opening bracket "'.$t2sub.'" on level BC' . $this->_bracketCount . '\OBC' . $this->_openBlockCount . '...', GESHI_DBG_PARSE);
+                    $this->_bracketCount++;
+                }
+                if (')' == $t2sub||']' == $t2sub) {
+                    if (--$this->_bracketCount < 0) {
+                        $this->_bracketCount = 0;
+                    }
+                    geshi_dbg('Detected closing bracket "'.$t2sub.'" on level BC' . $this->_bracketCount . '\OBC' . $this->_openBlockCount . '...', GESHI_DBG_PARSE);
+                }
             }
         }
 
@@ -216,6 +224,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
 
         // If we detect a semicolon we require remembering it, thus we can highlight the register directive correctly.
         if ($context_name == $this->_language && $this->_semicolonFlag) {
+        geshi_dbg('Detected token '. $token . ' after semi-colon on level BC' . $this->_bracketCount . '\OBC' . $this->_openBlockCount . '...', GESHI_DBG_PARSE);
             // Register is a directive here
             $this->_semicolonFlag = false;
             // Highlight as directive only if all previous opened brackets are closed again
@@ -247,13 +256,6 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
             $this->_semicolonFlag = true;
         }
 
-        // If we detected a keyword, instead of passing it back we will make sure it has a bracket
-        // after it, so we know for sure that it is a keyword. So we save it to "_store" and return false
-        if (substr($context_name, 0, strlen($this->_language . '/stdprocs')) == $this->_language . '/stdprocs') {
-            $this->_stackPush($token, $context_name, $data);
-            return false;
-        }
-
         if ($this->_store) {
             // Check for various conditions ...
 
@@ -263,6 +265,13 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
                 $this->_store[0][1] = $this->_language;
             }
             return $this->_stackFlush($token, $context_name, $data);
+        }
+
+        // If we detected a keyword, instead of passing it back we will make sure it has a bracket
+        // after it, so we know for sure that it is a keyword. So we save it to "_store" and return false
+        if (substr($context_name, 0, strlen($this->_language . '/stdprocs')) == $this->_language . '/stdprocs') {
+            $this->_stackPush($token, $context_name, $data);
+            return false;
         }
 
         // Default action: just return the token (including all stored)
