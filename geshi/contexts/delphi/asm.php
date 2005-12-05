@@ -34,27 +34,21 @@
 
 $this->_contextDelimiters = array(
     0 => array(
-//        0 => array('REGEX#^asm[^a-z0-9_]|[^a-z0-9_]asm[^a-z0-9_]|^asm$#i'),
-//        1 => array('REGEX#[^a-z0-9_]end$|[^a-z0-9_]end[^a-z0-9_]#i'),
-
-//        0 => array('REGEX#(?!\w)asm\b#i'),
-//        1 => array('REGEX#(?!\w)end(?!\w)#i'),
-
-//        0 => array('REGEX#^asm(?<!\w)|(?<!\w)asm(?<!\w)|^asm$#i'),
-//        1 => array('REGEX#(?<=[^a-z0-9_])end$|(?<=[^a-z0-9_])end(?<=[^a-z0-9_])#i'),
-//        1 => array('REGEX#end#i'),
-
         0 => array(
+//            'REGEX#^asm$#im',
+//            'REGEX#^asm(?<!\w)#im',
+//            'REGEX#(?<!\w)asm$#im',
+//            'REGEX#(?<!\w)asm(?<!\w)#im',
             'REGEX#^asm$#im',
-            'REGEX#^asm(?<=[?<!\w])#im',
-            'REGEX#(?<!\w)asm$#im',
-            'REGEX#(?<!\w)asm(?<!\w])#im',
+            'REGEX#^asm(?<=\b)#im',
+            'REGEX#(?<![a-z0-9_])asm$#im',
+            'REGEX#(?<![a-z0-9_])asm(?<=\b)#im',
         ),
         1 => array(
             'REGEX#^end$#im',
-            'REGEX#^end(?<!\w)#im',
-            'REGEX#(?<!\w])end$#im',
-            'REGEX#(?<!\w)end(?<!\w])#im',
+            'REGEX#^end(?<=\b)#im',
+            'REGEX#(?<![a-z0-9_])end$#im',
+            'REGEX#(?<![a-z0-9_])end(?<=\b)#im',
         ),
 
         2 => false
