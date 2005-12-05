@@ -29,14 +29,34 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
- * @todo [blocking 1.1.1] is the instr_i386 and instr_i387 sets supposed to be named instr/i38[6|7]?
  *
  */
 
 $this->_contextDelimiters = array(
     0 => array(
-        0 => array('asm'),
-        1 => array('end'),
+//        0 => array('REGEX#^asm[^a-z0-9_]|[^a-z0-9_]asm[^a-z0-9_]|^asm$#i'),
+//        1 => array('REGEX#[^a-z0-9_]end$|[^a-z0-9_]end[^a-z0-9_]#i'),
+
+//        0 => array('REGEX#(?!\w)asm\b#i'),
+//        1 => array('REGEX#(?!\w)end(?!\w)#i'),
+
+//        0 => array('REGEX#^asm(?<!\w)|(?<!\w)asm(?<!\w)|^asm$#i'),
+//        1 => array('REGEX#(?<=[^a-z0-9_])end$|(?<=[^a-z0-9_])end(?<=[^a-z0-9_])#i'),
+//        1 => array('REGEX#end#i'),
+
+        0 => array(
+            'REGEX#^asm$#im',
+            'REGEX#^asm(?<=[?<!\w])#im',
+            'REGEX#(?<!\w)asm$#im',
+            'REGEX#(?<!\w)asm(?<!\w])#im',
+        ),
+        1 => array(
+            'REGEX#^end$#im',
+            'REGEX#^end(?<!\w)#im',
+            'REGEX#(?<!\w])end$#im',
+            'REGEX#(?<!\w)end(?<!\w])#im',
+        ),
+
         2 => false
     )
 );
@@ -230,7 +250,7 @@ $this->_contextSymbols  = array(
 
 $this->_contextRegexps  = array(
     0 => array(
-        0 => array('#([a-zA-Z_]+:)#'),
+        0 => array('#([@a-zA-Z_][@a-zA-Z0-9_]+:)#'),
         1 => ':',
         2 => array(
             1 => array($CONTEXT . '/label', 'color:#933;', false)
