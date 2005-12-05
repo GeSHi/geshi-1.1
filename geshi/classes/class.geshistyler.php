@@ -175,9 +175,8 @@ class GeSHiStyler
      */
     function setCodeParser (&$codeparser)
     {
-        // @todo [blocking 1.1.1] codeparser should be instanceof but a child of GeSHiCodeParser
-        // handle case when not so (which should never happen)
-        if (is_a($codeparser, 'GeSHiCodeParser')) {
+        // @todo [blocking 1.1.1] handle case when not so (which should never happen)
+        if (is_subclass_of($codeparser, 'GeSHiCodeParser')) {
             $this->_codeParser =& $codeparser;
         }
     }
@@ -194,7 +193,47 @@ class GeSHiStyler
     {
         // @todo [blocking 1.1.5] test this, esp. not passing back anything and passing back multiple
         // can use PHP code parser for this
-        $data = $this->_codeParser->parseToken($code, $context_name, $url);
+        // @todo [blocking 1.1.9] since we are only looking for whitespace at start and end this can
+        // be optimised
+        $matches = array();
+        preg_match_all('/^(\s*)(.*?)(\s*)$/si', $code, $matches);
+        if ($matches[1][0]) {
+            $this->_addToParsedCode($this->_codeParser->parseToken($matches[1][0], $context_name, $url));
+        }
+        if ($matches[2][0]) {
+            while ($matches[2][0]) {
+                $pos = geshi_get_position($matches[2][0], 'REGEX#\s#');
+                if (false !== $pos['pos']) {
+                    // Parse the token up to the whitespace
+                    $this->_addToParsedCode(
+                        $this->_codeParser->parseToken(substr($matches[2][0], 0, $pos['pos']), $context_name, $url)
+                    );
+                    // Parse the whitespace
+                    $this->_addToParsedCode(
+                        $this->_codeParser->parseToken(substr($matches[2][0], $pos['pos'], $pos['len']), $context_name, $url)
+                    );
+                    // Trim what we just parsed
+                    $matches[2][0] = substr($matches[2][0], $pos['pos'] + $pos['len']);
+                } else {
+                    // No more whitespace
+                    $this->_addToParsedCode($this->_codeParser->parseToken($matches[2][0], $context_name, $url));
+                    break;
+                }
+            }
+        }
+        if ($matches[3][0]) {
+            $this->_addToParsedCode($this->_codeParser->parseToken($matches[3][0], $context_name, $url));
+        }
+    }
+    
+    // }}}
+    // {{{ _addToParsedCode()
+    
+    /**
+     * Adds data from the renderer to the parsed code
+     */
+    function _addToParsedCode ($data)
+    {
         if ($data) {
             if (!is_array($data[0])) {
                 $this->_parsedCode .= $this->_renderer->parseToken($data[0], $data[1], $data[2]);
