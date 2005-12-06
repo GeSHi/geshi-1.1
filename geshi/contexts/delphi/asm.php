@@ -35,15 +35,16 @@
 $this->_contextDelimiters = array(
     0 => array(
         0 => array(
-	    'REGEXP/(^|(?=\b))asm($|(?=\b))/im'
+            'REGEX#(^|(?=\b))asm((?=\b)|$)#im'
 	    ),
         1 => array(
-	    'REGEXP/(^|(?=\b))end($|(?=\b))/im'
+	    'REGEX#(^|(?=\b))end((?=\b)|$)#im'
         ),
 
         2 => false
     )
 );
+
 
 $this->_childContexts = array(
     new GeSHiContext('delphi', $DIALECT, 'preprocessor'),
