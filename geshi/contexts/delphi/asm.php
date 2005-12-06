@@ -35,20 +35,10 @@
 $this->_contextDelimiters = array(
     0 => array(
         0 => array(
-//            'REGEX#^asm$#im',
-//            'REGEX#^asm(?<!\w)#im',
-//            'REGEX#(?<!\w)asm$#im',
-//            'REGEX#(?<!\w)asm(?<!\w)#im',
-            'REGEX#^asm$#im',
-            'REGEX#^asm(?<=\b)#im',
-            'REGEX#(?<![a-z0-9_])asm$#im',
-            'REGEX#(?<![a-z0-9_])asm(?<=\b)#im',
-        ),
+	    'REGEXP/(^|(?=\b))asm($|(?=\b))/im'
+	    ),
         1 => array(
-            'REGEX#^end$#im',
-            'REGEX#^end(?<=\b)#im',
-            'REGEX#(?<![a-z0-9_])end$#im',
-            'REGEX#(?<![a-z0-9_])end(?<=\b)#im',
+	    'REGEXP/(^|(?=\b))end($|(?=\b))/im'
         ),
 
         2 => false
