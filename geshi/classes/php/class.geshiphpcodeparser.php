@@ -101,7 +101,7 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
      */
     function parseToken ($token, $context_name, $data)
     {
-        if ('class' == $this->_state && !is_whitespace($token)) {
+        if ('class' == $this->_state && !geshi_is_whitespace($token)) {
             // We just read the keyword "class", so this token 
             $this->_state = '';
             $context_name = $this->_language . '/class_name';

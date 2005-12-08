@@ -150,7 +150,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
         }
 
         //Check if we got a whitespace
-        if ($this->isWhitespace($token)) {
+        if (geshi_is_whitespace($token)) {
             //If there's anything in the storage, simply add the whitespace
             if ($this->_store) {
                 $this->_stackPush($token, $context_name, $data);
