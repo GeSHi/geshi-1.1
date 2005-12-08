@@ -52,8 +52,8 @@ class GeSHiRendererHTML extends GeSHiRenderer {
     function parseToken ($token, $context_name, $data)
     {
         // ignore blank tokens
-        if ('' == $token) {
-            return '';
+        if ('' == $token || is_whitespace($token)) {
+            return $token;
         }
         //echo $context_name; exit;
         $result = '';
