@@ -231,6 +231,10 @@ function geshi_use_doubles ($prefix, $require_leading_number = false)
     );
 }
 
+function geshi_is_whitespace ($token)
+{
+    return !preg_match('/[^\s]/', $token);
+}
 
 // @todo [blocking 1.1.9] fix this up
 // +----------------------------------------------------------------------+
