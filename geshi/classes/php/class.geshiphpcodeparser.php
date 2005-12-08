@@ -101,15 +101,15 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
      */
     function parseToken ($token, $context_name, $data)
     {
-        if ('class' == $this->_state) {
+        if ('class' == $this->_state && !is_whitespace($token)) {
             // We just read the keyword "class", so this token 
             $this->_state = '';
             $context_name = $this->_language . '/class_name';
-            $this->_classNames[] = trim($token);
-        } elseif ('class' == $token && $this->_language . '/keywords' == $context_name) {
+            $this->_classNames[] = $token;
+        } elseif (('class' == $token || 'extends' == $token) && $this->_language . '/keywords' == $context_name) {
             // We are about to read a class name
             $this->_state = 'class';
-        } elseif (in_array(trim($token), $this->_classNames) && $this->_language == $context_name) {
+        } elseif (in_array($token, $this->_classNames) && $this->_language == $context_name) {
             // Detected use of class name we have already detected
             $context_name = $this->_language . '/class_name';
         }
