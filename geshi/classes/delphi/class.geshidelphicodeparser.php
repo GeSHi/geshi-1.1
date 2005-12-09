@@ -161,12 +161,14 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
             }
         }
 
+        $token_l = strtolower(trim($token));
+
         // @todo for ben: here is an example of how this could work. You can make it better and
         // experiment with how this functionality works. I tested this only on simple examples, and
         // I know that currently the _defaultFlag could be reset to 0 earlier than it is if there is
         // a mistake with parsing.
         if (2 == $this->_defaultFlag) {
-            if ('default' == strtolower(trim($token))) {
+            if ('default' == $token_l) {
                 $context_name = $this->_language . '/keywords';
                 $this->_defaultFlag = 0;
             } elseif ('' != trim($token)) {
@@ -198,15 +200,15 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
             }
         }
 
-        if ('begin' == strtolower(trim($token)) ||
-            'case' == strtolower(trim($token)) ||
-            'class' == strtolower(trim($token)) ||
-            'object' == strtolower(trim($token)) ||
-            'record' == strtolower(trim($token)) ||
-            'try' == strtolower(trim($token)) ||
-            'asm' == strtolower(trim($token))) {
+        if ('begin' == $token_l ||
+            'case' == $token_l ||
+            'class' == $token_l ||
+            'object' == $token_l ||
+            'record' == $token_l ||
+            'try' == $token_l ||
+            'asm' == $token_l) {
             $this->_openBlockCount++;
-            $this->_openBlockType[] = strtolower(trim($token));
+            $this->_openBlockType[] = $token_l;
             if (2 <= ($obc = $this->_openBlockCount)) {
                 //Check if we have a casxe statement inside a record definition.
                 if ('record' == $this->_openBlockType[$obc-2] && 'case' == $this->_openBlockType[$obc-1]) {
@@ -215,7 +217,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
                 }
             }
         }
-        if ('end' == strtolower(trim($token))) {
+        if ('end' == $token_l) {
             if (--$this->_openBlockCount < 0) {
                 $this->_openBlockCount = 0;
             }
@@ -229,7 +231,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
             $this->_semicolonFlag = false;
             // Highlight as directive only if all previous opened brackets are closed again
             $isDirective = (0 == $this->_bracketCount);
-            if ('register' == strtolower(trim($token))) {
+            if ('register' == $token_l) {
                 if (1 == $this->_openBlockCount) {
                     $isDirective &=
                         'class' == $this->_openBlockType[$this->_openBlockCount-1] ||
@@ -240,7 +242,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
                 }
 
                 $context_name .= ($isDirective ? '/keywords' : '');
-            } elseif ('message' == strtolower(trim($token))) {
+            } elseif ('message' == $token_l) {
                 if (1 == $this->_openBlockCount) {
                     $isDirective &= 'class' == $this->_openBlockType[$this->_openBlockCount-1];
                 }
