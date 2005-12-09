@@ -36,9 +36,9 @@ $this->_contextDelimiters = array(
     0 => array(
         0 => array(
             'REGEX#(^|(?=\b))asm((?=\b)|$)#im'
-	    ),
+        ),
         1 => array(
-	    'REGEX#(^|(?=\b))end((?=\b)|$)#im'
+             'REGEX#(^|(?=\b))end((?=\b)|$)#im'
         ),
 
         2 => false
@@ -48,10 +48,11 @@ $this->_contextDelimiters = array(
 
 $this->_childContexts = array(
     new GeSHiContext('delphi', $DIALECT, 'preprocessor'),
-    new GeSHiContext('delphi', $DIALECT, 'common/single_comment')
+    new GeSHiContext('delphi', $DIALECT, 'common/single_comment'),
+    new GeSHiContext('delphi', $DIALECT, 'multi_comment')
 );
 
-$this->_styler->setStyle($CONTEXT, 'color:#00f;');
+$this->_styler->setStyle($CONTEXT, 'color:#000;');
 $this->_styler->setStyle($CONTEXT_START, 'color:#f00;font-weight:bold;');
 $this->_styler->setStyle($CONTEXT_END, 'color:#f00;font-weight:bold;');
 
@@ -69,8 +70,19 @@ $this->_contextKeywords = array(
 
     1 => array(
         0 => array(
+            'high', 'low', 'mod'
+            //@todo: Make ASM detect 'and', 'not', 'or', 'shl', 'shr', 'xor' if not used as instructions
+        ),
+        1 => $CONTEXT . '/keyops',
+        2 => 'color:#f00; font-weight:bold;',
+        3 => false,
+        4 => ''
+    ),
+
+    2 => array(
+        0 => array(
             'byte', 'dmtindex', 'dword', 'large', 'offset', 'ptr', 'qword', 'small',
-            'tbyte', 'vmtoffset', 'word'
+            'tbyte', 'type', 'vmtoffset', 'word'
         ),
         1 => $CONTEXT . '/control',
         2 => 'color:#00f; font-weight: bold;',
@@ -78,8 +90,30 @@ $this->_contextKeywords = array(
         4 => ''
     ),
 
+    3 => array(
+        0 => array(
+            'ah', 'al', 'bh', 'bl', 'ch', 'cl', 'dh', 'dl',
+            'ax', 'bx', 'cx', 'dx', 'sp', 'bp', 'di', 'si',
+
+            'eax', 'ebx', 'ecx', 'edx', 'esp', 'ebp', 'edi', 'esi',
+
+            'mm0', 'mm1', 'mm2', 'mm3', 'mm4', 'mm5', 'mm6', 'mm7',
+            'xmm0', 'xmm1', 'xmm2', 'xmm3', 'xmm4', 'xmm5', 'xmm6', 'xmm7',
+
+            'st0', 'st1', 'st2', 'st3', 'st4', 'st5', 'st6', 'st7',
+
+            'cs', 'ds', 'es', 'fs', 'gs', 'ss',
+            'cr0', 'cr1', 'cr2', 'cr3', 'cr4',
+            'dr0', 'dr1', 'dr2', 'dr3', 'dr4', 'dr5', 'dr6', 'dr7'
+        ),
+        1 => $CONTEXT . '/register',
+        2 => 'color:#00f;',
+        3 => false,
+        4 => ''
+    ),
+
     //CPU i386 instructions
-    2 => array(
+    4 => array(
         0 => array(
              // @todo order the i386 instruction set
              // @todo divide the i386 instruction set into i386\i486\i586\i686 instructions
@@ -125,7 +159,7 @@ $this->_contextKeywords = array(
     ),
 
     //FPU i387 instructions
-    3 => array(
+    5 => array(
         0 => array(
              // @todo order the i387 instruction set
             'F2XM1', 'FABS', 'FADD', 'FADDP', 'FBLD', 'FBSTP', 'FCHS', 'FCLEX',
@@ -150,7 +184,7 @@ $this->_contextKeywords = array(
     ),
 
     //MMX instruction set
-    4 => array(
+    6 => array(
         0 => array(
             // @todo order the mmx instruction set
             // @todo divide into MMX and XMM instruction sets
@@ -174,7 +208,7 @@ $this->_contextKeywords = array(
     ),
 
     //SSE instruction set
-    5 => array(
+    7 => array(
         0 => array(
             // @todo order the SSE instruction set
             // @todo divide between SSE\SSE2\SSE3 instruction sets
@@ -196,7 +230,7 @@ $this->_contextKeywords = array(
     ),
 
     //3DNow instruction set
-    6 => array(
+    8 => array(
         0 => array(
             // @todo order the 3Dnow! instruction set
             'PAVGUSB', 'PF2ID', 'PFACC', 'PFADD', 'PFMAX', 'PFMIN', 'PFMUL', 'PFRCP',
@@ -211,7 +245,7 @@ $this->_contextKeywords = array(
     ),
 
     //3DNowExt instruction set
-    7 => array(
+    9 => array(
         0 => array(
             // @todo order the 3Dnow! Ext instruction set
             'PF2IW', 'PFNACC', 'PFPNACC', 'PI2FW', 'PSWAPD'
@@ -226,7 +260,7 @@ $this->_contextKeywords = array(
 $this->_contextSymbols  = array(
     0 => array(
         0 => array(
-            ',', ';', '[', ']', '.'
+            ',', ';', '[', ']', '(', ')', '.', '&', '+', '-', '/', '*'
             ),
         1 => $CONTEXT . '/sym',
         2 => 'color:#008000;'
@@ -250,7 +284,16 @@ $this->_contextRegexps  = array(
             1 => array($CONTEXT . '/hex', 'color: #2bf;', false)
         )
     ),
-    2 => geshi_use_integers($CONTEXT)
+    2 => array(
+        0 => array(
+            '/(?=\b)(st\([0-7]\))/im'
+        ),
+        1 => '',
+        2 => array(
+            1 => array($CONTEXT . '/register', 'color: #00f;', false)
+        )
+    ),
+    3 => geshi_use_integers($CONTEXT)
 );
 
 $this->_objectSplitters = array(
