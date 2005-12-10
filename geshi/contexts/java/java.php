@@ -58,7 +58,7 @@
         	'transient', 'try', 'void', 'volatile', 'while' 
         ),
         1 => $CONTEXT . '/cstructures',
-        2 => 'color:#b1b100;',
+        2 => 'color:#a6a600;',
         3 => false,
         4 => ''
    	),
@@ -1157,8 +1157,8 @@
 			'_NamingContextImplBase', '_NamingContextStub', '_PolicyStub', 
 			'_Remote_Stub', '_ServantActivatorStub', '_ServantLocatorStub'
 		),
-		1 => $CONTEXT . '/classes',
-        2 => 'color:#000;font-weight:bold;',
+		1 => $CONTEXT . '/class',
+        2 => 'color:#999;font-weight:bold;',
         3 => true,
         4 => ''					
     	),
@@ -1169,8 +1169,8 @@
     		'byte', 'short', 'int', 'long', 'float', 'double',
 			'char', 'boolean'
 		),
-    	1 => $CONTEXT . '/types',
-    	2 => 'color:#000;font-weight:bold;',
+    	1 => $CONTEXT . '/dtype',
+    	2 => 'color:#444;font-weight:bold;',
         3 => true,
         4 => ''	
     )
@@ -1185,7 +1185,7 @@
             '{', '}', '='
             ),
         1 => $CONTEXT . '/symbols',
-        2 => 'color:#008000;'
+        2 => 'color:#001000;'
     )
  );
  
