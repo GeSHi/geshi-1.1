@@ -142,10 +142,10 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
      */
     function parseToken ($token, $context_name, $data)
     {
-        geshi_dbg('GeSHiDelphiCodeParser::parseToken("' . substr($token, 0, 15) . '"...,' . $context_name . ')', GESHI_DBG_PARSE);
+        geshi_dbg('GeSHiDelphiCodeParser::parseToken("' . substr(str_replace("\n", '\n', $token), 0, 15) . '"...,' . $context_name . ')', GESHI_DBG_PARSE);
 
         //Check for linebraks...
-        if (false !== stripos($token, '\n')) {
+        if (false !== stripos($token, "\n")) {
             $this->_semicolonFlag = false;
         }
 
