@@ -100,9 +100,37 @@ define('GESHI_DBG_API', 1);
 /** Debug actual parsing */
 define('GESHI_DBG_PARSE', 2);
 /** Debug error handling */
-define('GESHI_DBG_ERR', 4);
+//define('GESHI_DBG_ERR', 4);
+
+// New debugging
+/** System is unusable */
+define('GESHI_DBG_EMERG',    1);
+/** Critical conditions */
+define('GESHI_DBG_CRIT',     2);
+/** Error conditions */
+define('GESHI_DBG_ERR',      4);
+/** Warning conditions */
+define('GESHI_DBG_WARNING',  8);
+/** Normal but significant */
+define('GESHI_DBG_NOTICE',   16);
+/** Informational */
+define('GESHI_DBG_INFO',     32);
+/** Debug-level messages */
+define('GESHI_DBG_DEBUG',    64);
+
+/** GeSHi initialisation (inc. calls made on the GeSHi object) */
+define('GESHI_DBG_INIT', 128);
+/** Loading language/context files */
+define('GESHI_DBG_LOADING', 256);
+/** Base Parsing */
+define('GESHI_DBG_PARSING', 512);
+/** Extended Code Parsing */
+define('GESHI_DBG_CODEPARSING', 1024);
+/** Rendering */
+define('GESHI_DBG_PART_RENDERING', 2048);
+
 /** Maximum debug level */
-define('GESHI_DBG_ALL', GESHI_DBG_API | GESHI_DBG_PARSE | GESHI_DBG_ERR);
+define('GESHI_DBG_ALL', 4095);
 
 // Set efault debug level
 if (!defined('GESHI_DBG')) {
@@ -672,7 +700,7 @@ class GeSHi
 
         // Load all the data needed for parsing this language
         $language_file = $this->_getLanguageDataFile();
-        geshi_dbg('  Loading language data from ' . GESHI_LANGUAGES_ROOT . $language_file, GESHI_DBG_API);
+        geshi_dbg('  Loading language data from ' . $language_file, GESHI_DBG_API);
         require $language_file;
 
         if ($error_data = $this->_rootContext->load($this->_styler)) {
