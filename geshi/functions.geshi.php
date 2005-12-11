@@ -49,7 +49,8 @@ function geshi_dbg_level ($level) {
  */
 function geshi_dbg ($message, $context, $add_nl = true, $return_counts = false)
 {
-    if ((GESHI_DBG & $context) || ($GLOBALS['geshi_dbg_level'] & $context)) {
+    //echo "DBG: " . (GESHI_DBG & $context) . "  " . $context . "  " . "<br />";
+    if (((GESHI_DBG & $context)) || ($GLOBALS['geshi_dbg_level'] & $context)) {
         //
         // Message can have the following symbols at start
         //
