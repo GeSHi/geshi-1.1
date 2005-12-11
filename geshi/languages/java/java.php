@@ -43,8 +43,8 @@
  
  /** Get the GeSHiCodeContext class */ 
 require_once GESHI_CLASSES_ROOT . 'class.geshicodecontext.php';
-/** Get the GeSHiPHPCodeParser class */
-require_once GESHI_CLASSES_ROOT . 'java' . GESHI_DIR_SEPARATOR . 'class.geshijavacodeparser.php';
+/** Get the GeSHiJavaCodeParser class */
+//require_once GESHI_CLASSES_ROOT . 'java' . GESHI_DIR_SEPARATOR . 'class.geshijavacodeparser.php';
 
 $this->_humanLanguageName = 'Java';
  
