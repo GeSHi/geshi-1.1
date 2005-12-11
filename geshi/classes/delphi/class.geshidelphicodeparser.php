@@ -200,28 +200,33 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
             }
         }
 
-        if ('begin' == $token_l ||
-            'case' == $token_l ||
-            'class' == $token_l ||
-            'object' == $token_l ||
-            'record' == $token_l ||
-            'try' == $token_l ||
-            'asm' == $token_l) {
-            $this->_openBlockCount++;
-            $this->_openBlockType[] = $token_l;
-            if (2 <= ($obc = $this->_openBlockCount)) {
-                //Check if we have a casxe statement inside a record definition.
-                if ('record' == $this->_openBlockType[$obc-2] && 'case' == $this->_openBlockType[$obc-1]) {
-                    array_pop($this->_openBlockType);
-                    $this->_openBlockCount--;
+        if (!stripos($context_name, 'comment')) {
+            if ('begin' == $token_l ||
+                'case' == $token_l ||
+                'class' == $token_l ||
+                'object' == $token_l ||
+                'record' == $token_l ||
+                'try' == $token_l ||
+                'asm' == $token_l) {
+                geshi_dbg('Detected opening block "'.$token_l.'" on level BC' . $this->_bracketCount . '\OBC' . $this->_openBlockCount . '...' . stripos($context_name, 'comment'), GESHI_DBG_PARSE);
+
+                $this->_openBlockCount++;
+                $this->_openBlockType[] = $token_l;
+                if (2 <= ($obc = $this->_openBlockCount)) {
+                    //Check if we have a casxe statement inside a record definition.
+                    if ('record' == $this->_openBlockType[$obc-2] && 'case' == $this->_openBlockType[$obc-1]) {
+                        array_pop($this->_openBlockType);
+                        $this->_openBlockCount--;
+                    }
                 }
             }
-        }
-        if ('end' == $token_l) {
-            if (--$this->_openBlockCount < 0) {
-                $this->_openBlockCount = 0;
+            if ('end' == $token_l) {
+                if (--$this->_openBlockCount < 0) {
+                    $this->_openBlockCount = 0;
+                }
+                array_pop($this->_openBlockType);
+                geshi_dbg('Detected closing block "'.$token_l.'" on level BC' . $this->_bracketCount . '\OBC' . $this->_openBlockCount . '...' . stripos($context_name, 'comment'), GESHI_DBG_PARSE);
             }
-            array_pop($this->_openBlockType);
         }
 
         // If we detect a semicolon we require remembering it, thus we can highlight the register directive correctly.
