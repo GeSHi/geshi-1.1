@@ -40,8 +40,10 @@
  $this->_childContexts = array(
     new GeSHiSingleCharContext('java',  $DIALECT, 'common/single_string'),
     new GeSHiStringContext('java', $DIALECT, 'common/double_string'),
-    new GeshiContext('java', $DIALECT, 'common/single_comment'),
-    new GeshiContext('java', $DIALECT, 'common/multi_comment')
+    new GeSHiContext('java', $DIALECT, 'common/single_comment'),
+    new GeSHiContext('java', $DIALECT, 'common/multi_comment'),
+    // Use doxygen
+    new GeshiContext('java', $DIALECT, 'doxygen')
  );
  
  $this->_contextKeywords = array(
@@ -50,14 +52,14 @@
         0 => array(
         	'abstract', 'assert', 'boolean', 'break', 'byte', 'case', 'catch',
         	'char', 'class', 'const', 'continue', 'default', 'do', 'double',
-        	'else', 'enum', 'extends', 'final', 'finally', 'float', 'for',
-        	'goto', 'if', 'implements', 'import', 'instanceof', 'int',
-        	'interface', 'long', 'native', 'new', 'package', 'private',
-        	'protected', 'public', 'return', 'short', 'static', 'strictfp',
+        	'else', 'enum', 'extends', 'final', 'finally', 'for',
+        	'goto', 'if', 'implements', 'import', 'instanceof',
+        	'interface', 'native', 'new', 'package', 'private',
+        	'protected', 'public', 'return', 'static', 'strictfp',
         	'super', 'switch', 'synchronized', 'this', 'throw', 'throws',
-        	'transient', 'try', 'void', 'volatile', 'while' 
+        	'transient', 'try', 'volatile', 'while' 
         ),
-        1 => $CONTEXT . '/cstructures',
+        1 => $CONTEXT . '/keyword',
         2 => 'color:#a6a600;',
         3 => false,
         4 => ''
@@ -1167,26 +1169,52 @@
     	//data types
     	0 => array(
     		'byte', 'short', 'int', 'long', 'float', 'double',
-			'char', 'boolean'
+			'char', 'boolean', 'void'
 		),
     	1 => $CONTEXT . '/dtype',
     	2 => 'color:#444;font-weight:bold;',
         3 => true,
         4 => ''	
+    ),
+    
+    3 => array(
+        //  const values
+        0 => array(
+            'false', 'null', 'true'
+        ),
+        1 => $CONTEXT . '/const',
+        2 => 'color:#000;font-weight:bold;',
+        3 => true,
+        4 => ''
     )
- );
- 
- 
- $this->_contextSymbols  = array(
+);
+
+$this->_contextCharactersDisallowedBeforeKeywords = array('\'');
+$this->_contextCharactersDisallowedAfterKeywords  = array('\'');
+
+$this->_contextSymbols  = array(
     0 => array(
         0 => array(
             '(', ')', ',', ';', ':', '[', ']',
             '+', '-', '*', '/', '&', '|', '!', '<', '>',
-            '{', '}', '='
+            '{', '}', '=', '.'
             ),
         1 => $CONTEXT . '/symbols',
-        2 => 'color:#001000;'
+        2 => 'color:#008000;'
     )
- );
- 
- ?>
+);
+
+$this->_contextRegexps = array(
+    0 => geshi_use_doubles($CONTEXT),
+    1 => geshi_use_integers($CONTEXT)
+);
+$this->_objectSplitters = array(
+    0 => array(
+        0 => array('.'),
+        1 => $CONTEXT . '/ootoken',
+        2 => 'color:#933;',
+        3 => false
+    )
+);
+
+?>
