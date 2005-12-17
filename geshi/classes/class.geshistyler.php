@@ -189,45 +189,55 @@ class GeSHiStyler
      * data on to the code parser, then to the renderer for
      * building the result string
      */    
-    function addParseData ($code, $context_name, $url = '')
+    function addParseData ($code, $context_name, $data = null, $complex = false)
     {
         // @todo [blocking 1.1.5] test this, esp. not passing back anything and passing back multiple
         // can use PHP code parser for this
         // @todo [blocking 1.1.9] since we are only looking for whitespace at start and end this can
         // be optimised
-        $matches = array();
-        preg_match_all('/^(\s*)(.*?)(\s*)$/si', $code, $matches);
-        //echo 'START<br />';
-        //print_r($matches);
-        if ($matches[1][0]) {
-            $this->_addToParsedCode($this->_codeParser->parseToken($matches[1][0], $context_name, $url));
-        }
-        if ('' != $matches[2][0]) {
-            while ('' != $matches[2][0]) {
-                $pos = geshi_get_position($matches[2][0], 'REGEX#(\s+)#');
-                if (false !== $pos['pos']) {
-                    // Parse the token up to the whitespace
-                    //echo 'code: |' . substr($matches[2][0], 0, $pos['pos']) . '|<br />';
-                    $this->_addToParsedCode(
-                        $this->_codeParser->parseToken(substr($matches[2][0], 0, $pos['pos']), $context_name, $url)
-                    );
-                    // Parse the whitespace
-                    //echo 'ws: |' . substr($matches[2][0], $pos['pos'], $pos['len']) . '|<br />';
-                    $this->_addToParsedCode(
-                        $this->_codeParser->parseToken(substr($matches[2][0], $pos['pos'], $pos['len']), $context_name, $url)
-                    );
-                    // Trim what we just parsed
-                    $matches[2][0] = substr($matches[2][0], $pos['pos'] + $pos['len']);
-                } else {
-                    // No more whitespace
-                    //echo 'no more whitespace: |' . $matches[2][0] . '<br />';
-                    $this->_addToParsedCode($this->_codeParser->parseToken($matches[2][0], $context_name, $url));
-                    break;
+        if (!$complex) {
+            // Parse all at once
+            $this->_addToParsedCode($this->_codeParser->parseToken($code, $context_name, $data));
+        } else {
+            $matches = array();
+            preg_match_all('/^(\s*)(.*?)(\s*)$/si', $code, $matches);
+            //echo 'START<br />';
+            //print_r($matches);
+            if ($matches[1][0]) {
+                $this->_addToParsedCode($this->_codeParser->parseToken($matches[1][0],
+                    $context_name, $data));
+            }
+            if ('' != $matches[2][0]) {
+                while ('' != $matches[2][0]) {
+                    $pos = geshi_get_position($matches[2][0], 'REGEX#(\s+)#');
+                    if (false !== $pos['pos']) {
+                        // Parse the token up to the whitespace
+                        //echo 'code: |' . substr($matches[2][0], 0, $pos['pos']) . '|<br />';
+                        $this->_addToParsedCode(
+                            $this->_codeParser->parseToken(substr($matches[2][0], 0, $pos['pos']),
+                            $context_name, $data)
+                        );
+                        // Parse the whitespace
+                        //echo 'ws: |' . substr($matches[2][0], $pos['pos'], $pos['len']) . '|<br />';
+                        $this->_addToParsedCode(
+                            $this->_codeParser->parseToken(substr($matches[2][0], $pos['pos'], $pos['len']),
+                            $context_name, $data)
+                        );
+                        // Trim what we just parsed
+                        $matches[2][0] = substr($matches[2][0], $pos['pos'] + $pos['len']);
+                    } else {
+                        // No more whitespace
+                        //echo 'no more whitespace: |' . $matches[2][0] . '<br />';
+                        $this->_addToParsedCode($this->_codeParser->parseToken($matches[2][0],
+                            $context_name, $data));
+                        break;
+                    }
                 }
             }
-        }
-        if ($matches[3][0]) {
-            $this->_addToParsedCode($this->_codeParser->parseToken($matches[3][0], $context_name, $url));
+            if ($matches[3][0]) {
+                $this->_addToParsedCode($this->_codeParser->parseToken($matches[3][0],
+                    $context_name, $data));
+            }
         }
     }
     
@@ -253,17 +263,17 @@ class GeSHiStyler
     // }}}
     // {{{ addParseDataStart()
     
-    function addParseDataStart ($code, $context_name, $start_name = 'start')
+    function addParseDataStart ($code, $context_name, $start_name = 'start', $complex = false)
     {
-    	$this->addParseData($code, "$context_name/$start_name");
+    	$this->addParseData($code, "$context_name/$start_name", null, $complex);
     }
     
     // }}}
     // {{{ addParseDataEnd()
     
-    function addParseDataEnd ($code, $context_name, $end_name = 'end')
+    function addParseDataEnd ($code, $context_name, $end_name = 'end', $complex = false)
     {
-    	$this->addParseData($code, "$context_name/$end_name");
+    	$this->addParseData($code, "$context_name/$end_name", null, $complex);
     }
     
     // }}}
