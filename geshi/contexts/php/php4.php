@@ -848,4 +848,6 @@ $this->_objectSplitters = array(
     )
 );
 
+$this->_isComplex = true;
+
 ?>

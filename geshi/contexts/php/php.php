@@ -883,6 +883,8 @@ $this->_objectSplitters = array(
     )
 );
 
+$this->_isComplex = true;
+
 /**
  * This just demonstrates the concept...
  * You can use a function like this, called
