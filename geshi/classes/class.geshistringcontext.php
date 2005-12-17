@@ -131,12 +131,13 @@ class GeSHiStringContext extends GeSHiContext
                 if ($char == $escape_char && (false !== ($len = $this->_shouldBeEscaped(substr($code, $i + 1))))) {
                     geshi_dbg('Match: len = ' . $len, GESHI_DBG_PARSE);
                     if ($string) {
-                        $this->_styler->addParseData($string, $this->_contextName);
+                        $this->_styler->addParseData($string, $this->_contextName,
+                            $this->_getExtraParseData(), $this->_isComplex);
                         $string = '';
                     }
                     // Needs a better name than /esc
                     $this->_styler->addParseData($escape_char . substr($code, $i + 1, $len), $this->_contextName . '/esc',
-                        $this->_getExtraParseData());
+                        $this->_getExtraParseData(), $this->_isComplex);
                     // FastForward
                     $i += $len;
                     $skip = true;
@@ -149,7 +150,8 @@ class GeSHiStringContext extends GeSHiContext
             }
         }
         if ($string) {
-            $this->_styler->addParseData($string, $this->_contextName, $this->_getExtraParseData());
+            $this->_styler->addParseData($string, $this->_contextName, $this->_getExtraParseData(),
+                $this->_isComplex);
         }
      }
      

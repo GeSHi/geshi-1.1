@@ -305,10 +305,12 @@ class GeSHiCodeContext extends GeSHiContext
 
         foreach ($parse_data as $data) {
             if (!(isset($data[2]) && $data[2])) {
-                $this->_styler->addParseData($data[0], $data[1], $this->_getExtraParseData());
+                $this->_styler->addParseData($data[0], $data[1], $this->_getExtraParseData(),
+                    $this->_isComplex);
             } else {
                 // $data[2] is the URL
-                $this->_styler->addParseData($data[0], $data[1], $this->_getExtraParseData(array('url' => $data[2])));
+                $this->_styler->addParseData($data[0], $data[1],
+                    $this->_getExtraParseData(array('url' => $data[2])), $this->_isComplex);
             }
         }
     }
