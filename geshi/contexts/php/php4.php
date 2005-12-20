@@ -51,34 +51,33 @@ $this->_contextDelimiters = array(
 );
 
 $this->_childContexts = array(
-    new GeSHiStringContext('php',  $DIALECT, 'common/single_string'),
+    new GeSHiStringContext('php',  $DIALECT, 'single_string'),
     new GeSHiPHPDoubleStringContext('php',  $DIALECT, 'double_string'),
     new GeSHiPHPDoubleStringContext('php',  $DIALECT, 'heredoc'),
-    // PHP single comment, with # starter and end-php-context ender
     new GeSHiContext('php',  $DIALECT, 'single_comment'),
-    // Use common multi comment since it is a PHP comment...
-    new GeSHiContext('php',  $DIALECT, 'common/multi_comment'),
+    new GeSHiContext('php',  $DIALECT, 'multi_comment'),
     new GeSHiContext('php',  $DIALECT, 'doxygen')
 );
 
-$this->_styler->setStyle($CONTEXT_START, 'color:#000;font-weight:bold;');
-$this->_styler->setStyle($CONTEXT_END, 'color:#000;font-weight:bold;');
-
 $this->_contextKeywords = array(
-    0 => array(
-        0 => array(
+    // Basic keywords
+    array(
+        array(
             'as', 'break', 'case', 'continue', 'declare', 'do', 'else', 'elseif',
             'endforeach', 'endif', 'endswitch', 'endwhile', 'for', 'foreach', 'if',
             'include', 'include_once', 'require', 'require_once', 'return', 'switch',
             'while'
         ),
-        1 => $CONTEXT . '/cstructures',
-        2 => 'color:#b1b100;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/cstructure',
+        false,
+        ''
     ),
-    1 => array(
-        0 => array(
+    
+    // Constants, some structure keywords
+    // @todo [blocking 1.1.9] Move non-constants (structure keywords) out of this array (need to change
+    // the get-keywords script for this also)
+    array(
+        array(
             'DEFAULT_INCLUDE_PATH', 'E_ALL', 'E_COMPILE_ERROR', 'E_COMPILE_WARNING',
             'E_CORE_ERROR', 'E_CORE_WARNING', 'E_ERROR', 'E_NOTICE', 'E_PARSE',
             'E_USER_ERROR', 'E_USER_NOTICE', 'E_USER_WARNING',
@@ -90,13 +89,14 @@ $this->_contextKeywords = array(
             '__LINE__', '__METHOD__', 'class', 'default',
             'extends', 'function', 'new', 'parent', 'static', 'var'
         ),
-        1 => $CONTEXT . '/keywords',
-        2 => 'color:#000;font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/keyword',
+        false,
+        ''
     ),
-    2 => array(
-        0 => array(
+    
+    // Functions
+    array(
+        array(
             // @todo [blocking 1.1.9] This list of functions is for php5... should get one for php4 only
             'abs', 'acos', 'acosh', 'addcslashes', 'addslashes',
             'apache_child_terminate', 'apache_lookup_uri', 'apache_note',
@@ -800,51 +800,51 @@ $this->_contextKeywords = array(
             'zip_entry_filesize', 'zip_entry_name', 'zip_entry_open',
             'zip_entry_read', 'zip_open', 'zip_read'
         ),
-        1 => $CONTEXT . '/functions',
-        2 => 'color:#006;',
-        3 => false,
-        4 => 'http://www.php.net/{FNAME}'
+        $CONTEXT . '/function',
+        false,
+        'http://www.php.net/{FNAME}'
     )
 );
 
-$this->_contextCharactersDisallowedBeforeKeywords = array('$', '_');
-$this->_contextCharactersDisallowedAfterKeywords  = array("'", '_');
+$this->_contextCharactersDisallowedBeforeKeywords = array('$');
+$this->_contextCharactersDisallowedAfterKeywords  = array("'");
+
 $this->_contextSymbols  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             '(', ')', ',', ';', ':', '[', ']',
             '+', '-', '*', '/', '&', '|', '!', '<', '>',
             '{', '}', '=', '@'
-            ),
-        1 => $CONTEXT . '/sym0',
-        2 => 'color:#008000;'
+        ),
+        $CONTEXT . '/symbol'
     )
 );
+
 $this->_contextRegexps  = array(
-    0 => array(
-        0 => array(
+    // PHP Variable
+    array(
+        array(
             '#(\$\$?[a-zA-Z_][a-zA-Z0-9_]*)#'
-            ),
-        1 => '$',
-        2 => array(
-            1 => array($CONTEXT . '/var', 'color:#33f;', false),
+        ),
+        '$',
+        array(
+            1 => array($CONTEXT . '/var', false),
         )
     ),
-    1 => geshi_use_doubles($CONTEXT),
-    2 => geshi_use_integers($CONTEXT)
+    geshi_use_doubles($CONTEXT),
+    geshi_use_integers($CONTEXT)
 );
+
 $this->_objectSplitters = array(
-    0 => array(
-        0 => array('->'),
-        1 => $CONTEXT . '/oodynamic',
-        2 => 'color:#933;',
-        3 => false
+    array(
+        array('->'),
+        $CONTEXT . '/oodynamic',
+        false
     ),
-    1 => array(
-        0 => array('::'),
-        1 => $CONTEXT . '/oostatic',
-        2 => 'color:#933;font-weight:bold;',
-        3 => false
+    array(
+        array('::'),
+        $CONTEXT . '/oostatic',
+        false
     )
 );
 

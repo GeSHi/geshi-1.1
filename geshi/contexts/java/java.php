@@ -32,24 +32,23 @@
  * 
  */
  
- /** Get the GeSHiStringContext class */
- require_once GESHI_CLASSES_ROOT . 'class.geshistringcontext.php';
- /** Get the GeSHiSingleCharContext class */
- require_once GESHI_CLASSES_ROOT . 'class.geshisinglecharcontext.php';
+/** Get the GeSHiStringContext class */
+require_once GESHI_CLASSES_ROOT . 'class.geshistringcontext.php';
+/** Get the GeSHiSingleCharContext class */
+require_once GESHI_CLASSES_ROOT . 'class.geshisinglecharcontext.php';
  
- $this->_childContexts = array(
-    new GeSHiSingleCharContext('java',  $DIALECT, 'common/single_string'),
-    new GeSHiStringContext('java', $DIALECT, 'common/double_string'),
-    new GeSHiContext('java', $DIALECT, 'common/single_comment'),
-    new GeSHiContext('java', $DIALECT, 'common/multi_comment'),
-    // Use doxygen
+$this->_childContexts = array(
+    new GeSHiSingleCharContext('java',  $DIALECT, 'single_string'),
+    new GeSHiStringContext('java', $DIALECT, 'double_string'),
+    new GeSHiContext('java', $DIALECT, 'single_comment'),
+    new GeSHiContext('java', $DIALECT, 'multi_comment'),
     new GeshiContext('java', $DIALECT, 'doxygen')
- );
+);
  
- $this->_contextKeywords = array(
-    0 => array(
+$this->_contextKeywords = array(
+    array(
     	//keywords
-        0 => array(
+        array(
         	'abstract', 'assert', 'boolean', 'break', 'byte', 'case', 'catch',
         	'char', 'class', 'const', 'continue', 'default', 'do', 'double',
         	'else', 'enum', 'extends', 'final', 'finally', 'for',
@@ -59,23 +58,22 @@
         	'super', 'switch', 'synchronized', 'this', 'throw', 'throws',
         	'transient', 'try', 'volatile', 'while' 
         ),
-        1 => $CONTEXT . '/keyword',
-        2 => 'color:#a6a600;',
-        3 => false,
-        4 => ''
-   		),
-   	1 => array(
+        $CONTEXT . '/keyword',
+        false,
+        ''
+    ),
+    
+   	array(
     	//java.applet
-    	0 => array('Applet', 'AppletContext', 'AppletStub', 'AudioClip'),
-		1 => $CONTEXT . '/java/applet',
-        2 => 'color:#999;font-weight:bold;',
-        3 => true,
-        4 => ''					
-    	),
-  	
-  	2 => array(
+    	array('Applet', 'AppletContext', 'AppletStub', 'AudioClip'),
+		$CONTEXT . '/java/applet',
+        true,
+        ''					
+    ),
+    
+  	array(
   		//java.awt
-  		0 => array(
+  		array(
 			'AWTError', 'AWTEvent', 'AWTEventMulticaster', 
 			'AWTException', 'AWTKeyStroke', 'AWTPermission', 
 			'ActiveEvent', 'Adjustable', 'AlphaComposite', 
@@ -114,45 +112,39 @@
 			'TextComponent', 'TextField', 'TexturePaint', 
 			'Toolkit', 'Transparency', 'Window', 	
   		),
-		1 => $CONTEXT . '/java/awt',
-        2 => 'color:#999;font-weight:bold;',
-        3 => true,
-        4 => ''			
-  	
+		$CONTEXT . '/java/awt',
+        true,
+        ''
   	),
   	
-  	3 => array(
+  	array(
 		//java.awt.color
-    	0 => array(
+    	array(
 			'CMMException', 'ColorSpace', 'ICC_ColorSpace', 
 			'ICC_Profile', 'ICC_ProfileGray', 'ICC_ProfileRGB', 
 			'ProfileDataException'   		
 		),
-    	1 => $CONTEXT . '/java/awt/color',
-    	2 => 'color:#444;font-weight:bold;',
-        3 => true,
-        4 => ''	  	
-  	
+    	$CONTEXT . '/java/awt/color',
+        true,
+        ''	  	
   	),
   	
-  	4 => array(
-	//java.awt.datatransfer
-    	0 => array(
+  	array(
+	    //java.awt.datatransfer
+    	array(
 			'Clipboard', 'ClipboardOwner', 'DataFlavor', 
 			'FlavorEvent', 'FlavorListener', 'FlavorMap', 
 			'FlavorTable', 'MimeTypeParseException', 'StringSelection', 
 			'SystemFlavorMap', 'Transferable', 'UnsupportedFlavorException'					
 		),
-    	1 => $CONTEXT . '/java/awt/datatransfer',
-    	2 => 'color:#444;font-weight:bold;',
-        3 => true,
-        4 => ''	  	
-  	  	
+    	$CONTEXT . '/java/awt/datatransfer',
+        true,
+        ''	  	
   	),
   	
-  	5 => array(
-	//java.awt.dnd
-    	0 => array(
+  	array(
+	    //java.awt.dnd
+    	array(
 			'Autoscroll', 'DnDConstants', 'DragGestureEvent', 
 			'DragGestureListener', 'DragGestureRecognizer', 'DragSource', 
 			'DragSourceAdapter', 'DragSourceContext', 'DragSourceDragEvent', 
@@ -162,16 +154,14 @@
 			'DropTargetDropEvent', 'DropTargetEvent', 'DropTargetListener', 
 			'InvalidDnDOperationException', 'MouseDragGestureRecognizer'				
 		),
-    	1 => $CONTEXT . '/java/awt/dnd',
-    	2 => 'color:#444;font-weight:bold;',
-        3 => true,
-        4 => ''	  	
-  	  	
+    	$CONTEXT . '/java/awt/dnd',
+        true,
+        ''	  	
   	),
   	
-  	6 => array(
-  	//java.awt.event
-  		0 => array(		
+  	array(
+  	    //java.awt.event
+  		array(		
 			'AWTEventListener', 'AWTEventListenerProxy', 'ActionEvent', 
 			'ActionListener', 'AdjustmentEvent', 'AdjustmentListener', 
 			'ComponentAdapter', 'ComponentEvent', 'ComponentListener', 
@@ -188,34 +178,29 @@
 			'WindowEvent', 'WindowFocusListener', 'WindowListener', 
 			'WindowStateListener'  	  	  			
   		),
-		
-		1 => $CONTEXT . '/java/awt/event',
-    	2 => 'color:#444;font-weight:bold;',
-        3 => true,
-        4 => ''	  	
+		$CONTEXT . '/java/awt/event',
+        true,
+        ''	  	
+	),	
   	
-	),		
-  	
-	7 => array(
-	//java.awt.font
-		0 => array(
+	array(
+	    //java.awt.font
+		array(
 			'FontRenderContext', 'GlyphJustificationInfo', 'GlyphMetrics', 
 			'GlyphVector', 'GraphicAttribute', 'ImageGraphicAttribute', 
 			'LineBreakMeasurer', 'LineMetrics', 'MultipleMaster', 
 			'NumericShaper', 'OpenType', 'ShapeGraphicAttribute', 
 			'TextAttribute', 'TextHitInfo', 'TextLayout', 
-			'TextLayout.CaretPolicy', 'TextMeasurer', 'TransformAttribute'),
+			'TextLayout.CaretPolicy', 'TextMeasurer', 'TransformAttribute'
+        ),
+		$CONTEXT . '/java/awt/font',
+		true,
+		''
+    ),
 
-		1 => $CONTEXT . '/java/awt/font',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
-
-	),
-
-	8 => array(
-	//java.awt.geom 
-		0 => array(
+    array(
+       //java.awt.geom 
+	   array(
 			'AffineTransform', 'Arc2D', 'Arc2D.Double', 
 			'Arc2D.Float', 'Area', 'CubicCurve2D', 
 			'CubicCurve2D.Double', 'CubicCurve2D.Float', 'Dimension2D', 
@@ -228,41 +213,37 @@
 			'Rectangle2D.Double', 'Rectangle2D.Float', 'RectangularShape', 
 			'RoundRectangle2D', 'RoundRectangle2D.Double', 'RoundRectangle2D.Float'),
 
-		1 => $CONTEXT . '/java/awt/geom',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
-
+		$CONTEXT . '/java/awt/geom',
+		true,
+		''
 	),
 
-	9 => array(
+	array(
 	//java.awt.im 
-		0 => array(
+		array(
 			'InputContext', 'InputMethodHighlight', 'InputMethodRequests', 
 			'InputSubset'),
 
-		1 => $CONTEXT . '/java/awt/im',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/awt/im',
+		true,
+		''
 
 	),
 
-	10 => array(
+	array(
 	//java.awt.im.spi 
-		0 => array(
+		array(
 			'InputMethod', 'InputMethodContext', 'InputMethodDescriptor'),
 
-		1 => $CONTEXT . '/java/awt/im/spi',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/awt/im/spi',
+		true,
+		''
 
 	),
 
-	11 => array(
+	array(
 	//java.awt.image 
-		0 => array(
+		array(
 			'AffineTransformOp', 'AreaAveragingScaleFilter', 'BandCombineOp', 
 			'BandedSampleModel', 'BufferStrategy', 'BufferedImage', 
 			'BufferedImageFilter', 'BufferedImageOp', 'ByteLookupTable', 
@@ -282,45 +263,42 @@
 			'TileObserver', 'VolatileImage', 'WritableRaster', 
 			'WritableRenderedImage'),
 
-		1 => $CONTEXT . '/java/awt/image',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/awt/image',
+		true,
+		''
 
 	),
 
-	12 => array(
+	array(
 	//java.awt.image.renderable
-		0 => array(
+		array(
 			'ContextualRenderedImageFactory', 'ParameterBlock', 'RenderContext', 
 			'RenderableImage', 'RenderableImageOp', 'RenderableImageProducer', 
 			'RenderedImageFactory'),
 
-		1 => $CONTEXT . '/java/awt/image/renderable',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/awt/image/renderable',
+		true,
+		''
 
 	),
 
-	13 => array(
+	array(
 	//java.awt.print 
-		0 => array(
+		array(
 			'Book', 'PageFormat', 'Pageable', 
 			'Paper', 'Printable', 'PrinterAbortException', 
 			'PrinterException', 'PrinterGraphics', 'PrinterIOException', 
 			'PrinterJob'),
 
-		1 => $CONTEXT . '/java/awt/print',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/awt/print',
+		true,
+		''
 
 	),
 
-	14 => array(
+	array(
 	//java.beans 
-		0 => array(
+		array(
 			'AppletInitializer', 'BeanDescriptor', 'BeanInfo', 
 			'Beans', 'Customizer', 'DefaultPersistenceDelegate', 
 			'DesignMode', 'Encoder', 'EventHandler', 
@@ -335,16 +313,15 @@
 			'VetoableChangeSupport', 'Visibility', 'XMLDecoder', 
 			'XMLEncoder'),
 
-		1 => $CONTEXT . '/java/beans',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/beans',
+		true,
+		''
 
 	),
 
-	15 => array(
+	array(
 	//java.beans.beancontext
-		0 => array(
+		array(
 			'BeanContext', 'BeanContextChild', 'BeanContextChildComponentProxy', 
 			'BeanContextChildSupport', 'BeanContextContainerProxy', 'BeanContextEvent', 
 			'BeanContextMembershipEvent', 'BeanContextMembershipListener', 'BeanContextProxy', 
@@ -353,16 +330,15 @@
 			'BeanContextServicesListener', 'BeanContextServicesSupport', 'BeanContextServicesSupport.BCSSServiceProvider', 
 			'BeanContextSupport', 'BeanContextSupport.BCSIterator'),
 
-		1 => $CONTEXT . '/java/beans/beancontext',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/beans/beancontext',
+		true,
+		''
 
 	),
 
-	16 => array(
+	array(
 	//java.io 
-		0 => array(
+		array(
 			'BufferedInputStream', 'BufferedOutputStream', 'BufferedReader', 
 			'BufferedWriter', 'ByteArrayInputStream', 'ByteArrayOutputStream', 
 			'CharArrayReader', 'CharArrayWriter', 'CharConversionException', 
@@ -390,16 +366,15 @@
 			'StringWriter', 'SyncFailedException', 'UTFDataFormatException', 
 			'UnsupportedEncodingException', 'WriteAbortedException', 'Writer'),
 
-		1 => $CONTEXT . '/java/io',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/io',
+		true,
+		''
 
 	),
 
-	17 => array(
+	array(
 	//java.lang 
-		0 => array(
+		array(
 			'AbstractMethodError', 'Annotation Types', 'Appendable', 
 			'ArithmeticException', 'ArrayIndexOutOfBoundsException', 'ArrayStoreException', 
 			'AssertionError', 'Boolean', 'Byte', 
@@ -433,73 +408,68 @@
 			'UnsatisfiedLinkError', 'UnsupportedClassVersionError', 'UnsupportedOperationException', 
 			'VerifyError', 'VirtualMachineError', 'Void'),
 
-		1 => $CONTEXT . '/java/lang',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/lang',
+		true,
+		''
 
 	),
 
-	18 => array(
+	array(
 	//java.lang.annotation
-		0 => array(
+		array(
 			'Annotation', 'Annotation Types', 'AnnotationFormatError', 
 			'AnnotationTypeMismatchException', 'Documented', 'ElementType', 
 			'IncompleteAnnotationException', 'Inherited', 'Retention', 
 			'RetentionPolicy', 'Target'),
 
-		1 => $CONTEXT . '/java/lang/annotation',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/lang/annotation',
+		true,
+		''
 
 	),
 
-	19 => array(
+	array(
 	//java.lang.instrument
-		0 => array(
+		array(
 			'ClassDefinition', 'ClassFileTransformer', 'IllegalClassFormatException', 
 			'Instrumentation', 'UnmodifiableClassException'),
 
-		1 => $CONTEXT . '/java/lang/instrument',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/lang/instrument',
+		true,
+		''
 
 	),
 
-	20 => array(
+	array(
 	//java.lang.management 
-		0 => array(
+		array(
 			'ClassLoadingMXBean', 'CompilationMXBean', 'GarbageCollectorMXBean', 
 			'ManagementFactory', 'ManagementPermission', 'MemoryMXBean', 
 			'MemoryManagerMXBean', 'MemoryNotificationInfo', 'MemoryPoolMXBean', 
 			'MemoryType', 'MemoryUsage', 'OperatingSystemMXBean', 
 			'RuntimeMXBean', 'ThreadInfo', 'ThreadMXBean'),
 
-		1 => $CONTEXT . '/java/lang/management',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/lang/management',
+		true,
+		''
 
 	),
 
-	21 => array(
+	array(
 	//java.lang.ref 
-		0 => array(
+		array(
 			'PhantomReference', 'Reference', 'ReferenceQueue', 
 			'SoftReference', 'WeakReference'),
 
-		1 => $CONTEXT . '/java/lang/ref',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/lang/ref',
+		true,
+		''
 
 	),
 
-	22 => array(
+	array(
 	//java.lang.reflect 
-		0 => array(
+		array(
 			'AccessibleObject', 'AnnotatedElement', 'Array', 
 			'Constructor', 'Field', 'GenericArrayType', 
 			'GenericDeclaration', 'GenericSignatureFormatError', 'InvocationHandler', 
@@ -508,29 +478,27 @@
 			'Proxy', 'ReflectPermission', 'Type', 
 			'TypeVariable', 'UndeclaredThrowableException', 'WildcardType'),
 
-		1 => $CONTEXT . '/java/lang/reflect',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/lang/reflect',
+		true,
+		''
 
 	),
 
-	23 => array(
+	array(
 	//java.math
-		0 => array(
+		array(
 			'BigDecimal', 'BigInteger', 'MathContext', 
 			'RoundingMode'),
 
-		1 => $CONTEXT . '/java/math',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/math',
+		true,
+		''
 
 	),
 
-	24 => array(
+	array(
 	//java.net 
-		0 => array(
+		array(
 			'Authenticator', 'Authenticator.RequestorType', 'BindException', 
 			'CacheRequest', 'CacheResponse', 'ConnectException', 
 			'ContentHandler', 'ContentHandlerFactory', 'CookieHandler', 
@@ -550,32 +518,30 @@
 			'URLDecoder', 'URLEncoder', 'URLStreamHandler', 
 			'URLStreamHandlerFactory', 'UnknownHostException', 'UnknownServiceException'),
 
-		1 => $CONTEXT . '/java/net',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/net',
+		true,
+		''
 
 	),
 
-	25 => array(
+	array(
 	//java.nio 
-		0 => array(
+		array(
 			'Buffer', 'BufferOverflowException', 'BufferUnderflowException', 
 			'ByteBuffer', 'ByteOrder', 'CharBuffer', 
 			'DoubleBuffer', 'FloatBuffer', 'IntBuffer', 
 			'InvalidMarkException', 'LongBuffer', 'MappedByteBuffer', 
 			'ReadOnlyBufferException', 'ShortBuffer'),
 
-		1 => $CONTEXT . '/java/nio',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/nio',
+		true,
+		''
 
 	),
 
-	26 => array(
+	array(
 	//java.nio.channels 
-		0 => array(
+		array(
 			'AlreadyConnectedException', 'AsynchronousCloseException', 'ByteChannel', 
 			'CancelledKeyException', 'Channel', 'Channels', 
 			'ClosedByInterruptException', 'ClosedChannelException', 'ClosedSelectorException', 
@@ -590,56 +556,52 @@
 			'ServerSocketChannel', 'SocketChannel', 'UnresolvedAddressException', 
 			'UnsupportedAddressTypeException', 'WritableByteChannel'),
 
-		1 => $CONTEXT . '/java/nio/channels',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/nio/channels',
+		true,
+		''
 
 	),
 
-	27 => array(
+	array(
 	//java.nio.channels.spi 
-		0 => array(
+		array(
 			'AbstractInterruptibleChannel', 'AbstractSelectableChannel', 'AbstractSelectionKey', 
 			'AbstractSelector', 'SelectorProvider'),
 
-		1 => $CONTEXT . '/java/nio/channels/spi',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/nio/channels/spi',
+		true,
+		''
 
 	),
 
-	28 => array(
+	array(
 	//java.nio.charset
-		0 => array(
+		array(
 			'CharacterCodingException', 'Charset', 'CharsetDecoder', 
 			'CharsetEncoder', 'CoderMalfunctionError', 'CoderResult', 
 			'CodingErrorAction', 'IllegalCharsetNameException', 'MalformedInputException', 
 			'UnmappableCharacterException', 'UnsupportedCharsetException'),
 
-		1 => $CONTEXT . '/java/nio/charset',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/nio/charset',
+		true,
+		''
 
 	),
 
-	29 => array(
+	array(
 	//java.nio.charset.spi 
-		0 => array(
+		array(
 			'CharsetProvider'),
 
-		1 => $CONTEXT . '/java/nio/charset/spi',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/nio/charset/spi',
+		true,
+		''
 
 	),
 
-	30 => array(
+	array(
 	//java.rmi 
-		0 => array(
+		array(
 			'AccessException', 'AlreadyBoundException', 'ConnectException', 
 			'ConnectIOException', 'MarshalException', 'MarshalledObject', 
 			'Naming', 'NoSuchObjectException', 'NotBoundException', 
@@ -648,16 +610,15 @@
 			'ServerRuntimeException', 'StubNotFoundException', 'UnexpectedException', 
 			'UnknownHostException', 'UnmarshalException'),
 
-		1 => $CONTEXT . '/java/rmi',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/rmi',
+		true,
+		''
 
 	),
 
-	31 => array(
+	array(
 	//java.rmi.activation 
-		0 => array(
+		array(
 			'Activatable', 'ActivateFailedException', 'ActivationDesc', 
 			'ActivationException', 'ActivationGroup', 'ActivationGroupDesc', 
 			'ActivationGroupDesc.CommandEnvironment', 'ActivationGroupID', 'ActivationGroup_Stub', 
@@ -665,40 +626,37 @@
 			'ActivationSystem', 'Activator', 'UnknownGroupException', 
 			'UnknownObjectException'),
 
-		1 => $CONTEXT . '/java/rmi/activation',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/rmi/activation',
+		true,
+		''
 
 	),
 
-	32 => array(
+	array(
 	//java.rmi.dgc 
-		0 => array(
+		array(
 			'DGC', 'Lease', 'VMID'),
 
-		1 => $CONTEXT . '/java/rmi/dgc',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/rmi/dgc',
+		true,
+		''
 
 	),
 
-	33 => array(
+	array(
 	//java.rmi.registry 
-		0 => array(
+		array(
 			'LocateRegistry', 'Registry', 'RegistryHandler'),
 
-		1 => $CONTEXT . '/java/rmi/registry',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/rmi/registry',
+		true,
+		''
 
 	),
 
-	34 => array(
+	array(
 	//java.rmi.server 
-		0 => array(
+		array(
 			'ExportException', 'LoaderHandler', 'LogStream', 
 			'ObjID', 'Operation', 'RMIClassLoader', 
 			'RMIClassLoaderSpi', 'RMIClientSocketFactory', 'RMIFailureHandler', 
@@ -709,16 +667,15 @@
 			'SkeletonMismatchException', 'SkeletonNotFoundException', 'SocketSecurityException', 
 			'UID', 'UnicastRemoteObject', 'Unreferenced'),
 
-		1 => $CONTEXT . '/java/rmi/server',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/rmi/server',
+		true,
+		''
 
 	),
 
-	35 => array(
+	array(
 	//java.security
-		0 => array(
+		array(
 			'AccessControlContext', 'AccessControlException', 'AccessController', 
 			'AlgorithmParameterGenerator', 'AlgorithmParameterGeneratorSpi', 'AlgorithmParameters', 
 			'AlgorithmParametersSpi', 'AllPermission', 'AuthProvider', 
@@ -747,30 +704,28 @@
 			'Timestamp', 'UnrecoverableEntryException', 'UnrecoverableKeyException', 
 			'UnresolvedPermission'),
 
-		1 => $CONTEXT . '/java/security',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/security',
+		true,
+		''
 
 	),
 
-	36 => array(
+	array(
 	//java.security.acl 
-		0 => array(
+		array(
 			'Acl', 'AclEntry', 'AclNotFoundException', 
 			'Group', 'LastOwnerException', 'NotOwnerException', 
 			'Owner', 'Permission'),
 
-		1 => $CONTEXT . '/java/security/acl',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/security/acl',
+		true,
+		''
 
 	),
 
-	37 => array(
+	array(
 	//java.security.cert 
-		0 => array(
+		array(
 			'CRL', 'CRLException', 'CRLSelector', 
 			'CertPath', 'CertPath.CertPathRep', 'CertPathBuilder', 
 			'CertPathBuilderException', 'CertPathBuilderResult', 'CertPathBuilderSpi', 
@@ -787,32 +742,30 @@
 			'X509CRLEntry', 'X509CRLSelector', 'X509CertSelector', 
 			'X509Certificate', 'X509Extension'),
 
-		1 => $CONTEXT . '/java/security/cert',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/security/cert',
+		true,
+		''
 
 	),
 
-	38 => array(
+	array(
 	//java.security.interfaces
-		0 => array(
+		array(
 			'DSAKey', 'DSAKeyPairGenerator', 'DSAParams', 
 			'DSAPrivateKey', 'DSAPublicKey', 'ECKey', 
 			'ECPrivateKey', 'ECPublicKey', 'RSAKey', 
 			'RSAMultiPrimePrivateCrtKey', 'RSAPrivateCrtKey', 'RSAPrivateKey', 
 			'RSAPublicKey'),
 
-		1 => $CONTEXT . '/java/security/interfaces',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/security/interfaces',
+		true,
+		''
 
 	),
 
-	39 => array(
+	array(
 	//java.security.spec 
-		0 => array(
+		array(
 			'AlgorithmParameterSpec', 'DSAParameterSpec', 'DSAPrivateKeySpec', 
 			'DSAPublicKeySpec', 'ECField', 'ECFieldF2m', 
 			'ECFieldFp', 'ECGenParameterSpec', 'ECParameterSpec', 
@@ -823,16 +776,15 @@
 			'RSAMultiPrimePrivateCrtKeySpec', 'RSAOtherPrimeInfo', 'RSAPrivateCrtKeySpec', 
 			'RSAPrivateKeySpec', 'RSAPublicKeySpec', 'X509EncodedKeySpec'),
 
-		1 => $CONTEXT . '/java/security/spec',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/security/spec',
+		true,
+		''
 
 	),
 
-	40 => array(
+	array(
 	//java.sql 
-		0 => array(
+		array(
 			'Array', 'BatchUpdateException', 'Blob', 
 			'CallableStatement', 'Clob', 'Connection', 
 			'DataTruncation', 'DatabaseMetaData', 'Date', 
@@ -844,16 +796,15 @@
 			'Statement', 'Struct', 'Time', 
 			'Timestamp', 'Types'),
 
-		1 => $CONTEXT . '/java/sql',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/sql',
+		true,
+		''
 
 	),
 
-	41 => array(
+	array(
 	//java.text 
-		0 => array(
+		array(
 			'Annotation', 'AttributedCharacterIterator', 'AttributedCharacterIterator.Attribute', 
 			'AttributedString', 'Bidi', 'BreakIterator', 
 			'CharacterIterator', 'ChoiceFormat', 'CollationElementIterator', 
@@ -865,16 +816,15 @@
 			'ParsePosition', 'RuleBasedCollator', 'SimpleDateFormat', 
 			'StringCharacterIterator'),
 
-		1 => $CONTEXT . '/java/text',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/text',
+		true,
+		''
 
 	),
 
-	42 => array(
+	array(
 	//java.util 
-		0 => array(
+		array(
 			'AbstractCollection', 'AbstractList', 'AbstractMap', 
 			'AbstractQueue', 'AbstractSequentialList', 'AbstractSet', 
 			'ArrayList', 'Arrays', 'BitSet', 
@@ -905,16 +855,15 @@
 			'UUID', 'UnknownFormatConversionException', 'UnknownFormatFlagsException', 
 			'Vector', 'WeakHashMap'),
 
-		1 => $CONTEXT . '/java/util',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/util',
+		true,
+		''
 
 	),
 
-	43 => array(
+	array(
 	//java.util.concurrent 
-		0 => array(
+		array(
 			'AbstractExecutorService', 'ArrayBlockingQueue', 'BlockingQueue', 
 			'BrokenBarrierException', 'Callable', 'CancellationException', 
 			'CompletionService', 'ConcurrentHashMap', 'ConcurrentLinkedQueue', 
@@ -930,60 +879,56 @@
 			'ThreadPoolExecutor.CallerRunsPolicy', 'ThreadPoolExecutor.DiscardOldestPolicy', 'ThreadPoolExecutor.DiscardPolicy', 
 			'TimeUnit', 'TimeoutException'),
 
-		1 => $CONTEXT . '/java/util/concurrent',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/util/concurrent',
+		true,
+		''
 
 	),
 
-	44 => array(
+	array(
 	//java.util.concurrent.atomic 
-		0 => array(
+		array(
 			'AtomicBoolean', 'AtomicInteger', 'AtomicIntegerArray', 
 			'AtomicIntegerFieldUpdater', 'AtomicLong', 'AtomicLongArray', 
 			'AtomicLongFieldUpdater', 'AtomicMarkableReference', 'AtomicReference', 
 			'AtomicReferenceArray', 'AtomicReferenceFieldUpdater', 'AtomicStampedReference'),
 
-		1 => $CONTEXT . '/java/util/concurrent/atomic',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/util/concurrent/atomic',
+		true,
+		''
 
 	),
 
-	45 => array(
+	array(
 	//java.util.concurrent.locks 
-		0 => array(
+		array(
 			'AbstractQueuedSynchronizer', 'Condition', 'Lock', 
 			'LockSupport', 'ReadWriteLock', 'ReentrantLock', 
 			'ReentrantReadWriteLock', 'ReentrantReadWriteLock.ReadLock', 'ReentrantReadWriteLock.WriteLock'),
 
-		1 => $CONTEXT . '/java/util/concurrent/locks',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/util/concurrent/locks',
+		true,
+		''
 
 	),
 
-	46 => array(
+	array(
 	//java.util.jar 
-		0 => array(
+		array(
 			'Attributes', 'Attributes.Name', 'JarEntry', 
 			'JarException', 'JarFile', 'JarInputStream', 
 			'JarOutputStream', 'Manifest', 'Pack200', 
 			'Pack200.Packer', 'Pack200.Unpacker'),
 
-		1 => $CONTEXT . '/java/util/jar',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/util/jar',
+		true,
+		''
 
 	),
 
-	47 => array(
+	array(
 	//java.util.logging 
-		0 => array(
+		array(
 			'ConsoleHandler', 'ErrorManager', 'FileHandler', 
 			'Filter', 'Formatter', 'Handler', 
 			'Level', 'LogManager', 'LogRecord', 
@@ -991,43 +936,40 @@
 			'MemoryHandler', 'SimpleFormatter', 'SocketHandler', 
 			'StreamHandler', 'XMLFormatter'),
 
-		1 => $CONTEXT . '/java/util/logging',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/util/logging',
+		true,
+		''
 
 	),
 
-	48 => array(
+	array(
 	//java.util.prefs 
-		0 => array(
+		array(
 			'AbstractPreferences', 'BackingStoreException', 'InvalidPreferencesFormatException', 
 			'NodeChangeEvent', 'NodeChangeListener', 'PreferenceChangeEvent', 
 			'PreferenceChangeListener', 'Preferences', 'PreferencesFactory'),
 
-		1 => $CONTEXT . '/java/util/prefs',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/util/prefs',
+		true,
+		''
 
 	),
 
-	49 => array(
+	array(
 	//java.util.regex 
-		0 => array(
+		array(
 			'MatchResult', 'Matcher', 'Pattern', 
 			'PatternSyntaxException'),
 
-		1 => $CONTEXT . '/java/util/regex',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/util/regex',
+		true,
+		''
 
 	),
 
-	50 => array(
+	array(
 	//java.util.zip 
-		0 => array(
+		array(
 			'Adler32', 'CRC32', 'CheckedInputStream', 
 			'CheckedOutputStream', 'Checksum', 'DataFormatException', 
 			'Deflater', 'DeflaterOutputStream', 'GZIPInputStream', 
@@ -1035,16 +977,15 @@
 			'ZipEntry', 'ZipException', 'ZipFile', 
 			'ZipInputStream', 'ZipOutputStream'),
 
-		1 => $CONTEXT . '/java/util/zip',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/java/util/zip',
+		true,
+		''
 
 	),
 
-	51 => array(
+	array(
 	//javax.accessibility 
-		0 => array(
+		array(
 			'Accessible', 'AccessibleAction', 'AccessibleAttributeSequence', 
 			'AccessibleBundle', 'AccessibleComponent', 'AccessibleContext', 
 			'AccessibleEditableText', 'AccessibleExtendedComponent', 'AccessibleExtendedTable', 
@@ -1055,28 +996,26 @@
 			'AccessibleStreamable', 'AccessibleTable', 'AccessibleTableModelChange', 
 			'AccessibleText', 'AccessibleTextSequence', 'AccessibleValue'),
 
-		1 => $CONTEXT . '/javax/accessibility',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/accessibility',
+		true,
+		''
 
 	),
 
-	52 => array(
+	array(
 	//javax.activity 
-		0 => array(
+		array(
 			'ActivityCompletedException', 'ActivityRequiredException', 'InvalidActivityException'),
 
-		1 => $CONTEXT . '/javax/activity',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/activity',
+		true,
+		''
 
 	),
 
-	53 => array(
+	array(
 	//javax.crypto 
-		0 => array(
+		array(
 			'BadPaddingException', 'Cipher', 'CipherInputStream', 
 			'CipherOutputStream', 'CipherSpi', 'EncryptedPrivateKeyInfo', 
 			'ExemptionMechanism', 'ExemptionMechanismException', 'ExemptionMechanismSpi', 
@@ -1086,141 +1025,131 @@
 			'SealedObject', 'SecretKey', 'SecretKeyFactory', 
 			'SecretKeyFactorySpi', 'ShortBufferException'),
 
-		1 => $CONTEXT . '/javax/crypto',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/crypto',
+		true,
+		''
 
 	),
 
-	54 => array(
+	array(
 	//javax.crypto.interfaces
-		0 => array(
+		array(
 			'DHKey', 'DHPrivateKey', 'DHPublicKey', 
 			'PBEKey'),
 
-		1 => $CONTEXT . '/javax/crypto/interfaces',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/crypto/interfaces',
+		true,
+		''
 
 	),
 
-	55 => array(
+	array(
 	//javax.crypto.spec 
-		0 => array(
+		array(
 			'DESKeySpec', 'DESedeKeySpec', 'DHGenParameterSpec', 
 			'DHParameterSpec', 'DHPrivateKeySpec', 'DHPublicKeySpec', 
 			'IvParameterSpec', 'OAEPParameterSpec', 'PBEKeySpec', 
 			'PBEParameterSpec', 'PSource', 'PSource.PSpecified', 
 			'RC2ParameterSpec', 'RC5ParameterSpec', 'SecretKeySpec'),
 
-		1 => $CONTEXT . '/javax/crypto/spec',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/crypto/spec',
+		true,
+		''
 
 	),
 
-	56 => array(
+	array(
 	//javax.imageio 
-		0 => array(
+		array(
 			'IIOException', 'IIOImage', 'IIOParam', 
 			'IIOParamController', 'ImageIO', 'ImageReadParam', 
 			'ImageReader', 'ImageTranscoder', 'ImageTypeSpecifier', 
 			'ImageWriteParam', 'ImageWriter'),
 
-		1 => $CONTEXT . '/javax/imageio',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/imageio',
+		true,
+		''
 
 	),
 
-	57 => array(
+	array(
 	//javax.imageio.event 
-		0 => array(
+		array(
 			'IIOReadProgressListener', 'IIOReadUpdateListener', 'IIOReadWarningListener', 
 			'IIOWriteProgressListener', 'IIOWriteWarningListener'),
 
-		1 => $CONTEXT . '/javax/imageio/event',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/imageio/event',
+		true,
+		''
 
 	),
 
-	58 => array(
+	array(
 	//javax.imageio.metadata   
-		0 => array(
+		array(
 			'IIOInvalidTreeException', 'IIOMetadata', 'IIOMetadataController', 
 			'IIOMetadataFormat', 'IIOMetadataFormatImpl', 'IIOMetadataNode'),
 
-		1 => $CONTEXT . '/javax/imageio/metadata',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/imageio/metadata',
+		true,
+		''
 
 	),
 
-	59 => array(
+	array(
 	//javax.imageio.plugins.bmp   
-		0 => array(
+		array(
 			'BMPImageWriteParam'),
 
-		1 => $CONTEXT . '/javax/imageio/plugins/bmp',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/imageio/plugins/bmp',
+		true,
+		''
 
 	),
 
-	60 => array(
+	array(
 	//javax.imageio.plugins.jpeg   
-		0 => array(
+		array(
 			'JPEGHuffmanTable', 'JPEGImageReadParam', 'JPEGImageWriteParam', 
 			'JPEGQTable'),
 
-		1 => $CONTEXT . '/javax/imageio/plugins/jpeg',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/imageio/plugins/jpeg',
+		true,
+		''
 
 	),
 
-	61 => array(
+	array(
 	//javax.imageio.spi 
-		0 => array(
+		array(
 			'IIORegistry', 'IIOServiceProvider', 'ImageInputStreamSpi', 
 			'ImageOutputStreamSpi', 'ImageReaderSpi', 'ImageReaderWriterSpi', 
 			'ImageTranscoderSpi', 'ImageWriterSpi', 'RegisterableService', 
 			'ServiceRegistry', 'ServiceRegistry.Filter'),
 
-		1 => $CONTEXT . '/javax/imageio/spi',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/imageio/spi',
+		true,
+		''
 
 	),
 
-	62 => array(
+	array(
 	//javax.imageio.stream   
-		0 => array(
+		array(
 			'FileCacheImageInputStream', 'FileCacheImageOutputStream', 'FileImageInputStream', 
 			'FileImageOutputStream', 'IIOByteBuffer', 'ImageInputStream', 
 			'ImageInputStreamImpl', 'ImageOutputStream', 'ImageOutputStreamImpl', 
 			'MemoryCacheImageInputStream', 'MemoryCacheImageOutputStream'),
 
-		1 => $CONTEXT . '/javax/imageio/stream',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/imageio/stream',
+		true,
+		''
 
 	),
 
-	63 => array(
+	array(
 	//javax.management  
-		0 => array(
+		array(
 			'Attribute', 'AttributeChangeNotification', 'AttributeChangeNotificationFilter', 
 			'AttributeList', 'AttributeNotFoundException', 'AttributeValueExp', 
 			'BadAttributeValueExpException', 'BadBinaryOpValueExpException', 'BadStringOperationException', 
@@ -1244,59 +1173,55 @@
 			'RuntimeMBeanException', 'RuntimeOperationsException', 'ServiceNotFoundException', 
 			'StandardMBean', 'StringValueExp', 'ValueExp'),
 
-		1 => $CONTEXT . '/javax/management',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/management',
+		true,
+		''
 
 	),
 
-	64 => array(
+	array(
 	//javax.management.loading   
-		0 => array(
+		array(
 			'ClassLoaderRepository', 'DefaultLoaderRepository', 'MLet', 
 			'MLetMBean', 'PrivateClassLoader', 'PrivateMLet'),
 
-		1 => $CONTEXT . '/javax/management/loading',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/management/loading',
+		true,
+		''
 
 	),
 
-	65 => array(
+	array(
 	//javax.management.modelmbean   
-		0 => array(
+		array(
 			'DescriptorSupport', 'InvalidTargetObjectTypeException', 'ModelMBean', 
 			'ModelMBeanAttributeInfo', 'ModelMBeanConstructorInfo', 'ModelMBeanInfo', 
 			'ModelMBeanInfoSupport', 'ModelMBeanNotificationBroadcaster', 'ModelMBeanNotificationInfo', 
 			'ModelMBeanOperationInfo', 'RequiredModelMBean', 'XMLParseException'),
 
-		1 => $CONTEXT . '/javax/management/modelmbean',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/management/modelmbean',
+		true,
+		''
 
 	),
 
-	66 => array(
+	array(
 	//javax.management.monitor   
-		0 => array(
+		array(
 			'CounterMonitor', 'CounterMonitorMBean', 'GaugeMonitor', 
 			'GaugeMonitorMBean', 'Monitor', 'MonitorMBean', 
 			'MonitorNotification', 'MonitorSettingException', 'StringMonitor', 
 			'StringMonitorMBean'),
 
-		1 => $CONTEXT . '/javax/management/monitor',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/management/monitor',
+		true,
+		''
 
 	),
 
-	67 => array(
+	array(
 	//javax.management.openmbean   
-		0 => array(
+		array(
 			'ArrayType', 'CompositeData', 'CompositeDataSupport', 
 			'CompositeType', 'InvalidKeyException', 'InvalidOpenTypeException', 
 			'KeyAlreadyExistsException', 'OpenDataException', 'OpenMBeanAttributeInfo', 
@@ -1306,29 +1231,27 @@
 			'OpenType', 'SimpleType', 'TabularData', 
 			'TabularDataSupport', 'TabularType'),
 
-		1 => $CONTEXT . '/javax/management/openmbean',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/management/openmbean',
+		true,
+		''
 
 	),
 
-	68 => array(
+	array(
 	//javax.management.relation   
-		0 => array(
+		array(
 			'Relation', 'RelationServiceMBean', 'RelationSupportMBean', 
 			'RelationType'),
 
-		1 => $CONTEXT . '/javax/management/relation',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/management/relation',
+		true,
+		''
 
 	),
 
-	69 => array(
+	array(
 	//MBeanServerNotificationFilter
-		0 => array(
+		array(
 			'InvalidRelationIdException', 'InvalidRelationServiceException', 'InvalidRelationTypeException', 
 			'InvalidRoleInfoException', 'InvalidRoleValueException', 'RelationException', 
 			'RelationNotFoundException', 'RelationNotification', 'RelationService', 
@@ -1338,16 +1261,15 @@
 			'RoleResult', 'RoleStatus', 'RoleUnresolved', 
 			'RoleUnresolvedList'),
 
-		1 => $CONTEXT . '/MBeanServerNotificationFilter',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/MBeanServerNotificationFilter',
+		true,
+		''
 
 	),
 
-	70 => array(
+	array(
 	//javax.management.remote   
-		0 => array(
+		array(
 			'JMXAuthenticator', 'JMXConnectionNotification', 'JMXConnector', 
 			'JMXConnectorFactory', 'JMXConnectorProvider', 'JMXConnectorServer', 
 			'JMXConnectorServerFactory', 'JMXConnectorServerMBean', 'JMXConnectorServerProvider', 
@@ -1355,44 +1277,41 @@
 			'JMXServiceURL', 'MBeanServerForwarder', 'NotificationResult', 
 			'SubjectDelegationPermission', 'TargetedNotification'),
 
-		1 => $CONTEXT . '/javax/management/remote',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/management/remote',
+		true,
+		''
 
 	),
 
-	71 => array(
+	array(
 	//javax.management.remote.rmi   
-		0 => array(
+		array(
 			'RMIConnection', 'RMIConnectionImpl', 'RMIConnectionImpl_Stub', 
 			'RMIConnector', 'RMIConnectorServer', 'RMIIIOPServerImpl', 
 			'RMIJRMPServerImpl', 'RMIServer', 'RMIServerImpl', 
 			'RMIServerImpl_Stub'),
 
-		1 => $CONTEXT . '/javax/management/remote/rmi',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/management/remote/rmi',
+		true,
+		''
 
 	),
 
-	72 => array(
+	array(
 	//javax.management.timer  
-		0 => array(
+		array(
 			'Timer', 'TimerAlarmClockNotification', 'TimerMBean', 
 			'TimerNotification'),
 
-		1 => $CONTEXT . '/javax/management/timer',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/management/timer',
+		true,
+		''
 
 	),
 
-	73 => array(
+	array(
 	//javax.naming  
-		0 => array(
+		array(
 			'AuthenticationException', 'AuthenticationNotSupportedException', 'BinaryRefAddr', 
 			'Binding', 'CannotProceedException', 'CommunicationException', 
 			'CompositeName', 'CompoundName', 'ConfigurationException', 
@@ -1408,16 +1327,15 @@
 			'ReferralException', 'ServiceUnavailableException', 'SizeLimitExceededException', 
 			'StringRefAddr', 'TimeLimitExceededException'),
 
-		1 => $CONTEXT . '/javax/naming',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/naming',
+		true,
+		''
 
 	),
 
-	74 => array(
+	array(
 	//javax.naming.directory   
-		0 => array(
+		array(
 			'Attribute', 'AttributeInUseException', 'AttributeModificationException', 
 			'Attributes', 'BasicAttribute', 'BasicAttributes', 
 			'DirContext', 'InitialDirContext', 'InvalidAttributeIdentifierException', 
@@ -1425,30 +1343,28 @@
 			'InvalidSearchFilterException', 'ModificationItem', 'NoSuchAttributeException', 
 			'SchemaViolationException', 'SearchControls', 'SearchResult'),
 
-		1 => $CONTEXT . '/javax/naming/directory',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/naming/directory',
+		true,
+		''
 
 	),
 
-	75 => array(
+	array(
 	//javax.naming.event 
-		0 => array(
+		array(
 			'EventContext', 'EventDirContext', 'NamespaceChangeListener', 
 			'NamingEvent', 'NamingExceptionEvent', 'NamingListener', 
 			'ObjectChangeListener'),
 
-		1 => $CONTEXT . '/javax/naming/event',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/naming/event',
+		true,
+		''
 
 	),
 
-	76 => array(
+	array(
 	//javax.naming.ldap  
-		0 => array(
+		array(
 			'BasicControl', 'Control', 'ControlFactory', 
 			'ExtendedRequest', 'ExtendedResponse', 'HasControls', 
 			'InitialLdapContext', 'LdapContext', 'LdapName', 
@@ -1458,43 +1374,40 @@
 			'StartTlsResponse', 'UnsolicitedNotification', 'UnsolicitedNotificationEvent', 
 			'UnsolicitedNotificationListener'),
 
-		1 => $CONTEXT . '/javax/naming/ldap',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/naming/ldap',
+		true,
+		''
 
 	),
 
-	77 => array(
+	array(
 	//javax.naming.spi  
-		0 => array(
+		array(
 			'DirObjectFactory', 'DirStateFactory', 'DirStateFactory.Result', 
 			'DirectoryManager', 'InitialContextFactory', 'InitialContextFactoryBuilder', 
 			'NamingManager', 'ObjectFactory', 'ObjectFactoryBuilder', 
 			'ResolveResult', 'Resolver', 'StateFactory'),
 
-		1 => $CONTEXT . '/javax/naming/spi',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/naming/spi',
+		true,
+		''
 
 	),
 
-	78 => array(
+	array(
 	//javax.net   
-		0 => array(
+		array(
 			'ServerSocketFactory', 'SocketFactory'),
 
-		1 => $CONTEXT . '/javax/net',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/net',
+		true,
+		''
 
 	),
 
-	79 => array(
+	array(
 	//javax.net.ssl   
-		0 => array(
+		array(
 			'CertPathTrustManagerParameters', 'HandshakeCompletedEvent', 'HandshakeCompletedListener', 
 			'HostnameVerifier', 'HttpsURLConnection', 'KeyManager', 
 			'KeyManagerFactory', 'KeyManagerFactorySpi', 'KeyStoreBuilderParameters', 
@@ -1508,16 +1421,15 @@
 			'TrustManager', 'TrustManagerFactory', 'TrustManagerFactorySpi', 
 			'X509ExtendedKeyManager', 'X509KeyManager', 'X509TrustManager'),
 
-		1 => $CONTEXT . '/javax/net/ssl',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		$CONTEXT . '/javax/net/ssl',
+		true,
+		''
 
 	),
 
-	80 => array(
+	array(
 	//javax.print
-		0 => array(
+		array(
 			'AttributeException', 'CancelablePrintJob', 'Doc', 
 			'DocFlavor', 'DocFlavor.BYTE_ARRAY', 'DocFlavor.CHAR_ARRAY', 
 			'DocFlavor.INPUT_STREAM', 'DocFlavor.READER', 'DocFlavor.SERVICE_FORMATTED', 
@@ -1526,18 +1438,17 @@
 			'MultiDocPrintService', 'PrintException', 'PrintService', 
 			'PrintServiceLookup', 'ServiceUI', 'ServiceUIFactory', 
 			'SimpleDoc', 'StreamPrintService', 'StreamPrintServiceFactory', 
-			'URIException'),
-
-		1 => $CONTEXT . '/javax/print',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'URIException'
+        ),
+		$CONTEXT . '/javax/print',
+		true,
+		''
 
 	),
 
-	81 => array(
+	array(
 	//javax.print.attribute   
-		0 => array(
+		array(
 			'Attribute', 'AttributeSet', 'AttributeSetUtilities', 
 			'DateTimeSyntax', 'DocAttribute', 'DocAttributeSet', 
 			'EnumSyntax', 'HashAttributeSet', 'HashDocAttributeSet', 
@@ -1546,18 +1457,17 @@
 			'PrintRequestAttribute', 'PrintRequestAttributeSet', 'PrintServiceAttribute', 
 			'PrintServiceAttributeSet', 'ResolutionSyntax', 'SetOfIntegerSyntax', 
 			'Size2DSyntax', 'SupportedValuesAttribute', 'TextSyntax', 
-			'URISyntax', 'UnmodifiableSetException'),
-
-		1 => $CONTEXT . '/javax/print/attribute',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'URISyntax', 'UnmodifiableSetException'
+        ),
+		$CONTEXT . '/javax/print/attribute',
+		true,
+		''
 
 	),
 
-	82 => array(
+	array(
 	//javax.print.attribute.standard  
-		0 => array(
+		array(
 			'Chromaticity', 'ColorSupported', 'Compression', 
 			'Copies', 'CopiesSupported', 'DateTimeAtCompleted', 
 			'DateTimeAtCreation', 'DateTimeAtProcessing', 'Destination', 
@@ -1582,181 +1492,168 @@
 			'PrinterResolution', 'PrinterState', 'PrinterStateReason', 
 			'PrinterStateReasons', 'PrinterURI', 'QueuedJobCount', 
 			'ReferenceUriSchemesSupported', 'RequestingUserName', 'Severity', 
-			'SheetCollate', 'Sides'),
-
-		1 => $CONTEXT . '/javax/print/attribute/standard',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'SheetCollate', 'Sides'
+        ),
+		$CONTEXT . '/javax/print/attribute/standard',
+		true,
+		''
 
 	),
 
-	83 => array(
+	array(
 	//javax.print.event  
-		0 => array(
+		array(
 			'PrintEvent', 'PrintJobAdapter', 'PrintJobAttributeEvent', 
 			'PrintJobAttributeListener', 'PrintJobEvent', 'PrintJobListener', 
-			'PrintServiceAttributeEvent', 'PrintServiceAttributeListener'),
-
-		1 => $CONTEXT . '/javax/print/event',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'PrintServiceAttributeEvent', 'PrintServiceAttributeListener'
+        ),
+		$CONTEXT . '/javax/print/event',
+		true,
+		''
 
 	),
 
-	84 => array(
+	array(
 	//javax.rmi
-		0 => array(
-			'PortableRemoteObject'),
-
-		1 => $CONTEXT . '/javax/rmi',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'PortableRemoteObject'
+        ),
+		$CONTEXT . '/javax/rmi',
+		true,
+		''
 
 	),
 
-	85 => array(
+	array(
 	//javax.rmi.CORBA  
-		0 => array(
+		array(
 			'ClassDesc', 'PortableRemoteObjectDelegate', 'Stub', 
 			'StubDelegate', 'Tie', 'Util', 
-			'UtilDelegate', 'ValueHandler', 'ValueHandlerMultiFormat'),
-
-		1 => $CONTEXT . '/javax/rmi/CORBA',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'UtilDelegate', 'ValueHandler', 'ValueHandlerMultiFormat'
+        ),
+		$CONTEXT . '/javax/rmi/CORBA',
+		true,
+		''
 
 	),
 
-	86 => array(
+	array(
 	//javax.rmi.ssl   
-		0 => array(
-			'SslRMIClientSocketFactory', 'SslRMIServerSocketFactory'),
-
-		1 => $CONTEXT . '/javax/rmi/ssl',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'SslRMIClientSocketFactory', 'SslRMIServerSocketFactory'
+        ),
+		$CONTEXT . '/javax/rmi/ssl',
+		true,
+		''
 
 	),
 
-	87 => array(
+	array(
 	//javax.security.auth   
-		0 => array(
+		array(
 			'AuthPermission', 'DestroyFailedException', 'Destroyable', 
 			'Policy', 'PrivateCredentialPermission', 'RefreshFailedException', 
-			'Refreshable', 'Subject', 'SubjectDomainCombiner'),
-
-		1 => $CONTEXT . '/javax/security/auth',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'Refreshable', 'Subject', 'SubjectDomainCombiner'
+        ),
+		$CONTEXT . '/javax/security/auth',
+		true,
+		''
 
 	),
 
-	88 => array(
+	array(
 	//javax.security.auth.callback   
-		0 => array(
+		array(
 			'Callback', 'CallbackHandler', 'ChoiceCallback', 
 			'ConfirmationCallback', 'LanguageCallback', 'NameCallback', 
 			'PasswordCallback', 'TextInputCallback', 'TextOutputCallback', 
-			'UnsupportedCallbackException'),
-
-		1 => $CONTEXT . '/javax/security/auth/callback',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'UnsupportedCallbackException'
+        ),
+		$CONTEXT . '/javax/security/auth/callback',
+		true,
+		''
 
 	),
 
-	89 => array(
+	array(
 	//javax.security.auth.kerberos   
-		0 => array(
+		array(
 			'DelegationPermission', 'KerberosKey', 'KerberosPrincipal', 
-			'KerberosTicket', 'ServicePermission'),
-
-		1 => $CONTEXT . '/javax/security/auth/kerberos',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'KerberosTicket', 'ServicePermission'
+        ),
+		$CONTEXT . '/javax/security/auth/kerberos',
+		true,
+		''
 
 	),
 
-	90 => array(
+	array(
 	//javax.security.auth.login   
-		0 => array(
+		array(
 			'AccountException', 'AccountExpiredException', 'AccountLockedException', 
 			'AccountNotFoundException', 'AppConfigurationEntry', 'AppConfigurationEntry.LoginModuleControlFlag', 
 			'Configuration', 'CredentialException', 'CredentialExpiredException', 
 			'CredentialNotFoundException', 'FailedLoginException', 'LoginContext', 
-			'LoginException'),
-
-		1 => $CONTEXT . '/javax/security/auth/login',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'LoginException'
+        ),
+		$CONTEXT . '/javax/security/auth/login',
+		true,
+		''
 
 	),
 
-	91 => array(
+	array(
 	//javax.security.auth.spi  
-		0 => array(
-			'LoginModule'),
-
-		1 => $CONTEXT . '/javax/security/auth/spi',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'LoginModule'
+        ),
+		$CONTEXT . '/javax/security/auth/spi',
+		true,
+		''
 
 	),
 
-	92 => array(
+	array(
 	//javax.security.auth.x500   
-		0 => array(
-			'X500Principal', 'X500PrivateCredential'),
-
-		1 => $CONTEXT . '/javax/security/auth/x500',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'X500Principal', 'X500PrivateCredential'
+        ),
+		$CONTEXT . '/javax/security/auth/x500',
+		true,
+		''
 
 	),
 
-	93 => array(
+	array(
 	//javax.security.cert  
-		0 => array(
+		array(
 			'Certificate', 'CertificateEncodingException', 'CertificateException', 
 			'CertificateExpiredException', 'CertificateNotYetValidException', 'CertificateParsingException', 
-			'X509Certificate'),
-
-		1 => $CONTEXT . '/javax/security/cert',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'X509Certificate'
+        ),
+		$CONTEXT . '/javax/security/cert',
+		true,
+		''
 
 	),
 
-	94 => array(
+	array(
 	//javax.security.sasl   
-		0 => array(
+		array(
 			'AuthenticationException', 'AuthorizeCallback', 'RealmCallback', 
 			'RealmChoiceCallback', 'Sasl', 'SaslClient', 
 			'SaslClientFactory', 'SaslException', 'SaslServer', 
-			'SaslServerFactory'),
-
-		1 => $CONTEXT . '/javax/security/sasl',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'SaslServerFactory'
+        ),
+		$CONTEXT . '/javax/security/sasl',
+		true,
+		''
 
 	),
 
-	95 => array(
+	array(
 	//javax.sound.midi   
-		0 => array(
+		array(
 			'ControllerEventListener', 'Instrument', 'InvalidMidiDataException', 
 			'MetaEventListener', 'MetaMessage', 'MidiChannel', 
 			'MidiDevice', 'MidiDevice.Info', 'MidiEvent', 
@@ -1765,31 +1662,29 @@
 			'Sequence', 'Sequencer', 'Sequencer.SyncMode', 
 			'ShortMessage', 'Soundbank', 'SoundbankResource', 
 			'Synthesizer', 'SysexMessage', 'Track', 
-			'Transmitter', 'VoiceStatus'),
-
-		1 => $CONTEXT . '/javax/sound/midi',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'Transmitter', 'VoiceStatus'
+        ),
+		$CONTEXT . '/javax/sound/midi',
+		true,
+		''
 
 	),
 
-	96 => array(
+	array(
 	//javax.sound.midi.spi  
-		0 => array(
+		array(
 			'MidiDeviceProvider', 'MidiFileReader', 'MidiFileWriter', 
-			'SoundbankReader'),
-
-		1 => $CONTEXT . '/javax/sound/midi/spi',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'SoundbankReader'
+        ),
+		$CONTEXT . '/javax/sound/midi/spi',
+		true,
+		''
 
 	),
 
-	97 => array(
+	array(
 	//javax.sound.sampled   
-		0 => array(
+		array(
 			'AudioFileFormat', 'AudioFileFormat.Type', 'AudioFormat', 
 			'AudioFormat.Encoding', 'AudioInputStream', 'AudioPermission', 
 			'AudioSystem', 'BooleanControl', 'BooleanControl.Type', 
@@ -1801,91 +1696,85 @@
 			'LineListener', 'LineUnavailableException', 'Mixer', 
 			'Mixer.Info', 'Port', 'Port.Info', 
 			'ReverbType', 'SourceDataLine', 'TargetDataLine', 
-			'UnsupportedAudioFileException'),
-
-		1 => $CONTEXT . '/javax/sound/sampled',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'UnsupportedAudioFileException'
+        ),
+		$CONTEXT . '/javax/sound/sampled',
+		true,
+		''
 
 	),
 
-	98 => array(
+	array(
 	//javax.sound.sampled.spi   
-		0 => array(
+		array(
 			'AudioFileReader', 'AudioFileWriter', 'FormatConversionProvider', 
-			'MixerProvider'),
-
-		1 => $CONTEXT . '/javax/sound/sampled/spi',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'MixerProvider'
+        ),
+		$CONTEXT . '/javax/sound/sampled/spi',
+		true,
+		''
 
 	),
 
-	99 => array(
+	array(
 	//javax.sql  
-		0 => array(
+		array(
 			'ConnectionEvent', 'ConnectionEventListener', 'ConnectionPoolDataSource', 
 			'DataSource', 'PooledConnection', 'RowSet', 
 			'RowSetEvent', 'RowSetInternal', 'RowSetListener', 
 			'RowSetMetaData', 'RowSetReader', 'RowSetWriter', 
-			'XAConnection', 'XADataSource'),
-
-		1 => $CONTEXT . '/javax/sql',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'XAConnection', 'XADataSource'
+        ),
+		$CONTEXT . '/javax/sql',
+		true,
+		''
 
 	),
 
-	100 => array(
+	array(
 	//javax.sql.rowset   
-		0 => array(
+		array(
 			'BaseRowSet', 'CachedRowSet', 'FilteredRowSet', 
 			'JdbcRowSet', 'JoinRowSet', 'Joinable', 
 			'Predicate', 'RowSetMetaDataImpl', 'RowSetWarning', 
-			'WebRowSet'),
-
-		1 => $CONTEXT . '/javax/sql/rowset',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'WebRowSet'
+        ),
+		$CONTEXT . '/javax/sql/rowset',
+		true,
+		''
 
 	),
 
-	101 => array(
+	array(
 	//javax.sql.rowset.serial   
-		0 => array(
+		array(
 			'SQLInputImpl', 'SQLOutputImpl', 'SerialArray', 
 			'SerialBlob', 'SerialClob', 'SerialDatalink', 
 			'SerialException', 'SerialJavaObject', 'SerialRef', 
-			'SerialStruct'),
-
-		1 => $CONTEXT . '/javax/sql/rowset/serial',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'SerialStruct'
+        ),
+		$CONTEXT . '/javax/sql/rowset/serial',
+		true,
+		''
 
 	),
 
-	102 => array(
+	array(
 	//javax.sql.rowset.spi   
-		0 => array(
+		array(
 			'SyncFactory', 'SyncFactoryException', 'SyncProvider', 
 			'SyncProviderException', 'SyncResolver', 'TransactionalWriter', 
-			'XmlReader', 'XmlWriter'),
-
-		1 => $CONTEXT . '/javax/sql/rowset/spi',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'XmlReader', 'XmlWriter'
+        ),
+		$CONTEXT . '/javax/sql/rowset/spi',
+		true,
+		''
 
 	),
 
-	103 => array(
+	array(
 	//javax.swing  
-		0 => array(
+		array(
 			'AbstractAction', 'AbstractButton', 'AbstractCellEditor', 
 			'AbstractListModel', 'AbstractSpinnerModel', 'Action', 
 			'ActionMap', 'BorderFactory', 'BoundedRangeModel', 
@@ -1934,46 +1823,43 @@
 			'UIDefaults', 'UIDefaults.ActiveValue', 'UIDefaults.LazyInputMap', 
 			'UIDefaults.LazyValue', 'UIDefaults.ProxyLazyValue', 'UIManager', 
 			'UIManager.LookAndFeelInfo', 'UnsupportedLookAndFeelException', 'ViewportLayout', 
-			'WindowConstants'),
-
-		1 => $CONTEXT . '/javax/swing',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'WindowConstants'
+        ),
+		$CONTEXT . '/javax/swing',
+		true,
+		''
 
 	),
 
-	104 => array(
+	array(
 	//javax.swing.border   
-		0 => array(
+		array(
 			'AbstractBorder', 'BevelBorder', 'Border', 
 			'CompoundBorder', 'EmptyBorder', 'EtchedBorder', 
 			'LineBorder', 'MatteBorder', 'SoftBevelBorder', 
-			'TitledBorder'),
-
-		1 => $CONTEXT . '/javax/swing/border',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'TitledBorder'
+        ),
+		$CONTEXT . '/javax/swing/border',
+		true,
+		''
 
 	),
 
-	105 => array(
+	array(
 	//javax.swing.colorchooser   
-		0 => array(
+		array(
 			'AbstractColorChooserPanel', 'ColorChooserComponentFactory', 'ColorSelectionModel', 
-			'DefaultColorSelectionModel'),
-
-		1 => $CONTEXT . '/javax/swing/colorchooser',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'DefaultColorSelectionModel'
+        ),
+		$CONTEXT . '/javax/swing/colorchooser',
+		true,
+		''
 
 	),
 
-	106 => array(
+	array(
 	//javax.swing.event   
-		0 => array(
+		array(
 			'AncestorEvent', 'AncestorListener', 'CaretEvent', 
 			'CaretListener', 'CellEditorListener', 'ChangeEvent', 
 			'ChangeListener', 'DocumentEvent', 'DocumentEvent.ElementChange', 
@@ -1989,30 +1875,28 @@
 			'TableModelListener', 'TreeExpansionEvent', 'TreeExpansionListener', 
 			'TreeModelEvent', 'TreeModelListener', 'TreeSelectionEvent', 
 			'TreeSelectionListener', 'TreeWillExpandListener', 'UndoableEditEvent', 
-			'UndoableEditListener'),
-
-		1 => $CONTEXT . '/javax/swing/event',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'UndoableEditListener'
+        ),
+		$CONTEXT . '/javax/swing/event',
+		true,
+		''
 
 	),
 
-	107 => array(
+	array(
 	//javax.swing.filechooser   
-		0 => array(
-			'FileFilter', 'FileSystemView', 'FileView'),
-
-		1 => $CONTEXT . '/javax/swing/filechooser',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'FileFilter', 'FileSystemView', 'FileView'
+        ),
+		$CONTEXT . '/javax/swing/filechooser',
+		true,
+		''
 
 	),
 
-	108 => array(
+	array(
 	//javax.swing.plaf   
-		0 => array(
+		array(
 			'ActionMapUIResource', 'BorderUIResource', 'BorderUIResource.BevelBorderUIResource', 
 			'BorderUIResource.CompoundBorderUIResource', 'BorderUIResource.EmptyBorderUIResource', 'BorderUIResource.EtchedBorderUIResource', 
 			'BorderUIResource.LineBorderUIResource', 'BorderUIResource.MatteBorderUIResource', 'BorderUIResource.TitledBorderUIResource', 
@@ -2028,18 +1912,17 @@
 			'SliderUI', 'SpinnerUI', 'SplitPaneUI', 
 			'TabbedPaneUI', 'TableHeaderUI', 'TableUI', 
 			'TextUI', 'ToolBarUI', 'ToolTipUI', 
-			'TreeUI', 'UIResource', 'ViewportUI'),
-
-		1 => $CONTEXT . '/javax/swing/plaf',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'TreeUI', 'UIResource', 'ViewportUI'
+        ),
+		$CONTEXT . '/javax/swing/plaf',
+		true,
+		''
 
 	),
 
-	109 => array(
+	array(
 	//javax.swing.plaf.basic   
-		0 => array(
+		array(
 			'BasicArrowButton', 'BasicBorders', 'BasicBorders.ButtonBorder', 
 			'BasicBorders.FieldBorder', 'BasicBorders.MarginBorder', 'BasicBorders.MenuBarBorder', 
 			'BasicBorders.RadioButtonBorder', 'BasicBorders.RolloverButtonBorder', 'BasicBorders.SplitPaneBorder', 
@@ -2063,18 +1946,17 @@
 			'BasicTextPaneUI', 'BasicTextUI', 'BasicTextUI.BasicCaret', 
 			'BasicTextUI.BasicHighlighter', 'BasicToggleButtonUI', 'BasicToolBarSeparatorUI', 
 			'BasicToolBarUI', 'BasicToolTipUI', 'BasicTreeUI', 
-			'BasicViewportUI', 'ComboPopup', 'DefaultMenuLayout'),
-
-		1 => $CONTEXT . '/javax/swing/plaf/basic',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'BasicViewportUI', 'ComboPopup', 'DefaultMenuLayout'
+        ),
+		$CONTEXT . '/javax/swing/plaf/basic',
+		true,
+		''
 
 	),
 
-	110 => array(
+	array(
 	//javax.swing.plaf.metal  
-		0 => array(
+		array(
 			'DefaultMetalTheme', 'MetalBorders', 'MetalBorders.ButtonBorder', 
 			'MetalBorders.Flush3DBorder', 'MetalBorders.InternalFrameBorder', 'MetalBorders.MenuBarBorder', 
 			'MetalBorders.MenuItemBorder', 'MetalBorders.OptionDialogBorder', 'MetalBorders.PaletteBorder', 
@@ -2093,18 +1975,17 @@
 			'MetalSeparatorUI', 'MetalSliderUI', 'MetalSplitPaneUI', 
 			'MetalTabbedPaneUI', 'MetalTextFieldUI', 'MetalTheme', 
 			'MetalToggleButtonUI', 'MetalToolBarUI', 'MetalToolTipUI', 
-			'MetalTreeUI', 'OceanTheme'),
-
-		1 => $CONTEXT . '/javax/swing/plaf/metal',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'MetalTreeUI', 'OceanTheme'
+        ),
+		$CONTEXT . '/javax/swing/plaf/metal',
+		true,
+		''
 
 	),
 
-	111 => array(
+	array(
 	//javax.swing.plaf.multi   
-		0 => array(
+		array(
 			'MultiButtonUI', 'MultiColorChooserUI', 'MultiComboBoxUI', 
 			'MultiDesktopIconUI', 'MultiDesktopPaneUI', 'MultiFileChooserUI', 
 			'MultiInternalFrameUI', 'MultiLabelUI', 'MultiListUI', 
@@ -2115,47 +1996,44 @@
 			'MultiSpinnerUI', 'MultiSplitPaneUI', 'MultiTabbedPaneUI', 
 			'MultiTableHeaderUI', 'MultiTableUI', 'MultiTextUI', 
 			'MultiToolBarUI', 'MultiToolTipUI', 'MultiTreeUI', 
-			'MultiViewportUI'),
-
-		1 => $CONTEXT . '/javax/swing/plaf/multi',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'MultiViewportUI'
+        ),
+		$CONTEXT . '/javax/swing/plaf/multi',
+		true,
+		''
 
 	),
 
-	112 => array(
+	array(
 	//javax.swing.plaf.synth   
-		0 => array(
+		array(
 			'ColorType', 'Region', 'SynthConstants', 
 			'SynthContext', 'SynthGraphicsUtils', 'SynthLookAndFeel', 
-			'SynthPainter', 'SynthStyle', 'SynthStyleFactory'),
-
-		1 => $CONTEXT . '/javax/swing/plaf/synth',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'SynthPainter', 'SynthStyle', 'SynthStyleFactory'
+        ),
+		$CONTEXT . '/javax/swing/plaf/synth',
+		true,
+		''
 
 	),
 
-	113 => array(
+	array(
 	//javax.swing.table
-		0 => array(
+		array(
 			'AbstractTableModel', 'DefaultTableCellRenderer', 'DefaultTableCellRenderer.UIResource', 
 			'DefaultTableColumnModel', 'DefaultTableModel', 'JTableHeader', 
 			'TableCellEditor', 'TableCellRenderer', 'TableColumn', 
-			'TableColumnModel', 'TableModel'),
-
-		1 => $CONTEXT . '/javax/swing/table',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'TableColumnModel', 'TableModel'
+        ),
+		$CONTEXT . '/javax/swing/table',
+		true,
+		''
 
 	),
 
-	114 => array(
+	array(
 	//javax.swing.text   
-		0 => array(
+		array(
 			'AbstractDocument', 'AbstractDocument.AttributeContext', 'AbstractDocument.Content', 
 			'AbstractDocument.ElementEdit', 'AbstractWriter', 'AsyncBoxView', 
 			'AttributeSet', 'AttributeSet.CharacterAttribute', 'AttributeSet.ColorAttribute', 
@@ -2189,18 +2067,17 @@
 			'StyledEditorKit.UnderlineAction', 'TabExpander', 'TabSet', 
 			'TabStop', 'TabableView', 'TableView', 
 			'TextAction', 'Utilities', 'View', 
-			'ViewFactory', 'WrappedPlainView', 'ZoneView'),
-
-		1 => $CONTEXT . '/javax/swing/text',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'ViewFactory', 'WrappedPlainView', 'ZoneView'
+        ),
+		$CONTEXT . '/javax/swing/text',
+		true,
+		''
 
 	),
 
-	115 => array(
+	array(
 	//javax.swing.text.html   
-		0 => array(
+		array(
 			'BlockView', 'CSS', 'CSS.Attribute', 
 			'FormSubmitEvent', 'FormSubmitEvent.MethodType', 'FormView', 
 			'HTML', 'HTML.Attribute', 'HTML.Tag', 
@@ -2211,233 +2088,216 @@
 			'ImageView', 'InlineView', 'ListView', 
 			'MinimalHTMLWriter', 'ObjectView', 'Option', 
 			'ParagraphView', 'StyleSheet', 'StyleSheet.BoxPainter', 
-			'StyleSheet.ListPainter'),
-
-		1 => $CONTEXT . '/javax/swing/text/html',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'StyleSheet.ListPainter'
+        ),
+		$CONTEXT . '/javax/swing/text/html',
+		true,
+		''
 
 	),
 
-	116 => array(
+	array(
 	//javax.swing.text.html.parser   
-		0 => array(
+		array(
 			'AttributeList', 'ContentModel', 'DTD', 
 			'DTDConstants', 'DocumentParser', 'Element', 
 			'Entity', 'Parser', 'ParserDelegator', 
-			'TagElement'),
-
-		1 => $CONTEXT . '/javax/swing/text/html/parser',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'TagElement'
+        ),
+		$CONTEXT . '/javax/swing/text/html/parser',
+		true,
+		''
 
 	),
 
-	117 => array(
+	array(
 	//javax.swing.text.rtf   
-		0 => array(
-			'RTFEditorKit'),
-
-		1 => $CONTEXT . '/javax/swing/text/rtf',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'RTFEditorKit'
+        ),
+		$CONTEXT . '/javax/swing/text/rtf',
+		true,
+		''
 
 	),
 
-	118 => array(
+	array(
 	//javax.swing.tree   
-		0 => array(
+		array(
 			'AbstractLayoutCache', 'AbstractLayoutCache.NodeDimensions', 'DefaultMutableTreeNode', 
 			'DefaultTreeCellEditor', 'DefaultTreeCellRenderer', 'DefaultTreeModel', 
 			'DefaultTreeSelectionModel', 'ExpandVetoException', 'FixedHeightLayoutCache', 
 			'MutableTreeNode', 'RowMapper', 'TreeCellEditor', 
 			'TreeCellRenderer', 'TreeModel', 'TreeNode', 
-			'TreePath', 'TreeSelectionModel', 'VariableHeightLayoutCache'),
-
-		1 => $CONTEXT . '/javax/swing/tree',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'TreePath', 'TreeSelectionModel', 'VariableHeightLayoutCache'
+        ),
+		$CONTEXT . '/javax/swing/tree',
+		true,
+		''
 
 	),
 
-	119 => array(
+	array(
 	//javax.swing.undo
-		0 => array(
+		array(
 			'AbstractUndoableEdit', 'CannotRedoException', 'CannotUndoException', 
 			'CompoundEdit', 'StateEdit', 'StateEditable', 
-			'UndoManager', 'UndoableEdit', 'UndoableEditSupport'),
-
-		1 => $CONTEXT . '/javax/swing/undo',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'UndoManager', 'UndoableEdit', 'UndoableEditSupport'
+        ),
+		$CONTEXT . '/javax/swing/undo',
+		true,
+		''
 
 	),
 
-	120 => array(
+	array(
 	//javax.transaction
-		0 => array(
-			'InvalidTransactionException', 'TransactionRequiredException', 'TransactionRolledbackException'),
-
-		1 => $CONTEXT . '/javax/transaction',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'InvalidTransactionException', 'TransactionRequiredException', 'TransactionRolledbackException'
+        ),
+		$CONTEXT . '/javax/transaction',
+		true,
+		''
 
 	),
 
-	121 => array(
+	array(
 	//javax.transaction.xa   
-		0 => array(
-			'XAException', 'XAResource', 'Xid'),
-
-		1 => $CONTEXT . '/javax/transaction/xa',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'XAException', 'XAResource', 'Xid'
+        ),
+		$CONTEXT . '/javax/transaction/xa',
+		true,
+		''
 
 	),
 
-	122 => array(
+	array(
 	//javax.xml   
-		0 => array(
-			'XMLConstants'),
-
-		1 => $CONTEXT . '/javax/xml',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'XMLConstants'
+        ),
+		$CONTEXT . '/javax/xml',
+		true,
+		''
 
 	),
 
-	123 => array(
+	array(
 	//javax.xml.datatype   
-		0 => array(
+		array(
 			'DatatypeConfigurationException', 'DatatypeConstants', 'DatatypeConstants.Field', 
 			'DatatypeFactory', 'Duration', 'NamespaceContext', 
-			'QName', 'XMLGregorianCalendar', 'javax.xml.namespace'),
-
-		1 => $CONTEXT . '/javax/xml/datatype',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'QName', 'XMLGregorianCalendar', 'javax.xml.namespace'
+        ),
+		$CONTEXT . '/javax/xml/datatype',
+		true,
+		''
 
 	),
 
-	124 => array(
+	array(
 	//javax.xml.parsers  
-		0 => array(
+		array(
 			'DocumentBuilder', 'DocumentBuilderFactory', 'FactoryConfigurationError', 
-			'ParserConfigurationException', 'SAXParser', 'SAXParserFactory'),
-
-		1 => $CONTEXT . '/javax/xml/parsers',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'ParserConfigurationException', 'SAXParser', 'SAXParserFactory'
+        ),
+		$CONTEXT . '/javax/xml/parsers',
+		true,
+		''
 
 	),
 
-	125 => array(
+	array(
 	//javax.xml.transform   
-		0 => array(
+		array(
 			'ErrorListener', 'OutputKeys', 'Result', 
 			'Source', 'SourceLocator', 'Templates', 
 			'Transformer', 'TransformerConfigurationException', 'TransformerException', 
-			'TransformerFactory', 'TransformerFactoryConfigurationError', 'URIResolver'),
-
-		1 => $CONTEXT . '/javax/xml/transform',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'TransformerFactory', 'TransformerFactoryConfigurationError', 'URIResolver'
+        ),
+		$CONTEXT . '/javax/xml/transform',
+		true,
+		''
 
 	),
 
-	126 => array(
+	array(
 	//javax.xml.transform.dom 
-		0 => array(
-			'DOMLocator', 'DOMResult', 'DOMSource'),
-
-		1 => $CONTEXT . '/javax/xml/transform/dom',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'DOMLocator', 'DOMResult', 'DOMSource'
+        ),
+		$CONTEXT . '/javax/xml/transform/dom',
+		true,
+		''
 
 	),
 
-	127 => array(
+	array(
 	//javax.xml.transform.sax   
-		0 => array(
+		array(
 			'SAXResult', 'SAXSource', 'SAXTransformerFactory', 
-			'TemplatesHandler', 'TransformerHandler'),
-
-		1 => $CONTEXT . '/javax/xml/transform/sax',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'TemplatesHandler', 'TransformerHandler'
+        ),
+		$CONTEXT . '/javax/xml/transform/sax',
+		true,
+		''
 
 	),
 
-	128 => array(
+	array(
 	//javax.xml.transform.stream   
-		0 => array(
-			'StreamResult', 'StreamSource'),
-
-		1 => $CONTEXT . '/javax/xml/transform/stream',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'StreamResult', 'StreamSource'
+        ),
+		$CONTEXT . '/javax/xml/transform/stream',
+		true,
+		''
 
 	),
 
-	129 => array(
+	array(
 	//javax.xml.validation   
-		0 => array(
+		array(
 			'Schema', 'SchemaFactory', 'SchemaFactoryLoader', 
-			'TypeInfoProvider', 'Validator', 'ValidatorHandler'),
-
-		1 => $CONTEXT . '/javax/xml/validation',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'TypeInfoProvider', 'Validator', 'ValidatorHandler'
+        ),
+		$CONTEXT . '/javax/xml/validation',
+		true,
+		''
 
 	),
 
-	130 => array(
+	array(
 	//javax.xml.xpath   
-		0 => array(
+		array(
 			'XPath', 'XPathConstants', 'XPathException', 
 			'XPathExpression', 'XPathExpressionException', 'XPathFactory', 
 			'XPathFactoryConfigurationException', 'XPathFunction', 'XPathFunctionException', 
-			'XPathFunctionResolver', 'XPathVariableResolver'),
-
-		1 => $CONTEXT . '/javax/xml/xpath',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'XPathFunctionResolver', 'XPathVariableResolver'
+        ),
+		$CONTEXT . '/javax/xml/xpath',
+		true,
+		''
 
 	),
 
-	131 => array(
+	array(
 	//org.ietf.jgss
-		0 => array(
+		array(
 			'ChannelBinding', 'GSSContext', 'GSSCredential', 
 			'GSSException', 'GSSManager', 'GSSName', 
-			'MessageProp', 'Oid'),
-
-		1 => $CONTEXT . '/org/ietf/jgss',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'MessageProp', 'Oid'
+        ),
+		$CONTEXT . '/org/ietf/jgss',
+		true,
+		''
 
 	),
 
-	132 => array(
+	array(
 	//org.omg.CORBA   
-		0 => array(
+		array(
 			'ACTIVITY_COMPLETED', 'ACTIVITY_REQUIRED', 'ARG_IN', 
 			'ARG_INOUT', 'ARG_OUT', 'Any', 
 			'AnyHolder', 'AnySeqHelper', 'AnySeqHolder', 
@@ -2501,98 +2361,91 @@
 			'VisibilityHelper', 'WCharSeqHelper', 'WCharSeqHolder', 
 			'WStringSeqHelper', 'WStringSeqHolder', 'WStringValueHelper', 
 			'WrongTransaction', 'WrongTransactionHelper', 'WrongTransactionHolder', 
-			'_IDLTypeStub', '_PolicyStub'),
-
-		1 => $CONTEXT . '/org/omg/CORBA',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'_IDLTypeStub', '_PolicyStub'
+        ),
+		$CONTEXT . '/org/omg/CORBA',
+		true,
+		''
 
 	),
 
-	133 => array(
+	array(
 	//org.omg.CORBA_2_3   
-		0 => array(
-			'ORB'),
-
-		1 => $CONTEXT . '/org/omg/CORBA_2_3',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'ORB'
+        ),
+		$CONTEXT . '/org/omg/CORBA_2_3',
+		true,
+		''
 
 	),
 
-	134 => array(
+	array(
 	//org.omg.CORBA_2_3.portable   
-		0 => array(
+		array(
 			'Delegate', 'InputStream', 'ObjectImpl', 
-			'OutputStream'),
-
-		1 => $CONTEXT . '/org/omg/CORBA_2_3/portable',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'OutputStream'
+        ),
+		$CONTEXT . '/org/omg/CORBA_2_3/portable',
+		true,
+		''
 
 	),
 
-	135 => array(
+	array(
 	//org.omg.CORBA.DynAnyPackage
-		0 => array(
+		array(
 			'Invalid', 'InvalidSeq', 'InvalidValue', 
-			'TypeMismatch'),
-
-		1 => $CONTEXT . '/org/omg/CORBA/DynAnyPackage',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'TypeMismatch'
+        ),
+		$CONTEXT . '/org/omg/CORBA/DynAnyPackage',
+		true,
+		''
 
 	),
 
-	136 => array(
+	array(
 	//org.omg.CORBA.ORBPackage
-		0 => array(
-			'InconsistentTypeCode', 'InvalidName'),
-
-		1 => $CONTEXT . '/org/omg/CORBA/ORBPackage',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'InconsistentTypeCode', 'InvalidName'
+        ),
+		$CONTEXT . '/org/omg/CORBA/ORBPackage',
+		true,
+		''
 
 	),
 
-	137 => array(
+	array(
 	//org.omg.CORBA.portable   
-		0 => array(
+		array(
 			'ApplicationException', 'BoxedValueHelper', 'CustomValue', 
 			'Delegate', 'IDLEntity', 'IndirectionException', 
 			'InputStream', 'InvokeHandler', 'ObjectImpl', 
 			'OutputStream', 'RemarshalException', 'ResponseHandler', 
 			'ServantObject', 'Streamable', 'StreamableValue', 
 			'UnknownException', 'ValueBase', 'ValueFactory', 
-			'ValueInputStream', 'ValueOutputStream'),
-
-		1 => $CONTEXT . '/org/omg/CORBA/portable',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'ValueInputStream', 'ValueOutputStream'
+        ),
+		$CONTEXT . '/org/omg/CORBA/portable',
+		true,
+		''
 
 	),
 
-	138 => array(
+	array(
 	//org.omg.CORBA.TypeCodePackage
-		0 => array(
-			'BadKind', 'Bounds'),
-
-		1 => $CONTEXT . '/org/omg/CORBA/TypeCodePackage',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'BadKind', 'Bounds'
+        ),
+		$CONTEXT . '/org/omg/CORBA/TypeCodePackage',
+		true,
+		''
 
 	),
 
-	139 => array(
+	array(
 	//org.omg.CosNaming  
-		0 => array(
+		array(
 			'Binding', 'BindingHelper', 'BindingHolder', 
 			'BindingIterator', 'BindingIteratorHelper', 'BindingIteratorHolder', 
 			'BindingIteratorOperations', 'BindingIteratorPOA', 'BindingListHelper', 
@@ -2604,60 +2457,56 @@
 			'NamingContextExtPOA', 'NamingContextHelper', 'NamingContextHolder', 
 			'NamingContextOperations', 'NamingContextPOA', '_BindingIteratorImplBase', 
 			'_BindingIteratorStub', '_NamingContextExtStub', '_NamingContextImplBase', 
-			'_NamingContextStub'),
-
-		1 => $CONTEXT . '/org/omg/CosNaming',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'_NamingContextStub'
+        ),
+		$CONTEXT . '/org/omg/CosNaming',
+		true,
+		''
 
 	),
 
-	140 => array(
+	array(
 	//org.omg.CosNaming.NamingContextExtPackage 
-		0 => array(
+		array(
 			'AddressHelper', 'InvalidAddress', 'InvalidAddressHelper', 
-			'InvalidAddressHolder', 'StringNameHelper', 'URLStringHelper'),
-
-		1 => $CONTEXT . '/org/omg/CosNaming/NamingContextExtPackage',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'InvalidAddressHolder', 'StringNameHelper', 'URLStringHelper'
+        ),
+		$CONTEXT . '/org/omg/CosNaming/NamingContextExtPackage',
+		true,
+		''
 
 	),
 
-	141 => array(
+	array(
 	//org.omg.CosNaming.NamingContextPackage  
-		0 => array(
+		array(
 			'AlreadyBound', 'AlreadyBoundHelper', 'AlreadyBoundHolder', 
 			'CannotProceed', 'CannotProceedHelper', 'CannotProceedHolder', 
 			'InvalidName', 'InvalidNameHelper', 'InvalidNameHolder', 
 			'NotEmpty', 'NotEmptyHelper', 'NotEmptyHolder', 
 			'NotFound', 'NotFoundHelper', 'NotFoundHolder', 
-			'NotFoundReason', 'NotFoundReasonHelper', 'NotFoundReasonHolder'),
-
-		1 => $CONTEXT . '/org/omg/CosNaming/NamingContextPackage',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'NotFoundReason', 'NotFoundReasonHelper', 'NotFoundReasonHolder'
+        ),
+		$CONTEXT . '/org/omg/CosNaming/NamingContextPackage',
+		true,
+		''
 
 	),
 
-	142 => array(
+	array(
 	//org.omg.Dynamic 
-		0 => array(
-			'Parameter'),
-
-		1 => $CONTEXT . '/org/omg/Dynamic',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'Parameter'
+        ),
+		$CONTEXT . '/org/omg/Dynamic',
+		true,
+		''
 
 	),
 
-	143 => array(
+	array(
 	//org.omg.DynamicAny   
-		0 => array(
+		array(
 			'AnySeqHelper', 'DynAny', 'DynAnyFactory', 
 			'DynAnyFactoryHelper', 'DynAnyFactoryOperations', 'DynAnyHelper', 
 			'DynAnyOperations', 'DynAnySeqHelper', 'DynArray', 
@@ -2674,43 +2523,40 @@
 			'NameValuePairSeqHelper', '_DynAnyFactoryStub', '_DynAnyStub', 
 			'_DynArrayStub', '_DynEnumStub', '_DynFixedStub', 
 			'_DynSequenceStub', '_DynStructStub', '_DynUnionStub', 
-			'_DynValueStub'),
-
-		1 => $CONTEXT . '/org/omg/DynamicAny',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'_DynValueStub'
+        ),
+		$CONTEXT . '/org/omg/DynamicAny',
+		true,
+		''
 
 	),
 
-	144 => array(
+	array(
 	//org.omg.DynamicAny.DynAnyFactoryPackage 
-		0 => array(
-			'InconsistentTypeCode', 'InconsistentTypeCodeHelper'),
-
-		1 => $CONTEXT . '/org/omg/DynamicAny/DynAnyFactoryPackage',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'InconsistentTypeCode', 'InconsistentTypeCodeHelper'
+        ),
+		$CONTEXT . '/org/omg/DynamicAny/DynAnyFactoryPackage',
+		true,
+		''
 
 	),
 
-	145 => array(
+	array(
 	//org.omg.DynamicAny.DynAnyPackage   
-		0 => array(
+		array(
 			'InvalidValue', 'InvalidValueHelper', 'TypeMismatch', 
-			'TypeMismatchHelper'),
-
-		1 => $CONTEXT . '/org/omg/DynamicAny/DynAnyPackage',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'TypeMismatchHelper'
+        ),
+		$CONTEXT . '/org/omg/DynamicAny/DynAnyPackage',
+		true,
+		''
 
 	),
 
-	146 => array(
+	array(
 	//org.omg.IOP  
-		0 => array(
+		array(
 			'CodeSets', 'Codec', 'CodecFactory', 
 			'CodecFactoryHelper', 'CodecFactoryOperations', 'CodecOperations', 
 			'ComponentIdHelper', 'ENCODING_CDR_ENCAPS', 'Encoding', 
@@ -2723,55 +2569,51 @@
 			'TAG_MULTIPLE_COMPONENTS', 'TAG_ORB_TYPE', 'TAG_POLICIES', 
 			'TAG_RMI_CUSTOM_MAX_STREAM_FORMAT', 'TaggedComponent', 'TaggedComponentHelper', 
 			'TaggedComponentHolder', 'TaggedProfile', 'TaggedProfileHelper', 
-			'TaggedProfileHolder', 'TransactionService'),
-
-		1 => $CONTEXT . '/org/omg/IOP',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'TaggedProfileHolder', 'TransactionService'
+        ),
+		$CONTEXT . '/org/omg/IOP',
+		true,
+		''
 
 	),
 
-	147 => array(
+	array(
 	//org.omg.IOP.CodecFactoryPackage   
-		0 => array(
-			'UnknownEncoding', 'UnknownEncodingHelper'),
-
-		1 => $CONTEXT . '/org/omg/IOP/CodecFactoryPackage',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'UnknownEncoding', 'UnknownEncodingHelper'
+        ),
+		$CONTEXT . '/org/omg/IOP/CodecFactoryPackage',
+		true,
+		''
 
 	),
 
-	148 => array(
+	array(
 	//org.omg.IOP.CodecPackage 
-		0 => array(
+		array(
 			'FormatMismatch', 'FormatMismatchHelper', 'InvalidTypeForEncoding', 
-			'InvalidTypeForEncodingHelper', 'TypeMismatch', 'TypeMismatchHelper'),
-
-		1 => $CONTEXT . '/org/omg/IOP/CodecPackage',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'InvalidTypeForEncodingHelper', 'TypeMismatch', 'TypeMismatchHelper'
+        ),
+		$CONTEXT . '/org/omg/IOP/CodecPackage',
+		true,
+		''
 
 	),
 
-	149 => array(
+	array(
 	//org.omg.Messaging
-		0 => array(
-			'SYNC_WITH_TRANSPORT', 'SyncScopeHelper'),
-
-		1 => $CONTEXT . '/org/omg/Messaging',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'SYNC_WITH_TRANSPORT', 'SyncScopeHelper'
+        ),
+		$CONTEXT . '/org/omg/Messaging',
+		true,
+		''
 
 	),
 
-	150 => array(
+	array(
 	//org.omg.PortableInterceptor   
-		0 => array(
+		array(
 			'ACTIVE', 'AdapterManagerIdHelper', 'AdapterNameHelper', 
 			'AdapterStateHelper', 'ClientRequestInfo', 'ClientRequestInfoOperations', 
 			'ClientRequestInterceptor', 'ClientRequestInterceptorOperations', 'Current', 
@@ -2791,31 +2633,28 @@
 			'SUCCESSFUL', 'SYSTEM_EXCEPTION', 'ServerIdHelper', 
 			'ServerRequestInfo', 'ServerRequestInfoOperations', 'ServerRequestInterceptor', 
 			'ServerRequestInterceptorOperations', 'TRANSPORT_RETRY', 'UNKNOWN', 
-			'USER_EXCEPTION'),
-
-		1 => $CONTEXT . '/org/omg/PortableInterceptor',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'USER_EXCEPTION'
+        ),
+		$CONTEXT . '/org/omg/PortableInterceptor',
+		true,
+		''
 
 	),
 
-	151 => array(
+	array(
 	//org.omg.PortableInterceptor.ORBInitInfoPackage   
-		0 => array(
+		array(
 			'DuplicateName', 'DuplicateNameHelper', 'InvalidName', 
-			'InvalidNameHelper', 'ObjectIdHelper'),
-
-		1 => $CONTEXT . '/org/omg/PortableInterceptor/ORBInitInfoPackage',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
-
+			'InvalidNameHelper', 'ObjectIdHelper'
+        ),
+		$CONTEXT . '/org/omg/PortableInterceptor/ORBInitInfoPackage',
+		true,
+		''
 	),
 
-	152 => array(
+	array(
 	//org.omg.PortableServer  
-		0 => array(
+		array(
 			'AdapterActivator', 'AdapterActivatorOperations', 'Current', 
 			'CurrentHelper', 'CurrentOperations', 'DynamicImplementation', 
 			'ForwardRequest', 'ForwardRequestHelper', 'ID_ASSIGNMENT_POLICY_ID', 
@@ -2833,108 +2672,96 @@
 			'ServantLocatorPOA', 'ServantManager', 'ServantManagerOperations', 
 			'ServantRetentionPolicy', 'ServantRetentionPolicyOperations', 'ServantRetentionPolicyValue', 
 			'THREAD_POLICY_ID', 'ThreadPolicy', 'ThreadPolicyOperations', 
-			'ThreadPolicyValue', '_ServantActivatorStub', '_ServantLocatorStub'),
-
-		1 => $CONTEXT . '/org/omg/PortableServer',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'ThreadPolicyValue', '_ServantActivatorStub', '_ServantLocatorStub'
+        ),
+		$CONTEXT . '/org/omg/PortableServer',
+		true,
+		''
 
 	),
 
-	153 => array(
+	array(
 	//org.omg.PortableServer.CurrentPackage
-		0 => array(
-			'NoContext', 'NoContextHelper'),
-
-		1 => $CONTEXT . '/org/omg/PortableServer/CurrentPackage',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'NoContext', 'NoContextHelper'
+        ),
+		$CONTEXT . '/org/omg/PortableServer/CurrentPackage',
+		true,
+		''
 
 	),
 
-	154 => array(
+	array(
 	//org.omg.PortableServer.POAManagerPackage 
-		0 => array(
-			'AdapterInactive', 'AdapterInactiveHelper', 'State'),
-
-		1 => $CONTEXT . '/org/omg/PortableServer/POAManagerPackage',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+		array(
+			'AdapterInactive', 'AdapterInactiveHelper', 'State'
+        ),
+		$CONTEXT . '/org/omg/PortableServer/POAManagerPackage',
+		true,
+		''
 
 	),
 
-	155 => array(
+	array(
 	//org.omg.PortableServer.POAPackage   
-		0 => array(
+		array(
 			'AdapterAlreadyExists', 'AdapterAlreadyExistsHelper', 'AdapterNonExistent', 
 			'AdapterNonExistentHelper', 'InvalidPolicy', 'InvalidPolicyHelper', 
 			'NoServant', 'NoServantHelper', 'ObjectAlreadyActive', 
 			'ObjectAlreadyActiveHelper', 'ObjectNotActive', 'ObjectNotActiveHelper', 
 			'ServantAlreadyActive', 'ServantAlreadyActiveHelper', 'ServantNotActive', 
 			'ServantNotActiveHelper', 'WrongAdapter', 'WrongAdapterHelper', 
-			'WrongPolicy', 'WrongPolicyHelper'),
-
-		1 => $CONTEXT . '/org/omg/PortableServer/POAPackage',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
+			'WrongPolicy', 'WrongPolicyHelper'
+        ),
+		$CONTEXT . '/org/omg/PortableServer/POAPackage',
+		true,
+		''
 
 	),
 
-	156 => array(
+	array(
 	//org.omg.PortableServer.portable   
-		0 => array(
-			'Delegate'),
-
-		1 => $CONTEXT . '/org/omg/PortableServer/portable',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
-
+		array(
+			'Delegate'
+        ),
+		$CONTEXT . '/org/omg/PortableServer/portable',
+		true,
+		''
 	),
 
-	157 => array(
+	array(
 	//org.omg.PortableServer.ServantLocatorPackage
-		0 => array(
-			'CookieHolder'),
-
-		1 => $CONTEXT . '/org/omg/PortableServer/ServantLocatorPackage',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
-
+		array(
+			'CookieHolder'
+        ),
+		$CONTEXT . '/org/omg/PortableServer/ServantLocatorPackage',
+		true,
+		''
 	),
 
-	158 => array(
+	array(
 	//org.omg.SendingContext   
-		0 => array(
-			'RunTime', 'RunTimeOperations'),
-
-		1 => $CONTEXT . '/org/omg/SendingContext',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
-
+		array(
+			'RunTime', 'RunTimeOperations'
+        ),
+		$CONTEXT . '/org/omg/SendingContext',
+		true,
+		''
 	),
 
-	159 => array(
+	array(
 	//org.omg.stub.java.rmi   
-		0 => array(
-			'_Remote_Stub'),
-
-		1 => $CONTEXT . '/org/omg/stub/java/rmi',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
-
+		array(
+			'_Remote_Stub'
+        ),
+		$CONTEXT . '/org/omg/stub/java/rmi',
+		true,
+		''
 	),
 
-	160 => array(
+	array(
 	//org.w3c.dom   
-		0 => array(
+		array(
 			'Attr', 'CDATASection', 'CharacterData', 
 			'Comment', 'DOMConfiguration', 'DOMError', 
 			'DOMErrorHandler', 'DOMException', 'DOMImplementation', 
@@ -2944,139 +2771,123 @@
 			'EntityReference', 'NameList', 'NamedNodeMap', 
 			'Node', 'NodeList', 'Notation', 
 			'ProcessingInstruction', 'Text', 'TypeInfo', 
-			'UserDataHandler'),
-
-		1 => $CONTEXT . '/org/w3c/dom',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
-
+			'UserDataHandler'
+        ),
+		$CONTEXT . '/org/w3c/dom',
+		true,
+		''
 	),
 
-	161 => array(
+	array(
 	//org.w3c.dom.bootstrap   
-		0 => array(
-			'DOMImplementationRegistry'),
-
-		1 => $CONTEXT . '/org/w3c/dom/bootstrap',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
-
+		array(
+			'DOMImplementationRegistry'
+        ),
+		$CONTEXT . '/org/w3c/dom/bootstrap',
+		true,
+		''
 	),
 
-	162 => array(
+	array(
 	//org.w3c.dom.events   
-		0 => array(
+		array(
 			'DocumentEvent', 'Event', 'EventException', 
 			'EventListener', 'EventTarget', 'MouseEvent', 
-			'MutationEvent', 'UIEvent'),
-
-		1 => $CONTEXT . '/org/w3c/dom/events',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
-
+			'MutationEvent', 'UIEvent'
+        ),
+		$CONTEXT . '/org/w3c/dom/events',
+		true,
+		''
 	),
 
-	163 => array(
+	array(
 	//org.w3c.dom.ls   
-		0 => array(
+		array(
 			'DOMImplementationLS', 'LSException', 'LSInput', 
 			'LSLoadEvent', 'LSOutput', 'LSParser', 
 			'LSParserFilter', 'LSProgressEvent', 'LSResourceResolver', 
-			'LSSerializer', 'LSSerializerFilter'),
-
-		1 => $CONTEXT . '/org/w3c/dom/ls',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
-
+			'LSSerializer', 'LSSerializerFilter'
+        ),
+		$CONTEXT . '/org/w3c/dom/ls',
+		true,
+		''
 	),
 
-	164 => array(
+	array(
 	//org.xml.sax   
-		0 => array(
+		array(
 			'AttributeList', 'Attributes', 'ContentHandler', 
 			'DTDHandler', 'DocumentHandler', 'EntityResolver', 
 			'ErrorHandler', 'HandlerBase', 'InputSource', 
 			'Locator', 'Parser', 'SAXException', 
 			'SAXNotRecognizedException', 'SAXNotSupportedException', 'SAXParseException', 
-			'XMLFilter', 'XMLReader'),
-
-		1 => $CONTEXT . '/org/xml/sax',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
-
+			'XMLFilter', 'XMLReader'
+        ),
+		$CONTEXT . '/org/xml/sax',
+		true,
+		''
 	),
 
-	165 => array(
+	array(
 	//org.xml.sax.ext
-		0 => array(
+		array(
 			'Attributes2', 'Attributes2Impl', 'DeclHandler', 
 			'DefaultHandler2', 'EntityResolver2', 'LexicalHandler', 
-			'Locator2', 'Locator2Impl'),
-
-		1 => $CONTEXT . '/org/xml/sax/ext',
-		2 => 'color:#444;font-weight:bold;',
-		3 => true,
-		4 => ''
-
+			'Locator2', 'Locator2Impl'
+        ),
+		$CONTEXT . '/org/xml/sax/ext',
+		true,
+		''
 	),
 
 
 	
-    166 => array(
+    array(
     	//data types
-    	0 => array(
+    	array(
     		'byte', 'short', 'int', 'long', 'float', 'double',
 			'char', 'boolean', 'void'
 		),
-    	1 => $CONTEXT . '/dtype',
-    	2 => 'color:#444;font-weight:bold;',
-        3 => true,
-        4 => ''	
+    	$CONTEXT . '/dtype',
+        true,
+        ''	
     ),
     
-    167 => array(
+    array(
         //  const values
-        0 => array(
+        array(
             'false', 'null', 'true'
         ),
-        1 => $CONTEXT . '/const',
-        2 => 'color:#000;font-weight:bold;',
-        3 => true,
-        4 => ''
+        $CONTEXT . '/const',
+        true,
+        ''
     )
-    
 );
 
-$this->_contextCharactersDisallowedBeforeKeywords = array('\'');
-$this->_contextCharactersDisallowedAfterKeywords  = array('\'');
+$this->_contextCharactersDisallowedBeforeKeywords = array("'");
+$this->_contextCharactersDisallowedAfterKeywords  = array("'");
 
 $this->_contextSymbols  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             '(', ')', ',', ';', ':', '[', ']',
             '+', '-', '*', '%', '/', '&', '|', '!', '?', 
-			'<', '>', '{', '}', '=', '.', ''
+			'<', '>', '{', '}', '=', '.'
             ),
-        1 => $CONTEXT . '/symbols',
-        2 => 'color:#008000;'
+        $CONTEXT . '/symbol',
+        'color:#008000;'
     )
 );
 
 $this->_contextRegexps = array(
-    0 => geshi_use_doubles($CONTEXT),
-    1 => geshi_use_integers($CONTEXT)
+    geshi_use_doubles($CONTEXT),
+    geshi_use_integers($CONTEXT)
 );
 $this->_objectSplitters = array(
-    0 => array(
-        0 => array('.'),
-        1 => $CONTEXT . '/ootoken',
-        2 => 'color:#933;',
-        3 => false
+    array(
+        array('.'),
+        $CONTEXT . '/ootoken',
+        false
     )
 );
 

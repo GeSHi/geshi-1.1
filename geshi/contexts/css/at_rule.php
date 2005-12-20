@@ -33,10 +33,10 @@
  */
  
 $this->_contextDelimiters = array(
-    0 => array(
-        0 => array('@import', '@charset'),
-        1 => array(';'),
-        2 => false
+    array(
+        array('@import', '@charset'),
+        array(';'),
+        false
     )
 );
 
@@ -44,31 +44,24 @@ $this->_childContexts = array(
     new GeSHiStringContext('css', $DIALECT, 'string')
 );
 
-$this->_styler->setStyle($CONTEXT_START, 'color:#c9c;font-weight:bold;');
-$this->_styler->setStyle($CONTEXT_END, 'color:#008000;');
-
 $this->_contextKeywords = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             'url'
         ),
-        1 => $this->_contextName . '/blah',
-        2 => 'color:#933;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/paren',
+        false,
+        ''
     )
 );
 
 $this->_contextSymbols  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             ':', ';', '(', ')'
-            ),
-        // name (should names have / in them like normal contexts? YES
-        1 => $this->_contextName . '/sym',
-        // style
-        2 => 'color:#008000;'
-        )
+        ),
+        $CONTEXT . '/symbol'
+    )
 );
 
 ?>

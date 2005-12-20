@@ -156,7 +156,7 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
                     $this->_styler->addParseData($start_brace . $earliest_data['tab'][2],
                         $this->_parentName . '/var', $this->_getExtraParseData(), $this->_isComplex);
                     // The -> with any whitespace around it
-                    $this->_styler->addParseData($earliest_data['tab'][3], $this->_parentName . '/sym0',
+                    $this->_styler->addParseData($earliest_data['tab'][3], $this->_parentName . '/symbol',
                         $this->_getExtraParseData(), $this->_isComplex);
                     // The method name
                     $this->_styler->addParseData($earliest_data['tab'][4], $this->_parentName . '/oodynamic',

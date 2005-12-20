@@ -35,19 +35,18 @@
 // @todo [blocking 1.1.1] Rename OCCs with parent's name in front for theming
 $this->_childContexts = array(
     new GeSHiContext('delphi',  $DIALECT, 'multi_comment'),
-    new GeSHiContext('delphi', $DIALECT, 'common/single_comment'),
-    new GeSHiContext('delphi', $DIALECT, 'common/single_string_eol'),
+    new GeSHiContext('delphi', $DIALECT, 'single_comment'),
+    new GeSHiContext('delphi', $DIALECT, 'single_string'),
     new GeSHiContext('delphi', $DIALECT, 'preprocessor'),
     new GeSHiCodeContext('delphi', $DIALECT, 'asm'),
     new GeSHiCodeContext('delphi', $DIALECT, 'extern', 'delphi/' . $DIALECT),
     new GeSHiCodeContext('delphi', $DIALECT, 'property', 'delphi/' . $DIALECT)
 );
 
-//$this->_styler->setStyle($CONTEXT, 'color:#000;');
-
 $this->_contextKeywords = array(
-    0 => array(
-        0 => array(
+    // Keywords
+    array(
+        array(
             //@todo [blocking 1.1.1] get keywords normal way
             'Abstract', 'And', 'Array', 'As', 'Asm', 'At', 'Begin', 'Case', 'Class',
             'Const', 'Constructor', 'Contains', 'Destructor', 'DispInterface', 'Div',
@@ -63,13 +62,14 @@ $this->_contextKeywords = array(
             //'register', // requires special handling
             'safecall', 'stdcall', 'varargs'
         ),
-        1 => $CONTEXT . '/keywords',
-        2 => 'color:#f00; font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/keyword',
+        false,
+        ''
     ),
-    1 => array(
-        0 => array(
+    
+    // Keytypes
+    array(
+        array(
             'AnsiChar', 'AnsiString', 'Bool', 'Boolean', 'Byte', 'ByteBool', 'Cardinal', 'Char',
             'Comp', 'Currency', 'DWORD', 'Double', 'Extended', 'Int64', 'Integer', 'IUnknown',
             'LongBool', 'LongInt', 'LongWord', 'PAnsiChar', 'PAnsiString', 'PBool', 'PBoolean', 'PByte',
@@ -80,25 +80,24 @@ $this->_contextKeywords = array(
             'Single', 'SmallInt', 'String', 'TClass', 'TDate', 'TDateTime', 'TextFile', 'THandle',
             'TObject', 'TTime', 'Variant', 'WideChar', 'WideString', 'Word', 'WordBool'
         ),
-        1 => $CONTEXT . '/keytypes',
-        2 => 'color:#000; font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/keytype',
+        false,
+        ''
     ),
 
-    2 => array(
-        0 => array(
+    // Keyidents
+    array(
+        array(
             'false', 'nil', 'self', 'true'
         ),
-        1 => $CONTEXT . '/keyidents',
-        2 => 'color:#000; font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/keyident',
+        false,
+        ''
     ),
 
-    //Standard functions of Unit System
-    3 => array(
-        0 => array(
+    // Standard functions of Unit System
+    array(
+        array(
             'Abs', 'AcquireExceptionObject', 'Addr', 'AnsiToUtf8', 'Append', 'ArcTan',
             'Assert', 'AssignFile', 'Assigned', 'BeginThread', 'BlockRead',
             'BlockWrite', 'Break', 'ChDir', 'Chr', 'Close', 'CloseFile',
@@ -126,15 +125,14 @@ $this->_contextKeywords = array(
             'WideCharLenToStrVar', 'WideCharLenToString', 'WideCharToStrVar',
             'WideCharToString', 'WideStringToUCS4String', 'Write', 'WriteLn'
         ),
-        1 => $CONTEXT . '/stdprocs/system',
-        2 => 'color:#444;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/stdprocs/system',
+        false,
+        ''
     ),
 
-    //Standard functions of Unit SysUtils
-    4 => array(
-        0 => array(
+    // Standard functions of Unit SysUtils
+    array(
+        array(
             'Abort', 'AddExitProc', 'AddTerminateProc', 'AdjustLineBreaks', 'AllocMem',
             'AnsiCompareFileName', 'AnsiCompareStr', 'AnsiCompareText',
             'AnsiDequotedStr', 'AnsiExtractQuotedStr', 'AnsiLastChar',
@@ -196,15 +194,14 @@ $this->_contextKeywords = array(
             'WideFormatBuf', 'WideLowerCase', 'WideSameStr', 'WideSameText',
             'WideUpperCase', 'Win32Check', 'WrapText'
         ),
-        1 => $CONTEXT . '/stdprocs/sysutils',
-        2 => 'color:#444;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/stdprocs/sysutil',
+        false,
+        ''
     ),
 
-    //Standard functions of Unit Classes
-    5 => array(
-        0 => array(
+    // Standard functions of Unit Classes
+    array(
+        array(
             'ActivateClassGroup', 'AllocateHwnd', 'BinToHex', 'CheckSynchronize',
             'CollectionsEqual', 'CountGenerations', 'DeallocateHwnd', 'EqualRect',
             'ExtractStrings', 'FindClass', 'FindGlobalComponent', 'GetClass',
@@ -220,15 +217,14 @@ $this->_contextKeywords = array(
             'UnregisterIntegerConsts', 'UnregisterModuleClasses',
             'WriteComponentResFile'
         ),
-        1 => $CONTEXT . '/stdprocs/classes',
-        2 => 'color:#444;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/stdprocs/class',
+        false,
+        ''
     ),
 
-    //Standard functions of Unit Math
-    6 => array(
-        0 => array(
+    // Standard functions of Unit Math
+    array(
+        array(
             'ArcCos', 'ArcCosh', 'ArcCot', 'ArcCotH', 'ArcCsc', 'ArcCscH', 'ArcSec',
             'ArcSecH', 'ArcSin', 'ArcSinh', 'ArcTan2', 'ArcTanh', 'Ceil',
             'CompareValue', 'Cosecant', 'Cosh', 'Cot', 'CotH', 'Cotan', 'Csc', 'CscH',
@@ -249,98 +245,91 @@ $this->_contextKeywords = array(
             'SumOfSquares', 'SumsAndSquares', 'Tan', 'Tanh', 'TotalVariance',
             'Variance'
         ),
-        1 => $CONTEXT . '/stdprocs/math',
-        2 => 'color:#444;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/stdprocs/math',
+        false,
+        ''
     )
 );
 
 $this->_contextSymbols  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             '+', '-', '*', '/'
-            ),
-        1 => $CONTEXT . '/mathsym',
-        2 => 'color:#008000;'
         ),
-    1 => array(
-        0 => array(
+        $CONTEXT . '/mathsym'
+    ),
+    array(
+        array(
             ':', ';', ','
-            ),
-        1 => $CONTEXT . '/ctrlsym',
-        2 => 'color:#008000;'
         ),
-    2 => array(
-        0 => array(
+        $CONTEXT . '/ctrlsym'
+    ),
+    array(
+        array(
             '<', '=', '>'
-            ),
-        1 => $CONTEXT . '/cmpsym',
-        2 => 'color:#008000;'
         ),
-    3 => array(
-        0 => array(
+        $CONTEXT . '/cmpsym'
+    ),
+    array(
+        array(
             '(', ')', '[', ']'
-            ),
-        1 => $CONTEXT . '/brksym',
-        2 => 'color:#008000;'
         ),
-    4 => array(
-        0 => array(
+        $CONTEXT . '/brksym'
+    ),
+    array(
+        array(
             '.', '@', '^'
-            ),
-        1 => $CONTEXT . '/oopsym',
-        2 => 'color:#008000;'
-        )
+        ),
+        $CONTEXT . '/oopsym'
+    )
 );
 
 $this->_contextRegexps  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             '/(#[0-9]+)/'
         ),
-        1 => '#',
-        2 => array(
-            1 => array($CONTEXT . '/char', 'color:#db9;', false)
+        '#',
+        array(
+            1 => array($CONTEXT . '/char', false)
         )
     ),
-    1 => array(
-        0 => array(
+    array(
+        array(
             '/(#\$[0-9a-fA-F]+)/'
         ),
-        1 => '#',
-        2 => array(
-            1 => array($CONTEXT . '/charhex', 'color:#db9;', false)
+        '#',
+        array(
+            1 => array($CONTEXT . '/charhex', false)
         )
     ),
-    2 => array(
-        0 => array(
+    array(
+        array(
             '/(\$[0-9a-fA-F]+)/'
         ),
-        1 => '$',
-        2 => array(
-            1 => array($CONTEXT . '/hex', 'color: #2bf;', false)
+        '$',
+        array(
+            1 => array($CONTEXT . '/hex', false)
         )
     ),
-    3 => array(
-        0 => array(
+    array(
+        array(
             '/(\.\.)/'
         ),
-        1 => '.',
-        2 => array(
-            1 => array($CONTEXT . '/ctrlsym', 'color: #008000;', false)
+        '.',
+        array(
+            1 => array($CONTEXT . '/ctrlsym', false)
         )
     ),
-    4 => geshi_use_doubles($CONTEXT, true), // second parameter says leading zero is required.
-    5 => geshi_use_integers($CONTEXT)
+    geshi_use_doubles($CONTEXT, true),
+    geshi_use_integers($CONTEXT)
 );
 
 $this->_objectSplitters = array(
-    0 => array(
-        0 => array('.'),
-        1 => $CONTEXT . '/oodynamic',
-        2 => 'color:#559;',
-        3 => false // If true, check that matched method isn't a keyword first
+    array(
+        array('.'),
+        $CONTEXT . '/oodynamic',
+        false
     )
 );
 

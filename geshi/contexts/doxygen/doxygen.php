@@ -35,10 +35,9 @@
 $this->_childContexts = array(
     new GeSHiContext('doxygen',  $DIALECT, 'tag'),
     new GeshiContext('doxygen',  $DIALECT, 'link'),
-    new GeSHiContext('html',  $DIALECT, 'tag')
+    new GeSHiContext('doxygen',  $DIALECT, 'htmltag')
 );
 
-$this->_styler->setStyle($CONTEXT, 'color:#555;font-style:italic;');
 $this->_contextStyleType = GESHI_STYLE_COMMENTS;
 
 ?>

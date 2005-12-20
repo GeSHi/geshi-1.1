@@ -36,25 +36,22 @@
 require_once GESHI_CLASSES_ROOT . 'class.geshistringcontext.php';
 
 $this->_contextDelimiters = array(
-    0 => array(
-        0 => array('{'),
-        1 => array('}'),
-        2 => false
+    array(
+        array('{'),
+        array('}'),
+        false
     )
 );
 
 $this->_childContexts = array(
     new GeSHiStringContext('css',  $DIALECT, 'string'),
-    new GeSHiContext('css',  $DIALECT, 'common/multi_comment')
+    new GeSHiContext('css',  $DIALECT, 'comment')
 );
 
-$this->_styler->setStyle($CONTEXT_START, 'font-weight:bold;color:#000;');
-$this->_styler->setStyle($CONTEXT_END, 'font-weight:bold;color:#000;');
-
 $this->_contextKeywords = array(
-    0 => array(
-        // keywords
-        0 => array(
+    // Attributes
+    array(
+        array(
             'azimuth', 'background', 'background-attachment', 'background-color', 'background-image',
             'background-position', 'background-repeat', 'border', 'border-bottom', 'border-bottom-color',
             'border-bottom-style', 'border-bottom-width', 'border-collapse', 'border-color', 'border-left',
@@ -79,26 +76,24 @@ $this->_contextKeywords = array(
             'stemv', 'stemh', 'slope', 'cap-height', 'x-height', 'ascent', 'descent', 'widths', 'bbox',
             'definition-src', 'baseline', 'centerline', 'mathline', 'topline', '!important'
             ),
-        // name
-        1 => $CONTEXT . '/attrs',
-        // style
-        2 => 'color:#000;font-weight:bold;',
-        // case sensitive
-        3 => false,
-        // url
-        4 => ''
-        ),
-    1 => array(
-        0 => array(
+        $CONTEXT . '/attribute',
+        false,
+        ''
+    ),
+    
+    // Attributes that take arguments
+    array(
+        array(
             'url', 'attr', 'rect', 'rgb', 'counter', 'counters', 'local', 'format'
         ),
-        1 => $CONTEXT . '/paren',
-        2 => 'color:#933;',
-        3 => false,
-        4 => ''
-        ),
-    2 => array(
-        0 => array(
+        $CONTEXT . '/paren',
+        false,
+        ''
+    ),
+    
+    // Colours
+    array(
+        array(
             'aqua', 'black', 'blue', 'fuchsia', 'gray', 'green', 'lime', 'maroon', 'navy', 'olive',
             'purple', 'red', 'silver', 'teal', 'white', 'yellow', 'ActiveBorder', 'ActiveCaption',
             'AppWorkspace', 'Background', 'ButtonFace', 'ButtonHighlight', 'ButtonShadow', 'ButtonText',
@@ -107,101 +102,27 @@ $this->_contextKeywords = array(
             'ThreeDDarkShadow', 'ThreeDFace', 'ThreeDHighlight', 'ThreeDLightShadow', 'ThreeDShadow',
             'Window', 'WindowFrame', 'WindowText'
         ),
-        1 => $CONTEXT . '/colors',
-        2 => 'color:#339;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/color',
+        false,
+        ''
     ),
-    3 => array(
-        0 => array(
+    
+    // Types
+    array(
+        array(
             'inherit', 'none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset',
             'outset', 'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large', 'xx-large', 'smaller',
-            'larger', 'italic',
-            'oblique',
-            'small-caps',
-            'normal',
-            'bold',
-            'bolder',
-            'lighter',
-            'light',
-            'transparent',
-            'repeat',
-            'repeat-x',
-            'repeat-y',
-            'no-repeat',
-            'baseline',
-            'sub',
-            'super',
-            'top',
-            'text-top',
-            'middle',
-            'bottom',
-            'text-bottom',
-            'left',
-            'right',
-            'center',
-            'justify',
-            'konq-center',
-            'disc',
-            'circle',
-            'square',
-            'decimal',
-            'decimal-leading-zero',
-            'lower-roman',
-            'upper-roman',
-            'lower-greek',
-            'lower-alpha',
-            'lower-latin',
-            'upper-alpha',
-            'upper-latin',
-            'hebrew',
-            'armenian',
-            'georgian',
-            'cjk-ideographic',
-            'hiragana',
-            'katakana',
-            'hiragana-iroha',
-            'katakana-iroha',
-            'inline',
-            'block',
-            'list-item',
-            'run-in',
-            'compact',
-            'marker',
-            'table',
-            'inline-table',
-            'table-row-group',
-            'table-header-group',
-            'table-footer-group',
-            'table-row',
-            'table-column-group',
-            'table-column',
-            'table-cell',
-            'table-caption',
-            'auto',
-            'crosshair',
-            'default',
-            'pointer',
-            'move',
-            'e-resize',
-            'ne-resize',
-            'nw-resize',
-            'n-resize',
-            'se-resize',
-            'sw-resize',
-            's-resize',
-            'w-resize',
-            'text',
-            'wait',
-            'help',
-            'above',
-            'absolute',
-            'always',
-            'avoid',
-            'below',
-            'bidi-override',
-            'blink',
-            'both',
+            'larger', 'italic', 'oblique', 'small-caps', 'normal', 'bold', 'bolder', 'lighter', 'light',
+            'transparent', 'repeat', 'repeat-x', 'repeat-y', 'no-repeat', 'baseline', 'sub', 'super', 'top',
+            'text-top', 'middle', 'bottom', 'text-bottom', 'left', 'right', 'center', 'justify', 'konq-center',
+            'disc', 'circle', 'square', 'decimal', 'decimal-leading-zero', 'lower-roman', 'upper-roman', 'lower-greek',
+            'lower-alpha', 'lower-latin', 'upper-alpha', 'upper-latin', 'hebrew', 'armenian', 'georgian',
+            'cjk-ideographic', 'hiragana', 'katakana', 'hiragana-iroha', 'katakana-iroha', 'inline', 'block',
+            'list-item', 'run-in', 'compact', 'marker', 'table', 'inline-table', 'table-row-group',
+            'table-header-group', 'table-footer-group', 'table-row', 'table-column-group', 'table-column',
+            'table-cell', 'table-caption', 'auto', 'crosshair', 'default', 'pointer', 'move', 'e-resize',
+            'ne-resize', 'nw-resize', 'n-resize', 'se-resize', 'sw-resize', 's-resize', 'w-resize', 'text',
+            'wait', 'help', 'above', 'absolute', 'always', 'avoid', 'below', 'bidi-override', 'blink', 'both',
             'capitalize',
             'caption',
             'close-quote',
@@ -265,35 +186,31 @@ $this->_contextKeywords = array(
             'fantasy',
             'monospace'
         ),
-        1 => $CONTEXT . '/types',
-        2 => 'color:#393;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/type',
+        false,
+        ''
     )
 );
 
 $this->_contextSymbols  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             ':', ';', '(', ')', ','
-            ),
-        // name (should names have / in them like normal contexts? YES
-        1 => $CONTEXT . '/sym',
-        // style
-        2 => 'color:#008000;'
-        )
+        ),
+        $CONTEXT . '/symbol'
+    )
 );
 
 $this->_contextRegexps  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             '#([-+]?[0-9]((em)|(ex)|(px)|(in)|(cm)|(mm)|(pt)|(pc)|%))#',
             '/(#(([0-9a-fA-F]){3}){1,2})/',
             '/([0-9]+)/'
         ),
-        1 => '',
-        2 => array(
-            1 => array($CONTEXT . '/value', 'color: #933;', false)
+        '',
+        array(
+            1 => array($CONTEXT . '/value', false)
         )
     )
 );

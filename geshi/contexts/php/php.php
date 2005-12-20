@@ -51,40 +51,31 @@ $this->_contextDelimiters = array(
 );
 
 $this->_childContexts = array(
-    new GeSHiStringContext('php',  $DIALECT, 'common/single_string'),
+    new GeSHiStringContext('php',  $DIALECT, 'single_string'),
     new GeSHiPHPDoubleStringContext('php',  $DIALECT, 'double_string'),
     new GeSHiPHPDoubleStringContext('php',  $DIALECT, 'heredoc'),
-    // PHP single comment, with # starter and end-php-context ender
     new GeSHiContext('php',  $DIALECT, 'single_comment'),
-    // Use common multi comment since it is a PHP comment...
-    new GeSHiContext('php',  $DIALECT, 'common/multi_comment'),
-    // doxygen comments
+    new GeSHiContext('php',  $DIALECT, 'multi_comment'),
     new GeSHiContext('php',  $DIALECT, 'doxygen')
 );
 
-$this->_styler->setStyle($CONTEXT_START, 'font-weight:bold;color:#000;');
-$this->_styler->setStyle($CONTEXT_END, 'font-weight:bold;color:#000;');
-
 $this->_contextKeywords = array(
-    0 => array(
-        // keywords
-        0 => array(
+    // Basic keywords
+    array(
+        array(
             'as', 'break', 'case', 'continue', 'do', 'declare', 'else', 'elseif',
             'endforeach', 'endif', 'endswitch', 'endwhile', 'for', 'foreach', 'if',
             'include', 'include_once', 'require', 'require_once', 'return', 'switch',
             'while'
         ),
-        // name
-        1 => $CONTEXT . '/cstructures',
-        // style
-        2 => 'color:#b1b100;',
-        // case sensitive
-        3 => false,
-        // url
-        4 => ''
+        $CONTEXT . '/cstructure',
+        false,
+        ''
     ),
-    1 => array(
-        0 => array(
+    
+    // Constants
+    array(
+        array(
             'DEFAULT_INCLUDE_PATH', 'E_ALL', 'E_COMPILE_ERROR', 'E_COMPILE_WARNING',
             'E_CORE_ERROR', 'E_CORE_WARNING', 'E_ERROR', 'E_NOTICE', 'E_PARSE',
             'E_STRICT', 'E_USER_ERROR', 'E_USER_NOTICE', 'E_USER_WARNING',
@@ -98,13 +89,14 @@ $this->_contextKeywords = array(
             'parent', 'private', 'protected', 'public', 'self', 'static', 'throw',
             'try', 'var'
         ),
-        1 => $CONTEXT . '/keywords',
-        2 => 'font-weight:bold;color:#000;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/keyword',
+        false,
+        ''
     ),
-    2 => array(
-        0 => array(
+
+    // Functions
+    array(
+        array(
             'abs', 'acos', 'acosh', 'addcslashes', 'addslashes',
             'apache_child_terminate', 'apache_lookup_uri', 'apache_note',
             'apache_setenv', 'array', 'array_change_key_case', 'array_chunk',
@@ -807,43 +799,40 @@ $this->_contextKeywords = array(
             'zip_entry_filesize', 'zip_entry_name', 'zip_entry_open',
             'zip_entry_read', 'zip_open', 'zip_read'
         ),
-        1 => $CONTEXT . '/functions',
-        2 => 'color:#006;',
-        3 => false,
-        // urls (the name of a function, with brackets at the end, or a string with {FNAME} in it like GeSHi 1.0.X)
-        // e.g. geshi_php_convert_url(), or http://www.php.net/{FNAME}
-        4 => 'geshi_php_convert_url()'
+        $CONTEXT . '/function',
+        false,
+        'http://www.php.net/{FNAME}'
     )
 );
 
 $this->_contextCharactersDisallowedBeforeKeywords = array('$', '_');
 $this->_contextCharactersDisallowedAfterKeywords  = array("'", '_');
+
 $this->_contextSymbols  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             '(', ')', ',', ';', ':', '[', ']',
             '+', '-', '*', '/', '&', '|', '!', '<', '>',
             '{', '}', '=', '@'
-            ),
-        // name
-        1 => $CONTEXT . '/sym0',
-        // style
-        2 => 'color:#008000;'
+        ),
+        $CONTEXT . '/symbol',
     )
 );
+
 $this->_contextRegexps  = array(
-    0 => array(
+    // PHP Variables
+    array(
         // The regexps
         // each regex in this array will be tested and styled the same
-        0 => array(
+        array(
             '#(\$\$?[a-zA-Z_][a-zA-Z0-9_]*)#', // This is a variable in PHP
-            ),
+        ),
         // index 1 is a string that strpos can use
         // @todo [blocking 1.1.1] maybe later let this string be a regex or something
-        1 => '$',
+        '$',
         // This is the special bit ;)
         // For each bracket pair in the regex above, you can specify a name and style for it
-        2 => array(
+        array(
             // index 1 is for the first bracket pair
             // so for PHP it's everything within the (...)
             // of course we could have specified the regex
@@ -851,7 +840,7 @@ $this->_contextRegexps  = array(
             // in place for the first open bracket), then the
             // name and style for this part would not include
             // the beginning $
-            // Note:NEW AFTER 1.1.0a5: if third index of this array is true,
+            // Note:NEW AFTER 1.1.0a5: if second index of this array is true,
             // then you are saying: "Try to highlight as code first, if
             // it isn't code then use the styles in the second index".
             // This is really aimed at the OO support. For example, this
@@ -860,53 +849,28 @@ $this->_contextRegexps  = array(
             // The "bar" will be highlighted as an oo method, while the
             // "toLowerCase" will be highlighted as a keyword even though
             // it matches the oo method.
-            1 => array($CONTEXT . '/var', 'color:#33f;', false),
-            )
-        ),
-    // These are prebuild functions that can be called to add number
-    // support to a context. Call exactly as below
-    1 => geshi_use_doubles($CONTEXT),
-    2 => geshi_use_integers($CONTEXT)
-);
-$this->_objectSplitters = array(
-    0 => array(
-        0 => array('->'),
-        1 => $CONTEXT . '/oodynamic',
-        2 => 'color:#933;',
-        3 => false
+            1 => array($CONTEXT . '/var', false),
+        )
     ),
-    1 => array(
-        0 => array('::'),
-        1 => $CONTEXT . '/oostatic',
-        2 => 'color:#933;font-weight:bold;',
-        3 => false
+    // These are prebuilt functions that can be called to add number
+    // support to a context. Call exactly as below
+    geshi_use_doubles($CONTEXT),
+    geshi_use_integers($CONTEXT)
+);
+
+$this->_objectSplitters = array(
+    array(
+        array('->'),
+        $CONTEXT . '/oodynamic',
+        false
+    ),
+    array(
+        array('::'),
+        $CONTEXT . '/oostatic',
+        false
     )
 );
 
 $this->_isComplex = true;
-
-/**
- * This just demonstrates the concept...
- * You can use a function like this, called
- * by the URL entry of the keywords array,
- * to do whatever you like with the URL.
- * These functions that convert urls take one
- * mandatory parameter - the keyword the URL
- * is being built for.
- * 
- * You can then have some kind of logic in this
- * function to return a URL based on the
- * keyword... saves on those nasty hacks that
- * were used in 1.0.X to do this.
- * 
- * Make sure you do the function_exists check! These
- * context files will be included multiple times
- */
- if (!function_exists('geshi_php_convert_url')) {
-    function geshi_php_convert_url ($keyword)
-    {
-        return 'http://www.php.net/' . $keyword;
-    }
-}
 
 ?>

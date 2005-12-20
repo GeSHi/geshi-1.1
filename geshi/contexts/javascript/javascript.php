@@ -36,71 +36,77 @@
 require_once GESHI_CLASSES_ROOT . 'class.geshistringcontext.php';
 
 $this->_childContexts = array(
-    new GeSHiContext('javascript',  $DIALECT, 'common/multi_comment'),
-    new GeSHiContext('javascript',  $DIALECT, 'common/single_comment'),
-    new GeSHiStringContext('javascript',  $DIALECT, 'common/single_string'),
-    new GeSHiStringContext('javascript',  $DIALECT, 'common/double_string')
+    new GeSHiContext('javascript',  $DIALECT, 'multi_comment'),
+    new GeSHiContext('javascript',  $DIALECT, 'single_comment'),
+    new GeSHiStringContext('javascript',  $DIALECT, 'single_string'),
+    new GeSHiStringContext('javascript',  $DIALECT, 'double_string')
 );
 
 $this->_contextKeywords = array(
-    0 => array(
-        0 => array(
+    // Keywords
+    array(
+        array(
             'break', 'case', 'catch', 'const', 'continue', 'default', 'delete', 'do',
             'else', 'false', 'finally', 'for', 'function', 'if', 'in', 'new', 'null',
             'return', 'switch', 'throw', 'true', 'try', 'typeof', 'var', 'void',
             'while', 'with'
         ),
-        1 => $CONTEXT . '/keywords',
-        2 => 'color:#000;font-weight:bold;',
-        3 => true,
-        4 => ''
+        $CONTEXT . '/keyword',
+        true,
+        ''
     ),
-    1 => array(
-        0 => array(
+    
+    // Functions
+    array(
+        array(
             'escape', 'isFinite', 'isNaN', 'Number', 'parseFloat', 'parseInt',
             'reload', 'taint', 'unescape', 'untaint', 'write'
         ),
-        1 => $CONTEXT . '/functions',
-        2 => 'color:#006;',
-        3 => true,
-        4 => ''
+        $CONTEXT . '/function',
+        true,
+        ''
     ),
-    2 => array(
-        0 => array(
+    
+    // Objects
+    array(
+        array(
             'Anchor', 'Applet', 'Area', 'Array', 'Boolean', 'Button', 'Checkbox',
             'Date', 'document', 'window', 'Image', 'FileUpload', 'Form', 'Frame',
             'Function', 'Hidden', 'Link', 'MimeType', 'Math', 'Max', 'Min', 'Layer',
             'navigator', 'Object', 'Password', 'Plugin', 'Radio', 'RegExp', 'Reset',
             'Screen', 'Select', 'String', 'Text', 'Textarea', 'this', 'Window'
         ),
-        1 => $CONTEXT . '/objects',
-        2 => 'color:#393;font-weight:bold;',
-        3 => true,
-        4 => ''
+        $CONTEXT . '/object',
+        true,
+        ''
     ),
-    3 => array(
-        0 => array(
+    
+    // Math constants/methods
+    array(
+        array(
             'abs', 'acos', 'asin', 'atan', 'atan2', 'ceil', 'cos', 'ctg', 'E', 'exp',
             'floor', 'LN2', 'LN10', 'log', 'LOG2E', 'LOG10E', 'PI', 'pow', 'round',
             'sin', 'sqrt', 'SQRT1_2', 'SQRT2', 'tan'
         ),
-        1 => $CONTEXT . '/math',
-        2 => 'color:#fd0;',
-        3 => true,
-        4 => ''
+        $CONTEXT . '/math',
+        true,
+        ''
     ),
-    4 => array(
-        0 => array(
+    
+    // Events
+    array(
+        array(
             'onAbort', 'onBlur', 'onChange', 'onClick', 'onError', 'onFocus', 'onLoad',
             'onMouseOut', 'onMouseOver', 'onReset', 'onSelect', 'onSubmit', 'onUnload'
         ),
-        1 => $CONTEXT . '/events',
-        2 => 'color:#fdb;',
-        3 => true,
-        4 => ''
+        $CONTEXT . '/event',
+        true,
+        ''
     ),
-    5 => array(
-        0 => array(
+    
+    // Methods
+    array(
+        array(
             'MAX_VALUE', 'MIN_VALUE', 'NEGATIVE_INFINITY', 'NaN', 'POSITIVE_INFINITY',
             'URL', 'UTC', 'above', 'action', 'alert', 'alinkColor', 'anchor',
             'anchors', 'appCodeNam', 'appName', 'appVersion', 'applets', 'apply',
@@ -148,10 +154,9 @@ $this->_contextKeywords = array(
             'width', 'write', 'writeln', 'x', 'y', 'zIndex'
             //@todo [blocking 1.1.5] Some important and recent DOM additions for js seem to be ommited...
         ),
-        1 => $CONTEXT . '/methods',
-        2 => 'color:#933;',
-        3 => true,
-        4 => ''
+        $CONTEXT . '/method',
+        true,
+        ''
     )
 );
 
@@ -159,29 +164,27 @@ $this->_contextCharactersDisallowedBeforeKeywords = array('_');
 $this->_contextCharactersDisallowedAfterKeywords = array('_');
 
 $this->_contextSymbols  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             '(', ')', ',', ';', ':', '[', ']',
             '+', '-', '*', '/', '&', '|', '!', '<', '>',
             '{', '}', '='
-            ),
-        // name (should names have / in them like normal contexts? YES
-        1 => $CONTEXT . '/symbols',
-        // style
-        2 => 'color:#008000;'
+        ),
+        $CONTEXT . '/symbol'
     )
 );
+
 $this->_contextRegexps  = array(
-    0 => geshi_use_doubles($CONTEXT),
-    1 => geshi_use_integers($CONTEXT)
+    geshi_use_doubles($CONTEXT),
+    geshi_use_integers($CONTEXT)
 );
 
 $this->_objectSplitters = array(
-    0 => array(
-        0 => array('.'),
-        1 => $CONTEXT . '/oodynamic',
-        2 => 'color:#559;',
-        3 => true // Check that matched method isn't a keyword first
+    array(
+        array('.'),
+        $CONTEXT . '/oodynamic',
+        true
     )
 );
+
 ?>

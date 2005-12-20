@@ -33,17 +33,15 @@
  */
  
 $this->_contextDelimiters = array(
-    0 => array(
-        0 => array('['),
-        1 => array(']'),
-        2 => false
+    array(
+        array('['),
+        array(']'),
+        false
     )
 );
 
 $this->_childContexts = array(
     new GeSHiStringContext('css', $DIALECT, 'string')
 );
-
-$this->_styler->setStyle($CONTEXT, 'color:#008000;');
 
 ?>

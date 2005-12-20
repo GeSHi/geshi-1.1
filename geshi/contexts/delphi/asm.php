@@ -33,65 +33,61 @@
  */
 
 $this->_contextDelimiters = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             'REGEX#(^|(?=\b))asm((?=\b)|$)#im'
         ),
-        1 => array(
+        array(
              'REGEX#(^|(?=\b))end((?=\b)|$)#im'
         ),
-
-        2 => false
+        false
     )
 );
 
 
 $this->_childContexts = array(
     new GeSHiContext('delphi', $DIALECT, 'preprocessor'),
-    new GeSHiContext('delphi', $DIALECT, 'common/single_comment'),
+    new GeSHiContext('delphi', $DIALECT, 'single_comment'),
     new GeSHiContext('delphi', $DIALECT, 'multi_comment')
 );
 
-$this->_styler->setStyle($CONTEXT, 'color:#000;');
-$this->_styler->setStyle($CONTEXT_START, 'color:#f00;font-weight:bold;');
-$this->_styler->setStyle($CONTEXT_END, 'color:#f00;font-weight:bold;');
 
 $this->_contextKeywords = array(
     //Assembler Directives
-    0 => array(
-        0 => array(
+    array(
+        array(
             'db','dd','dw'
         ),
-        1 => $CONTEXT . '/keywords',
-        2 => 'color:#00f; font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/keyword',
+        false,
+        ''
     ),
 
-    1 => array(
-        0 => array(
+    // Keyops
+    array(
+        array(
             'high', 'low', 'mod'
             //@todo: Make ASM detect 'and', 'not', 'or', 'shl', 'shr', 'xor' if not used as instructions
         ),
-        1 => $CONTEXT . '/keyops',
-        2 => 'color:#f00; font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/keyop',
+        false,
+        ''
     ),
 
-    2 => array(
-        0 => array(
+    // Control
+    array(
+        array(
             'byte', 'dmtindex', 'dword', 'large', 'offset', 'ptr', 'qword', 'small',
             'tbyte', 'type', 'vmtoffset', 'word'
         ),
-        1 => $CONTEXT . '/control',
-        2 => 'color:#00f; font-weight: bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/control',
+        false,
+        ''
     ),
 
-    3 => array(
-        0 => array(
+    // Registers
+    array(
+        array(
             'ah', 'al', 'bh', 'bl', 'ch', 'cl', 'dh', 'dl',
             'ax', 'bx', 'cx', 'dx', 'sp', 'bp', 'di', 'si',
 
@@ -106,15 +102,14 @@ $this->_contextKeywords = array(
             'cr0', 'cr1', 'cr2', 'cr3', 'cr4',
             'dr0', 'dr1', 'dr2', 'dr3', 'dr4', 'dr5', 'dr6', 'dr7'
         ),
-        1 => $CONTEXT . '/register',
-        2 => 'color:#00f;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/register',
+        false,
+        ''
     ),
 
-    //CPU i386 instructions
-    4 => array(
-        0 => array(
+    // CPU i386 instructions
+    array(
+        array(
              // @todo order the i386 instruction set
              // @todo divide the i386 instruction set into i386\i486\i586\i686 instructions
             'AAA', 'AAD', 'AAM', 'AAS', 'ADC', 'ADD', 'AND', 'ARPL', 'BOUND', 'BSF',
@@ -152,15 +147,14 @@ $this->_contextKeywords = array(
             'VERW', 'WAIT', 'WBINVD', 'WRMSR', 'WRSHR', 'XADD', 'XBTS', 'XCHG',
             'XLAT', 'XLATB', 'XOR'
         ),
-        1 => $CONTEXT . '/instr/i386',
-        2 => 'color:#00f; font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/instr/i386',
+        false,
+        ''
     ),
 
-    //FPU i387 instructions
-    5 => array(
-        0 => array(
+    // FPU i387 instructions
+    array(
+        array(
              // @todo order the i387 instruction set
             'F2XM1', 'FABS', 'FADD', 'FADDP', 'FBLD', 'FBSTP', 'FCHS', 'FCLEX',
             'FCMOVB', 'FCMOVBE', 'FCMOVE', 'FCMOVNB', 'FCMOVNBE', 'FCMOVNE',
@@ -177,15 +171,14 @@ $this->_contextKeywords = array(
             'FUCOMP', 'FUCOMPP', 'FWAIT', 'FXAM', 'FXCH', 'FXTRACT', 'FYL2X',
             'FYL2XP1'
         ),
-        1 => $CONTEXT . '/instr/i387',
-        2 => 'color:#00f; font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/instr/i387',
+        false,
+        ''
     ),
 
-    //MMX instruction set
-    6 => array(
-        0 => array(
+    // MMX instruction set
+    array(
+        array(
             // @todo order the mmx instruction set
             // @todo divide into MMX and XMM instruction sets
             'FFREEP', 'FXRSTOR', 'FXSAVE', 'MASKMOVQ', 'MOVNTQ', 'PACKSSDW',
@@ -201,15 +194,14 @@ $this->_contextKeywords = array(
             'PSUBUSW', 'PSUBW', 'PUNPCKHBW', 'PUNPCKHDQ', 'PUNPCKHWD', 'PUNPCKLBW',
             'PUNPCKLDQ', 'PUNPCKLWD', 'PXOR', 'SFENCE'
         ),
-        1 => $CONTEXT . '/instr/mmx',
-        2 => 'color:#00f; font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/instr/mmx',
+        false,
+        ''
     ),
 
-    //SSE instruction set
-    7 => array(
-        0 => array(
+    // SSE instruction set
+    array(
+        array(
             // @todo order the SSE instruction set
             // @todo divide between SSE\SSE2\SSE3 instruction sets
             'ADDPS', 'ADDSS', 'ANDNPS', 'ANDPS', 'CMPEQPS', 'CMPEQSS', 'CMPLEPS',
@@ -223,85 +215,80 @@ $this->_contextKeywords = array(
             'SHUFPS', 'SQRTPS', 'SQRTSS', 'STMXCSR', 'SUBPS', 'SUBSS', 'UCOMISS',
             'UNPCKHPS', 'UNPCKLPS', 'XORPS'
         ),
-        1 => $CONTEXT . '/instr/sse',
-        2 => 'color:#00f; font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/instr/sse',
+        false,
+        ''
     ),
 
-    //3DNow instruction set
-    8 => array(
-        0 => array(
+    // 3DNow instruction set
+    array(
+        array(
             // @todo order the 3Dnow! instruction set
             'PAVGUSB', 'PF2ID', 'PFACC', 'PFADD', 'PFMAX', 'PFMIN', 'PFMUL', 'PFRCP',
             'PFRCPIT1', 'PFRCPIT2', 'PFRSQIT1', 'PFRSQRT', 'PFSUB', 'PFSUBR', 'PI2FD',
             'PMULHRIW', 'PMULHRWA', 'PMULHRWC', 'PMULHW', 'PMULLW', 'PREFETCH',
             'PREFETCHW'
         ),
-        1 => $CONTEXT . '/instr/3Dnow',
-        2 => 'color:#00f; font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/instr/3Dnow',
+        false,
+        ''
     ),
 
-    //3DNowExt instruction set
-    9 => array(
-        0 => array(
+    // 3DNowExt instruction set
+    array(
+        array(
             // @todo order the 3Dnow! Ext instruction set
             'PF2IW', 'PFNACC', 'PFPNACC', 'PI2FW', 'PSWAPD'
         ),
-        1 => $CONTEXT . '/instr/3Dnow2',
-        2 => 'color:#00f; font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/instr/3Dnow2',
+        false,
+        ''
     )
 );
 
 $this->_contextSymbols  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             ',', ';', '[', ']', '(', ')', '.', '&', '+', '-', '/', '*'
-            ),
-        1 => $CONTEXT . '/sym',
-        2 => 'color:#008000;'
-        )
+        ),
+        $CONTEXT . '/symbol',
+    )
 );
 
 $this->_contextRegexps  = array(
-    0 => array(
-        0 => array('#([@a-zA-Z_][@a-zA-Z0-9_]+:)#'),
-        1 => ':',
-        2 => array(
-            1 => array($CONTEXT . '/label', 'color:#933;', false)
+    array(
+        array('#([@a-zA-Z_][@a-zA-Z0-9_]+:)#'),
+        ':',
+        array(
+            1 => array($CONTEXT . '/label', false)
         )
     ),
-    1 => array(
-        0 => array(
+    array(
+        array(
             '/(\$[0-9a-fA-F_]+)/'
         ),
-        1 => '$',
-        2 => array(
-            1 => array($CONTEXT . '/hex', 'color: #2bf;', false)
+        '$',
+        array(
+            1 => array($CONTEXT . '/hex', false)
         )
     ),
-    2 => array(
-        0 => array(
+    array(
+        array(
             '/(?=\b)(st\([0-7]\))/im'
         ),
-        1 => '',
-        2 => array(
-            1 => array($CONTEXT . '/register', 'color: #00f;', false)
+        '',
+        array(
+            1 => array($CONTEXT . '/register', false)
         )
     ),
     3 => geshi_use_integers($CONTEXT)
 );
 
 $this->_objectSplitters = array(
-    0 => array(
-        0 => array('.'),
-        1 => $CONTEXT . '/oodynamic',
-        2 => 'color:#559;',
-        3 => false // If true, check that matched method isn't a keyword first
+    array(
+        array('.'),
+        $CONTEXT . '/oodynamic',
+        false
     )
 );
 

@@ -33,14 +33,13 @@
  */
 
 $this->_contextDelimiters = array(
-    0 => array(
-        0 => array('<!--'),
-        1 => array('-->'),
-        2 => false
+    array(
+        array('<!--'),
+        array('-->'),
+        false
     )
 );
 
-$this->_styler->setStyle($CONTEXT, 'color:#888;');
 $this->_contextStyleType = GESHI_STYLE_COMMENTS;
 
 ?>

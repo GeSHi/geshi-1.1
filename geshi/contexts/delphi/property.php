@@ -33,40 +33,36 @@
  */
 
 $this->_contextDelimiters = array(
-    0 => array(
-        0 => array('property'),
-        1 => array(';'),
-        2 => false
+    array(
+        array('property'),
+        array(';'),
+        false
     )
 );
 
 
 $this->_childContexts = array(
     new GeSHiContext('delphi', $DIALECT, 'preprocessor'),
-    new GeSHiContext('delphi', $DIALECT, 'common/single_comment'),
+    new GeSHiContext('delphi', $DIALECT, 'single_comment'),
     new GeSHiContext('delphi', $DIALECT, 'multi_comment'),
     new GeSHiCodeContext('delphi', $DIALECT, 'property_index', 'delphi/' . $DIALECT)
 );
 
-//$this->_styler->setStyle($CONTEXT, 'color:#000;');
-//$this->_styler->setStartStyle($CONTEXT, 'color:#f00;font-weight:bold;');
-//$this->_styler->setEndStyle($CONTEXT, 'color:#00f;');
-$this->_startName = 'keywords'; // highlight starter as if it was a keyword
+$this->_startName = 'keyword'; // highlight starter as if it was a keyword
 $this->_endName   = 'ctrlsym';  // highlight ender as if it was a ctrlsym
 
 $this->_contextKeywords = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             'read','write','index','stored','default','nodefault','implements',
             'dispid','readonly','writeonly'
         ),
-        1 => $CONTEXT . '/keywords',
-        2 => 'color:#f00; font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/keyword',
+        false,
+        ''
     ),
-    1 => array(
-        0 => array(
+    array(
+        array(
             'Boolean', 'ByteBool', 'LongBool', 'WordBool', 'Bool',
 
             'Byte',  'SmallInt',
@@ -86,71 +82,67 @@ $this->_contextKeywords = array(
 
             'THandle'
         ),
-        1 => $CONTEXT . '/keytypes',
-        2 => 'color:#000; font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/keytype',
+        false,
+        ''
     ),
-    2 => array(
-        0 => array(
+    array(
+        array(
             //@todo get keywords normal way
             'nil',
             'false', 'true'
         ),
-        1 => $CONTEXT . '/keyidents',
-        2 => 'color:#000; font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/keyident',
+        false,
+        ''
     )
 );
 
 $this->_contextSymbols  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             ':'
-            ),
-        1 => $CONTEXT . '/ctrlsym',
-        2 => 'color:#008000;'
-        )
+        ),
+        $CONTEXT . '/ctrlsym'
+     )
 );
 
 $this->_contextRegexps  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             '/(#[0-9]+)/'
         ),
-        1 => '#',
-        2 => array(
-            1 => array($CONTEXT . '/char', 'color:#db9;', false)
+        '#',
+        array(
+            1 => array($CONTEXT . '/char', false)
         )
     ),
-    1 => array(
-        0 => array(
+    array(
+        array(
             '/(#\$[0-9a-fA-F]+)/'
         ),
-        1 => '#',
-        2 => array(
-            1 => array($CONTEXT . '/charhex', 'color:#db9;', false)
+        '#',
+        array(
+            1 => array($CONTEXT . '/charhex', false)
         )
     ),
-    2 => array(
-        0 => array(
+    array(
+        array(
             '/(\$[0-9a-fA-F]+)/'
         ),
-        1 => '$',
-        2 => array(
+        '$',
+        array(
             1 => array($CONTEXT . '/hex', 'color: #2bf;', false)
         )
     ),
-    3 => geshi_use_integers($CONTEXT)
+    geshi_use_integers($CONTEXT)
 );
 
 $this->_objectSplitters = array(
-    0 => array(
-        0 => array('.'),
-        1 => $CONTEXT . '/oodynamic',
-        2 => 'color:#559;',
-        3 => false // If true, check that matched method isn't a keyword first
+    array(
+        array('.'),
+        $CONTEXT . '/oodynamic',
+        false
     )
 );
 

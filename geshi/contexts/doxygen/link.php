@@ -32,7 +32,6 @@
  * 
  */
 
-// Delimiters have no bearing on OCCs
 $this->_contextDelimiters = array(
     0 => array(
         0 => array('{@'),
@@ -40,7 +39,5 @@ $this->_contextDelimiters = array(
         2 => false
     )
 );
-
-$this->_styler->setStyle($CONTEXT, 'color:#0095ff;font-weight:bold;');
 
 ?>

@@ -32,15 +32,12 @@
  * 
  */
 
-// Delimiters have no bearing on OCCs
 $this->_contextDelimiters = array(
-    0 => array(
-        0 => array('@'),
-        1 => array('REGEX#[^a-z]#'),
-        2 => false
+    array(
+        array('@'),
+        array('REGEX#[^a-z]#'),
+        false
     )
 );
-
-$this->_styler->setStyle($CONTEXT, 'color:#ca60ca;font-weight:bold;');
 
 ?>

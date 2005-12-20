@@ -33,10 +33,10 @@
  */
 
 $this->_contextDelimiters = array(
-    0 => array(
-        0 => array('/**'),
-        1 => array('*/'),
-        2 => false
+    array(
+        array('/**'),
+        array('*/'),
+        false
     )
 );
 

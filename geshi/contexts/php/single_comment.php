@@ -40,7 +40,6 @@ $this->_contextDelimiters = array(
 	)
 );
 
-$this->_styler->setStyle($CONTEXT, 'color:#888;font-style:italic;');
 $this->_contextStyleType = GESHI_STYLE_COMMENTS;
 $this->_delimiterParseData = GESHI_CHILD_PARSE_LEFT;
 

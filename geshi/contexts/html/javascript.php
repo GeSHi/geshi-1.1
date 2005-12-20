@@ -33,10 +33,10 @@
  */
 
 $this->_contextDelimiters = array(
-    0 => array(
-        0 => array('REGEX#<script[^>]+>#i'),
-        1 => array('</script>'),
-        2 => false
+    array(
+        array('REGEX#<script[^>]+>#i'),
+        array('</script>'),
+        false
     )
 );
 

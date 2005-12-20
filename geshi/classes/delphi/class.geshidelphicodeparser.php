@@ -169,7 +169,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
         // a mistake with parsing.
         if (2 == $this->_defaultFlag) {
             if ('default' == $token_l) {
-                $context_name = $this->_language . '/keywords';
+                $context_name = $this->_language . '/keyword';
                 $this->_defaultFlag = 0;
             } elseif ('' != trim($token)) {
                 $this->_defaultFlag = 0;
@@ -246,15 +246,12 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
                     }
                 }
 
-                $context_name .= ($isDirective ? '/keywords' : '');
+                $context_name .= ($isDirective ? '/keyword' : '');
             } elseif ('message' == $token_l) {
                 if (1 == $this->_openBlockCount) {
                     $isDirective &= 'class' == $this->_openBlockType[$this->_openBlockCount-1];
                 }
-                $context_name .= ($isDirective ? '/keywords' : '');
-            } else {
-                //Simply ignore ... no changes have to be done ...
-                //return array($token, $context_name, $data);
+                $context_name .= ($isDirective ? '/keyword' : '');
             }
         }
         // There will be something else than a semicolon, so we finish semicolon detection here
@@ -276,7 +273,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
 
         // If we detected a keyword, instead of passing it back we will make sure it has a bracket
         // after it, so we know for sure that it is a keyword. So we save it to "_store" and return false
-        if (substr($context_name, 0, strlen($this->_language . '/stdprocs')) == $this->_language . '/stdprocs') {
+        if (substr($context_name, 0, strlen($this->_language . '/stdproc')) == $this->_language . '/stdproc') {
             $this->_stackPush($token, $context_name, $data);
             return false;
         }
