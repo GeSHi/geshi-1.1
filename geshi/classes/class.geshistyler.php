@@ -54,6 +54,11 @@ class GeSHiStyler
      */    
     var $fileExtension;
     
+    /**
+     * @var string
+     */
+    var $theme = 'default';
+    
     /**#@+
      * @access private
      */
@@ -61,6 +66,11 @@ class GeSHiStyler
      * @var array
      */
     var $_styleData = array();
+    
+    /**
+     * @var array
+     */
+    var $_wildcardStyleData = array();
     
     /**
      * @var array
@@ -91,9 +101,12 @@ class GeSHiStyler
      */
     function setStyle ($context_name, $style, $start_name = 'start', $end_name = 'end')
     {
-        // @todo [blocking 1.1.1] Why is this called sometimes with blank data?
         geshi_dbg('GeSHiStyler::setStyle(' . $context_name . ', ' . $style . ')', GESHI_DBG_PARSE);
-        $this->_styleData[$context_name] = $style;
+        if (substr($context_name, -1) != '*') {
+            $this->_styleData[$context_name] = $style;
+        } else {
+            $this->_wildcardStyleData[substr($context_name, 0, -2)] = $style;
+        }
     }
     
     // }}}
@@ -128,10 +141,32 @@ class GeSHiStyler
             $this->_styleData[$context_name] = $this->_styleData[substr($context_name, 0, -6)];
             return $this->_styleData[$context_name]; 
         }
-         
+        
+        // Check for a one-level wildcard match
+        $wildcard_idx = substr($context_name, 0, strrpos($context_name, '/'));
+        if (isset($this->_wildcardStyleData[$wildcard_idx])) {
+            $this->_styleData[$context_name] = $this->_wildcardStyleData[$wildcard_idx];
+            return $this->_wildcardStyleData[$wildcard_idx];
+        }
+        
+        // Maybe a deeper match?
+        foreach ($this->_wildcardStyleData as $context => $style) {
+            if (substr($context_name, 0, strlen($context)) == $context) {
+                $this->_styleData[$context_name] = $style;
+                return $style;
+            }
+        }
+        
         //@todo [blocking 1.1.5] Make the default style for otherwise unstyled elements configurable
         $this->_styleData[$context_name] = 'color:#000;';
         return 'color:#000;';
+    }
+    
+    // }}}
+    // {{{ loadStyles()
+    
+    function loadStyles ($language) {
+        require GESHI_THEMES_ROOT . $this->theme . GESHI_DIR_SEP . $language . $this->fileExtension;
     }
     
     // }}}
