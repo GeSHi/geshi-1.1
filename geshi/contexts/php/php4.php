@@ -38,15 +38,15 @@ require_once GESHI_CLASSES_ROOT . 'class.geshistringcontext.php';
 require_once GESHI_CLASSES_ROOT . 'php' . GESHI_DIR_SEPARATOR . 'class.geshiphpdoublestringcontext.php';
 
 $this->_contextDelimiters = array(
-	0 => array(
-		0 => array('<?php', '<?'),
-		1 => array('?>'),
-		2 => true
+	array(
+		array('<?php', '<?'),
+		array('?>'),
+		true
 	),
-	1 => array(
-		0 => array('<%'),
-		1 => array('%>'),
-		2 => false
+	array(
+		array('<%'),
+		array('%>'),
+		false
 	)
 );
 
