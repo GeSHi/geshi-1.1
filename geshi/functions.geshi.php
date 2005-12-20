@@ -177,19 +177,18 @@ function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = 
 function geshi_use_integers ($prefix)
 {
     return array(
-        0 => array(
+        array(
             '#([^a-zA-Z_0-9\.]|^)([-]?[0-9]+)(?=[^a-zA-Z_0-9]|$)#'
-            ),
-        1 => '',
-        2 => array(
+        ),
+        '',
+        array(
             1 => true, // catch banned stuff for highlighting by the code context that it is in
             2 => array(
-                0 => $prefix . '/' . GESHI_NUM_INT,
-                1 => 'color:#11e;',
-                2 => false
+                $prefix . '/' . GESHI_NUM_INT,
+                false
                 ),
             3 => true
-            )
+        )
     );
 }
 
@@ -207,7 +206,7 @@ function geshi_use_doubles ($prefix, $require_leading_number = false)
     $leading_number_symbol = ($require_leading_number) ? '+' : '*';
 
     return array(
-        0 => array(
+        array(
              // double precision with e, e.g. 3.5e7 or -.45e2
             "#(^|$banned)?({$plus_minus}[0-9]$leading_number_symbol\.[0-9]+[eE]{$plus_minus}[0-9]+)($banned|\$)?#",
             // double precision with e and no decimal place, e.g. 5e2
@@ -217,18 +216,16 @@ function geshi_use_doubles ($prefix, $require_leading_number = false)
             // but I'm happy that it's done where it can be. Maybe it might be worth looking at
             // later if there are any real problems, else I'll ignore it
             "#(^|$banned)?({$plus_minus}[0-9]$leading_number_symbol\.[0-9]+)($banned|\$)?#"
-            ),
-        1 => '.', //doubles must have a dot
-        2 => array(
+        ),
+        '.', //doubles must have a dot
+        array(
             1 => true, // as above, catch for normal stuff
             2 => array(
                 0 => $prefix . '/' . GESHI_NUM_DBL,
-                1 => 'color:#d3d;',
-                2 => false // Don't attempt to highlight numbers as code
-                ),
-            3 => true,
-            //4 => true
-            )
+                1 => false // Don't attempt to highlight numbers as code
+            ),
+            true
+        )
     );
 }
 
