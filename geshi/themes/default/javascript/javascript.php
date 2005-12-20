@@ -53,5 +53,7 @@ $this->setStyle('javascript/javascript/symbol', 'color:#008000;');
 
 $this->setStyle('javascript/javascript/oodynamic', 'color:#559;');
 
+$this->setStyle('javascript/javascript/num/int', 'color:#11e;');
+$this->setStyle('javascript/javascript/num/dbl', 'color:#c6c;');
 
 ?>
