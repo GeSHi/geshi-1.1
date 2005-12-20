@@ -499,7 +499,22 @@ class GeSHi
     }
     
     // }}}
+    // {{{ setTheme()
+    
+    /**
+     * Sets the theme to use
+     * 
+     * @param string The theme name
+     * @todo [blocking 1.1.5] Error checking
+     */
+    function setTheme ($theme)
+    {
+        $this->styler->theme = $theme;
+    }
+    
+    // }}}
     // {{{ getVersion()
+    
     /**
      * Returns the version of this GeSHi
      * 
@@ -638,7 +653,7 @@ class GeSHi
         }
 
         // Check that the language file for this language exists
-        $language_file = $this->_getLanguageDataFile();
+        $language_file = GESHI_LANGUAGES_ROOT . $this->_getLanguageDataFile();
         geshi_dbg('  Language file to use: ' . $language_file, GESHI_DBG_API);
         
         if (!geshi_can_include($language_file)) {
@@ -701,20 +716,14 @@ class GeSHi
         // Load all the data needed for parsing this language
         $language_file = $this->_getLanguageDataFile();
         geshi_dbg('  Loading language data from ' . $language_file, GESHI_DBG_API);
-        require $language_file;
+        require GESHI_LANGUAGES_ROOT . $language_file;
+        $this->_styler->loadStyles($this->_language);
 
         if ($error_data = $this->_rootContext->load($this->_styler)) {
             geshi_dbg('@e  Could not load the context data tree: code(' . $error_data['code'] . ') in context '
                 . $error_data['name'], GESHI_DBG_API | GESHI_DBG_ERR);
             $this->_error = $error_data['code'];
         }
-        
-        // Inform the context tree that all contexts have been loaded, so it is OK to search through
-        // the tree for default styles as needed.        
-        $this->_rootContext->loadStyleData(); 
-        
-        // Save a copy of the root context if we are caching 
-        //$this->_cachedRootContext = ($this->_cacheRootContext) ? $this->_rootContext : null;
         
         geshi_dbg('Finished preprocessing', GESHI_DBG_API);       
     }
@@ -776,14 +785,14 @@ class GeSHi
     function _getLanguageDataFile ()
     {
         geshi_dbg('GeSHi::_getLanguageDataFile()', GESHI_DBG_API);
-        if ('/' == GESHI_DIR_SEPARATOR) {
+        if ('/' == GESHI_DIR_SEP) {
             $language_file = $this->_language . $this->_styler->fileExtension;
         } else {
             $language_file = explode('/', $this->_language);
-            $language_file = implode(GESHI_DIR_SEPARATOR, $language_file) . $this->_styler->fileExtension;
+            $language_file = implode(GESHI_DIR_SEP, $language_file) . $this->_styler->fileExtension;
         }
         geshi_dbg('Language file is ' . $language_file, GESHI_DBG_API);
-        return GESHI_LANGUAGES_ROOT . $language_file;
+        return $language_file;
     }
     
     // }}}
