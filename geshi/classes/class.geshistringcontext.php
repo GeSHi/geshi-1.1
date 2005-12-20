@@ -166,6 +166,7 @@ class GeSHiStringContext extends GeSHiContext
     {
         // Feature: If 'DELIM' is one of the "characters" in the _charsToEscape array, then it is
         // replaced by the context opener
+        // @todo [blocking 1.1.5] remove DELIM support
         $chars_to_escape = str_replace('DELIM', $this->_lastOpener, $this->_charsToEscape);
 
         geshi_dbg('Checking: ' . substr($code, 0, 15), GESHI_DBG_PARSE);
