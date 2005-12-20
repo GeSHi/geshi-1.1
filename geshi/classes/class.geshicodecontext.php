@@ -142,49 +142,19 @@ class GeSHiCodeContext extends GeSHiContext
             }
             
             $this->_contextRegexps[] = array(
-                0 => array(
+                array(
                     "#(" . substr($splitter_match, 0, -1) . ")(\s*)([a-zA-Z\*\(_][a-zA-Z0-9_\*]*)#"
                 ),
-                1 => '', // char to check for
-                2 => array(
+                '', // char to check for
+                array(
                     1 => true,
                     2 => true, // highlight splitter
-                    3 => array($data[1], $data[2], $data[3]) // $data[3] says whether to give code a go at the match first
+                    3 => array($data[1], $data[2]) // $data[2] says whether to give code a go at the match first
                 )
             );
         }
     }
     
-    /**
-     * Overrides GeSHiContext::loadStyleData to load style data
-     */
-     function loadStyleData ()
-     {
-        // @todo [blocking 1.1.1] Skip if already loaded???
-        // Set styles for keywords
-        //geshi_dbg('Loading style data for context ' . $this->getName(), GESHI_DBG_PARSE);
-        // @todo [blocking 1.1.1] Style data for infectious context loaded many times, could be reduced to one?
-        //@todo [blocking 1.1.1] array_keys loop construct if possible
-        foreach ($this->_contextKeywords as $keyword_group_array) {
-            geshi_dbg($keyword_group_array[1] . ' ' . $keyword_group_array[2], GESHI_DBG_PARSE);
-            $this->_styler->setStyle($keyword_group_array[1], $keyword_group_array[2]);
-        }
-         
-        // Set styles for regex groups
-        foreach ($this->_contextRegexps as $data) {
-            foreach ($data[2] as $group) {
-               $this->_styler->setStyle($group[0], $group[1]);
-            }
-        }
-        
-        // Set styles for symbols
-        foreach ($this->_contextSymbols as $data) {
-            $this->_styler->setStyle($data[1], $data[2]);
-        }
-        
-        parent::loadStyleData();
-     }
-
     /**
      * Overrides {@link GeSHiContext::_addParseData()} to highlight a code context, including
      * keywords, symbols and regular expression matches
@@ -251,8 +221,8 @@ class GeSHiCodeContext extends GeSHiContext
                     // If there is a name for this bracket group ($key) in this regex group ($data[1])...
                     if (isset($this->_contextRegexps[$data[1]][2][$key]) && is_array($this->_contextRegexps[$data[1]][2][$key])) {
                         // If we should be attempting to have a go at code highlighting first... 
-                        if (/*isset($this->_contextRegexps[$data[1]][2][$key][2]) && */
-                            true === $this->_contextRegexps[$data[1]][2][$key][2]) {
+                        if (/*isset($this->_contextRegexps[$data[1]][2][$key][1]) && */
+                            true === $this->_contextRegexps[$data[1]][2][$key][1]) {
                             // Highlight the match, and put the code into the result
                             $highlighted_matches = $this->_codeContextHighlight($match);
                             foreach ($highlighted_matches as $stuff) {
@@ -264,7 +234,7 @@ class GeSHiCodeContext extends GeSHiContext
                             }
                         } else {
                             $regex_replacements[$data[0]][] = array($match,
-                                $this->_contextRegexps[$data[1]][2][$key][0]); //name in [0], s in [1]
+                                $this->_contextRegexps[$data[1]][2][$key][0]); //name in [0]
                         }
                     // Else, perhaps it is simply set. If so, we highlight it as if it were
                     // part of the code context 
@@ -382,7 +352,7 @@ class GeSHiCodeContext extends GeSHiContext
                     }
                     geshi_dbg('    Checking code for ' . $keyword_array[0], GESHI_DBG_PARSE);
                     // If case sensitive
-                    if ($this->_contextKeywords[$keyword_array[1]][3]) {
+                    if ($this->_contextKeywords[$keyword_array[1]][2]) {
                         $next_part_is_keyword = ($keyword_array[0] == substr($code, $i, strlen($keyword_array[0])));
                     } else {
                         $next_part_is_keyword = (strtolower($keyword_array[0]) == strtolower(substr($code, $i, strlen($keyword_array[0]))));
@@ -545,13 +515,13 @@ class GeSHiCodeContext extends GeSHiContext
      */
     function _getURL ($keyword, $earliest_keyword_group)
     {
-        if ($this->_contextKeywords[$earliest_keyword_group][4] != '') {
+        if ($this->_contextKeywords[$earliest_keyword_group][3] != '') {
             // Remove function_exists() call? Valid language files will define functions required...
-            if (substr($this->_contextKeywords[$earliest_keyword_group][4], -2) == '()' &&
-                function_exists(substr($this->_contextKeywords[$earliest_keyword_group][4], 0, -2))) {
-                $href = call_user_func(substr($this->_contextKeywords[$earliest_keyword_group][4], 0, -2), $keyword);
+            if (substr($this->_contextKeywords[$earliest_keyword_group][3], -2) == '()' &&
+                function_exists(substr($this->_contextKeywords[$earliest_keyword_group][3], 0, -2))) {
+                $href = call_user_func(substr($this->_contextKeywords[$earliest_keyword_group][3], 0, -2), $keyword);
             } else {
-                $href = str_replace('{FNAME}', $keyword, $this->_contextKeywords[$earliest_keyword_group][4]);
+                $href = str_replace('{FNAME}', $keyword, $this->_contextKeywords[$earliest_keyword_group][3]);
             }
             return $href;
         }
