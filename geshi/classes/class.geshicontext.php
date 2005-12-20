@@ -292,8 +292,6 @@ class GeSHiContext
         
         // Load the data for this context
         $CONTEXT = $this->_contextName;
-        $CONTEXT_START = "$this->_contextName/$this->_startName";
-        $CONTEXT_END   = "$this->_contextName/$this->_endName";
         $DIALECT = $this->_dialectName;
         // @todo [blocking 1.1.5] This needs testing to see if it is faster
         if (false) {
@@ -357,30 +355,6 @@ class GeSHiContext
         $this->_infectiousContext =& $context;
         //geshi_dbg('  Added infectious context ' . $context->getName()
         //    . ' to ' . $this->getName(), GESHI_DBG_NOTICE + GESHI_DBG_LOADING);
-    }
-    
-    // }}}
-    // {{{ loadStyleData()
-    
-    /**
-     * Loads style data for the given context. Not implemented here, but can be overridden
-     * by a child class to get style data from its parent
-     * 
-     * Note to self: This is needed by GeSHiCodeContext, so don't touch it!
-     */
-    function loadStyleData ()
-    {
-        //geshi_dbg('Loading style data for context ' . $this->getName(), GESHI_DBG_INFO + GESHI_DBG_LOADING);
-        // Recursively load the child contexts
-        $keys = array_keys($this->_childContexts);
-        foreach ($keys as $key) {
-            $this->_childContexts[$key]->loadStyleData();
-        }
-        
-        // Load the style data for the overriding child context, if any
-        if ($this->_overridingChildContext) {
-            $this->_overridingChildContext->loadStyleData();
-        }        
     }
     
     // }}}
