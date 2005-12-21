@@ -35,17 +35,17 @@
 /*
  * HTML styles for default theme
  */
-$this->setStyle('html/html/entity', 'color:#00c;');
-$this->setStyle('html/html/comment', 'color:#888;');
-$this->setStyle('html/html/doctype', 'font-weight:bold;color:#933;');
-$this->setStyle('html/html/string', 'color:#933;');
+$this->setStyle('entity', 'color:#00c;');
+$this->setStyle('comment', 'color:#888;');
+$this->setStyle('doctype', 'font-weight:bold;color:#933;');
+$this->setStyle('string', 'color:#933;');
 
-$this->setStyle('html/html/tag', 'color:#008000;');
-$this->setStyle('html/html/tag/start', 'font-weight:bold;color:#000;');
-$this->setStyle('html/html/tag/end', 'font-weight:bold;color:#000;');
+$this->setStyle('tag', 'color:#008000;');
+$this->setStyle('tag/start', 'font-weight:bold;color:#000;');
+$this->setStyle('tag/end', 'font-weight:bold;color:#000;');
 
-$this->setStyle('html/html/tag/attribute', 'color:#006;');
-$this->setStyle('html/html/tag/symbol', 'color:#008000;');
+$this->setStyle('tag/attribute', 'color:#006;');
+$this->setStyle('tag/symbol', 'color:#008000;');
 
 $this->loadStyles('css/css');
 $this->loadStyles('javascript/javascript');

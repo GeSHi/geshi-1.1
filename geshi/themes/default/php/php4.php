@@ -35,42 +35,42 @@
 /*
  * PHP4 styles for default theme
  */
-$this->setStyle('php/php4/start', 'font-weight:bold;color:#000;');
-$this->setStyle('php/php4/end', 'font-weight:bold;color:#000;');
+$this->setStyle('start', 'font-weight:bold;color:#000;');
+$this->setStyle('end', 'font-weight:bold;color:#000;');
 
-$this->setStyle('php/php4/cstructure', 'color:#a1a100;');
-$this->setStyle('php/php4/keyword', 'font-weight:bold;color:#000;');
-$this->setStyle('php/php4/function', 'color:#006;');
+$this->setStyle('cstructure', 'color:#a1a100;');
+$this->setStyle('keyword', 'font-weight:bold;color:#000;');
+$this->setStyle('function', 'color:#006;');
 
-$this->setStyle('php/php4/symbol', 'color:#008000;');
-$this->setStyle('php/php4/var', 'color:#33f;');
+$this->setStyle('symbol', 'color:#008000;');
+$this->setStyle('var', 'color:#33f;');
 
-$this->setStyle('php/php4/num/int', 'color:#11e;');
-$this->setStyle('php/php4/num/dbl', 'color:#fdf;');
+$this->setStyle('num/int', 'color:#11e;');
+$this->setStyle('num/dbl', 'color:#fdf;');
 
-$this->setStyle('php/php4/oodynamic', 'color:#933;');
-$this->setStyle('php/php4/oostatic', 'color:#933;font-weight:bold;');
+$this->setStyle('oodynamic', 'color:#933;');
+$this->setStyle('oostatic', 'color:#933;font-weight:bold;');
 
-$this->setStyle('php/php4/single_string', 'color:#f00;');
-$this->setStyle('php/php4/single_string/esc', 'color:#006;font-weight:bold;');
-$this->setStyle('php/php4/double_string', 'color:#f00;');
-$this->setStyle('php/php4/double_string/esc', 'color:#006;font-weight:bold;');
+$this->setStyle('single_string', 'color:#f00;');
+$this->setStyle('single_string/esc', 'color:#006;font-weight:bold;');
+$this->setStyle('double_string', 'color:#f00;');
+$this->setStyle('double_string/esc', 'color:#006;font-weight:bold;');
 
-$this->setStyle('php/php4/double_string/var', 'color:#22f;');
-$this->setStyle('php/php4/double_string/symbol', 'color:#008000;');
-$this->setStyle('php/php4/double_string/oodynamic', 'color:#933;');
+$this->setStyle('double_string/var', 'color:#22f;');
+$this->setStyle('double_string/symbol', 'color:#008000;');
+$this->setStyle('double_string/oodynamic', 'color:#933;');
 
-$this->setStyle('php/php4/heredoc', 'color:#f00;');
-$this->setStyle('php/php4/heredoc/start', 'color:#006;font-weight:bold;');
-$this->setStyle('php/php4/heredoc/end', 'color:#006;font-weight:bold;');
-$this->setStyle('php/php4/heredoc/var', 'color:#22f;');
-$this->setStyle('php/php4/heredoc/symbol', 'color:#008000;');
-$this->setStyle('php/php4/heredoc/oodynamic', 'color:#933;');
+$this->setStyle('heredoc', 'color:#f00;');
+$this->setStyle('heredoc/start', 'color:#006;font-weight:bold;');
+$this->setStyle('heredoc/end', 'color:#006;font-weight:bold;');
+$this->setStyle('heredoc/var', 'color:#22f;');
+$this->setStyle('heredoc/symbol', 'color:#008000;');
+$this->setStyle('heredoc/oodynamic', 'color:#933;');
 
-$this->setStyle('php/php4/single_comment', 'color:#888;font-style:italic;');
-$this->setStyle('php/php4/multi_comment', 'color:#888;font-style:italic;');
+$this->setStyle('single_comment', 'color:#888;font-style:italic;');
+$this->setStyle('multi_comment', 'color:#888;font-style:italic;');
 
-$this->setStyle('php/php4/classname', 'color:#933;');
+$this->setStyle('classname', 'color:#933;');
 
 $this->loadStyles('html/html');
 $this->loadStyles('doxygen/doxygen');

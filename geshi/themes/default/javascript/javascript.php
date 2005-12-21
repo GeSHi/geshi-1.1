@@ -35,25 +35,25 @@
 /*
  * Javascript styles for default theme
  */
-$this->setStyle('javascript/javascript/multi_comment', 'color:#888;font-style:italic;');
-$this->setStyle('javascript/javascript/single_comment', 'color:#888;font-style:italic;');
+$this->setStyle('multi_comment', 'color:#888;font-style:italic;');
+$this->setStyle('single_comment', 'color:#888;font-style:italic;');
 
-$this->setStyle('javascript/javascript/single_string', 'color:#f00;');
-$this->setStyle('javascript/javascript/single_string/esc', 'color:#006;font-weight:bold;');
-$this->setStyle('javascript/javascript/double_string', 'color:#f00;');
-$this->setStyle('javascript/javascript/double_string/esc', 'color:#006;font-weight:bold;');
+$this->setStyle('single_string', 'color:#f00;');
+$this->setStyle('single_string/esc', 'color:#006;font-weight:bold;');
+$this->setStyle('double_string', 'color:#f00;');
+$this->setStyle('double_string/esc', 'color:#006;font-weight:bold;');
 
-$this->setStyle('javascript/javascript/keyword', 'color:#000;font-weight:bold;');
-$this->setStyle('javascript/javascript/function', 'color:#006;');
-$this->setStyle('javascript/javascript/object', 'color:#393;font-weight:bold;');
-$this->setStyle('javascript/javascript/math', 'color:#fd0;');
-$this->setStyle('javascript/javascript/event', 'color:#fdb;');
-$this->setStyle('javascript/javascript/method', 'color:#933;');
-$this->setStyle('javascript/javascript/symbol', 'color:#008000;');
+$this->setStyle('keyword', 'color:#000;font-weight:bold;');
+$this->setStyle('function', 'color:#006;');
+$this->setStyle('object', 'color:#393;font-weight:bold;');
+$this->setStyle('math', 'color:#fd0;');
+$this->setStyle('event', 'color:#fdb;');
+$this->setStyle('method', 'color:#933;');
+$this->setStyle('symbol', 'color:#008000;');
 
-$this->setStyle('javascript/javascript/oodynamic', 'color:#559;');
+$this->setStyle('oodynamic', 'color:#559;');
 
-$this->setStyle('javascript/javascript/num/int', 'color:#11e;');
-$this->setStyle('javascript/javascript/num/dbl', 'color:#c6c;');
+$this->setStyle('num/int', 'color:#11e;');
+$this->setStyle('num/dbl', 'color:#c6c;');
 
 ?>

@@ -35,10 +35,10 @@
 /*
  * Doxygen styles for default theme
  */
-$this->setStyle('doxygen/doxygen', 'color:#555;font-style:italic;');
+$this->setStyle('', 'color:#555;font-style:italic;');
  
-$this->setStyle('doxygen/doxygen/tag', 'color:#ca60ca;font-weight:bold;');
-$this->setStyle('doxygen/doxygen/link', 'color:#0095ff;font-weight:bold;');
-$this->setStyle('doxygen/doxygen/htmltag', 'color:#000;font-weight:bold;');
+$this->setStyle('tag', 'color:#ca60ca;font-weight:bold;');
+$this->setStyle('link', 'color:#0095ff;font-weight:bold;');
+$this->setStyle('htmltag', 'color:#000;font-weight:bold;');
 
 ?>

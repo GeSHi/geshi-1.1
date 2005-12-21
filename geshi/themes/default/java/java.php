@@ -35,23 +35,24 @@
 /*
  * Java styles for default theme
  */
-$this->setStyle('java/java/single_string', 'color:#d02;');
-$this->setStyle('java/java/single_string/esc', 'color:#006;font-weight:bold;');
-$this->setStyle('java/java/double_string', 'color:#f00;');
-$this->setStyle('java/java/double_string/esc', 'color:#006;font-weight:bold;');
+$this->setStyle('single_string', 'color:#d02;');
+$this->setStyle('single_string/esc', 'color:#006;font-weight:bold;');
+$this->setStyle('double_string', 'color:#f00;');
+$this->setStyle('double_string/esc', 'color:#006;font-weight:bold;');
 
-$this->setStyle('java/java/single_comment', 'color:#888;font-style:italic;');
-$this->setStyle('java/java/multi_comment', 'color:#888;font-style:italic;');
+$this->setStyle('single_comment', 'color:#888;font-style:italic;');
+$this->setStyle('multi_comment', 'color:#888;font-style:italic;');
 
-$this->setStyle('java/java/keyword', 'color:#a6a600;');
-$this->setStyle('java/java/java/*', 'color:#9bd;font-weight:bold;');
-$this->setStyle('java/java/const', 'color:#000;font-weight:bold;');
-$this->setStyle('java/java/dtype', 'color:#933;');
+$this->setStyle('keyword', 'color:#a6a600;');
+$this->setStyle('java/*', 'color:#9bd;font-weight:bold;');
+$this->setStyle('const', 'color:#000;font-weight:bold;');
+$this->setStyle('dtype', 'color:#933;');
 
-$this->setStyle('java/java/symbol', 'color:#008000;');
-$this->setStyle('java/java/ootoken', 'color:#933;');
-$this->setStyle('java/java/num/int', 'color:#11e;');
-$this->setStyle('java/java/num/dbl', 'color:#c6c;');
+$this->setStyle('symbol', 'color:#008000;');
+$this->setStyle('ootoken', 'color:#933;');
+$this->setStyle('num/int', 'color:#11e;');
+$this->setStyle('num/dbl', 'color:#c6c;');
 
 $this->loadStyles('doxygen/doxygen');
+
 ?>

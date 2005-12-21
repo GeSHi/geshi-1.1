@@ -35,56 +35,56 @@
 /*
  * Delphi styles for default theme
  */
-$this->setStyle('delphi/delphi/multi_comment', 'color:#888;font-style:italic;');
-$this->setStyle('delphi/delphi/single_comment', 'color:#888;font-style:italic;');
-$this->setStyle('delphi/delphi/single_string', 'color:#f00;');
-$this->setStyle('delphi/delphi/single_string/esc', 'color:#006;font-weight:bold;');
+$this->setStyle('multi_comment', 'color:#888;font-style:italic;');
+$this->setStyle('single_comment', 'color:#888;font-style:italic;');
+$this->setStyle('single_string', 'color:#f00;');
+$this->setStyle('single_string/esc', 'color:#006;font-weight:bold;');
 
-$this->setStyle('delphi/delphi/preprocessor', 'color:#080;font-style:italic;');
+$this->setStyle('preprocessor', 'color:#080;font-style:italic;');
 
-$this->setStyle('delphi/delphi/asm', 'color:#000;');
-$this->setStyle('delphi/delphi/asm/start', 'color:#f00;font-weight:bold;');
-$this->setStyle('delphi/delphi/asm/end', 'color:#f00;font-weight:bold;');
-$this->setStyle('delphi/delphi/asm/keyword', 'color:#00f;font-weight:bold;');
-$this->setStyle('delphi/delphi/asm/keyop', 'color:#f00;font-weight:bold;');
-$this->setStyle('delphi/delphi/asm/control', 'color:#00f;font-weight: bold;');
-$this->setStyle('delphi/delphi/asm/register', 'color:#00f;');
-$this->setStyle('delphi/delphi/asm/instr/i386', 'color:#00f;font-weight:bold;');
-$this->setStyle('delphi/delphi/asm/instr/i387', 'color:#00f;font-weight:bold;');
-$this->setStyle('delphi/delphi/asm/instr/mmx', 'color:#00f;font-weight:bold;');
-$this->setStyle('delphi/delphi/asm/instr/sse', 'color:#00f;font-weight:bold;');
-$this->setStyle('delphi/delphi/asm/instr/3Dnow', 'color:#00f;font-weight:bold;');
-$this->setStyle('delphi/delphi/asm/instr/3Dnow2', 'color:#00f;font-weight:bold;');
+$this->setStyle('asm', 'color:#000;');
+$this->setStyle('asm/start', 'color:#f00;font-weight:bold;');
+$this->setStyle('asm/end', 'color:#f00;font-weight:bold;');
+$this->setStyle('asm/keyword', 'color:#00f;font-weight:bold;');
+$this->setStyle('asm/keyop', 'color:#f00;font-weight:bold;');
+$this->setStyle('asm/control', 'color:#00f;font-weight: bold;');
+$this->setStyle('asm/register', 'color:#00f;');
+$this->setStyle('asm/instr/i386', 'color:#00f;font-weight:bold;');
+$this->setStyle('asm/instr/i387', 'color:#00f;font-weight:bold;');
+$this->setStyle('asm/instr/mmx', 'color:#00f;font-weight:bold;');
+$this->setStyle('asm/instr/sse', 'color:#00f;font-weight:bold;');
+$this->setStyle('asm/instr/3Dnow', 'color:#00f;font-weight:bold;');
+$this->setStyle('asm/instr/3Dnow2', 'color:#00f;font-weight:bold;');
 
-$this->setStyle('delphi/delphi/asm/symbol', 'color:#008000;');
-$this->setStyle('delphi/delphi/asm/label', 'color:#933;');
-$this->setStyle('delphi/delphi/asm/hex', 'color: #2bf;');
+$this->setStyle('asm/symbol', 'color:#008000;');
+$this->setStyle('asm/label', 'color:#933;');
+$this->setStyle('asm/hex', 'color: #2bf;');
 
-$this->setStyle('delphi/delphi/asm/oodynamic', 'color:#559;');
+$this->setStyle('asm/oodynamic', 'color:#559;');
 
-$this->setStyle('delphi/delphi/keyword', 'color:#f00;font-weight:bold;');
-$this->setStyle('delphi/delphi/keytype', 'color:#000;font-weight:bold;');
-$this->setStyle('delphi/delphi/keyident', 'color:#000;font-weight:bold;');
+$this->setStyle('keyword', 'color:#f00;font-weight:bold;');
+$this->setStyle('keytype', 'color:#000;font-weight:bold;');
+$this->setStyle('keyident', 'color:#000;font-weight:bold;');
 
-$this->setStyle('delphi/delphi/symbol', 'color:#008000;');
-$this->setStyle('delphi/delphi/ctrlsym', 'color:#008000;');
-$this->setStyle('delphi/delphi/oopsym', 'color:#008000;');
-$this->setStyle('delphi/delphi/brksym', 'color:#008000;');
-$this->setStyle('delphi/delphi/mathsym', 'color:#008000;');
-$this->setStyle('delphi/delphi/cmpsym', 'color:#008000;');
+$this->setStyle('symbol', 'color:#008000;');
+$this->setStyle('ctrlsym', 'color:#008000;');
+$this->setStyle('oopsym', 'color:#008000;');
+$this->setStyle('brksym', 'color:#008000;');
+$this->setStyle('mathsym', 'color:#008000;');
+$this->setStyle('cmpsym', 'color:#008000;');
 
-$this->setStyle('delphi/delphi/char', 'color:#db9;');
-$this->setStyle('delphi/delphi/charhex', 'color:#db9;');
-$this->setStyle('delphi/delphi/hex', 'color: #2bf;');
+$this->setStyle('char', 'color:#db9;');
+$this->setStyle('charhex', 'color:#db9;');
+$this->setStyle('hex', 'color: #2bf;');
 
-$this->setStyle('delphi/delphi/oodynamic', 'color:#559;');
+$this->setStyle('oodynamic', 'color:#559;');
 
-$this->setStyle('delphi/delphi/stdprocs/system', 'color:#444;');
-$this->setStyle('delphi/delphi/stdprocs/sysutil', 'color:#444;');
-$this->setStyle('delphi/delphi/stdprocs/class', 'color:#444;');
-$this->setStyle('delphi/delphi/stdprocs/math', 'color:#444;');
+$this->setStyle('stdprocs/system', 'color:#444;');
+$this->setStyle('stdprocs/sysutil', 'color:#444;');
+$this->setStyle('stdprocs/class', 'color:#444;');
+$this->setStyle('stdprocs/math', 'color:#444;');
 
-$this->setStyle('delphi/delphi/num/int', 'color:#11e;');
-$this->setStyle('delphi/delphi/num/dbl', 'color:#c6c;');
+$this->setStyle('num/int', 'color:#11e;');
+$this->setStyle('num/dbl', 'color:#c6c;');
 
 ?>

@@ -35,16 +35,16 @@
 /*
  * VHDL styles for default theme
  */
-$this->setStyle('vhdl/vhdl/single_string', 'color:#f00;');
-$this->setStyle('vhdl/vhdl/single_string/esc', 'color:#006;font-weight:bold;');
-$this->setStyle('vhdl/vhdl/double_string', 'color:#f00;');
-$this->setStyle('vhdl/vhdl/double_string/esc', 'color:#006;font-weight:bold;');
+$this->setStyle('single_string', 'color:#f00;');
+$this->setStyle('single_string/esc', 'color:#006;font-weight:bold;');
+$this->setStyle('double_string', 'color:#f00;');
+$this->setStyle('double_string/esc', 'color:#006;font-weight:bold;');
 
-$this->setStyle('vhdl/vhdl/comment', 'color:#888;font-style:italic;');
+$this->setStyle('comment', 'color:#888;font-style:italic;');
 
-$this->setStyle('vhdl/vhdl/keyword', 'color:#b1b100;');
-$this->setStyle('vhdl/vhdl/symbol', 'color:#008000;');
+$this->setStyle('keyword', 'color:#b1b100;');
+$this->setStyle('symbol', 'color:#008000;');
 
-$this->setStyle('vhdl/vhdl/num/int', 'color:#11e;');
+$this->setStyle('num/int', 'color:#11e;');
 
 ?>

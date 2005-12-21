@@ -35,35 +35,35 @@
 /*
  * CSS styles for default theme
  */
-$this->setStyle('css/css/string', 'color:#f00;');
-$this->setStyle('css/css/string/esc', 'color:#006;font-weight:bold;');
+$this->setStyle('string', 'color:#f00;');
+$this->setStyle('string/esc', 'color:#006;font-weight:bold;');
 
-$this->setStyle('css/css/comment', 'color:#888;font-style:italic;');
+$this->setStyle('comment', 'color:#888;font-style:italic;');
 
-$this->setStyle('css/css/psuedoclass', 'color:#33f;');
-$this->setStyle('css/css/symbol', 'color:#008000;');
-$this->setStyle('css/css/class', 'color:#c9c;');
-$this->setStyle('css/css/id', 'color:#c9c;font-weight:bold;');
+$this->setStyle('psuedoclass', 'color:#33f;');
+$this->setStyle('symbol', 'color:#008000;');
+$this->setStyle('class', 'color:#c9c;');
+$this->setStyle('id', 'color:#c9c;font-weight:bold;');
 
-$this->setStyle('css/css/rule/start', 'font-weight:bold;color:#000;');
-$this->setStyle('css/css/rule/end', 'font-weight:bold;color:#000;');
-$this->setStyle('css/css/rule/attribute', 'font-weight:bold;color:#000;');
-$this->setStyle('css/css/rule/paren', 'color:#933;');
-$this->setStyle('css/css/rule/color', 'color:#933;');
-$this->setStyle('css/css/rule/type', 'color:#933;');
-$this->setStyle('css/css/rule/symbol', 'color:#008000;');
-$this->setStyle('css/css/rule/value', 'color:#933;');
+$this->setStyle('rule/start', 'font-weight:bold;color:#000;');
+$this->setStyle('rule/end', 'font-weight:bold;color:#000;');
+$this->setStyle('rule/attribute', 'font-weight:bold;color:#000;');
+$this->setStyle('rule/paren', 'color:#933;');
+$this->setStyle('rule/color', 'color:#933;');
+$this->setStyle('rule/type', 'color:#933;');
+$this->setStyle('rule/symbol', 'color:#008000;');
+$this->setStyle('rule/value', 'color:#933;');
 
-$this->setStyle('css/css/attribute_selector', 'color:#008000;');
+$this->setStyle('attribute_selector', 'color:#008000;');
 
-$this->setStyle('css/css/at_rule/start', 'color:#c9c;font-weight:bold;');
-$this->setStyle('css/css/at_rule/end', 'color:#008000;');
-$this->setStyle('css/css/at_rule/paren', 'color:#933;');
-$this->setStyle('css/css/at_rule/symbol', 'color:#008000;');
+$this->setStyle('at_rule/start', 'color:#c9c;font-weight:bold;');
+$this->setStyle('at_rule/end', 'color:#008000;');
+$this->setStyle('at_rule/paren', 'color:#933;');
+$this->setStyle('at_rule/symbol', 'color:#008000;');
 
-$this->setStyle('css/css/inline_media', 'color:#b1b100;');
-$this->setStyle('css/css/inline_media/starter', 'color:#c9c;font-weight:bold;');
-$this->setStyle('css/css/inline_media/start', 'color:#000;font-weight:bold;');
-$this->setStyle('css/css/inline_media/end', 'color:#000;font-weight:bold;');
+$this->setStyle('inline_media', 'color:#b1b100;');
+$this->setStyle('inline_media/starter', 'color:#c9c;font-weight:bold;');
+$this->setStyle('inline_media/start', 'color:#000;font-weight:bold;');
+$this->setStyle('inline_media/end', 'color:#000;font-weight:bold;');
 
 ?>
