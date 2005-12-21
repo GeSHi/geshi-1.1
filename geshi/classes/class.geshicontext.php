@@ -189,13 +189,9 @@ class GeSHiContext
             $this->_fileName = $this->_contextName = $language_name . '/' . $dialect_name;
             return;
         }
-        if (0 === strpos($context_name, 'common')) {
-            $this->_fileName = $context_name;
-            // Strip "common/" from context name to get the actual name...
-            $context_name = substr($context_name, 7);
-        } else {
-            $this->_fileName = $language_name . '/' . $context_name;
-        }
+        
+        $this->_fileName = $language_name . '/' . $context_name;
+
         if ($alias_name) {
             $this->_contextName = $alias_name;
             $this->_isAlias     = true;
