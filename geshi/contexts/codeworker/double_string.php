@@ -1,10 +1,10 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- *
+ * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- *
+ * 
  *  This file is part of GeSHi.
  *
  *  GeSHi is free software; you can redistribute it and/or modify
@@ -29,31 +29,20 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
- *
+ * 
  */
 
 $this->_contextDelimiters = array(
-    array(
-        array('REGEX#generate\s*\(\s*\{#'),
-        array('}'),
-        false,
-        array('{', '}')   // number 3 is balancing.
-        // an array opener=>closer
-        // what about cases where you have multiple entries for opener/closer??? (just specify as limitation)
-    ),
-    array(
-        array('REGEX#generateString\s*\(\s*\{#'),
-        array('}'),
-        false
-    ),
-    array(
-        array('REGEX#expand\s*\(\s*\{#'),
-        array('}'),
-        false
-    )
+	array(
+		array('"'),
+		array('"'),
+		false
+	)
 );
 
-$this->_delimiterParseData = GESHI_CHILD_PARSE_NONE;
-$this->_overridingChildContext =& new GeSHiCodeContext('codeworker', 'cwt');
+$this->_contextStyleType = GESHI_STYLE_STRINGS;
+
+$this->_escapeCharacters = array('\\');
+$this->_charsToEscape = array('n', 'r', 't', '\\', '"');
 
 ?>

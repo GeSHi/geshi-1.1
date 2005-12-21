@@ -36,29 +36,26 @@
 require_once GESHI_CLASSES_ROOT . 'class.geshistringcontext.php';
 
 $this->_childContexts = array(
-    new GeSHiContext('codeworker',  $DIALECT, 'common/multi_comment'),
-    new GeSHiContext('codeworker', $DIALECT, 'common/single_comment'),
-    new GeSHiStringContext('codeworker', $DIALECT, 'common/single_string'),
-    new GeSHiStringContext('codeworker', $DIALECT, 'common/double_string'),
+    new GeSHiContext('codeworker',  $DIALECT, 'multi_comment'),
+    new GeSHiContext('codeworker', $DIALECT, 'single_comment'),
+    new GeSHiStringContext('codeworker', $DIALECT, 'single_string'),
+    new GeSHiStringContext('codeworker', $DIALECT, 'double_string'),
     new GeSHiContext('codeworker', $DIALECT, 'roughtext')
 );
 
-$this->_styler->setStyle($CONTEXT, 'color:#000;');
-
 $this->_contextKeywords = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             'break', 'do', 'else', 'foreach', 'forfile', 'function', 'if', 'in',
             'insert', 'local', 'localref', 'node', 'pushItem', 'ref', 'return',
             'value', 'while'
         ),
-        1 => $CONTEXT . '/keywords',
-        2 => 'color:#000;font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/keyword',
+        false,
+        ''
     ),
-    1 => array(
-        0 => array(
+    array(
+        array(
             'clearVariable', 'composeCLikeString', 'composeHTMLLikeString',
             'decrementIndentLevel', 'empty', 'findLastString', 'first',
             'getInputFilename', 'getOutputFilename', 'getShortFilename',
@@ -66,63 +63,60 @@ $this->_contextKeywords = array(
             'midString', 'readChars', 'removeElement', 'replaceString', 'rsubString',
             'setInputLocation', 'size', 'startString', 'subString', 'toLowerString',
             'toUpperString', 'traceLine'
-         ),
-         1 => $CONTEXT . '/functions',
-         2 => 'color:#006;',
-         3 => false,
-         4 => ''
-     ),
-    2 => array(
-        0 => array(
+        ),
+        $CONTEXT . '/function',
+        'color:#006;',
+        false,
+        ''
+    ),
+    array(
+        array(
             'false', 'project', 'this', 'true', '_ARGS', '_REQUEST'
         ),
-        1 => $CONTEXT . '/constants',
-        2 => 'color:#900;font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/constant',
+        false,
+        ''
     ),
-    3 => array(
-        0 => array(
+    array(
+        array(
             'parseAsBNF', 'parseStringAsBNF', 'translate', 'translateString'
         ),
-        1 => $CONTEXT . '/sfunctions',
-        2 => 'color:#006;font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/sfunction',
+        false,
+        ''
     )
 );
 
 $this->_contextSymbols  = array(
-    0 => array(
-        0 => array(
-                '|', '=', '!', ':', '(', ')', ',', '<', '>', '&', '$', '+', '-', '*', '/',
-                '{', '}', ';', '[', ']', '~', '?'
-            ),
-        1 => $CONTEXT . '/sym',
-        2 => 'color:#008000;'
-        )
+    array(
+        array(
+            '|', '=', '!', ':', '(', ')', ',', '<', '>', '&', '$', '+', '-', '*', '/',
+            '{', '}', ';', '[', ']', '~', '?'
+        ),
+        $CONTEXT . '/symbol'
+    )
 );
 
 $this->_contextRegexps  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             '/(#[a-zA-Z][a-zA-Z0-9\-_]*)/'
         ),
-        1 => '#',
-        2 => array(
-            1 => array($CONTEXT . '/preprocessor', 'color:#933;', false)
+        '#',
+        array(
+            1 => array($CONTEXT . '/preprocessor', false)
         )
     ),
-    1 => geshi_use_doubles($CONTEXT),
-    2 => geshi_use_integers($CONTEXT)
+    geshi_use_doubles($CONTEXT),
+    geshi_use_integers($CONTEXT)
 );
 
 $this->_objectSplitters = array(
-    0 => array(
-        0 => array('.'),
-        1 => $CONTEXT . '/oodynamic',
-        2 => 'color:#559;',
-        3 => true // Check that matched method isn't a keyword first
+    array(
+        array('.'),
+        $CONTEXT . '/oodynamic',
+        true
     )
 );
+
 ?>
