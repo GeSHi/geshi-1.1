@@ -59,6 +59,12 @@ class GeSHiStyler
      */
     var $theme = 'default';
     
+    /**
+     * @var string
+     * Note: only set once language name is determined to be valid
+     */
+    var $language = '';
+    
     /**#@+
      * @access private
      */
@@ -97,11 +103,26 @@ class GeSHiStyler
     // {{{ setStyle()
     
     /**
-     * Sets the style of a specific context
+     * Sets the style of a specific context. Language name is prefixed,
+     * to make theme files shorter and easier
      */
     function setStyle ($context_name, $style, $start_name = 'start', $end_name = 'end')
     {
         geshi_dbg('GeSHiStyler::setStyle(' . $context_name . ', ' . $style . ')', GESHI_DBG_PARSE);
+        if ($context_name) {
+            $context_name = "/$context_name";
+        }
+        $this->setRawStyle($this->language . $context_name, $style);
+    }
+    
+    // }}}
+    // {{{ setRawStyle()
+    
+    /**
+     * Sets styles with explicit control over style name
+     */
+    function setRawStyle ($context_name, $style)
+    {
         if (substr($context_name, -1) != '*') {
             $this->_styleData[$context_name] = $style;
         } else {
@@ -109,7 +130,7 @@ class GeSHiStyler
         }
     }
     
-    // }}}
+    // }}}        
     // {{{ removeStyleData()
     
     /**
@@ -166,7 +187,11 @@ class GeSHiStyler
     // {{{ loadStyles()
     
     function loadStyles ($language) {
+        // Lie for a short while, to get extra style names to behave
+        $tmp = $this->language;
+        $this->language = $language;
         require GESHI_THEMES_ROOT . $this->theme . GESHI_DIR_SEP . $language . $this->fileExtension;
+        $this->language = $tmp;
     }
     
     // }}}
