@@ -35,9 +35,8 @@
 /**
  * MAJOR TODOs:
  * 
- * @todo [blocking 1.1.1] (bug 5) Support balanced context endings
- * @todo [blocking 1.1.1] (bug 14) OCCs should be able to modify their parent context
- * @todo [blocking 1.1.1] (bug 16, 17) Better Delphi and Codeworker support
+ * @todo [blocking 1.1.1] (bug 7) Theming support
+ * @todo [blocking 1.1.1] (bug 2) Modify context information
  */
 
 // Set error level to E_ALL. This stops warnings about
@@ -712,6 +711,9 @@ class GeSHi
         if ($this->_error) {
             return;
         }
+        
+        // Tell styler what language we are using
+        $this->_styler->language = $this->_language;
 
         // Load all the data needed for parsing this language
         $language_file = $this->_getLanguageDataFile();
