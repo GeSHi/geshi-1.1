@@ -40,6 +40,6 @@ $this->_contextDelimiters = array(
     )
 );
 
-$this->_overridingChildContext = new GeSHiContext('doxygen');
+$this->_overridingChildContext =& new GeSHiContext('doxygen');
 
 ?>
