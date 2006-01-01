@@ -1,10 +1,10 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  *  This file is part of GeSHi.
  *
  *  GeSHi is free software; you can redistribute it and/or modify
@@ -58,6 +58,8 @@ $this->setStyle('asm/instr/3Dnow2', 'color:#00f;font-weight:bold;');
 
 $this->setStyle('asm/symbol', 'color:#008000;');
 $this->setStyle('asm/label', 'color:#933;');
+$this->setStyle('asm/num/int', 'color:#d2d;');
+$this->setStyle('asm/num/dbl', 'color:#c6c;');
 $this->setStyle('asm/hex', 'color: #2bf;');
 
 $this->setStyle('asm/oodynamic', 'color:#559;');
@@ -84,7 +86,7 @@ $this->setStyle('stdprocs/sysutil', 'color:#444;');
 $this->setStyle('stdprocs/class', 'color:#444;');
 $this->setStyle('stdprocs/math', 'color:#444;');
 
-$this->setStyle('num/int', 'color:#11e;');
+$this->setStyle('num/int', 'color:#d2d;');
 $this->setStyle('num/dbl', 'color:#c6c;');
 
 ?>
