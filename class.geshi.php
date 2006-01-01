@@ -508,7 +508,8 @@ class GeSHi
      */
     function setTheme ($theme)
     {
-        $this->styler->theme = $theme;
+        $this->_styler->theme = $theme;
+        $this->_styler->reloadThemeData = true;
     }
     
     // }}}
@@ -562,8 +563,6 @@ class GeSHi
             return $result;
         }
 
-        //@todo [blocking 1.1.5] does this space still need to be added?
-        //$code = ' ' . $this->_source;
         // Runtime setup of context tree/styler info
         // Prepare the styler for parsing 
         $this->_styler->resetParseData($this->_language);
@@ -719,7 +718,6 @@ class GeSHi
         $language_file = $this->_getLanguageDataFile();
         geshi_dbg('  Loading language data from ' . $language_file, GESHI_DBG_API);
         require GESHI_LANGUAGES_ROOT . $language_file;
-        $this->_styler->loadStyles($this->_language);
 
         if ($error_data = $this->_rootContext->load($this->_styler)) {
             geshi_dbg('@e  Could not load the context data tree: code(' . $error_data['code'] . ') in context '

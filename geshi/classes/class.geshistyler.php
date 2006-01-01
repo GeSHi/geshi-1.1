@@ -65,6 +65,11 @@ class GeSHiStyler
      */
     var $language = '';
     
+    /**
+     * @var boolean
+     */
+    var $reloadThemeData = true;
+    
     /**#@+
      * @access private
      */
@@ -221,6 +226,12 @@ class GeSHiStyler
             /** Get the renderer class */
             require_once GESHI_RENDERERS_ROOT . 'class.geshirendererhtml.php';
             $this->_renderer =& new GeSHiRendererHTML($this);
+        }
+        
+        // Load theme data now
+        if ($this->reloadThemeData) {
+            $this->loadStyles($language);
+            $this->reloadThemeData = false;
         }
     }
 
