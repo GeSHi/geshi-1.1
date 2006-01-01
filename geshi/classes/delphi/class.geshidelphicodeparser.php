@@ -97,6 +97,20 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
      */
     var $_semicolonFlag = false;
 
+    /**
+     * Flag for ASM block detection
+     * @var boolean
+     * @access private
+     */
+    var $_inASMBlock = false;
+
+    /**
+     * Flag for instruction detection in ASM
+     * @var boolean
+     * @access private
+     */
+    var $_instrExpected = false;
+
     // }}}
     // {{{ _stackPush()
 
@@ -147,6 +161,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
         //Check for linebraks...
         if (false !== stripos($token, "\n")) {
             $this->_semicolonFlag = false;
+            $this->_instrExpected = true;
         }
 
         //Check if we got a whitespace
@@ -219,6 +234,9 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
                         $this->_openBlockCount--;
                     }
                 }
+
+                $this->_instrExpected = true;
+                $this->_inASMBlock = true;
             }
             if ('end' == $token_l) {
                 if (--$this->_openBlockCount < 0) {
@@ -226,6 +244,28 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
                 }
                 array_pop($this->_openBlockType);
                 geshi_dbg('Detected closing block "'.$token_l.'" on level BC' . $this->_bracketCount . '\OBC' . $this->_openBlockCount . '...' . stripos($context_name, 'comment'), GESHI_DBG_PARSE);
+
+                if ($this->_inASMBlock) {
+                    $this->_inASMBlock = true;
+                }
+            }
+        }
+
+        if ($this->_inASMBlock) {
+            if ($this->_instrExpected) {
+                $this->_instrExpected = false;
+            } else {
+                if ($token_l == 'and' ||
+                    $token_l == 'not' ||
+                    $token_l == 'or' ||
+                    $token_l == 'shl' ||
+                    $token_l == 'shr' ||
+                    $token_l == 'xor') {
+                    $context_name = $this->_language . '/asm/keyop';
+                }
+            }
+            if (trim($token) == ';') {
+                $this->_instrExpected = true;
             }
         }
 
