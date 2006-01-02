@@ -164,11 +164,11 @@ class GeSHiStyler
         }
         // If style for starter/ender requested and we got here, use the default
         if ('/end' == substr($context_name, -4)) {
-            $this->_styleData[$context_name] = $this->_styleData[substr($context_name, 0, -4)];
+            $this->_styleData[$context_name] = $this->getStyle(substr($context_name, 0, -4));
             return $this->_styleData[$context_name]; 
         }
         if ('/start' == substr($context_name, -6)) {
-            $this->_styleData[$context_name] = $this->_styleData[substr($context_name, 0, -6)];
+            $this->_styleData[$context_name] = $this->getStyle(substr($context_name, 0, -6));
             return $this->_styleData[$context_name]; 
         }
         
