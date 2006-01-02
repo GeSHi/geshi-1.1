@@ -38,15 +38,15 @@ require_once GESHI_CLASSES_ROOT . 'class.geshistringcontext.php';
 require_once GESHI_CLASSES_ROOT . 'php' . GESHI_DIR_SEPARATOR . 'class.geshiphpdoublestringcontext.php';
 
 $this->_contextDelimiters = array(
-	0 => array(
-		0 => array('<?php', '<?'),
-		1 => array('?>'),
-		2 => true
+	array(
+		array('<?php', '<?'),
+		array('?>'),
+		true
 	),
-	1 => array(
-		0 => array('<%'),
-		1 => array('%>'),
-		2 => false
+	array(
+		array('<%'),
+		array('%>'),
+		false
 	)
 );
 
@@ -70,7 +70,8 @@ $this->_contextKeywords = array(
             'abstract', 'catch', 'class', 'default',
             'extends', 'final', 'function', 'implements', 'interface', 'new',
             'parent', 'private', 'protected', 'public', 'self', 'static', 'throw',
-            'try', 'var'
+            'try', 'var',
+            'real', 'double'
         ),
         $CONTEXT . '/keyword',
         false,
@@ -80,7 +81,8 @@ $this->_contextKeywords = array(
     // Keywords that have php.net manual entries
     array(
         array(
-            'echo', 'print'
+            'echo', 'print', 'array', 'isset', 'unset', 'int', 'integer',
+            'bool', 'boolean', 'float', 'string'
         ),
         $CONTEXT . '/keyword',
         false,
@@ -366,7 +368,7 @@ $this->_contextKeywords = array(
             'is_int', 'is_integer', 'is_link', 'is_long', 'is_nan', 'is_null',
             'is_numeric', 'is_object', 'is_readable', 'is_real', 'is_resource',
             'is_scalar', 'is_string', 'is_subclass_of', 'is_uploaded_file',
-            'is_writable', 'is_writeable', 'isset', 'java_last_exception_clear',
+            'is_writable', 'is_writeable', 'java_last_exception_clear',
             'java_last_exception_get', 'jddayofweek', 'jdmonthname', 'jdtofrench',
             'jdtogregorian', 'jdtojewish', 'jdtojulian', 'jdtounix', 'jewishtojd',
             'join', 'jpeg2wbmp', 'juliantojd', 'key', 'krsort', 'ksort', 'lcg_value',
@@ -762,7 +764,7 @@ $this->_contextKeywords = array(
             'udm_free_res', 'udm_get_doc_count', 'udm_get_res_field',
             'udm_get_res_param', 'udm_load_ispell_data', 'udm_open_stored',
             'udm_set_agent_param', 'uksort', 'umask', 'uniqid', 'unixtojd', 'unlink',
-            'unpack', 'unregister_tick_function', 'unserialize', 'unset', 'urldecode',
+            'unpack', 'unregister_tick_function', 'unserialize', 'urldecode',
             'urlencode', 'user_error', 'usleep', 'usort', 'utf8_decode', 'utf8_encode',
             'var_dump', 'var_export', 'variant', 'version_compare', 'virtual', 'vpo',
             'vpopmail_add_alias_domain', 'vpopmail_add_alias_domain_ex',
@@ -824,7 +826,7 @@ $this->_contextSymbols  = array(
         array(
             '(', ')', ',', ';', ':', '[', ']',
             '+', '-', '*', '/', '&', '|', '!', '<', '>',
-            '{', '}', '=', '@'
+            '{', '}', '=', '@', '?'
             ),
         $CONTEXT . '/symbol'
     )

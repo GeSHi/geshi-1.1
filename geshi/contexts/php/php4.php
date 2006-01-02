@@ -69,7 +69,8 @@ $this->_contextKeywords = array(
             'while',
             'class', 'default',
             'extends', 'function', 'new',
-            'parent', 'var'
+            'parent', 'var',
+            'real', 'double'
         ),
         $CONTEXT . '/keyword',
         false,
@@ -79,7 +80,8 @@ $this->_contextKeywords = array(
     // Keywords that have php.net manual entries
     array(
         array(
-            'echo', 'print'
+            'echo', 'print', 'array', 'isset', 'unset', 'int', 'integer',
+            'bool', 'boolean', 'float', 'string'
         ),
         $CONTEXT . '/keyword',
         false,
@@ -110,7 +112,7 @@ $this->_contextKeywords = array(
             // @todo [blocking 1.1.9] This list of functions is for php5... should get one for php4 only
             'abs', 'acos', 'acosh', 'addcslashes', 'addslashes',
             'apache_child_terminate', 'apache_lookup_uri', 'apache_note',
-            'apache_setenv', 'array', 'array_change_key_case', 'array_chunk',
+            'apache_setenv', 'array_change_key_case', 'array_chunk',
             'array_count_values', 'array_diff', 'array_fill', 'array_filter',
             'array_flip', 'array_intersect', 'array_key_exists', 'array_keys',
             'array_map', 'array_merge', 'array_merge_recursive', 'array_multisort',
@@ -366,7 +368,7 @@ $this->_contextKeywords = array(
             'is_int', 'is_integer', 'is_link', 'is_long', 'is_nan', 'is_null',
             'is_numeric', 'is_object', 'is_readable', 'is_real', 'is_resource',
             'is_scalar', 'is_string', 'is_subclass_of', 'is_uploaded_file',
-            'is_writable', 'is_writeable', 'isset', 'java_last_exception_clear',
+            'is_writable', 'is_writeable', 'java_last_exception_clear',
             'java_last_exception_get', 'jddayofweek', 'jdmonthname', 'jdtofrench',
             'jdtogregorian', 'jdtojewish', 'jdtojulian', 'jdtounix', 'jewishtojd',
             'join', 'jpeg2wbmp', 'juliantojd', 'key', 'krsort', 'ksort', 'lcg_value',
@@ -762,7 +764,7 @@ $this->_contextKeywords = array(
             'udm_free_res', 'udm_get_doc_count', 'udm_get_res_field',
             'udm_get_res_param', 'udm_load_ispell_data', 'udm_open_stored',
             'udm_set_agent_param', 'uksort', 'umask', 'uniqid', 'unixtojd', 'unlink',
-            'unpack', 'unregister_tick_function', 'unserialize', 'unset', 'urldecode',
+            'unpack', 'unregister_tick_function', 'unserialize', 'urldecode',
             'urlencode', 'user_error', 'usleep', 'usort', 'utf8_decode', 'utf8_encode',
             'var_dump', 'var_export', 'variant', 'version_compare', 'virtual', 'vpo',
             'vpopmail_add_alias_domain', 'vpopmail_add_alias_domain_ex',
@@ -824,7 +826,7 @@ $this->_contextSymbols  = array(
         array(
             '(', ')', ',', ';', ':', '[', ']',
             '+', '-', '*', '/', '&', '|', '!', '<', '>',
-            '{', '}', '=', '@'
+            '{', '}', '=', '@', '?'
         ),
         $CONTEXT . '/symbol'
     )
