@@ -55,13 +55,17 @@ class GeSHiStyler
     var $fileExtension;
     
     /**
-     * @var string
+     * Array of themes to attempt to use for highlighting, in
+     * preference order
+     * 
+     * @var array
      */
-    var $theme = 'default';
+    var $themes = array('default');
     
     /**
      * @var string
      * Note: only set once language name is determined to be valid
+     * @todo [blocking 1.1.1] Some methods use this by parameter in this class, perhaps they could use this field?
      */
     var $language = '';
     
@@ -195,7 +199,13 @@ class GeSHiStyler
         // Lie for a short while, to get extra style names to behave
         $tmp = $this->language;
         $this->language = $language;
-        require GESHI_THEMES_ROOT . $this->theme . GESHI_DIR_SEP . $language . $this->fileExtension;
+        foreach ($this->themes as $theme) {
+            $theme_file = GESHI_THEMES_ROOT . $theme . GESHI_DIR_SEP . $language . $this->fileExtension;
+            if (is_readable($theme_file)) {
+                require $theme_file;
+                break;
+            }
+        }
         $this->language = $tmp;
     }
     
@@ -250,6 +260,21 @@ class GeSHiStyler
         if (is_subclass_of($codeparser, 'GeSHiCodeParser')) {
             $this->_codeParser =& $codeparser;
         }
+    }
+    
+    // }}}
+    // {{{ useThemes()
+    
+    /**
+     * Sets the themes to use
+     */
+    function useThemes ($themes)
+    {
+        $themes = (array) $themes;
+        $this->themes = array_merge($themes, $this->themes);
+        $this->themes = array_unique($this->themes);
+        // Could check here: get first element of orig. $this->themes, if different now then reload
+        $this->reloadThemeData = true;
     }
     
     // }}}

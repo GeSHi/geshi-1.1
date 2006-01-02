@@ -503,13 +503,12 @@ class GeSHi
     /**
      * Sets the theme to use
      * 
-     * @param string The theme name
+     * @param mixed The theme name
      * @todo [blocking 1.1.5] Error checking
      */
     function setTheme ($theme)
     {
-        $this->_styler->theme = $theme;
-        $this->_styler->reloadThemeData = true;
+        $this->_styler->useThemes($theme);
     }
     
     // }}}

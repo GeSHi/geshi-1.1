@@ -54,5 +54,6 @@ $this->_humanLanguageName = 'Delphi';
 $this->_rootContext =& new GeSHiCodeContext('delphi');
 
 $this->_styler->setCodeParser(new GeSHiDelphiCodeParser($this->_styler, $this->_language));
+$this->_styler->useThemes('boride');
 
 ?>
