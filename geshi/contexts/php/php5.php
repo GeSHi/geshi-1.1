@@ -60,20 +60,34 @@ $this->_childContexts = array(
 );
 
 $this->_contextKeywords = array(
-    // Keywords
+    // Basic keywords
     array(
         array(
             'as', 'break', 'case', 'continue', 'do', 'declare', 'else', 'elseif',
             'endforeach', 'endif', 'endswitch', 'endwhile', 'for', 'foreach', 'if',
             'include', 'include_once', 'require', 'require_once', 'return', 'switch',
-            'while'
+            'while',
+            'abstract', 'catch', 'class', 'default',
+            'extends', 'final', 'function', 'implements', 'interface', 'new',
+            'parent', 'private', 'protected', 'public', 'self', 'static', 'throw',
+            'try', 'var'
         ),
-        $CONTEXT . '/cstructure',
+        $CONTEXT . '/keyword',
         false,
         ''
     ),
     
-    // Keywords
+    // Keywords that have php.net manual entries
+    array(
+        array(
+            'echo', 'print'
+        ),
+        $CONTEXT . '/keyword',
+        false,
+        'http://www.php.net/{FNAME}'
+    ),
+    
+    // Constants
     array(
         array(
             'DEFAULT_INCLUDE_PATH', 'E_ALL', 'E_COMPILE_ERROR', 'E_COMPILE_WARNING',
@@ -84,15 +98,14 @@ $this->_contextKeywords = array(
             'PHP_LIBDIR', 'PHP_LOCALSTATEDIR', 'PHP_OS', 'PHP_OUTPUT_HANDLER_CONT',
             'PHP_OUTPUT_HANDLER_END', 'PHP_OUTPUT_HANDLER_START', 'PHP_SYSCONFDIR',
             'PHP_VERSION', 'TRUE', '__CLASS__', '__FILE__', '__FUNCTION__',
-            '__LINE__', '__METHOD__', 'abstract', 'catch', 'class', 'default',
-            'extends', 'final', 'function', 'implements', 'interface', 'new',
-            'parent', 'private', 'protected', 'public', 'self', 'static', 'throw',
-            'try', 'var'
+            '__LINE__', '__METHOD__'
         ),
-        $CONTEXT . '/keyword',
+        $CONTEXT . '/constant',
         false,
         ''
     ),
+    
+    // Functions
     array(
         array(
             'abs', 'acos', 'acosh', 'addcslashes', 'addslashes',

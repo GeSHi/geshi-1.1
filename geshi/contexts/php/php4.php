@@ -63,33 +63,43 @@ $this->_contextKeywords = array(
     // Basic keywords
     array(
         array(
-            'as', 'break', 'case', 'continue', 'declare', 'do', 'else', 'elseif',
+            'as', 'break', 'case', 'continue', 'do', 'declare', 'else', 'elseif',
             'endforeach', 'endif', 'endswitch', 'endwhile', 'for', 'foreach', 'if',
             'include', 'include_once', 'require', 'require_once', 'return', 'switch',
-            'while'
+            'while',
+            'class', 'default',
+            'extends', 'function', 'new',
+            'parent', 'var'
         ),
-        $CONTEXT . '/cstructure',
+        $CONTEXT . '/keyword',
         false,
         ''
     ),
     
-    // Constants, some structure keywords
-    // @todo [blocking 1.1.9] Move non-constants (structure keywords) out of this array (need to change
-    // the get-keywords script for this also)
+    // Keywords that have php.net manual entries
+    array(
+        array(
+            'echo', 'print'
+        ),
+        $CONTEXT . '/keyword',
+        false,
+        'http://www.php.net/{FNAME}'
+    ),
+    
+    // Constants
     array(
         array(
             'DEFAULT_INCLUDE_PATH', 'E_ALL', 'E_COMPILE_ERROR', 'E_COMPILE_WARNING',
             'E_CORE_ERROR', 'E_CORE_WARNING', 'E_ERROR', 'E_NOTICE', 'E_PARSE',
-            'E_USER_ERROR', 'E_USER_NOTICE', 'E_USER_WARNING',
+            'E_STRICT', 'E_USER_ERROR', 'E_USER_NOTICE', 'E_USER_WARNING',
             'E_WARNING', 'FALSE', 'NULL', 'PEAR_EXTENSION_DIR', 'PEAR_INSTALL_DIR',
             'PHP_BINDIR', 'PHP_CONFIG_FILE_PATH', 'PHP_DATADIR', 'PHP_EXTENSION_DIR',
             'PHP_LIBDIR', 'PHP_LOCALSTATEDIR', 'PHP_OS', 'PHP_OUTPUT_HANDLER_CONT',
             'PHP_OUTPUT_HANDLER_END', 'PHP_OUTPUT_HANDLER_START', 'PHP_SYSCONFDIR',
             'PHP_VERSION', 'TRUE', '__CLASS__', '__FILE__', '__FUNCTION__',
-            '__LINE__', '__METHOD__', 'class', 'default',
-            'extends', 'function', 'new', 'parent', 'static', 'var'
+            '__LINE__', '__METHOD__'
         ),
-        $CONTEXT . '/keyword',
+        $CONTEXT . '/constant',
         false,
         ''
     ),

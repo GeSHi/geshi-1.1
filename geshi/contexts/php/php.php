@@ -66,11 +66,25 @@ $this->_contextKeywords = array(
             'as', 'break', 'case', 'continue', 'do', 'declare', 'else', 'elseif',
             'endforeach', 'endif', 'endswitch', 'endwhile', 'for', 'foreach', 'if',
             'include', 'include_once', 'require', 'require_once', 'return', 'switch',
-            'while'
+            'while',
+            'abstract', 'catch', 'class', 'default',
+            'extends', 'final', 'function', 'implements', 'interface', 'new',
+            'parent', 'private', 'protected', 'public', 'self', 'static', 'throw',
+            'try', 'var'
         ),
-        $CONTEXT . '/cstructure',
+        $CONTEXT . '/keyword',
         false,
         ''
+    ),
+    
+    // Keywords that have php.net manual entries
+    array(
+        array(
+            'echo', 'print'
+        ),
+        $CONTEXT . '/keyword',
+        false,
+        'http://www.php.net/{FNAME}'
     ),
     
     // Constants
@@ -84,16 +98,13 @@ $this->_contextKeywords = array(
             'PHP_LIBDIR', 'PHP_LOCALSTATEDIR', 'PHP_OS', 'PHP_OUTPUT_HANDLER_CONT',
             'PHP_OUTPUT_HANDLER_END', 'PHP_OUTPUT_HANDLER_START', 'PHP_SYSCONFDIR',
             'PHP_VERSION', 'TRUE', '__CLASS__', '__FILE__', '__FUNCTION__',
-            '__LINE__', '__METHOD__', 'abstract', 'catch', 'class', 'default',
-            'extends', 'final', 'function', 'implements', 'interface', 'new',
-            'parent', 'private', 'protected', 'public', 'self', 'static', 'throw',
-            'try', 'var'
+            '__LINE__', '__METHOD__'
         ),
-        $CONTEXT . '/keyword',
+        $CONTEXT . '/constant',
         false,
         ''
     ),
-
+    
     // Functions
     array(
         array(
@@ -190,7 +201,7 @@ $this->_contextKeywords = array(
             'domxml_new_xmldoc', 'domxml_node', 'domxml_node_set_content',
             'domxml_node_unlink_node', 'domxml_root', 'domxml_set_attribute',
             'domxml_version', 'dotnet_load', 'doubleval', 'each', 'easter_date',
-            'easter_days', 'ebcdic2ascii', 'echo', 'empty', 'end', 'ereg',
+            'easter_days', 'ebcdic2ascii', 'empty', 'end', 'ereg',
             'ereg_replace', 'eregi', 'eregi_replace', 'error_log', 'error_reporting',
             'escapeshellarg', 'escapeshellcmd', 'eval', 'exec', 'exif_imagetype',
             'exif_read_data', 'exif_thumbnail', 'exit', 'exp', 'explode', 'expm1',
@@ -618,7 +629,7 @@ $this->_contextKeywords = array(
             'posix_setsid', 'posix_setuid', 'posix_times', 'posix_ttyname',
             'posix_uname', 'pow', 'preg_grep', 'preg_match', 'preg_match_all',
             'preg_quote', 'preg_replace', 'preg_replace_callback', 'preg_split',
-            'prev', 'print', 'print_r', 'printer_abort', 'printer_close',
+            'prev', 'print_r', 'printer_abort', 'printer_close',
             'printer_create_brush', 'printer_create_dc', 'printer_create_font',
             'printer_create_pen', 'printer_delete_brush', 'printer_delete_dc',
             'printer_delete_font', 'printer_delete_pen', 'printer_draw_bmp',
