@@ -508,14 +508,25 @@ class GeSHi
     /**
      * Sets the theme to use
      * 
-     * @param mixed The theme name
-     * @todo [blocking 1.1.5] Error checking
+     * This method can take a list of themes as well as an array or just one theme, e.g.:
+     * 
+     * <code> $geshi->setTheme('theme');
+     * $geshi->setTheme(array('theme1', 'theme2'));
+     * $geshi->setTheme('theme1', 'theme2');</code>
+     * 
+     * (note the difference between the second and third calls)
+     * 
+     * @param mixed The theme name(s)
      */
     function setTheme ($theme)
     {
         geshi_dbg('GeSHi::setTheme(' . $theme . ')', GESHI_DBG_API);
         $theme = GeSHi::_clean($theme);
         geshi_dbg('  theme now' . $theme, GESHI_DBG_API);
+        if (func_num_args() > 1) {
+            $theme = func_get_args();
+            $theme = GeSHi::_clean($theme);
+        }
         $this->_styler->useThemes($theme);
     }
     
@@ -561,13 +572,11 @@ class GeSHi
      * Returns the languages supported by the given theme
      * 
      * @param string $theme The theme to get supported languages for
-     * @return mixed A list of languages supported by the theme, in the form:
+     * @return array A list of languages supported by the theme, in the form:
      * <pre> array(
      *      'language' => array('dialect', 'dialect', ...),
      *      'language' => array('dialect', ...)
      * );</pre>
-     * 
-     * Else, returns <kbd>false</kbd>
      * 
      * @static
      */
@@ -582,7 +591,7 @@ class GeSHi
             require $theme_file;
             return $languages;
         }
-        return false;
+        return array();
     }
     
     // }}}
