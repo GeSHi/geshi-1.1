@@ -499,7 +499,7 @@ class GeSHi
     function setStyles ($selector, $styles)
     {
        geshi_dbg('GeSHi::setStyles(' . $selector . ', ' . $styles . ')', GESHI_DBG_API);
-       $this->_styler->setStyle($selector, $styles);
+       $this->_styler->setRawStyle($selector, $styles);
     }
     
     // }}}
