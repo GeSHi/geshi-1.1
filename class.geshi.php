@@ -517,6 +517,7 @@ class GeSHi
      * (note the difference between the second and third calls)
      * 
      * @param mixed The theme name(s)
+     * @since 1.1.1
      */
     function setTheme ($theme)
     {
@@ -544,7 +545,8 @@ class GeSHi
      * @return array A list of themes supported by the language. Note that
      *               they are _not_ in preferred order
      * @todo Make them in preferred order?
-     * @static 
+     * @since 1.1.1
+     * @static
      */
     function themesSupportedBy ($language)
     {
@@ -578,6 +580,7 @@ class GeSHi
      *      'language' => array('dialect', ...)
      * );</pre>
      * 
+     * @since 1.1.1
      * @static
      */
     function languagesSupportedBy ($theme)
@@ -603,6 +606,7 @@ class GeSHi
      * @param string $theme The theme name to get the human version of
      * @return string The human theme name, or <kbd>false</kbd> if the
      *                theme does not exist
+     * @since 1.1.1
      */
     function getHumanThemeName ($theme)
     {
@@ -652,6 +656,7 @@ class GeSHi
      * Syntax-highlights the source code
      * 
      * @return string The source code, highlighted
+     * @since 1.0.0
      */
     function parseCode ()
     {
