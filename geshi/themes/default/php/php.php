@@ -38,8 +38,8 @@
 $this->setStyle('start', 'font-weight:bold;color:#000;');
 $this->setStyle('end', 'font-weight:bold;color:#000;');
 
-$this->setStyle('cstructure', 'color:#a1a100;');
-$this->setStyle('keyword', 'font-weight:bold;color:#000;');
+$this->setStyle('keyword', 'color:#a1a100;');
+$this->setStyle('constant', 'font-weight:bold;color:#000;');
 $this->setStyle('function', 'color:#006;');
 
 $this->setStyle('symbol', 'color:#008000;');
