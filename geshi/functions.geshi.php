@@ -87,7 +87,7 @@ function geshi_dbg ($message, $context, $add_nl = true, $return_counts = false)
                 $end = '';
         }
         
-        if(preg_match('#(.*?)::(.*?)\((.*?)\)#si', $message)) {
+        if (preg_match('#(.*?)::(.*?)\((.*?)\)#si', $message)) {
             $start = '<span style="font-weight:bold;">';
             $end   = '</span>';
         }
@@ -107,7 +107,7 @@ function geshi_dbg ($message, $context, $add_nl = true, $return_counts = false)
  * 
  * @param string The absolute pathname of the file to check
  * @return boolean Whether the file is readable by GeSHi
- * @todo [blocking 1.1.5] Check that path does not contain links etc (bug ??)
+ * @todo [blocking 1.1.5] Check that path does not contain links etc (bug 15)
  */
 function geshi_can_include ($file_name)
 {
