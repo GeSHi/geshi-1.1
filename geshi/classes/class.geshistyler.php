@@ -291,10 +291,12 @@ class GeSHiStyler
         // can use PHP code parser for this
         // @todo [blocking 1.1.9] since we are only looking for whitespace at start and end this can
         // be optimised
-        if (!$complex) {
+        if (GESHI_COMPLEX_NO == $complex) {
+            $this->_addToParsedCode(array($code, $context_name, $data));
+        } elseif (GESHI_COMPLEX_PASSALL == $complex) {
             // Parse all at once
             $this->_addToParsedCode($this->_codeParser->parseToken($code, $context_name, $data));
-        } else {
+        } elseif (GESHI_COMPLEX_TOKENISE == $complex) {
             $matches = array();
             preg_match_all('/^(\s*)(.*?)(\s*)$/si', $code, $matches);
             //echo 'START<br />';
@@ -334,7 +336,7 @@ class GeSHiStyler
                 $this->_addToParsedCode($this->_codeParser->parseToken($matches[3][0],
                     $context_name, $data));
             }
-        }
+        } // else wtf???
     }
     
     // }}}

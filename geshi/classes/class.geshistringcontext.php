@@ -132,12 +132,12 @@ class GeSHiStringContext extends GeSHiContext
                     geshi_dbg('Match: len = ' . $len, GESHI_DBG_PARSE);
                     if ($string) {
                         $this->_styler->addParseData($string, $this->_contextName,
-                            $this->_getExtraParseData(), $this->_isComplex);
+                            $this->_getExtraParseData(), $this->_complexFlag);
                         $string = '';
                     }
                     // Needs a better name than /esc
                     $this->_styler->addParseData($escape_char . substr($code, $i + 1, $len), $this->_contextName . '/esc',
-                        $this->_getExtraParseData(), $this->_isComplex);
+                        $this->_getExtraParseData(), $this->_complexFlag);
                     // FastForward
                     $i += $len;
                     $skip = true;
@@ -151,7 +151,7 @@ class GeSHiStringContext extends GeSHiContext
         }
         if ($string) {
             $this->_styler->addParseData($string, $this->_contextName, $this->_getExtraParseData(),
-                $this->_isComplex);
+                $this->_complexFlag);
         }
      }
      

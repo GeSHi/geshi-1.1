@@ -157,10 +157,10 @@ class GeSHiContext
     
     /**
      * Whether this context should be broken up by whitespace
-     * for the code parser
-     * @var boolean
+     * for the code parser (GESHI_COMPLEX_* constants)
+     * @var int
      */
-    var $_isComplex = false;
+    var $_complexFlag = GESHI_COMPLEX_NO;
     /**#@-*/
     
     // }}}
@@ -835,7 +835,7 @@ class GeSHiContext
      */
     function _addParseData ($code, $first_char_of_next_context = '')
     {
-       $this->_styler->addParseData($code, $this->_contextName, $this->_getExtraParseData(), $this->_isComplex);
+       $this->_styler->addParseData($code, $this->_contextName, $this->_getExtraParseData(), $this->_complexFlag);
     }
     
     // }}}
@@ -846,7 +846,7 @@ class GeSHiContext
      */
     function _addParseDataStart ($code)
     {
-        $this->_styler->addParseDataStart($code, $this->_contextName, $this->_startName, $this->_isComplex);
+        $this->_styler->addParseDataStart($code, $this->_contextName, $this->_startName, $this->_complexFlag);
     }
     
     // }}}
@@ -857,7 +857,7 @@ class GeSHiContext
      */
     function _addParseDataEnd ($code)
     {
-        $this->_styler->addParseDataEnd($code, $this->_contextName, $this->_endName, $this->_isComplex);
+        $this->_styler->addParseDataEnd($code, $this->_contextName, $this->_endName, $this->_complexFlag);
     }
     
     // }}}

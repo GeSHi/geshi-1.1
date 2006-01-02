@@ -198,6 +198,12 @@ define('GESHI_NUM_DBL', 'num/dbl');
 /** Default file extension */
 define('GESHI_DEFAULT_FILE_EXTENSION', '.php');
 
+// Tokenise levels
+define('GESHI_COMPLEX_NO', 0);
+define('GESHI_COMPLEX_PASSALL', 1);
+define('GESHI_COMPLEX_TOKENISE', 2);
+define('GESHI_COMPLEX_TOKENIZE', GESHI_COMPLEX_TOKENISE);
+
 /**#@-*/
 
 

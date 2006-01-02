@@ -149,7 +149,7 @@ class GeSHiSingleCharContext extends GeSHiContext
         geshi_dbg('GeSHiSingleCharContext::_addParseData(' . substr($code, 0, 15) . '...)', GESHI_DBG_PARSE);       
         if (in_array(substr($code, 0, 1), $this->_escapeCharacters)) {
             $this->_styler->addParseData($code, $this->_contextName . '/esc',
-                $this->_getExtraParseData(), $this->_isComplex);
+                $this->_getExtraParseData(), $this->_complexFlag);
         } else {
             parent::_addParseData($code, $first_char_of_next_context);
         }

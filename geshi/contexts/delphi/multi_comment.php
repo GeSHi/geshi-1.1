@@ -46,5 +46,6 @@ $this->_contextDelimiters = array(
 );
 
 $this->_contextStyleType = GESHI_STYLE_COMMENTS;
+$this->_complexFlag = GESHI_COMPLEX_PASSALL;
 
 ?>

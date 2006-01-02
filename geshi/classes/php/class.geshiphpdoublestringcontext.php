@@ -123,7 +123,7 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
                 // other variables inside this possible variable)
                 geshi_dbg('Variable was escaped', GESHI_DBG_PARSE);
                 $this->_styler->addParseData(substr($possible_var, 0, 2), $this->_parentName . '/esc',
-                    $this->_getExtraParseData(), $this->_isComplex);
+                    $this->_getExtraParseData(), $this->_complexFlag);
                 $this->_addParseData(substr($possible_var, 2));
             } else {
                 // Add first character that might have been a \\ but in fact isn't to the parent
@@ -154,25 +154,25 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
                     // Then we matched off the third regex - the one that does objects
                     // The first { if there is one, and $this (which is in index 2
                     $this->_styler->addParseData($start_brace . $earliest_data['tab'][2],
-                        $this->_parentName . '/var', $this->_getExtraParseData(), $this->_isComplex);
+                        $this->_parentName . '/var', $this->_getExtraParseData(), $this->_complexFlag);
                     // The -> with any whitespace around it
                     $this->_styler->addParseData($earliest_data['tab'][3], $this->_parentName . '/symbol',
-                        $this->_getExtraParseData(), $this->_isComplex);
+                        $this->_getExtraParseData(), $this->_complexFlag);
                     // The method name
                     $this->_styler->addParseData($earliest_data['tab'][4], $this->_parentName . '/oodynamic',
-                        $this->_getExtraParseData(), $this->_isComplex);
+                        $this->_getExtraParseData(), $this->_complexFlag);
                     // The closing }, if any
                     if ($earliest_data['tab'][5]) {
                         if ($start_brace) {
                             $this->_styler->addParseData($earliest_data['tab'][5], $this->_parentName . '/var',
-                                $this->_getExtraParseData(), $this->_isComplex);
+                                $this->_getExtraParseData(), $this->_complexFlag);
                         } else {
                             parent::_addParseData('}');
                         }
                     } 
                 } else {
                     $this->_styler->addParseData($possible_var, $this->_parentName . '/var',
-                        $this->_getExtraParseData(), $this->_isComplex);
+                        $this->_getExtraParseData(), $this->_complexFlag);
                 }
             }
             
