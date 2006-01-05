@@ -160,8 +160,8 @@ $this->_contextKeywords = array(
     )
 );
 
-$this->_contextCharactersDisallowedBeforeKeywords = array('_');
-$this->_contextCharactersDisallowedAfterKeywords = array('_');
+$this->_contextCharactersDisallowedBeforeKeywords = array('$');
+$this->_contextCharactersDisallowedAfterKeywords = array();
 
 $this->_contextSymbols  = array(
     array(
