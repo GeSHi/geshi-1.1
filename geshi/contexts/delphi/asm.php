@@ -44,6 +44,7 @@ $this->_contextDelimiters = array(
     )
 );
 
+$this->_complexFlag = GESHI_COMPLEX_TOKENISE;
 
 $this->_childContexts = array(
     new GeSHiContext('delphi', $DIALECT, 'preprocessor'),
@@ -67,7 +68,8 @@ $this->_contextKeywords = array(
     array(
         array(
             'high', 'low', 'mod'
-            //@todo: Make ASM detect 'and', 'not', 'or', 'shl', 'shr', 'xor' if not used as instructions
+            //@done: Make ASM detect 'and', 'not', 'or', 'shl', 'shr', 'xor' if not used as instructions
+            //The mentioned operators are now handled by the CodeParser and appear here for reference only.
         ),
         $CONTEXT . '/keyop',
         false,
