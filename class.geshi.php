@@ -557,10 +557,21 @@ class GeSHi
 
         $dh = opendir(GESHI_THEMES_ROOT);
         while (false !== ($theme_folder = readdir($dh))) {
-            if ('.' == $theme_folder || '..' == $theme_folder || !is_dir(GESHI_THEMES_ROOT . $theme_folder)) continue;
+            if ('.' == $theme_folder || '..' == $theme_folder) continue;
             if (is_readable(GESHI_THEMES_ROOT . $theme_folder
                 . GESHI_DIR_SEP . $language . '.php')) {
                 $themes[] = $theme_folder;
+                
+                // Check for subthemes
+                $dh2 = opendir(GESHI_THEMES_ROOT . $theme_folder);
+                while (false !== ($subtheme_folder = readdir($dh2))) {
+                    if ('.' == $subtheme_folder || '..' == $subtheme_folder
+                        || !is_dir(GESHI_THEMES_ROOT . $theme_folder . GESHI_DIR_SEP . $subtheme_folder)) continue;
+                    if (is_readable(GESHI_THEMES_ROOT . $theme_folder . GESHI_DIR_SEP . $subtheme_folder
+                        . GESHI_DIR_SEP . $language . '.php')) {
+                        $themes[] = "$theme_folder/$subtheme_folder";
+                    }
+                }
             }
         }
         
