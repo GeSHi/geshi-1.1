@@ -106,7 +106,24 @@ class GeSHiStyler
      * @var string
      */
     var $_parsedCode = '';
+    
+    /**
+     * @var array
+     */
+    var $_userStyles = array();
+    
     /**#@-*/
+    
+    // }}}
+    // {{{ addUserStyle()
+    
+    /**
+     * Add a style that the user specified by {@link GeSHi::setStyles()}
+     */
+    function addUserStyle ($selector, $styles)
+    {
+        $this->_userStyles[$selector] = $styles;
+    }
     
     // }}}
     // {{{ setStyle()
@@ -206,7 +223,13 @@ class GeSHiStyler
                 break;
             }
         }
+        
         $this->language = $tmp;
+        
+        // Now set the user styles
+        foreach ($this->_userStyles as $selector => $styles) {
+            $this->setRawStyle($selector, $styles);
+        }
     }
     
     // }}}
@@ -243,6 +266,9 @@ class GeSHiStyler
             $this->loadStyles($language);
             $this->reloadThemeData = false;
         }
+        
+        // Reset the user-set styles
+        $this->_userStyles = array();
     }
 
     // }}}
