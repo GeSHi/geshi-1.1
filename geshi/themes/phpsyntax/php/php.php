@@ -44,10 +44,7 @@ $this->setStyle('symbol', 'color:#070;');
 $this->setStyle('single_string', 'color:#d00;');
 $this->setStyle('single_string/esc', 'color:#d00;');
 $this->setStyle('double_string', 'color:#d00;');
-$this->setStyle('double_string/esc', 'color:#d00;');
-$this->setStyle('double_string/var', 'color:#d00;');
-$this->setStyle('double_string/symbol', 'color:#d00;');
-$this->setStyle('double_string/oodynamic', 'color:#d00;');
+$this->setStyle('double_string/*', 'color:#d00;');
 
 $this->setStyle('heredoc/start', 'color:#070');
 $this->setStyle('heredoc/end', 'color:#070;');

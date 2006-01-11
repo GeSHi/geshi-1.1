@@ -35,33 +35,7 @@
 /*
  * PHP4 styles for phpsyntax dynamic theme
  */
-$string  = ini_get('highlight.string');
-$comment = ini_get('highlight.comment');
-$keyword = ini_get('highlight.keyword');
-$bg      = ini_get('highlight.bg');
-$default = ini_get('highlight.default');
-$html    = ini_get('highlight.html');
-
-$this->setRawStyle('php/php/*', 'color:' . $default);
-
-$this->setStyle('keyword', 'color:' . $keyword);
-
-$this->setStyle('symbol', 'color:' . $keyword);
-
-$this->setStyle('single_string', 'color:' . $string);
-$this->setStyle('single_string/esc', 'color:' . $string);
-$this->setStyle('double_string', 'color:' . $string);
-$this->setStyle('double_string/*', 'color:' . $string);
-
-$this->setStyle('heredoc/start', 'color:' . $keyword);
-$this->setStyle('heredoc/end', 'color:' . $keyword);
-
-$this->setStyle('single_comment', 'color:' . $comment);
-$this->setStyle('multi_comment', 'color:' . $comment);
-
-$this->setRawStyle('html/html/*', 'color:' . $html);
-$this->setRawStyle('javascript/javascript/*', 'color:' . $html);
-$this->setRawStyle('css/css/*', 'color:' . $html);
-$this->setRawStyle('doxygen/doxygen/*', 'color:' . $comment);
+/** Just load info from php theme file */
+require GESHI_THEMES_ROOT . 'phpsyntax/dynamic/php/php.php';
 
 ?>

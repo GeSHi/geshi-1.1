@@ -35,29 +35,7 @@
 /*
  * PHP4 styles for phpsyntax theme
  */
-$this->setRawStyle('php/php/*', 'color:#00b');
-
-$this->setStyle('keyword', 'color:#070;');
-
-$this->setStyle('symbol', 'color:#070;');
-
-$this->setStyle('single_string', 'color:#d00;');
-$this->setStyle('single_string/esc', 'color:#d00;');
-$this->setStyle('double_string', 'color:#d00;');
-$this->setStyle('double_string/esc', 'color:#d00;');
-$this->setStyle('double_string/var', 'color:#d00;');
-$this->setStyle('double_string/symbol', 'color:#d00;');
-$this->setStyle('double_string/oodynamic', 'color:#d00;');
-
-$this->setStyle('heredoc/start', 'color:#070');
-$this->setStyle('heredoc/end', 'color:#070;');
-
-$this->setStyle('single_comment', 'color:#ff8000;');
-$this->setStyle('multi_comment', 'color:#ff8000;');
-
-$this->setRawStyle('html/html/*', 'color:#000;');
-$this->setRawStyle('javascript/javascript/*', 'color:#000;');
-$this->setRawStyle('css/css/*', 'color:#000;');
-$this->setRawStyle('doxygen/doxygen/*', 'color:#ff8000');
+/** Just load info from php theme file */
+require GESHI_THEMES_ROOT . 'phpsyntax/php/php.php';
 
 ?>
