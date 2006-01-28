@@ -618,6 +618,7 @@ class GeSHi
      * @param string $theme The theme name to get the human version of
      * @return string The human theme name, or <kbd>false</kbd> if the
      *                theme does not exist
+     * @static
      * @since 1.1.1
      */
     function getHumanThemeName ($theme)
@@ -630,6 +631,25 @@ class GeSHi
             return $human_name;
         }
         return false;
+    }
+    
+    // }}}
+    // {{{ languageSupportsTheme()
+    
+    /**
+     * Given a theme and language, returns whether the them
+     * supports that language
+     * 
+     * @param string $theme    The name of the theme to check
+     * @param string $language The name of the language to check
+     * @return boolean         Whether the language supports the theme
+     * @static
+     * @since 1.1.1
+     */
+    function themeSupportsLanguage ($theme, $language)
+    {
+        $language = GeSHi::_cleanLanguageName($language);
+        return geshi_can_include(GESHI_THEMES_ROOT . $theme . GESHI_DIR_SEP . $language . '.php');
     }
     
     // }}}
