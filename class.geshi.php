@@ -542,14 +542,17 @@ class GeSHi
      * are not nice human strings. If you want the human form, use
      * {@link GeSHi::getHumanThemeName()} on each name returned. 
      * 
-     * @param string $language The language to get supported themes for
+     * @param string  $language The language to get supported themes for
+     * @param boolean $return_human If <kbd>true</kbd>, returns an array of
+     *                              theme name => human-readable name. Otherwise,
+     *                              just return an array of theme names.
      * @return array A list of themes supported by the language. Note that
      *               they are _not_ in preferred order
      * @todo Make them in preferred order?
      * @since 1.1.1
      * @static
      */
-    function themesSupportedBy ($language)
+    function themesSupportedBy ($language, $return_human = false)
     {
         $themes = array();
         geshi_dbg('GeSHi::themesSupportedBy(' . $language . ')', GESHI_DBG_API);
@@ -561,7 +564,11 @@ class GeSHi
             if ('.' == $theme_folder || '..' == $theme_folder) continue;
             if (is_readable(GESHI_THEMES_ROOT . $theme_folder
                 . GESHI_DIR_SEP . $language . '.php')) {
-                $themes[] = $theme_folder;
+                if ($return_human) {
+                    $themes[$theme_folder] = GeSHi::getHumanThemeName($theme_folder);
+                } else {
+                    $themes[] = $theme_folder;
+                }
                 
                 // Check for subthemes
                 $dh2 = opendir(GESHI_THEMES_ROOT . $theme_folder);
@@ -570,7 +577,12 @@ class GeSHi
                         || !is_dir(GESHI_THEMES_ROOT . $theme_folder . GESHI_DIR_SEP . $subtheme_folder)) continue;
                     if (is_readable(GESHI_THEMES_ROOT . $theme_folder . GESHI_DIR_SEP . $subtheme_folder
                         . GESHI_DIR_SEP . $language . '.php')) {
-                        $themes[] = "$theme_folder/$subtheme_folder";
+                        $subtheme_name = "$theme_folder/$subtheme_folder";
+                        if ($return_human) {
+                            $themes[$subtheme_name] = GeSHi::getHumanThemeName($subtheme_name);
+                        } else {
+                            $themes[] = $subtheme_name;
+                        }
                     }
                 }
             }
