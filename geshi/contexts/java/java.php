@@ -2891,4 +2891,6 @@ $this->_objectSplitters = array(
     )
 );
 
+$this->_complexFlag = GESHI_COMPLEX_TOKENISE;
+
 ?>
