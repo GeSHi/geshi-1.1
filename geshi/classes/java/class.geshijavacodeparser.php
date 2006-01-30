@@ -62,7 +62,7 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
     function GeSHiJavaCodeParser (&$styler, $language)
     {
         $this->GeSHiCodeParser($styler, $language);
-        $this->_styler->setStyle($language . '/class_name', 'color:#233;');
+        $this->_styler->setStyle('class_name', 'color:red;');
     }
  
    /**
@@ -86,13 +86,13 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
      * - the function isn't actually a method (can highlight those too, of course)
      */
     function parseToken ($token, $context_name, $data)
-    {
+    {echo htmlspecialchars("$token $context_name ");//print_r($this->_styler);exit;
         if ('class' == $this->_state && !geshi_is_whitespace($token)) {
             // We just read the keyword "class", so this token 
             $this->_state = '';
             $context_name = $this->_language . '/class_name';
             $this->_classNames[] = $token;
-        } elseif (('class' == $token || 'extends' == $token) && $this->_language . '/keywords' == $context_name) {
+        } elseif (('class' == $token || 'extends' == $token || 'new' == $token) && $this->_language . '/keyword' == $context_name) {
             // We are about to read a class name
             $this->_state = 'class';
         } elseif (in_array($token, $this->_classNames) && $this->_language == $context_name) {
@@ -100,6 +100,25 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
             $context_name = $this->_language . '/class_name';
         }
         
+        if (substr($context_name, -11) == '/class_name' || false /*$context_name is a built in class */) {
+            $this->_state = 1;
+        }
+        if ($this->_state == 1) {
+            if ($token == '<' && $context_name == $this->_language . '/symbol') {
+                $this->_state = 2;
+            } else {
+                $this->_state = null;
+            }
+        }
+        if ($this->_state == 2 && $context_name == $this->_language) {
+            $this->_classNames[] = $token;
+            $context_name .= '/class_name';
+        }
+        if ($this->_state == 2 && $token == '>' && $context_name == $this->_language . '/symbol') {
+            $this->_state = null;
+        }
+        
+        echo "$context_name $this->_state<br />\n";
         return array($token, $context_name, $data);
     }
  
