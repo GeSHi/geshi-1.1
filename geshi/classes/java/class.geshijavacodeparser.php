@@ -63,6 +63,24 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
     var $_classNames = array(); 
    
     /**
+     * A list of generic type parameter names detected in the source
+     * 
+     * @var array
+     * @access private
+     */
+    var $_genericNames = array();    
+   
+   
+   /**
+     * A list of annotation names detected in the source
+     * 
+     * @var array
+     * @access private
+     */
+    var $_annotationNames = array(); 
+    
+   
+    /**
      * This will probably disappear from here as theming support
      * arrives
      */
@@ -70,6 +88,8 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
     {
         $this->GeSHiCodeParser($styler, $language);
         $this->_styler->setStyle('class_name', 'color:red;');
+        $this->_styler->setStyle('generic_type', 'color:purple');
+        $this->_styler->setStyle('annotation', 'color:orange');
     }
  
    /**
@@ -94,58 +114,62 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
      */
     function parseToken ($token, $context_name, $data)	
     {
-		echo htmlspecialchars("$token: $context_name (") . print_r($data, true) . ")<br />\n";
+		//echo htmlspecialchars("$token: $context_name (") . print_r($data, true) . ")<br />\n";
+		if(geshi_is_whitespace($token)) {
+			return array($token, $context_name, $data);	
+		}
 
-        if ('class' == $this->_state && !geshi_is_whitespace($token)) {
-            // We just read the keyword "class", so this token 
+		//Classes Check
+        if ('class' == $this->_state) {// We just read the keyword "class", so this token 
             $this->_state = '';
             $context_name = $this->_language . '/class_name';
             $this->_classNames[] = $token;
-        } elseif (('class' == $token || 'extends' == $token || 'super' == $token || 
-			'implements' == $token) && $this->_language . '/keyword' == $context_name) {
+        } elseif (($this->_state != '<') && ('class' == $token || 'extends' == $token || 'super' == $token || 
+			'implements' == $token) && ($this->_language . '/keyword' == $context_name)) {
             // We are about to read a class name
             $this->_state = 'class';
-        } elseif (in_array($token, $this->_classNames) && $this->_language == $context_name) {
+		} elseif (in_array($token, $this->_classNames) && $this->_language == $context_name) {
             // Detected use of class name we have already detected
             $context_name = $this->_language . '/class_name';
         }
         
-        
-        
-        if ((substr($context_name, -11) == '/class_name') ||
-        	(!(substr($context_name, -5) == '/java')) && !(substr($context_name, -8) == '/keyword')
-        	&& (!(substr($context_name, -6) == '/dtype')) && !(substr($context_name, -6) == '/const')
-        	&& (!(substr($context_name, -7) == '/symbol'))) {//$context_name is a built in class
-            $this->_state = 'CLASS';
-            //echo "Found Class";
-        }
-        else if ($this->_state == 'CLASS') {
-            if ($token == '<' && $context_name == $this->_language . '/symbol') {
-                //echo "<br>FOUND <<br>";
+        //Generic Types Check
+        if ((substr($context_name, -11) == '/class_name') || (!(substr($context_name, -5) == '/java')) 
+        	&& !(substr($context_name, -8) == '/keyword') && (!(substr($context_name, -6) == '/dtype')) 
+        	&& !(substr($context_name, -6) == '/const') && (!(substr($context_name, -7) == '/symbol'))) {//$context_name is a built in class
+            $this->_state = 'found';
+            //echo "FOUND JAVA CLASS<br>";
+        } else if ($this->_state == 'found') {
+            if (($token == '<' || $token == '<?') && $context_name == $this->_language . '/symbol') {
                 $this->_state = '<';
+                //echo "FOUND < <br><br>";
             } else {
                 $this->_state = null;
-                //echo "<br>FOUND CLASS BUT NO <<br>";
             }
-        }  
-        else if ($this->_state == '<' && $context_name == $this->_language) {
-        	
-        	if(!geshi_is_whitespace($token)) {
-            	$this->_classNames[] = $token;
-            	$context_name .= '/class_name';
-            	//echo "<br>ADDING $token TO LIST OF CLASSNAMES<br>";
-        	}
-            
-        }
-        else if ($this->_state == '<' && $token == '>' && $context_name == $this->_language . '/symbol') {
+        } else if ($this->_state == '<' && $context_name == $this->_language) { 	
+           	$this->_genericNames[] = $token;
+           	$context_name .= '/generic_type';
+        } else if ($this->_state == '<' && (substr($token, -1) == ';' || substr($token, -1) == '>') && $context_name == $this->_language . '/symbol') {
             $this->_state = null;
-            //echo "<br>ENDING > FOUND<br>";
+        }    //echo "FOUND ><br>";
+         
+        //Annotation Check 
+        if('@' == $token) { 
+        	$this->_state = '@';
+        } elseif($this->_state == '@' && $token == 'interface') {
+			$this->_state = 'annotation'; 	
+        } elseif($this->_state == 'annotation') {   
+        	$context_name = $this->_language . '/annotation';
+            $this->_annotationNames[] = $token;   
+            $this->_state = null;    
+        } elseif (in_array($token, $this->_annotationNames) && $this->_language == $context_name) {
+            // Detected use of annotation name we have already detected
+            $context_name = $this->_language . '/annotation';
         }
         
-        //echo "$context_name $this->_state<br />\n";
+        //echo "STATE: " . $this->_state . "<br><br>";
         return array($token, $context_name, $data);
     }
- 
 }       
 
 ?>
