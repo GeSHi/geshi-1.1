@@ -49,8 +49,8 @@ $this->_contextKeywords = array(
     array(
     	//keywords
         array(
-        	'abstract', 'assert', 'boolean', 'break', 'byte', 'case', 'catch',
-        	'char', 'class', 'const', 'continue', 'default', 'do', 'double',
+        	'abstract', 'assert', 'break', 'case', 'catch',
+        	'class', 'const', 'continue', 'default', 'do',
         	'else', 'enum', 'extends', 'final', 'finally', 'for',
         	'goto', 'if', 'implements', 'import', 'instanceof',
         	'interface', 'native', 'new', 'package', 'private',
