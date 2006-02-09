@@ -224,7 +224,3 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
 }       
 
 ?>
-
-
-
-
