@@ -55,6 +55,16 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
     var $_store = array();
     
     /**
+     * A variable used to store the previous token
+     * encountered during parsing.
+     * 
+     * @var string
+     * @access private
+     */
+    
+    var $_prev_token = '';
+    
+    /**
      * A list of class names detected in the source
      * 
      * @var array
@@ -115,19 +125,25 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
     function parseToken ($token, $context_name, $data)	
     {
 		//echo htmlspecialchars("$token: $context_name (") . print_r($data, true) . ")<br />\n";
+		
 		if(geshi_is_whitespace($token)) {
 			return array($token, $context_name, $data);	
 		}
 
 		//Classes Check
         if ('class' == $this->_state) {// We just read the keyword "class", so this token 
-            $this->_state = '';
+            if($this->_state != 'classes') {
+            	$this->_state == '';	
+            }
             $context_name = $this->_language . '/class_name';
-            $this->_classNames[] = $token;
+            $this->_classNames[] = $token;  
         } elseif (($this->_state != '<') && ('class' == $token || 'extends' == $token || 'super' == $token || 
 			'implements' == $token) && ($this->_language . '/keyword' == $context_name)) {
-            // We are about to read a class name
-            $this->_state = 'class';
+            
+            if($token == 'super' && ($this->_prev_token == ';' || $this->_prev_token == '{')) { }	
+           	else {// We are about to read a class name
+            	$this->_state = 'class';
+            }
 		} elseif (in_array($token, $this->_classNames) && $this->_language == $context_name) {
             // Detected use of class name we have already detected
             $context_name = $this->_language . '/class_name';
@@ -168,8 +184,14 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
         }
         
         //echo "STATE: " . $this->_state . "<br><br>";
+        $this->_prev_token = $token;
+        $this->_prev_context = $context_name;
         return array($token, $context_name, $data);
     }
 }       
 
 ?>
+
+
+
+
