@@ -161,7 +161,7 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
 
 
 		//Classes Check
-        if ('class' == $this->_state || 'wait' == $this->state) {// We just read the keyword "class", so this token 
+        if ('class' == $this->_state || 'wait' == $this->_state) {// We just read the keyword "class", so this token 
             if ($this->_state != 'wait') { $this->_state = ''; }
             if ($token != ',' && $token != '{') {
             	$context_name .= '/class_name';
