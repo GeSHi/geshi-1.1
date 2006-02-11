@@ -45,4 +45,5 @@ $this->_contextStyleType = GESHI_STYLE_STRINGS;
 $this->_escapeCharacters = array('\\');
 $this->_charsToEscape = array('n', 'r', 't', '\\', '"', "\n");
 
+$this->_complexFlag = GESHI_COMPLEX_PASSALL;
 ?>
