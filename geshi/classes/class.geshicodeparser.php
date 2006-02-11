@@ -97,6 +97,16 @@ class GeSHiCodeParser
     function parseToken ($token, $context_name, $data) {}
     
     // }}}
+    // {{{ flush()
+    
+    /**
+     * If the code parser uses a stack, this method should empty and return it.
+     * 
+     * @return array The contents of the stack
+     */
+    function flush() {}
+    
+    // }}}
     
 }
 
