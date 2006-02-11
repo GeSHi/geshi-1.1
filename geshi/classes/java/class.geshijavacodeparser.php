@@ -25,9 +25,9 @@
  * with GeSHi, in the docs/ directory.
  *
  * @package   core
- * @author    Tim Wright <tim.w@clear.net.nz>
+ * @author    Tim Wright <tim.w@clear.net.nz>, Nigel McNie <nigel@geshi.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright (C) 2005 Nigel McNie
+ * @copyright (C) 2005, 2006 Tim Wright, Nigel McNie
  * @version   $Id$
  * 
  */
@@ -71,8 +71,21 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
      * @var string
      * @access private
      */
-    
     var $_prev_context = '';
+
+    /**
+     * A variable used to store the previous data
+     * of the previous token encountered during parsing.
+     * 
+     * @var string
+     * @access private
+     */    
+    var $_prev_data = array();
+    
+    /** @todo document these */
+    var $_prev_prev_token = '';
+    var $_prev_prev_context = '';
+    var $_prev_prev_data = array();
     
     /**
      * A list of class names detected in the source
@@ -81,6 +94,14 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
      * @access private
      */
     var $_classNames = array(); 
+    
+    /**
+     * A list of interface names detected in the source
+     * 
+     * @var array
+     * @access private
+     */
+    var $_interfaceNames = array();
     
     /**
      * A list of variable names detected in the source
@@ -123,11 +144,13 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
     function GeSHiJavaCodeParser (&$styler, $language)
     {
         $this->GeSHiCodeParser($styler, $language);
+        /** @todo these should move to the theme file */
         $this->_styler->setStyle('class_name', 'color:red;');
         $this->_styler->setStyle('variable', 'color:gray;');
         $this->_styler->setStyle('method', 'color:gold;');
         $this->_styler->setStyle('generic_type', 'color:purple;');
         $this->_styler->setStyle('annotation', 'color:orange;');
+        $this->_styler->setStyle('interface', 'color: navy;');
     }
  
    /**
@@ -152,28 +175,77 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
      */
     function parseToken ($token, $context_name, $data)	
     {
-		//echo htmlspecialchars("$token: $context_name (") . print_r($data, true) . ")<br />\n";
-		
-		if(geshi_is_whitespace($token)) {
-			return array($token, $context_name, $data);	
+        // Ignore whitespace. We put it on the store for flushing later
+		if (geshi_is_whitespace($token)) {
+            $this->_store[] = array($token, $context_name, $data);
+            return false;
 		}
+        $flush = false;
 
+        //echo htmlspecialchars("$token: $context_name (") . print_r($data, true) . "): $this->_state<br />\n";
 
-
-		//Classes Check
-        if ('class' == $this->_state || 'wait' == $this->_state) {// We just read the keyword "class", so this token 
+        // Easy things first
+        if ($this->_language == $context_name) {
+            // Variables
+            if (in_array($token, $this->_variableNames)) {
+                $context_name = $this->_language . '/variable';
+                $flush = true;
+            }
+            // Methods
+            if (in_array($token, $this->_methodNames)) {
+                $context_name = $this->_language . '/method';
+                $flush = true;
+            }
+        }
+        
+		// Classes Check
+        // If we are in the class state, keep making barewords into class names
+        if ('class' == $this->_state || 'interface' == $this->_state) {
+            if ('{' == $token) {
+                $this->_state = '';
+            } elseif ($this->_language == $context_name) {
+                if ('class' == $this->_state) {
+                    $context_name .= '/class_name';
+                    $this->_classNames[] = $token;
+                } else {
+                    // State will be "implements"
+                    $context_name .= '/interface';
+                    $this->_interfaceNames[] = $token;
+                }
+            } elseif ('implements' == $token) {
+                // We've done the "class Foo extends ....." bit
+                $this->_state = 'interface';
+            }
+        } elseif (!$this->_state && 'class' == $token && $this->_language . '/keyword' == $context_name) {
+            $this->_state = 'class';
+        } elseif (!$this->_state && 'interface' == $token && $this->_language . '/keyword' == $context_name) {
+            $this->_state = 'interface';
+        } elseif (in_array($token, $this->_classNames)) {
+            $context_name .= '/class_name';
+        }
+        
+        // Check for keyword new
+        if ($this->_prev_token == 'new' && $this->_language == $context_name) {
+            $context_name .= '/class_name';
+            $this->_classNames[] = $token;  
+        }
+        
+        /*if ('class' == $this->_state || 'wait' == $this->_state) {// We just read the keyword "class", so this token 
             if ($this->_state != 'wait') { $this->_state = ''; }
             if ($token != ',' && $token != '{') {
             	$context_name .= '/class_name';
             	$this->_classNames[] = $token;  
             }
-            if ($token == '{') { $this->state = ''; }//end the checking for interfaces   
+            if ($token == '{') {
+                $this->_state = '';
+                $flush = true;
+            }//end the checking for interfaces   
             
         } elseif (($this->_state != '<') && ('class' == $token || 'extends' == $token || 'super' == $token || 
 			'implements' == $token) && ($this->_language . '/keyword' == $context_name)) {
             
             if($token == 'super' && ($this->_prev_token == ';' || $this->_prev_token == '{')) { }	
-           	//We may implement multiple interfaces so we wait until we have read all
+           	// We may implement multiple interfaces so we wait until we have read all
            	else if($token == 'implements') { $this->state = 'wait'; }
            	else {// We are about to read a class name
             	$this->_state = 'class';
@@ -182,53 +254,85 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
             // Detected use of class name we have already detected
             $context_name .= '/class_name';
         }
-        //Check for keyword new
+        // Check for keyword new
         if($this->_prev_token == 'new' && (substr($context_name, -5) == '/java')) {
         	$context_name .= '/class_name';
             $this->_classNames[] = $token;  
-        }
+        }*/
         
-        
-        
-        //Variables Check
-        if((substr($this->_prev_context, -5) == '/java') && ($token == '=' || $token == ';')) {
+        // Variables Check
+        if ($this->_language == $this->_prev_context && 
+            ($token == '=' || $token == ';')) {
+            // NOTE: I remove the [] and ] checks, should ask tim about them
         	$this->_variableNames[] = $this->_prev_token;
-        }  
-        if((substr($context_name, -5) == '/java') && ($this->_prev_token == '[]' || $this->_prev_token == ']')) {
-        	$this->_variableNames[] = $this->_prev_token;
+            // Set last token to be a variable
+            $this->_prev_context = $this->_language . '/variable';
+            // Handle cases like Foo foo = new Foo();
+            if ($this->_prev_prev_context == $this->_language) {
+                $this->_prev_prev_context .= '/class_name';
+            }
+            //echo "FOUND VAR: $this->_prev_token (prev_prev_token=$this->_prev_prev_token $this->_prev_prev_context)<br />\n";
+            //print_r($this->_store);
+            $flush = true;
         }
-        
-        
         
         //Methods Check
-        if(((substr($this->_prev_context, -5) == '/java') || (substr($this->_prev_context, -8) == '/ootoken')) && ($token == '()' || $token == '(' || $token == '();')) {
-        	//echo "FOUND METHOD: \"" . $this->_prev_token . "\"";
-        	$this->methodNames[] = $this->_prev_token;
-        }    
+        if (
+            (($this->_language == $this->_prev_context) || (substr($this->_prev_context, -8) == '/ootoken'))
+            && ($token == '()' || $token == '(' || $token == '();')
+           ) {
+        	//$this->methodNames[] = $this->_prev_token;
+            $this->_prev_context = $this->_language . '/method';
+            //echo "FOUND METHOD: $this->_prev_token<br />\n";
+            $flush = true;
+        } 
         
-        
-        
-        //Generic Types Check
-        if ((substr($context_name, -11) == '/class_name') || (!(substr($context_name, -5) == '/java')) 
-        	&& !(substr($context_name, -8) == '/keyword') && (!(substr($context_name, -6) == '/dtype')) 
-        	&& !(substr($context_name, -6) == '/const') && (!(substr($context_name, -7) == '/symbol')) && (!(substr($context_name, -7) == '/method'))) {
+        // Generic Types Check
+        if (
+        (
+            (substr($context_name, -11) == '/class_name')
+            || (
+            // This one has been removed, because this if statement is trying to assert
+            // that the token is a class name. But it doesn't matter if it's also a bareword
+            // because that might be a case like "Sack<G> s = "... where Sack is an as-yet
+            // undetected class name. Even if the < is part of a less-than statement it doesn't
+            // matter because this token will be a variable or number anyway
+            //(!(substr($context_name, -5) == '/java'))
+        	/*&&*/ (!(substr($context_name, -8) == '/keyword'))
+            && (!(substr($context_name, -6) == '/dtype')) 
+        	&& (!(substr($context_name, -6) == '/const'))
+            && (!(substr($context_name, -7) == '/symbol'))
+            && (!(substr($context_name, -7) == '/method'))
+            && (!(substr($context_name, -14) == '/double_string'))
+            && (!(substr($context_name, -8) == '/doxygen'))
+            && (false === strpos($context_name, '/multi_comment'))
+            && (false === strpos($context_name, '/single_comment'))
+            && (!(substr($context_name, -14) == '/single_string'))
+            )
+        )
+            && !$this->_state
+            ) {
         	//$context_name is a built in class
             $this->_state = 'found';
         } else if ($this->_state == 'found') {
             if (($token == '<' || $token == '<?') && $context_name == $this->_language . '/symbol') {
+                // Start of a generic block
                 $this->_state = '<';
+                if ($this->_language == $this->_prev_context) {
+                    // This is the case mentioned above, where it's a bareword
+                    $this->_prev_context .= '/class_name';
+                    $this->_classNames[] = $this->_prev_token;
+                }
             } else {
-                $this->_state = null;
+                $this->_state = '';
             }
         } else if ($this->_state == '<' && $context_name == $this->_language) { 	
            	$this->_genericNames[] = $token;
            	$context_name .= '/generic_type';
         } else if ($this->_state == '<' && (substr($token, -1) == ';' || substr($token, -1) == '>') && $context_name == $this->_language . '/symbol') {
-            $this->_state = null;
+            $this->_state = '';
         }
      
-         
-         
         //Annotation Check 
         if('@' == $token) { 
         	$this->_state = '@';
@@ -243,10 +347,37 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
             $context_name .= '/annotation';
         }
         
-        $this->_prev_token = $token;
-        $this->_prev_context = $context_name;
-        return array($token, $context_name, $data);
-    }  
+        $this->_store[] = array($token, $context_name, $data);
+
+        // Keep references to the previous data
+        $i = count($this->_store) - 1;
+        $this->_prev_token   =& $this->_store[$i][0];
+        $this->_prev_context =& $this->_store[$i][1];
+        $this->_prev_data    =& $this->_store[$i][2];
+        
+        // And data just before that
+        // If $i, i.e. if count($this->_store) - 1, which if > 0 means there is still one more element
+        // at least at position 0
+        for ($j = $i - 1; $j > 0; $j--) {
+            if (!geshi_is_whitespace($this->_store[$j][0])) {
+                $this->_prev_prev_token   =& $this->_store[$j][0];
+                $this->_prev_prev_context =& $this->_store[$j][1];
+                $this->_prev_prev_data    =& $this->_store[$j][2];
+                break;
+            }
+        }
+                
+        if ($flush) {
+            return $this->flush();
+        }
+        return false;
+    }
+    
+    function flush() {
+        $data = $this->_store;
+        $this->_store = array();
+        return $data;
+    }
 }       
 
 ?>
