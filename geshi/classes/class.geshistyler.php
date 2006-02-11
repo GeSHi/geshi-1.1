@@ -405,6 +405,9 @@ class GeSHiStyler
     
     function getParsedCode ()
     {
+        // Flush the last of the code
+        $this->_addToParsedCode($this->_codeParser->flush());
+        
         $result = $this->_renderer->getHeader() . $this->_parsedCode . $this->_renderer->getFooter();
         $this->_parsedCode = '';
         return $result;
