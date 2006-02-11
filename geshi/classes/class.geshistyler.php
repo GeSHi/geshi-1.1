@@ -107,23 +107,7 @@ class GeSHiStyler
      */
     var $_parsedCode = '';
     
-    /**
-     * @var array
-     */
-    var $_userStyles = array();
-    
     /**#@-*/
-    
-    // }}}
-    // {{{ addUserStyle()
-    
-    /**
-     * Add a style that the user specified by {@link GeSHi::setStyles()}
-     */
-    function addUserStyle ($selector, $styles)
-    {
-        $this->_userStyles[$selector] = $styles;
-    }
     
     // }}}
     // {{{ setStyle()
@@ -213,22 +197,24 @@ class GeSHiStyler
     // {{{ loadStyles()
     
     function loadStyles ($language) {
-        // Lie for a short while, to get extra style names to behave
-        $tmp = $this->language;
-        $this->language = $language;
-        foreach ($this->themes as $theme) {
-            $theme_file = GESHI_THEMES_ROOT . $theme . GESHI_DIR_SEP . $language . $this->fileExtension;
-            if (is_readable($theme_file)) {
-                require $theme_file;
-                break;
+        geshi_dbg('GeSHiStyler::loadStyles(' . $language . ')', GESHI_DBG_PARSE);
+        if ($this->reloadThemeData) {
+            // Trash old data
+            $this->_styleData = array();
+            $this->reloadThemeData = false;
+            
+            // Lie for a short while, to get extra style names to behave
+            $tmp = $this->language;
+            $this->language = $language;
+            foreach ($this->themes as $theme) {
+                $theme_file = GESHI_THEMES_ROOT . $theme . GESHI_DIR_SEP . $language . $this->fileExtension;
+                if (is_readable($theme_file)) {
+                    require $theme_file;
+                    break;
+                }
             }
-        }
-        
-        $this->language = $tmp;
-        
-        // Now set the user styles
-        foreach ($this->_userStyles as $selector => $styles) {
-            $this->setRawStyle($selector, $styles);
+            
+            $this->language = $tmp;
         }
     }
     
@@ -262,13 +248,7 @@ class GeSHiStyler
         }
         
         // Load theme data now
-        if ($this->reloadThemeData) {
-            $this->loadStyles($language);
-            $this->reloadThemeData = false;
-        }
-        
-        // Reset the user-set styles
-        $this->_userStyles = array();
+        $this->loadStyles($language);
     }
 
     // }}}

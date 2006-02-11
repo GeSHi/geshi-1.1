@@ -499,8 +499,10 @@ class GeSHi
     function setStyles ($selector, $styles)
     {
        geshi_dbg('GeSHi::setStyles(' . $selector . ', ' . $styles . ')', GESHI_DBG_API);
-       $this->_styler->addUserStyle($selector, $styles);
-       //$this->_styler->setRawStyle($selector, $styles);
+       // @todo Make sure to load a theme here if necessary
+       $this->_styler->loadStyles($this->_language);
+       //$this->_styler->addUserStyle($selector, $styles);
+       $this->_styler->setRawStyle($selector, $styles);
     }
     
     // }}}
