@@ -53,6 +53,13 @@ $this->setStyle('ootoken', 'color:#933;');
 $this->setStyle('num/int', 'color:#11e;');
 $this->setStyle('num/dbl', 'color:#c6c;');
 
+$this->setStyle('class_name', 'color:red;');
+$this->setStyle('variable', 'color:gray;');
+$this->setStyle('method', 'color:gold;');
+$this->setStyle('generic_type', 'color:purple;');
+$this->setStyle('annotation', 'color:orange;');
+$this->setStyle('interface', 'color: navy;');
+
 $this->loadStyles('doxygen/doxygen');
 
 ?>
