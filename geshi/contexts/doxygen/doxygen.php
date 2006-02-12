@@ -39,5 +39,6 @@ $this->_childContexts = array(
 );
 
 $this->_contextStyleType = GESHI_STYLE_COMMENTS;
+$this->_complexFlag = GESHI_COMPLEX_PASSALL;
 
 ?>

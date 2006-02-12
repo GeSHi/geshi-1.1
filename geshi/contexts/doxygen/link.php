@@ -40,4 +40,6 @@ $this->_contextDelimiters = array(
     )
 );
 
+$this->_complexFlag = GESHI_COMPLEX_PASSALL;
+
 ?>
