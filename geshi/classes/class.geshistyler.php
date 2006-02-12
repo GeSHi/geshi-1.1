@@ -196,12 +196,15 @@ class GeSHiStyler
     // }}}
     // {{{ loadStyles()
     
-    function loadStyles ($language) {
+    function loadStyles ($language, $load_theme = false) {
         geshi_dbg('GeSHiStyler::loadStyles(' . $language . ')', GESHI_DBG_PARSE);
         if ($this->reloadThemeData) {
+            geshi_dbg('  Loading theme data', GESHI_DBG_PARSE);
             // Trash old data
-            $this->_styleData = array();
-            $this->reloadThemeData = false;
+            if ($load_theme) {
+                geshi_dbg('  Old data trashed', GESHI_DBG_PARSE);
+                $this->_styleData = array();
+            }
             
             // Lie for a short while, to get extra style names to behave
             $tmp = $this->language;
@@ -214,6 +217,9 @@ class GeSHiStyler
                 }
             }
             
+            if ($load_theme) {
+                $this->reloadThemeData = false;
+            }
             $this->language = $tmp;
         }
     }
@@ -248,7 +254,7 @@ class GeSHiStyler
         }
         
         // Load theme data now
-        $this->loadStyles($language);
+        $this->loadStyles($language, true);
     }
 
     // }}}
