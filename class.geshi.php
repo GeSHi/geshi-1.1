@@ -154,6 +154,11 @@ define('GESHI_STYLE_SYMBOLS', 4);
 /** Used to mark a context as being like a method in 1.0.X */
 define('GESHI_STYLE_METHODS', 5);
 
+// Security
+if (!defined('GESHI_ALLOW_SYMLINK_PATHS')) {
+    define('GESHI_ALLOW_SYMLINK_PATHS', false);
+}
+
 /**#@+
  * @access private
  */

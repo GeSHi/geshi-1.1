@@ -109,10 +109,53 @@ function geshi_dbg ($message, $context, $add_nl = true, $return_counts = false)
  * @return boolean Whether the file is readable by GeSHi
  * @todo [blocking 1.1.5] Check that path does not contain links etc (bug 15)
  */
-function geshi_can_include ($file_name)
+/*function geshi_can_include ($file_name)
 {
     return (GESHI_ROOT == substr($file_name, 0, strlen(GESHI_ROOT)) &&
         is_file($file_name) && is_readable($file_name));
+}*/
+
+/**
+ * Checks whether a file name is able to be read by GeSHi
+ *
+ * The file must be within the GESHI_ROOT directory
+ *
+ * @param string The absolute pathname of the file to check
+ * @return boolean Whether the file is readable by GeSHi
+ * @todo [blocking 1.1.5] Check that path does not contain links etc (bug 15)
+ */
+function geshi_can_include ($file_name)
+{
+    // Check the file is in the root path
+    if (GESHI_ROOT != substr($file_name, 0, strlen(GESHI_ROOT))) {
+        return false;
+    }
+
+    // Check if the given file exists, is a file and is readable
+    if (!(file_exists($file_name) && is_file($file_name) && is_readable($file_name))) {
+        return false;
+    }
+
+    // Check if the user tries to use .. inside the path
+    if (false !== strpos($file_name, '..')) {
+        return false;
+    }
+
+    // Check if we need to check for symlinks and if all required functions are available
+    // The availability check is due to compatibility to M$ Windows as PHP doesn't implement some symlink functions there.
+    $can_include = true;
+    if (!GESHI_ALLOW_SYMLINK_PATHS && function_exists('is_link')) {
+        do {
+            // Check for filename being a file OR a directory
+            $file_type = filetype($file_name);
+            $can_include &= (('file' == $file_type || 'dir' == $file_type) && !is_link($file_name));
+
+            // Change to the parent's directory for next test
+            $file_name = dirname($file_name);
+        } while (GESHI_ROOT == substr($file_name, 0, strlen(GESHI_ROOT) && $can_include));
+    }
+
+    return $can_include;
 }
 
 
