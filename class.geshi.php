@@ -500,7 +500,7 @@ class GeSHi
     {
        geshi_dbg('GeSHi::setStyles(' . $selector . ', ' . $styles . ')', GESHI_DBG_API);
        // @todo Make sure to load a theme here if necessary
-       $this->_styler->loadStyles($this->_language);
+       $this->_styler->loadStyles($this->_language, true);
        //$this->_styler->addUserStyle($selector, $styles);
        $this->_styler->setRawStyle($selector, $styles);
     }
