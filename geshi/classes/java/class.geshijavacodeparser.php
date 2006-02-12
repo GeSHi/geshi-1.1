@@ -257,7 +257,7 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
         }*/
         
         // Variables Check
-        echo htmlspecialchars("lastc=$this->_prev_context  thist=$token") . '<br />';
+        //echo htmlspecialchars("lastc=$this->_prev_context  thist=$token") . '<br />';
         if (
             // Last token (the possible variable) is a bareword?
             ($this->_language == $this->_prev_context) &&
