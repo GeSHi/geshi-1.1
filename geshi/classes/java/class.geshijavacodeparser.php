@@ -217,8 +217,8 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
 		}
         $flush = false;
 
-        echo htmlspecialchars("$token: $context_name") . ": $this->_state<br />\n";
-		echo "STATE: " . $this->_state . "<br><br>";
+        //echo htmlspecialchars("$token: $context_name") . ": $this->_state<br />\n";
+        
         // Easy things first
         if ($this->_language == $context_name) {
             // Variables
@@ -238,40 +238,22 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
             }
         }
         
-        //Check for Import Statements
-        if('import' == $this->_prev_token) {
-        	$this->_state = 'import';
-        	$context_name .= '/import';
-        } elseif('import' == $this->_state) {
+        //Check for Import Statements & Package names
+        if('import' == $this->_prev_token || 'package' == $this->_prev_token) {
+        	$this->_state = $this->_prev_token;
+        	$context_name .= '/' . $this->_prev_token;
+        } elseif('import' == $this->_state || 'package' == $this->_state) {
         	if(substr($context_name, -8) == '/ootoken') {
-        		$context_name = 'java/java/import';		
+        		$context_name = 'java/java/' . $this->_state;		
         	}
         	if($token == ';') {
         		$this->_state = '';	
         	} else {
         		if($context_name == $this->_language) {
-        			$context_name .= '/import';
+        			$context_name .= '/' . $this->_state;
         		}
         	}
         }
-        
-        //Check for Package names
-        if('package' == $this->_prev_token) {
-        	$this->_state = 'package';
-        	$context_name .= '/package';
-        } elseif('package' == $this->_state) {
-        	if(substr($context_name, -8) == '/ootoken') {
-        		$context_name = 'java/java/package';		
-        	}
-        	if($token == ';') {
-        		$this->_state = '';	
-        	} else {
-        		if($context_name == $this->_language) {
-        			$context_name .= '/package';
-        		}
-        	}
-        }
-        
         
         //Check for Abstract Classes / Methods
         if($context_name == $this->_language) {
