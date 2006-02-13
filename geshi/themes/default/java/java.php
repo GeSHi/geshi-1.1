@@ -62,6 +62,8 @@ $this->setStyle('method', 'color:gold;');
 $this->setStyle('generic_type', 'color:purple;');
 $this->setStyle('annotation', 'color:orange;');
 $this->setStyle('interface', 'color: navy;');
+$this->setStyle('import', 'color:#ac23ef;');
+$this->setStyle('package', 'color:turquoise;');
 
 $this->loadStyles('doxygen/doxygen');
 
