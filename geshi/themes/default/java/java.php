@@ -55,6 +55,9 @@ $this->setStyle('num/dbl', 'color:#c6c;');
 
 $this->setStyle('class_name', 'color:red;');
 $this->setStyle('variable', 'color:gray;');
+$this->setStyle('exception', 'color:violet;');
+$this->setStyle('abstract', 'color:teal;');
+$this->setStyle('static', 'color:lime;');
 $this->setStyle('method', 'color:gold;');
 $this->setStyle('generic_type', 'color:purple;');
 $this->setStyle('annotation', 'color:orange;');

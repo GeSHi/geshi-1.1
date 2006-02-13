@@ -82,10 +82,52 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
      */    
     var $_prev_data = array();
     
-    /** @todo document these */
+    /**
+     * A variable used to store the token previous to 
+     * the previous token encountered during parsing.
+     * 
+     * @var string
+     * @access private
+     */    
+     
     var $_prev_prev_token = '';
+    
+    /**
+     * A variable used to store the context
+     * of the token previous to the previous token 
+     * encountered during parsing.
+     * 
+     * @var string
+     * @access private
+     */    
+     
     var $_prev_prev_context = '';
+    
+    /**
+     * A variable used to store the data previous to the 
+     * previous data during parsing.
+     * 
+     * @var array
+     * @access private
+     */    
+     
     var $_prev_prev_data = array();
+      
+ 	/**
+     * A list of abstract classes/methods detected in the source
+     * 
+     * @var array
+     * @access private
+     */
+    var $_abstractNames = array(); 
+    
+    /**
+     * A list of static classes/methods detected in the source
+     * 
+     * @var array
+     * @access private
+     */
+    var $_staticNames = array(); 
     
     /**
      * A list of class names detected in the source
@@ -196,6 +238,20 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
             }
         }
         
+        
+        //Check for Abstract Classes / Methods
+        if($context_name == $this->_language) {
+        	if($this->_prev_prev_token == 'abstract') {
+        		$context_name .= '/abstract';
+        		$this->_abstractNames[] = $token;  		
+        	}
+        	if($this->_prev_prev_token == 'static') { 
+        		$context_name .= '/static';
+        		$this->_staticNames[] = $token;
+        	}	
+        }
+        
+        
 		// Classes Check
         // If we are in the class state, keep making barewords into class names
         if ('class' == $this->_state || 'interface' == $this->_state) {
@@ -219,6 +275,19 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
         } elseif (!$this->_state && 'interface' == $token && $this->_language . '/keyword' == $context_name) {
             $this->_state = 'interface';
         }
+        
+        
+        //Check for Exceptions
+        if ('throws' == $token) {
+           	//Look for Exceptions, these are classes
+           	$this->_state = 'throws';	
+        } elseif('throws' == $this->_state && substr($context_name, -5) == '/java') {
+           	$context_name .= '/exception';
+            $this->_classNames[] = $token;
+        } elseif('throws' == $this->_state && $token == '{') {
+        	$this->_state = '';	
+        }
+        
         
         // Check for keywords new and instanceof
         if (($this->_prev_token == 'new' || $this->_prev_token == 'instanceof') && $this->_language == $context_name) {
