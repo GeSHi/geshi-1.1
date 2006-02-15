@@ -64,6 +64,7 @@ $this->setStyle('annotation', 'color:orange;');
 $this->setStyle('interface', 'color: navy;');
 $this->setStyle('import', 'color:#ac23ef;');
 $this->setStyle('package', 'color:turquoise;');
+$this->setStyle('enum_value', 'color:cyan;');
 
 $this->loadStyles('doxygen/doxygen');
 

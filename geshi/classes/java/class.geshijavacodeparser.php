@@ -169,7 +169,14 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
      */
     var $_genericNames = array();    
    
-   
+   /**
+     * A list of enum values detected in the source
+     * 
+     * @var array
+     * @access private
+     */
+    var $_enumValueNames = array(); 
+    
    /**
      * A list of annotation names detected in the source
      * 
@@ -236,22 +243,27 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
                 $context_name = $this->_language . '/interface';
                 $flush = true;
             }
+            // Enum Values
+            if (in_array($token, $this->_enumValueNames)) {
+                $context_name = $this->_language . '/enum_value';
+                $flush = true;
+            }
         }
         
         //Check for Import Statements & Package names
         if('import' == $this->_prev_token || 'package' == $this->_prev_token) {
         	$this->_state = $this->_prev_token;
-        	$context_name .= '/' . $this->_prev_token;
+        	if(substr($context_name, -5) == '/java') {
+        		$context_name .= '/' . $this->_prev_token;
+        	}
         } elseif('import' == $this->_state || 'package' == $this->_state) {
         	if(substr($context_name, -8) == '/ootoken') {
         		$context_name = 'java/java/' . $this->_state;		
         	}
         	if($token == ';') {
         		$this->_state = '';	
-        	} else {
-        		if($context_name == $this->_language) {
-        			$context_name .= '/' . $this->_state;
-        		}
+        	} elseif($context_name == $this->_language) {
+        		$context_name .= '/' . $this->_state;
         	}
         }
         
@@ -266,7 +278,7 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
         		$this->_staticNames[] = $token;
         	}	
         }
-        
+    
         
 		// Classes Check
         // If we are in the class state, keep making barewords into class names
@@ -311,6 +323,21 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
             $this->_classNames[] = $token;  
         }
         
+        //Check for enums
+        if($this->_prev_token == 'enum') {
+        	$this->_varableNames[] = $token;
+        	$context_name .= '/variable';
+        	$this->_state = 'enum';	
+        } elseif($this->_state == 'enum') {
+        	if($context_name == 'java/java') {
+        		$this->_enumValueNames[] = $token;
+        		$context_name .= '/enum_value';
+        	} elseif($token == '}') {
+        		$this->_state = '';	
+        	}
+        }
+        
+        
         /*if ('class' == $this->_state || 'wait' == $this->_state) {// We just read the keyword "class", so this token 
             if ($this->_state != 'wait') { $this->_state = ''; }
             if ($token != ',' && $token != '{') {
@@ -347,7 +374,7 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
             // Last token (the possible variable) is a bareword?
             ($this->_language == $this->_prev_context) &&
             // This token is one of these symbols that typically appear after a variable 
-            ($token == '=' || $token == ';' ||
+            ($token == '=' || $token == ';' || $token == ':' ||
             $token == ',' || substr($token, 0, 1) == ')') &&
             // The token before the supposed variable wasn't a keyword (e.g. package foo;)
             $this->_prev_prev_context != "$this->_language/keyword") {
@@ -362,7 +389,8 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
                 if ($this->_prev_prev_context == $this->_language) {
                     $this->_classNames[] = $this->_prev_prev_token;
                     $this->_prev_prev_context .= '/class_name';
-                }
+                }                
+                
                 //echo "FOUND VAR: $this->_prev_token (prev_prev_token=$this->_prev_prev_token $this->_prev_prev_context)<br />\n";
                 //print_r($this->_store);
             } else {
@@ -381,7 +409,7 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
         	//$this->methodNames[] = $this->_prev_token;
             $this->_prev_context = $this->_language . '/method';
             //echo "FOUND METHOD: $this->_prev_token<br />\n";
-            //$flush = true;
+            $flush = true;
         } 
         
         // Generic Types Check
