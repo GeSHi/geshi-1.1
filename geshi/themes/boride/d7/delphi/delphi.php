@@ -38,6 +38,13 @@
 $this->setStyle('single_string', 'color:#000;');
 $this->setStyle('single_string/esc', 'color:#000;');
 
+$this->setStyle('char', 'color:#000080;');
+$this->setStyle('charhex', 'color:#000080;');
+
+$this->setStyle('hex', 'color:#000080;');
+$this->setStyle('num/int', 'color:#000080;');
+$this->setStyle('num/dbl', 'color:#000080;');
+
 $this->setStyle('multi_comment', 'color:#000080;font-style:italic;');
 $this->setStyle('single_comment', 'color:#000080;font-style:italic;');
 $this->setStyle('preprocessor', 'color:#008000;font-style:italic;');
