@@ -65,6 +65,7 @@ $this->setStyle('interface', 'color: navy;');
 $this->setStyle('import', 'color:#ac23ef;');
 $this->setStyle('package', 'color:turquoise;');
 $this->setStyle('enum_value', 'color:cyan;');
+$this->setStyle('static_class', 'color:tan;');
 
 $this->loadStyles('doxygen/doxygen');
 

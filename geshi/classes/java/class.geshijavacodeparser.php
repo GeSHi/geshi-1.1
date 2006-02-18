@@ -267,6 +267,12 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
         	}
         }
         
+        //Check for static class names
+        if($token == '.' && $this->_prev_prev_token != '.' 
+        && $this->_state != 'import' && $this->_state != 'package') {
+        	$this->_prev_context .= '/static_class';
+        }
+        
         //Check for Abstract Classes / Methods
         if($context_name == $this->_language) {
         	if($this->_prev_prev_token == 'abstract') {
@@ -378,7 +384,9 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
             $token == ',' || substr($token, 0, 1) == ')') &&
             // The token before the supposed variable wasn't a keyword (e.g. package foo;)
             $this->_prev_prev_context != "$this->_language/keyword") {
-
+            	
+            
+            
             // NOTE: I remove the [] and ] checks, should ask tim about them
             if ($this->_prev_prev_token != '(') {
                 // Set last token to be a variable
@@ -389,7 +397,8 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
                 if ($this->_prev_prev_context == $this->_language) {
                     $this->_classNames[] = $this->_prev_prev_token;
                     $this->_prev_prev_context .= '/class_name';
-                }                
+                }       
+                       
                 
                 //echo "FOUND VAR: $this->_prev_token (prev_prev_token=$this->_prev_prev_token $this->_prev_prev_context)<br />\n";
                 //print_r($this->_store);
@@ -399,7 +408,15 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
                 $this->_prev_context .= '/class_name';
             }
             $flush = true;
+        }     
+        //Handle cases like Foo foo;
+        if($token == ';' && substr($this->_prev_context, -11) == '/class_name') {	
+			//foo cannot be a class type
+			$this->_prev_context = 'java/java/variable';
+			$flush = true;
         }
+        
+        
         
         //Methods Check
         if (
@@ -409,7 +426,7 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
         	//$this->methodNames[] = $this->_prev_token;
             $this->_prev_context = $this->_language . '/method';
             //echo "FOUND METHOD: $this->_prev_token<br />\n";
-            $flush = true;
+            //$flush = true;
         } 
         
         // Generic Types Check
