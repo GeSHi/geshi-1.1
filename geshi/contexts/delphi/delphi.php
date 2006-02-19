@@ -48,7 +48,7 @@ $this->_contextKeywords = array(
     array(
         array(
             //@todo [blocking 1.1.1] get keywords normal way
-            'Abstract', 'And', 'Array', 'As', 'Asm', 'At', 'Begin', 'Case', 'Class',
+            'Absolute', 'Abstract', 'And', 'Array', 'As', 'Asm', 'At', 'Begin', 'Case', 'Class',
             'Const', 'Constructor', 'Contains', 'Destructor', 'DispInterface', 'Div',
             'Do', 'DownTo', 'Else', 'End', 'Except', 'File', 'Finalization',
             'Finally', 'For', 'Function', 'Goto', 'If', 'Implementation', 'In',
