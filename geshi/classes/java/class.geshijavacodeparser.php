@@ -420,10 +420,10 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
 			$this->_prev_context = 'java/java/variable';
 			$this->_variableNames[] = $this->_prev_token;
 			//Find the token that was in the classnames array and remove it
-			for($i = 0; $this->_classNames[$i] != null; $i++) {
-				if($this->_classNames[$i] == $this->_prev_token) {
-					$this->_classNames[$i] = null;	
-				}
+			foreach ($this->_classNames as $key => $name) {
+  				if ($this->_prev_token == $name) {
+    			unset($this->_classNames[$key]);
+ 				}
 			}
 			$flush = true;
         }
