@@ -270,8 +270,12 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
         //Check for static class names
         if($token == '.' && $this->_prev_prev_token != '.' 
         && $this->_state != 'import' && $this->_state != 'package') {
+        	echo "Entering static check<br>";
+        	echo $this->_prev_token . "<br>";
         	$this->_prev_context .= '/static_class';
         }
+        
+        
         
         //Check for Abstract Classes / Methods
         if($context_name == $this->_language) {
@@ -412,7 +416,15 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
         //Handle cases like Foo foo;
         if($token == ';' && substr($this->_prev_context, -11) == '/class_name') {	
 			//foo cannot be a class type
+			//add foo to the variables array
 			$this->_prev_context = 'java/java/variable';
+			$this->_variableNames[] = $this->_prev_token;
+			//Find the token that was in the classnames array and remove it
+			for($i = 0; $this->_classNames[$i] != null; $i++) {
+				if($this->_classNames[$i] == $this->_prev_token) {
+					$this->_classNames[$i] = null;	
+				}
+			}
 			$flush = true;
         }
         
