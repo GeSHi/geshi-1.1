@@ -268,7 +268,7 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
         }
         
         //Check for static class names
-        if($this->_state != 'import' && $this->_state != 'package' && $this->_prev_context != 'java/java/ootoken') {    	
+        if($this->_state != 'import' && $this->_state != 'package' && $this->_prev_context != 'java/java/ootoken' && $this->_state != 'interface') {    	
         	if($token == '.' && $this->_prev_prev_token != '.') { 
         		$this->_prev_context .= '/static_class';
         	} elseif($context_name == $this->_language && substr($this->_prev_prev_context, -11) == '/class_name') {
