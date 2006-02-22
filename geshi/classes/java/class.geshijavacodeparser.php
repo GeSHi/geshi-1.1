@@ -268,14 +268,14 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
         }
         
         //Check for static class names
-        if($token == '.' && $this->_prev_prev_token != '.' 
-        && $this->_state != 'import' && $this->_state != 'package') {
-        	echo "Entering static check<br>";
-        	echo $this->_prev_token . "<br>";
-        	$this->_prev_context .= '/static_class';
+        if($this->_state != 'import' && $this->_state != 'package' && $this->_prev_context != 'java/java/ootoken') {    	
+        	if($token == '.' && $this->_prev_prev_token != '.') { 
+        		$this->_prev_context .= '/static_class';
+        	} elseif($context_name == $this->_language && substr($this->_prev_prev_context, -11) == '/class_name') {
+        		$context_name = 'java/java/ootoken';
+        	}	
         }
-        
-        
+         
         
         //Check for Abstract Classes / Methods
         if($context_name == $this->_language) {
@@ -299,8 +299,7 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
                 if ('class' == $this->_state) {
                     $context_name .= '/class_name';
                     $this->_classNames[] = $token;
-                } else {
-                    // State will be "implements"
+                } else {// State will be "implements" 
                     $context_name .= '/interface';
                     $this->_interfaceNames[] = $token;
                 }
@@ -312,8 +311,8 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
             $this->_state = 'class';
         } elseif (!$this->_state && 'interface' == $token && $this->_language . '/keyword' == $context_name) {
             $this->_state = 'interface';
-        }
-        
+        }   
+
         
         //Check for Exceptions
         if ('throws' == $token) {
@@ -388,9 +387,7 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
             $token == ',' || substr($token, 0, 1) == ')') &&
             // The token before the supposed variable wasn't a keyword (e.g. package foo;)
             $this->_prev_prev_context != "$this->_language/keyword") {
-            	
-            
-            
+            	 
             // NOTE: I remove the [] and ] checks, should ask tim about them
             if ($this->_prev_prev_token != '(') {
                 // Set last token to be a variable
@@ -412,8 +409,10 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
                 $this->_prev_context .= '/class_name';
             }
             $flush = true;
-        }     
-        //Handle cases like Foo foo;
+        }
+        
+             
+        //Fix cases like Foo foo;
         if($token == ';' && substr($this->_prev_context, -11) == '/class_name') {	
 			//foo cannot be a class type
 			//add foo to the variables array
@@ -426,8 +425,21 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
  				}
 			}
 			$flush = true;
+        } 
+        //Fix cases like Foo foo = new Foo(); where Foo and foo are class_name
+        if($token == '=' && $this->_prev_context == 'java/java/class_name') {
+        	$this->_prev_context = 'java/java/variable';
+        	$this->_variableNames[] = $this->_prev_token;	
+        	$flush = true;
         }
-        
+             
+        //Fix case of parameter which has the same name as another parameter/variable
+        //Causing the type of the parameter to be recognised as java/java
+        if($context_name == 'java/java/variable' && $this->_prev_context == $this->_language) {
+        	$this->_classNames[] = $this->_prev_token;
+        	$this->_prev_context = 'java/java/class_name';
+        	$flush = true;
+        }	
         
         
         //Methods Check
