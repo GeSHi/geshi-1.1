@@ -170,6 +170,14 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
     var $_genericNames = array();    
    
    /**
+     * A list of exception names detected in the source
+     * 
+     * @var array
+     * @access private
+     */
+    var $_exceptionNames = array();  
+   
+   /**
      * A list of enum values detected in the source
      * 
      * @var array
@@ -246,6 +254,11 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
             // Enum Values
             if (in_array($token, $this->_enumValueNames)) {
                 $context_name = $this->_language . '/enum_value';
+                $flush = true;
+            }
+            // Exception Names
+            if (in_array($token, $this->_exceptionNames)) {
+                $context_name = $this->_language . '/exception';
                 $flush = true;
             }
             // Annotation names
@@ -382,7 +395,7 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
            	$this->_state = 'throws';	
         } elseif('throws' == $this->_state && substr($context_name, -5) == '/java') {
            	$context_name .= '/exception';
-            $this->_classNames[] = $token;
+            $this->_exceptionNames[] = $token;
         } elseif('throws' == $this->_state && ($token == '{' || $token == '{}')) {
         	$this->_state = '';	
         }
@@ -430,12 +443,11 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
                 //print_r($this->_store);
             } else {
                 // We found ( [something] ), which is a cast
-                if($this->_prev_prev_token != '(' && $token == ')') {
-                	$this->_classNames[] = $this->_prev_token;
-                	$this->_prev_context .= '/class_name';
-                } else {//We don't have a cast, & we have the first variable of the first&only class type defined
-                		//This seems to fix a bug where a variable was been mistaken for a cast.
-                		//This makes the cast test fail though
+                
+                if($this->_state == 'found') {
+                	$this->_classNames[] = $this->prev_token;
+                	$this->_prev_context .= '/class_name';        	
+                } else {//This seems to fix a bug where a single parameter was been mistaken for a cast.
                 	$this->_variableNames[] = $this->_prev_token;
                 	$this->_prev_context .= '/variable';
                }
@@ -473,15 +485,11 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
         	$flush = true;
         }	
         
-        //Handle array parameters such as d, e in this example: foo(dtype1 d[], dtype2 e[])     
-        if(($token == '[]' || $token == '[') && $this->_prev_context == $this->_language) {
-           	//echo "In [] check " . $this->_prev_token . "<br>";
-           	//echo $this->_prev_context . "<br>";
+        //Handle array parameters such as d, e in this example: foo(dtype1 d[], dtype2 e[]){     
+        if(($token == '[],' || $token == '[])' || $token == '[]){') && $this->_prev_context == $this->_language) {
 			$this->_variableNames[] = $this->_prev_token;
             $this->_prev_context = $this->_language . '/variable';
            	$flush = true;
-           	//echo $this->_prev_context . "<br>";
-           	//echo $this->_state . "<br>";
         }     
 		
 	}
