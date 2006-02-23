@@ -334,7 +334,14 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
     //Checks for the use of static classes such as Foo in: Foo.x, Foo.y()
     function staticClassCheck(&$token, &$context_name) {
     	if($this->_state != 'import' && $this->_state != 'package' && $this->_prev_context != 'java/java/ootoken' && $this->_state != 'interface' && $this->_state != 'class') {    	
-        	if($token == '.' && $this->_prev_prev_token != '.') { 
+        	if($token == '.' && ($this->_prev_prev_token != '.'
+        	&& (substr($this->_prev_context, -7) == '/method')
+        	|| substr($this->_prev_context, -9) == '/variable'
+        	|| substr($this->_prev_context, -11) != '/class_name' 
+        	|| substr($this->_prev_context, -5) != '/java')
+        	&& (substr($this->_prev_context, -8) != '/keyword')
+        	&& (substr($this->_prev_context, -7) != '/symbol')
+        	) {
         		$this->_prev_context .= '/static_class';
         	} /*elseif($context_name == $this->_language && substr($this->_prev_prev_context, -11) == '/class_name') {
         		$context_name = 'java/java/ootoken';
@@ -486,19 +493,20 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
         }	
         
         //Handle array parameters such as d, e in this example: foo(dtype1 d[], dtype2 e[]){     
-        if(($token == '[],' || $token == '[])' || $token == '[]){') && $this->_prev_context == $this->_language) {
+        if(($token == '[]' || $token == '[' || $token == '[],' || $token == '[])' || $token == '[]){') && $this->_prev_context == $this->_language) {
 			$this->_variableNames[] = $this->_prev_token;
             $this->_prev_context = $this->_language . '/variable';
            	$flush = true;
         }     
-		
+        
 	}
 	
 	
 	//Checks for methods to highlight in the source
 	function methodCheck(&$token, &$context_name) {
 		if ((($this->_language == $this->_prev_context) || (substr($this->_prev_context, -8) == '/ootoken'))
-       	&& ($token == '()' || $token == '(' || $token == '();')) {
+       	&& ($token == '()' || $token == '(' || $token == '();' || $token == '())')
+       	|| $token == '());') {
         	//$this->methodNames[] = $this->_prev_token;
             $this->_prev_context = $this->_language . '/method';
             //echo "FOUND METHOD: $this->_prev_token<br />\n";
