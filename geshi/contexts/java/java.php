@@ -60,20 +60,25 @@ $this->_contextKeywords = array(
         ),
         $CONTEXT . '/keyword',
         false,
-        ''
+        'http://java.sun.com/docs/books/tutorial/java/nutsandbolts/_keywords.html'
     ),
     
-   	array(
-    	//java.applet
-    	array('Applet', 'AppletContext', 'AppletStub', 'AudioClip'),
+	array(
+	//java.applet
+		array(
+			'Applet', 'AppletContext', 'AppletStub', 
+			'AudioClip'),
+
 		$CONTEXT . '/java/applet',
-        true,
-        ''					
-    ),
-    
-  	array(
-  		//java.awt
-  		array(
+		'color:#444;font-weight:bold;',
+		true,
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/applet/package-frame.html'
+
+	),
+
+	array(
+	//java.awt
+		array(
 			'AWTError', 'AWTEvent', 'AWTEventMulticaster', 
 			'AWTException', 'AWTKeyStroke', 'AWTPermission', 
 			'ActiveEvent', 'Adjustable', 'AlphaComposite', 
@@ -110,41 +115,47 @@ $this->_contextKeywords = array(
 			'ScrollPaneAdjustable', 'Scrollbar', 'Shape', 
 			'Stroke', 'SystemColor', 'TextArea', 
 			'TextComponent', 'TextField', 'TexturePaint', 
-			'Toolkit', 'Transparency', 'Window', 	
-  		),
+			'Toolkit', 'Transparency', 'Window'),
+
 		$CONTEXT . '/java/awt',
-        true,
-        ''
-  	),
-  	
-  	array(
-		//java.awt.color
-    	array(
+		'color:#444;font-weight:bold;',
+		false,
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/package-frame.html'
+
+	),
+
+	array(
+	//java.awt.color
+		array(
 			'CMMException', 'ColorSpace', 'ICC_ColorSpace', 
 			'ICC_Profile', 'ICC_ProfileGray', 'ICC_ProfileRGB', 
-			'ProfileDataException'   		
-		),
-    	$CONTEXT . '/java/awt/color',
-        true,
-        ''	  	
-  	),
-  	
-  	array(
-	    //java.awt.datatransfer
-    	array(
+			'ProfileDataException'),
+
+		$CONTEXT . '/java/awt/color',
+		'color:#444;font-weight:bold;',
+		true,
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/color/package-frame.html'
+
+	),
+
+	array(
+	//java.awt.datatransfer
+		array(
 			'Clipboard', 'ClipboardOwner', 'DataFlavor', 
 			'FlavorEvent', 'FlavorListener', 'FlavorMap', 
 			'FlavorTable', 'MimeTypeParseException', 'StringSelection', 
-			'SystemFlavorMap', 'Transferable', 'UnsupportedFlavorException'					
-		),
-    	$CONTEXT . '/java/awt/datatransfer',
-        true,
-        ''	  	
-  	),
-  	
-  	array(
-	    //java.awt.dnd
-    	array(
+			'SystemFlavorMap', 'Transferable', 'UnsupportedFlavorException'),
+
+		$CONTEXT . '/java/awt/datatransfer',
+		'color:#444;font-weight:bold;',
+		true,
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/datatransfer/package-frame.html'
+
+	),
+
+	array(
+	//java.awt.dnd
+		array(
 			'Autoscroll', 'DnDConstants', 'DragGestureEvent', 
 			'DragGestureListener', 'DragGestureRecognizer', 'DragSource', 
 			'DragSourceAdapter', 'DragSourceContext', 'DragSourceDragEvent', 
@@ -152,16 +163,18 @@ $this->_contextKeywords = array(
 			'DragSourceMotionListener', 'DropTarget', 'DropTarget.DropTargetAutoScroller', 
 			'DropTargetAdapter', 'DropTargetContext', 'DropTargetDragEvent', 
 			'DropTargetDropEvent', 'DropTargetEvent', 'DropTargetListener', 
-			'InvalidDnDOperationException', 'MouseDragGestureRecognizer'				
-		),
-    	$CONTEXT . '/java/awt/dnd',
-        true,
-        ''	  	
-  	),
-  	
-  	array(
-  	    //java.awt.event
-  		array(		
+			'InvalidDnDOperationException', 'MouseDragGestureRecognizer'),
+
+		$CONTEXT . '/java/awt/dnd',
+		'color:#444;font-weight:bold;',
+		true,
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/dnd/package-frame.html'
+
+	),
+
+	array(
+	//java.awt.event
+		array(
 			'AWTEventListener', 'AWTEventListenerProxy', 'ActionEvent', 
 			'ActionListener', 'AdjustmentEvent', 'AdjustmentListener', 
 			'ComponentAdapter', 'ComponentEvent', 'ComponentListener', 
@@ -176,31 +189,35 @@ $this->_contextKeywords = array(
 			'MouseWheelEvent', 'MouseWheelListener', 'PaintEvent', 
 			'TextEvent', 'TextListener', 'WindowAdapter', 
 			'WindowEvent', 'WindowFocusListener', 'WindowListener', 
-			'WindowStateListener'  	  	  			
-  		),
+			'WindowStateListener'),
+
 		$CONTEXT . '/java/awt/event',
-        true,
-        ''	  	
-	),	
-  	
+		'color:#444;font-weight:bold;',
+		true,
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/event/package-frame.html'
+
+	),
+
 	array(
-	    //java.awt.font
+	//java.awt.font 
 		array(
 			'FontRenderContext', 'GlyphJustificationInfo', 'GlyphMetrics', 
 			'GlyphVector', 'GraphicAttribute', 'ImageGraphicAttribute', 
 			'LineBreakMeasurer', 'LineMetrics', 'MultipleMaster', 
 			'NumericShaper', 'OpenType', 'ShapeGraphicAttribute', 
 			'TextAttribute', 'TextHitInfo', 'TextLayout', 
-			'TextLayout.CaretPolicy', 'TextMeasurer', 'TransformAttribute'
-        ),
-		$CONTEXT . '/java/awt/font',
-		true,
-		''
-    ),
+			'TextLayout.CaretPolicy', 'TextMeasurer', 'TransformAttribute'),
 
-    array(
-       //java.awt.geom 
-	   array(
+		$CONTEXT . '/java/awt/font',
+		'color:#444;font-weight:bold;',
+		true,
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/font/package-frame.html'
+
+	),
+
+	array(
+	//java.awt.geom 
+		array(
 			'AffineTransform', 'Arc2D', 'Arc2D.Double', 
 			'Arc2D.Float', 'Area', 'CubicCurve2D', 
 			'CubicCurve2D.Double', 'CubicCurve2D.Float', 'Dimension2D', 
@@ -214,8 +231,10 @@ $this->_contextKeywords = array(
 			'RoundRectangle2D', 'RoundRectangle2D.Double', 'RoundRectangle2D.Float'),
 
 		$CONTEXT . '/java/awt/geom',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/geom/package-frame.html'
+
 	),
 
 	array(
@@ -225,8 +244,9 @@ $this->_contextKeywords = array(
 			'InputSubset'),
 
 		$CONTEXT . '/java/awt/im',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/im/package-frame.html'
 
 	),
 
@@ -236,8 +256,9 @@ $this->_contextKeywords = array(
 			'InputMethod', 'InputMethodContext', 'InputMethodDescriptor'),
 
 		$CONTEXT . '/java/awt/im/spi',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/im/spi/package-frame.html'
 
 	),
 
@@ -264,8 +285,9 @@ $this->_contextKeywords = array(
 			'WritableRenderedImage'),
 
 		$CONTEXT . '/java/awt/image',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/image/package-frame.html'
 
 	),
 
@@ -277,8 +299,9 @@ $this->_contextKeywords = array(
 			'RenderedImageFactory'),
 
 		$CONTEXT . '/java/awt/image/renderable',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/image/renderable/package-frame.html'
 
 	),
 
@@ -291,8 +314,9 @@ $this->_contextKeywords = array(
 			'PrinterJob'),
 
 		$CONTEXT . '/java/awt/print',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/print/package-frame.html'
 
 	),
 
@@ -314,8 +338,9 @@ $this->_contextKeywords = array(
 			'XMLEncoder'),
 
 		$CONTEXT . '/java/beans',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/beans/package-frame.html'
 
 	),
 
@@ -331,8 +356,9 @@ $this->_contextKeywords = array(
 			'BeanContextSupport', 'BeanContextSupport.BCSIterator'),
 
 		$CONTEXT . '/java/beans/beancontext',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/beans/beancontext/package-frame.html'
 
 	),
 
@@ -367,8 +393,9 @@ $this->_contextKeywords = array(
 			'UnsupportedEncodingException', 'WriteAbortedException', 'Writer'),
 
 		$CONTEXT . '/java/io',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/io/package-frame.html'
 
 	),
 
@@ -409,8 +436,9 @@ $this->_contextKeywords = array(
 			'VerifyError', 'VirtualMachineError', 'Void'),
 
 		$CONTEXT . '/java/lang',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/lang/package-frame.html'
 
 	),
 
@@ -423,8 +451,9 @@ $this->_contextKeywords = array(
 			'RetentionPolicy', 'Target'),
 
 		$CONTEXT . '/java/lang/annotation',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/lang/annotation/package-frame.html'
 
 	),
 
@@ -435,8 +464,9 @@ $this->_contextKeywords = array(
 			'Instrumentation', 'UnmodifiableClassException'),
 
 		$CONTEXT . '/java/lang/instrument',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/lang/instrument/package-frame.html'
 
 	),
 
@@ -450,8 +480,9 @@ $this->_contextKeywords = array(
 			'RuntimeMXBean', 'ThreadInfo', 'ThreadMXBean'),
 
 		$CONTEXT . '/java/lang/management',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/lang/management/package-frame.html'
 
 	),
 
@@ -462,8 +493,9 @@ $this->_contextKeywords = array(
 			'SoftReference', 'WeakReference'),
 
 		$CONTEXT . '/java/lang/ref',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/lang/ref/package-frame.html'
 
 	),
 
@@ -479,8 +511,9 @@ $this->_contextKeywords = array(
 			'TypeVariable', 'UndeclaredThrowableException', 'WildcardType'),
 
 		$CONTEXT . '/java/lang/reflect',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/lang/reflect/package-frame.html'
 
 	),
 
@@ -491,8 +524,9 @@ $this->_contextKeywords = array(
 			'RoundingMode'),
 
 		$CONTEXT . '/java/math',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/math/package-frame.html'
 
 	),
 
@@ -519,8 +553,9 @@ $this->_contextKeywords = array(
 			'URLStreamHandlerFactory', 'UnknownHostException', 'UnknownServiceException'),
 
 		$CONTEXT . '/java/net',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/net/package-frame.html'
 
 	),
 
@@ -534,8 +569,9 @@ $this->_contextKeywords = array(
 			'ReadOnlyBufferException', 'ShortBuffer'),
 
 		$CONTEXT . '/java/nio',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/nio/package-frame.html'
 
 	),
 
@@ -557,8 +593,9 @@ $this->_contextKeywords = array(
 			'UnsupportedAddressTypeException', 'WritableByteChannel'),
 
 		$CONTEXT . '/java/nio/channels',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/nio/channels/package-frame.html'
 
 	),
 
@@ -569,8 +606,9 @@ $this->_contextKeywords = array(
 			'AbstractSelector', 'SelectorProvider'),
 
 		$CONTEXT . '/java/nio/channels/spi',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/nio/channels/spi/package-frame.html'
 
 	),
 
@@ -583,8 +621,9 @@ $this->_contextKeywords = array(
 			'UnmappableCharacterException', 'UnsupportedCharsetException'),
 
 		$CONTEXT . '/java/nio/charset',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/nio/charset/package-frame.html'
 
 	),
 
@@ -594,8 +633,9 @@ $this->_contextKeywords = array(
 			'CharsetProvider'),
 
 		$CONTEXT . '/java/nio/charset/spi',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/nio/charset/spi/package-frame.html'
 
 	),
 
@@ -611,8 +651,9 @@ $this->_contextKeywords = array(
 			'UnknownHostException', 'UnmarshalException'),
 
 		$CONTEXT . '/java/rmi',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/rmi/package-frame.html'
 
 	),
 
@@ -627,8 +668,9 @@ $this->_contextKeywords = array(
 			'UnknownObjectException'),
 
 		$CONTEXT . '/java/rmi/activation',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/rmi/activation/package-frame.html'
 
 	),
 
@@ -638,8 +680,9 @@ $this->_contextKeywords = array(
 			'DGC', 'Lease', 'VMID'),
 
 		$CONTEXT . '/java/rmi/dgc',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/rmi/dgc/package-frame.html'
 
 	),
 
@@ -649,8 +692,9 @@ $this->_contextKeywords = array(
 			'LocateRegistry', 'Registry', 'RegistryHandler'),
 
 		$CONTEXT . '/java/rmi/registry',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/rmi/registry/package-frame.html'
 
 	),
 
@@ -668,8 +712,9 @@ $this->_contextKeywords = array(
 			'UID', 'UnicastRemoteObject', 'Unreferenced'),
 
 		$CONTEXT . '/java/rmi/server',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/rmi/server/package-frame.html'
 
 	),
 
@@ -705,8 +750,9 @@ $this->_contextKeywords = array(
 			'UnresolvedPermission'),
 
 		$CONTEXT . '/java/security',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/security/package-frame.html'
 
 	),
 
@@ -718,8 +764,9 @@ $this->_contextKeywords = array(
 			'Owner', 'Permission'),
 
 		$CONTEXT . '/java/security/acl',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/security/acl/package-frame.html'
 
 	),
 
@@ -743,8 +790,9 @@ $this->_contextKeywords = array(
 			'X509Certificate', 'X509Extension'),
 
 		$CONTEXT . '/java/security/cert',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/security/cert/package-frame.html'
 
 	),
 
@@ -758,8 +806,9 @@ $this->_contextKeywords = array(
 			'RSAPublicKey'),
 
 		$CONTEXT . '/java/security/interfaces',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/security/interfaces/package-frame.html'
 
 	),
 
@@ -777,8 +826,9 @@ $this->_contextKeywords = array(
 			'RSAPrivateKeySpec', 'RSAPublicKeySpec', 'X509EncodedKeySpec'),
 
 		$CONTEXT . '/java/security/spec',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/security/spec/package-frame.html'
 
 	),
 
@@ -797,8 +847,9 @@ $this->_contextKeywords = array(
 			'Timestamp', 'Types'),
 
 		$CONTEXT . '/java/sql',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/sql/package-frame.html'
 
 	),
 
@@ -817,8 +868,9 @@ $this->_contextKeywords = array(
 			'StringCharacterIterator'),
 
 		$CONTEXT . '/java/text',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/text/package-frame.html'
 
 	),
 
@@ -856,8 +908,9 @@ $this->_contextKeywords = array(
 			'Vector', 'WeakHashMap'),
 
 		$CONTEXT . '/java/util',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/util/package-frame.html'
 
 	),
 
@@ -880,8 +933,9 @@ $this->_contextKeywords = array(
 			'TimeUnit', 'TimeoutException'),
 
 		$CONTEXT . '/java/util/concurrent',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/util/concurrent/package-frame.html'
 
 	),
 
@@ -894,8 +948,9 @@ $this->_contextKeywords = array(
 			'AtomicReferenceArray', 'AtomicReferenceFieldUpdater', 'AtomicStampedReference'),
 
 		$CONTEXT . '/java/util/concurrent/atomic',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/util/concurrent/atomic/package-frame.html'
 
 	),
 
@@ -907,8 +962,9 @@ $this->_contextKeywords = array(
 			'ReentrantReadWriteLock', 'ReentrantReadWriteLock.ReadLock', 'ReentrantReadWriteLock.WriteLock'),
 
 		$CONTEXT . '/java/util/concurrent/locks',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/util/concurrent/locks/package-frame.html'
 
 	),
 
@@ -921,8 +977,9 @@ $this->_contextKeywords = array(
 			'Pack200.Packer', 'Pack200.Unpacker'),
 
 		$CONTEXT . '/java/util/jar',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/util/jar/package-frame.html'
 
 	),
 
@@ -937,8 +994,9 @@ $this->_contextKeywords = array(
 			'StreamHandler', 'XMLFormatter'),
 
 		$CONTEXT . '/java/util/logging',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/util/logging/package-frame.html'
 
 	),
 
@@ -950,8 +1008,9 @@ $this->_contextKeywords = array(
 			'PreferenceChangeListener', 'Preferences', 'PreferencesFactory'),
 
 		$CONTEXT . '/java/util/prefs',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/util/prefs/package-frame.html'
 
 	),
 
@@ -962,8 +1021,9 @@ $this->_contextKeywords = array(
 			'PatternSyntaxException'),
 
 		$CONTEXT . '/java/util/regex',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/util/regex/package-frame.html'
 
 	),
 
@@ -978,8 +1038,9 @@ $this->_contextKeywords = array(
 			'ZipInputStream', 'ZipOutputStream'),
 
 		$CONTEXT . '/java/util/zip',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/java/util/zip/package-frame.html'
 
 	),
 
@@ -997,8 +1058,9 @@ $this->_contextKeywords = array(
 			'AccessibleText', 'AccessibleTextSequence', 'AccessibleValue'),
 
 		$CONTEXT . '/javax/accessibility',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/accessibility/package-frame.html'
 
 	),
 
@@ -1008,8 +1070,9 @@ $this->_contextKeywords = array(
 			'ActivityCompletedException', 'ActivityRequiredException', 'InvalidActivityException'),
 
 		$CONTEXT . '/javax/activity',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/activity/package-frame.html'
 
 	),
 
@@ -1026,8 +1089,9 @@ $this->_contextKeywords = array(
 			'SecretKeyFactorySpi', 'ShortBufferException'),
 
 		$CONTEXT . '/javax/crypto',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/crypto/package-frame.html'
 
 	),
 
@@ -1038,8 +1102,9 @@ $this->_contextKeywords = array(
 			'PBEKey'),
 
 		$CONTEXT . '/javax/crypto/interfaces',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/crypto/interfaces/package-frame.html'
 
 	),
 
@@ -1053,8 +1118,9 @@ $this->_contextKeywords = array(
 			'RC2ParameterSpec', 'RC5ParameterSpec', 'SecretKeySpec'),
 
 		$CONTEXT . '/javax/crypto/spec',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/crypto/spec/package-frame.html'
 
 	),
 
@@ -1067,8 +1133,9 @@ $this->_contextKeywords = array(
 			'ImageWriteParam', 'ImageWriter'),
 
 		$CONTEXT . '/javax/imageio',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/package-frame.html'
 
 	),
 
@@ -1079,8 +1146,9 @@ $this->_contextKeywords = array(
 			'IIOWriteProgressListener', 'IIOWriteWarningListener'),
 
 		$CONTEXT . '/javax/imageio/event',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/event/package-frame.html'
 
 	),
 
@@ -1091,8 +1159,9 @@ $this->_contextKeywords = array(
 			'IIOMetadataFormat', 'IIOMetadataFormatImpl', 'IIOMetadataNode'),
 
 		$CONTEXT . '/javax/imageio/metadata',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/metadata/package-frame.html'
 
 	),
 
@@ -1102,8 +1171,9 @@ $this->_contextKeywords = array(
 			'BMPImageWriteParam'),
 
 		$CONTEXT . '/javax/imageio/plugins/bmp',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/plugins/bmp/package-frame.html'
 
 	),
 
@@ -1114,8 +1184,9 @@ $this->_contextKeywords = array(
 			'JPEGQTable'),
 
 		$CONTEXT . '/javax/imageio/plugins/jpeg',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/plugins/jpeg/package-frame.html'
 
 	),
 
@@ -1128,8 +1199,9 @@ $this->_contextKeywords = array(
 			'ServiceRegistry', 'ServiceRegistry.Filter'),
 
 		$CONTEXT . '/javax/imageio/spi',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/spi/package-frame.html'
 
 	),
 
@@ -1142,8 +1214,9 @@ $this->_contextKeywords = array(
 			'MemoryCacheImageInputStream', 'MemoryCacheImageOutputStream'),
 
 		$CONTEXT . '/javax/imageio/stream',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/stream/package-frame.html'
 
 	),
 
@@ -1174,8 +1247,9 @@ $this->_contextKeywords = array(
 			'StandardMBean', 'StringValueExp', 'ValueExp'),
 
 		$CONTEXT . '/javax/management',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/management/package-frame.html'
 
 	),
 
@@ -1186,8 +1260,9 @@ $this->_contextKeywords = array(
 			'MLetMBean', 'PrivateClassLoader', 'PrivateMLet'),
 
 		$CONTEXT . '/javax/management/loading',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/management/loading/package-frame.html'
 
 	),
 
@@ -1200,8 +1275,9 @@ $this->_contextKeywords = array(
 			'ModelMBeanOperationInfo', 'RequiredModelMBean', 'XMLParseException'),
 
 		$CONTEXT . '/javax/management/modelmbean',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/management/modelmbean/package-frame.html'
 
 	),
 
@@ -1214,8 +1290,9 @@ $this->_contextKeywords = array(
 			'StringMonitorMBean'),
 
 		$CONTEXT . '/javax/management/monitor',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/management/monitor/package-frame.html'
 
 	),
 
@@ -1232,8 +1309,9 @@ $this->_contextKeywords = array(
 			'TabularDataSupport', 'TabularType'),
 
 		$CONTEXT . '/javax/management/openmbean',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/management/openmbean/package-frame.html'
 
 	),
 
@@ -1244,8 +1322,9 @@ $this->_contextKeywords = array(
 			'RelationType'),
 
 		$CONTEXT . '/javax/management/relation',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/management/relation/package-frame.html'
 
 	),
 
@@ -1262,8 +1341,9 @@ $this->_contextKeywords = array(
 			'RoleUnresolvedList'),
 
 		$CONTEXT . '/MBeanServerNotificationFilter',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/MBeanServerNotificationFilter/package-frame.html'
 
 	),
 
@@ -1278,8 +1358,9 @@ $this->_contextKeywords = array(
 			'SubjectDelegationPermission', 'TargetedNotification'),
 
 		$CONTEXT . '/javax/management/remote',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/management/remote/package-frame.html'
 
 	),
 
@@ -1292,8 +1373,9 @@ $this->_contextKeywords = array(
 			'RMIServerImpl_Stub'),
 
 		$CONTEXT . '/javax/management/remote/rmi',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/management/remote/rmi/package-frame.html'
 
 	),
 
@@ -1304,8 +1386,9 @@ $this->_contextKeywords = array(
 			'TimerNotification'),
 
 		$CONTEXT . '/javax/management/timer',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/management/timer/package-frame.html'
 
 	),
 
@@ -1328,8 +1411,9 @@ $this->_contextKeywords = array(
 			'StringRefAddr', 'TimeLimitExceededException'),
 
 		$CONTEXT . '/javax/naming',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/naming/package-frame.html'
 
 	),
 
@@ -1344,8 +1428,9 @@ $this->_contextKeywords = array(
 			'SchemaViolationException', 'SearchControls', 'SearchResult'),
 
 		$CONTEXT . '/javax/naming/directory',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/naming/directory/package-frame.html'
 
 	),
 
@@ -1357,8 +1442,9 @@ $this->_contextKeywords = array(
 			'ObjectChangeListener'),
 
 		$CONTEXT . '/javax/naming/event',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/naming/event/package-frame.html'
 
 	),
 
@@ -1375,8 +1461,9 @@ $this->_contextKeywords = array(
 			'UnsolicitedNotificationListener'),
 
 		$CONTEXT . '/javax/naming/ldap',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/naming/ldap/package-frame.html'
 
 	),
 
@@ -1389,8 +1476,9 @@ $this->_contextKeywords = array(
 			'ResolveResult', 'Resolver', 'StateFactory'),
 
 		$CONTEXT . '/javax/naming/spi',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/naming/spi/package-frame.html'
 
 	),
 
@@ -1400,8 +1488,9 @@ $this->_contextKeywords = array(
 			'ServerSocketFactory', 'SocketFactory'),
 
 		$CONTEXT . '/javax/net',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/net/package-frame.html'
 
 	),
 
@@ -1422,8 +1511,9 @@ $this->_contextKeywords = array(
 			'X509ExtendedKeyManager', 'X509KeyManager', 'X509TrustManager'),
 
 		$CONTEXT . '/javax/net/ssl',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/net/ssl/package-frame.html'
 
 	),
 
@@ -1438,11 +1528,12 @@ $this->_contextKeywords = array(
 			'MultiDocPrintService', 'PrintException', 'PrintService', 
 			'PrintServiceLookup', 'ServiceUI', 'ServiceUIFactory', 
 			'SimpleDoc', 'StreamPrintService', 'StreamPrintServiceFactory', 
-			'URIException'
-        ),
+			'URIException'),
+
 		$CONTEXT . '/javax/print',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/print/package-frame.html'
 
 	),
 
@@ -1457,11 +1548,12 @@ $this->_contextKeywords = array(
 			'PrintRequestAttribute', 'PrintRequestAttributeSet', 'PrintServiceAttribute', 
 			'PrintServiceAttributeSet', 'ResolutionSyntax', 'SetOfIntegerSyntax', 
 			'Size2DSyntax', 'SupportedValuesAttribute', 'TextSyntax', 
-			'URISyntax', 'UnmodifiableSetException'
-        ),
+			'URISyntax', 'UnmodifiableSetException'),
+
 		$CONTEXT . '/javax/print/attribute',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/print/attribute/package-frame.html'
 
 	),
 
@@ -1492,11 +1584,12 @@ $this->_contextKeywords = array(
 			'PrinterResolution', 'PrinterState', 'PrinterStateReason', 
 			'PrinterStateReasons', 'PrinterURI', 'QueuedJobCount', 
 			'ReferenceUriSchemesSupported', 'RequestingUserName', 'Severity', 
-			'SheetCollate', 'Sides'
-        ),
+			'SheetCollate', 'Sides'),
+
 		$CONTEXT . '/javax/print/attribute/standard',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/print/attribute/standard/package-frame.html'
 
 	),
 
@@ -1505,22 +1598,24 @@ $this->_contextKeywords = array(
 		array(
 			'PrintEvent', 'PrintJobAdapter', 'PrintJobAttributeEvent', 
 			'PrintJobAttributeListener', 'PrintJobEvent', 'PrintJobListener', 
-			'PrintServiceAttributeEvent', 'PrintServiceAttributeListener'
-        ),
+			'PrintServiceAttributeEvent', 'PrintServiceAttributeListener'),
+
 		$CONTEXT . '/javax/print/event',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/print/event/package-frame.html'
 
 	),
 
 	array(
 	//javax.rmi
 		array(
-			'PortableRemoteObject'
-        ),
+			'PortableRemoteObject'),
+
 		$CONTEXT . '/javax/rmi',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/rmi/package-frame.html'
 
 	),
 
@@ -1529,22 +1624,24 @@ $this->_contextKeywords = array(
 		array(
 			'ClassDesc', 'PortableRemoteObjectDelegate', 'Stub', 
 			'StubDelegate', 'Tie', 'Util', 
-			'UtilDelegate', 'ValueHandler', 'ValueHandlerMultiFormat'
-        ),
+			'UtilDelegate', 'ValueHandler', 'ValueHandlerMultiFormat'),
+
 		$CONTEXT . '/javax/rmi/CORBA',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/rmi/CORBA/package-frame.html'
 
 	),
 
 	array(
 	//javax.rmi.ssl   
 		array(
-			'SslRMIClientSocketFactory', 'SslRMIServerSocketFactory'
-        ),
+			'SslRMIClientSocketFactory', 'SslRMIServerSocketFactory'),
+
 		$CONTEXT . '/javax/rmi/ssl',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/rmi/ssl/package-frame.html'
 
 	),
 
@@ -1553,11 +1650,12 @@ $this->_contextKeywords = array(
 		array(
 			'AuthPermission', 'DestroyFailedException', 'Destroyable', 
 			'Policy', 'PrivateCredentialPermission', 'RefreshFailedException', 
-			'Refreshable', 'Subject', 'SubjectDomainCombiner'
-        ),
+			'Refreshable', 'Subject', 'SubjectDomainCombiner'),
+
 		$CONTEXT . '/javax/security/auth',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/auth/package-frame.html'
 
 	),
 
@@ -1567,11 +1665,12 @@ $this->_contextKeywords = array(
 			'Callback', 'CallbackHandler', 'ChoiceCallback', 
 			'ConfirmationCallback', 'LanguageCallback', 'NameCallback', 
 			'PasswordCallback', 'TextInputCallback', 'TextOutputCallback', 
-			'UnsupportedCallbackException'
-        ),
+			'UnsupportedCallbackException'),
+
 		$CONTEXT . '/javax/security/auth/callback',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/auth/callback/package-frame.html'
 
 	),
 
@@ -1579,11 +1678,12 @@ $this->_contextKeywords = array(
 	//javax.security.auth.kerberos   
 		array(
 			'DelegationPermission', 'KerberosKey', 'KerberosPrincipal', 
-			'KerberosTicket', 'ServicePermission'
-        ),
+			'KerberosTicket', 'ServicePermission'),
+
 		$CONTEXT . '/javax/security/auth/kerberos',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/auth/kerberos/package-frame.html'
 
 	),
 
@@ -1594,33 +1694,36 @@ $this->_contextKeywords = array(
 			'AccountNotFoundException', 'AppConfigurationEntry', 'AppConfigurationEntry.LoginModuleControlFlag', 
 			'Configuration', 'CredentialException', 'CredentialExpiredException', 
 			'CredentialNotFoundException', 'FailedLoginException', 'LoginContext', 
-			'LoginException'
-        ),
+			'LoginException'),
+
 		$CONTEXT . '/javax/security/auth/login',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/auth/login/package-frame.html'
 
 	),
 
 	array(
 	//javax.security.auth.spi  
 		array(
-			'LoginModule'
-        ),
+			'LoginModule'),
+
 		$CONTEXT . '/javax/security/auth/spi',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/auth/spi/package-frame.html'
 
 	),
 
 	array(
 	//javax.security.auth.x500   
 		array(
-			'X500Principal', 'X500PrivateCredential'
-        ),
+			'X500Principal', 'X500PrivateCredential'),
+
 		$CONTEXT . '/javax/security/auth/x500',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/auth/x500/package-frame.html'
 
 	),
 
@@ -1629,11 +1732,12 @@ $this->_contextKeywords = array(
 		array(
 			'Certificate', 'CertificateEncodingException', 'CertificateException', 
 			'CertificateExpiredException', 'CertificateNotYetValidException', 'CertificateParsingException', 
-			'X509Certificate'
-        ),
+			'X509Certificate'),
+
 		$CONTEXT . '/javax/security/cert',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/cert/package-frame.html'
 
 	),
 
@@ -1643,11 +1747,12 @@ $this->_contextKeywords = array(
 			'AuthenticationException', 'AuthorizeCallback', 'RealmCallback', 
 			'RealmChoiceCallback', 'Sasl', 'SaslClient', 
 			'SaslClientFactory', 'SaslException', 'SaslServer', 
-			'SaslServerFactory'
-        ),
+			'SaslServerFactory'),
+
 		$CONTEXT . '/javax/security/sasl',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/sasl/package-frame.html'
 
 	),
 
@@ -1662,11 +1767,12 @@ $this->_contextKeywords = array(
 			'Sequence', 'Sequencer', 'Sequencer.SyncMode', 
 			'ShortMessage', 'Soundbank', 'SoundbankResource', 
 			'Synthesizer', 'SysexMessage', 'Track', 
-			'Transmitter', 'VoiceStatus'
-        ),
+			'Transmitter', 'VoiceStatus'),
+
 		$CONTEXT . '/javax/sound/midi',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/sound/midi/package-frame.html'
 
 	),
 
@@ -1674,11 +1780,12 @@ $this->_contextKeywords = array(
 	//javax.sound.midi.spi  
 		array(
 			'MidiDeviceProvider', 'MidiFileReader', 'MidiFileWriter', 
-			'SoundbankReader'
-        ),
+			'SoundbankReader'),
+
 		$CONTEXT . '/javax/sound/midi/spi',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/sound/midi/spi/package-frame.html'
 
 	),
 
@@ -1696,11 +1803,12 @@ $this->_contextKeywords = array(
 			'LineListener', 'LineUnavailableException', 'Mixer', 
 			'Mixer.Info', 'Port', 'Port.Info', 
 			'ReverbType', 'SourceDataLine', 'TargetDataLine', 
-			'UnsupportedAudioFileException'
-        ),
+			'UnsupportedAudioFileException'),
+
 		$CONTEXT . '/javax/sound/sampled',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/sound/sampled/package-frame.html'
 
 	),
 
@@ -1708,11 +1816,12 @@ $this->_contextKeywords = array(
 	//javax.sound.sampled.spi   
 		array(
 			'AudioFileReader', 'AudioFileWriter', 'FormatConversionProvider', 
-			'MixerProvider'
-        ),
+			'MixerProvider'),
+
 		$CONTEXT . '/javax/sound/sampled/spi',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/sound/sampled/spi/package-frame.html'
 
 	),
 
@@ -1723,11 +1832,12 @@ $this->_contextKeywords = array(
 			'DataSource', 'PooledConnection', 'RowSet', 
 			'RowSetEvent', 'RowSetInternal', 'RowSetListener', 
 			'RowSetMetaData', 'RowSetReader', 'RowSetWriter', 
-			'XAConnection', 'XADataSource'
-        ),
+			'XAConnection', 'XADataSource'),
+
 		$CONTEXT . '/javax/sql',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/sql/package-frame.html'
 
 	),
 
@@ -1737,11 +1847,12 @@ $this->_contextKeywords = array(
 			'BaseRowSet', 'CachedRowSet', 'FilteredRowSet', 
 			'JdbcRowSet', 'JoinRowSet', 'Joinable', 
 			'Predicate', 'RowSetMetaDataImpl', 'RowSetWarning', 
-			'WebRowSet'
-        ),
+			'WebRowSet'),
+
 		$CONTEXT . '/javax/sql/rowset',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/sql/rowset/package-frame.html'
 
 	),
 
@@ -1751,11 +1862,12 @@ $this->_contextKeywords = array(
 			'SQLInputImpl', 'SQLOutputImpl', 'SerialArray', 
 			'SerialBlob', 'SerialClob', 'SerialDatalink', 
 			'SerialException', 'SerialJavaObject', 'SerialRef', 
-			'SerialStruct'
-        ),
+			'SerialStruct'),
+
 		$CONTEXT . '/javax/sql/rowset/serial',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/sql/rowset/serial/package-frame.html'
 
 	),
 
@@ -1764,11 +1876,12 @@ $this->_contextKeywords = array(
 		array(
 			'SyncFactory', 'SyncFactoryException', 'SyncProvider', 
 			'SyncProviderException', 'SyncResolver', 'TransactionalWriter', 
-			'XmlReader', 'XmlWriter'
-        ),
+			'XmlReader', 'XmlWriter'),
+
 		$CONTEXT . '/javax/sql/rowset/spi',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/sql/rowset/spi/package-frame.html'
 
 	),
 
@@ -1823,11 +1936,12 @@ $this->_contextKeywords = array(
 			'UIDefaults', 'UIDefaults.ActiveValue', 'UIDefaults.LazyInputMap', 
 			'UIDefaults.LazyValue', 'UIDefaults.ProxyLazyValue', 'UIManager', 
 			'UIManager.LookAndFeelInfo', 'UnsupportedLookAndFeelException', 'ViewportLayout', 
-			'WindowConstants'
-        ),
+			'WindowConstants'),
+
 		$CONTEXT . '/javax/swing',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/package-frame.html'
 
 	),
 
@@ -1837,11 +1951,12 @@ $this->_contextKeywords = array(
 			'AbstractBorder', 'BevelBorder', 'Border', 
 			'CompoundBorder', 'EmptyBorder', 'EtchedBorder', 
 			'LineBorder', 'MatteBorder', 'SoftBevelBorder', 
-			'TitledBorder'
-        ),
+			'TitledBorder'),
+
 		$CONTEXT . '/javax/swing/border',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/border/package-frame.html'
 
 	),
 
@@ -1849,11 +1964,12 @@ $this->_contextKeywords = array(
 	//javax.swing.colorchooser   
 		array(
 			'AbstractColorChooserPanel', 'ColorChooserComponentFactory', 'ColorSelectionModel', 
-			'DefaultColorSelectionModel'
-        ),
+			'DefaultColorSelectionModel'),
+
 		$CONTEXT . '/javax/swing/colorchooser',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/colorchooser/package-frame.html'
 
 	),
 
@@ -1875,22 +1991,24 @@ $this->_contextKeywords = array(
 			'TableModelListener', 'TreeExpansionEvent', 'TreeExpansionListener', 
 			'TreeModelEvent', 'TreeModelListener', 'TreeSelectionEvent', 
 			'TreeSelectionListener', 'TreeWillExpandListener', 'UndoableEditEvent', 
-			'UndoableEditListener'
-        ),
+			'UndoableEditListener'),
+
 		$CONTEXT . '/javax/swing/event',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/event/package-frame.html'
 
 	),
 
 	array(
 	//javax.swing.filechooser   
 		array(
-			'FileFilter', 'FileSystemView', 'FileView'
-        ),
+			'FileFilter', 'FileSystemView', 'FileView'),
+
 		$CONTEXT . '/javax/swing/filechooser',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/filechooser/package-frame.html'
 
 	),
 
@@ -1912,11 +2030,12 @@ $this->_contextKeywords = array(
 			'SliderUI', 'SpinnerUI', 'SplitPaneUI', 
 			'TabbedPaneUI', 'TableHeaderUI', 'TableUI', 
 			'TextUI', 'ToolBarUI', 'ToolTipUI', 
-			'TreeUI', 'UIResource', 'ViewportUI'
-        ),
+			'TreeUI', 'UIResource', 'ViewportUI'),
+
 		$CONTEXT . '/javax/swing/plaf',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/plaf/package-frame.html'
 
 	),
 
@@ -1946,11 +2065,12 @@ $this->_contextKeywords = array(
 			'BasicTextPaneUI', 'BasicTextUI', 'BasicTextUI.BasicCaret', 
 			'BasicTextUI.BasicHighlighter', 'BasicToggleButtonUI', 'BasicToolBarSeparatorUI', 
 			'BasicToolBarUI', 'BasicToolTipUI', 'BasicTreeUI', 
-			'BasicViewportUI', 'ComboPopup', 'DefaultMenuLayout'
-        ),
+			'BasicViewportUI', 'ComboPopup', 'DefaultMenuLayout'),
+
 		$CONTEXT . '/javax/swing/plaf/basic',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/plaf/basic/package-frame.html'
 
 	),
 
@@ -1975,11 +2095,12 @@ $this->_contextKeywords = array(
 			'MetalSeparatorUI', 'MetalSliderUI', 'MetalSplitPaneUI', 
 			'MetalTabbedPaneUI', 'MetalTextFieldUI', 'MetalTheme', 
 			'MetalToggleButtonUI', 'MetalToolBarUI', 'MetalToolTipUI', 
-			'MetalTreeUI', 'OceanTheme'
-        ),
+			'MetalTreeUI', 'OceanTheme'),
+
 		$CONTEXT . '/javax/swing/plaf/metal',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/plaf/metal/package-frame.html'
 
 	),
 
@@ -1996,11 +2117,12 @@ $this->_contextKeywords = array(
 			'MultiSpinnerUI', 'MultiSplitPaneUI', 'MultiTabbedPaneUI', 
 			'MultiTableHeaderUI', 'MultiTableUI', 'MultiTextUI', 
 			'MultiToolBarUI', 'MultiToolTipUI', 'MultiTreeUI', 
-			'MultiViewportUI'
-        ),
+			'MultiViewportUI'),
+
 		$CONTEXT . '/javax/swing/plaf/multi',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/plaf/multi/package-frame.html'
 
 	),
 
@@ -2009,11 +2131,12 @@ $this->_contextKeywords = array(
 		array(
 			'ColorType', 'Region', 'SynthConstants', 
 			'SynthContext', 'SynthGraphicsUtils', 'SynthLookAndFeel', 
-			'SynthPainter', 'SynthStyle', 'SynthStyleFactory'
-        ),
+			'SynthPainter', 'SynthStyle', 'SynthStyleFactory'),
+
 		$CONTEXT . '/javax/swing/plaf/synth',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/plaf/synth/package-frame.html'
 
 	),
 
@@ -2023,11 +2146,12 @@ $this->_contextKeywords = array(
 			'AbstractTableModel', 'DefaultTableCellRenderer', 'DefaultTableCellRenderer.UIResource', 
 			'DefaultTableColumnModel', 'DefaultTableModel', 'JTableHeader', 
 			'TableCellEditor', 'TableCellRenderer', 'TableColumn', 
-			'TableColumnModel', 'TableModel'
-        ),
+			'TableColumnModel', 'TableModel'),
+
 		$CONTEXT . '/javax/swing/table',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/table/package-frame.html'
 
 	),
 
@@ -2067,11 +2191,12 @@ $this->_contextKeywords = array(
 			'StyledEditorKit.UnderlineAction', 'TabExpander', 'TabSet', 
 			'TabStop', 'TabableView', 'TableView', 
 			'TextAction', 'Utilities', 'View', 
-			'ViewFactory', 'WrappedPlainView', 'ZoneView'
-        ),
+			'ViewFactory', 'WrappedPlainView', 'ZoneView'),
+
 		$CONTEXT . '/javax/swing/text',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/text/package-frame.html'
 
 	),
 
@@ -2088,11 +2213,12 @@ $this->_contextKeywords = array(
 			'ImageView', 'InlineView', 'ListView', 
 			'MinimalHTMLWriter', 'ObjectView', 'Option', 
 			'ParagraphView', 'StyleSheet', 'StyleSheet.BoxPainter', 
-			'StyleSheet.ListPainter'
-        ),
+			'StyleSheet.ListPainter'),
+
 		$CONTEXT . '/javax/swing/text/html',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/text/html/package-frame.html'
 
 	),
 
@@ -2102,22 +2228,24 @@ $this->_contextKeywords = array(
 			'AttributeList', 'ContentModel', 'DTD', 
 			'DTDConstants', 'DocumentParser', 'Element', 
 			'Entity', 'Parser', 'ParserDelegator', 
-			'TagElement'
-        ),
+			'TagElement'),
+
 		$CONTEXT . '/javax/swing/text/html/parser',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/text/html/parser/package-frame.html'
 
 	),
 
 	array(
 	//javax.swing.text.rtf   
 		array(
-			'RTFEditorKit'
-        ),
+			'RTFEditorKit'),
+
 		$CONTEXT . '/javax/swing/text/rtf',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/text/rtf/package-frame.html'
 
 	),
 
@@ -2129,11 +2257,12 @@ $this->_contextKeywords = array(
 			'DefaultTreeSelectionModel', 'ExpandVetoException', 'FixedHeightLayoutCache', 
 			'MutableTreeNode', 'RowMapper', 'TreeCellEditor', 
 			'TreeCellRenderer', 'TreeModel', 'TreeNode', 
-			'TreePath', 'TreeSelectionModel', 'VariableHeightLayoutCache'
-        ),
+			'TreePath', 'TreeSelectionModel', 'VariableHeightLayoutCache'),
+
 		$CONTEXT . '/javax/swing/tree',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/tree/package-frame.html'
 
 	),
 
@@ -2142,44 +2271,48 @@ $this->_contextKeywords = array(
 		array(
 			'AbstractUndoableEdit', 'CannotRedoException', 'CannotUndoException', 
 			'CompoundEdit', 'StateEdit', 'StateEditable', 
-			'UndoManager', 'UndoableEdit', 'UndoableEditSupport'
-        ),
+			'UndoManager', 'UndoableEdit', 'UndoableEditSupport'),
+
 		$CONTEXT . '/javax/swing/undo',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/undo/package-frame.html'
 
 	),
 
 	array(
 	//javax.transaction
 		array(
-			'InvalidTransactionException', 'TransactionRequiredException', 'TransactionRolledbackException'
-        ),
+			'InvalidTransactionException', 'TransactionRequiredException', 'TransactionRolledbackException'),
+
 		$CONTEXT . '/javax/transaction',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/transaction/package-frame.html'
 
 	),
 
 	array(
 	//javax.transaction.xa   
 		array(
-			'XAException', 'XAResource', 'Xid'
-        ),
+			'XAException', 'XAResource', 'Xid'),
+
 		$CONTEXT . '/javax/transaction/xa',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/transaction/xa/package-frame.html'
 
 	),
 
 	array(
 	//javax.xml   
 		array(
-			'XMLConstants'
-        ),
+			'XMLConstants'),
+
 		$CONTEXT . '/javax/xml',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/package-frame.html'
 
 	),
 
@@ -2188,11 +2321,12 @@ $this->_contextKeywords = array(
 		array(
 			'DatatypeConfigurationException', 'DatatypeConstants', 'DatatypeConstants.Field', 
 			'DatatypeFactory', 'Duration', 'NamespaceContext', 
-			'QName', 'XMLGregorianCalendar', 'javax.xml.namespace'
-        ),
+			'QName', 'XMLGregorianCalendar', 'javax.xml.namespace'),
+
 		$CONTEXT . '/javax/xml/datatype',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/datatype/package-frame.html'
 
 	),
 
@@ -2200,11 +2334,12 @@ $this->_contextKeywords = array(
 	//javax.xml.parsers  
 		array(
 			'DocumentBuilder', 'DocumentBuilderFactory', 'FactoryConfigurationError', 
-			'ParserConfigurationException', 'SAXParser', 'SAXParserFactory'
-        ),
+			'ParserConfigurationException', 'SAXParser', 'SAXParserFactory'),
+
 		$CONTEXT . '/javax/xml/parsers',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/parsers/package-frame.html'
 
 	),
 
@@ -2214,22 +2349,24 @@ $this->_contextKeywords = array(
 			'ErrorListener', 'OutputKeys', 'Result', 
 			'Source', 'SourceLocator', 'Templates', 
 			'Transformer', 'TransformerConfigurationException', 'TransformerException', 
-			'TransformerFactory', 'TransformerFactoryConfigurationError', 'URIResolver'
-        ),
+			'TransformerFactory', 'TransformerFactoryConfigurationError', 'URIResolver'),
+
 		$CONTEXT . '/javax/xml/transform',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/transform/package-frame.html'
 
 	),
 
 	array(
 	//javax.xml.transform.dom 
 		array(
-			'DOMLocator', 'DOMResult', 'DOMSource'
-        ),
+			'DOMLocator', 'DOMResult', 'DOMSource'),
+
 		$CONTEXT . '/javax/xml/transform/dom',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/transform/dom/package-frame.html'
 
 	),
 
@@ -2237,22 +2374,24 @@ $this->_contextKeywords = array(
 	//javax.xml.transform.sax   
 		array(
 			'SAXResult', 'SAXSource', 'SAXTransformerFactory', 
-			'TemplatesHandler', 'TransformerHandler'
-        ),
+			'TemplatesHandler', 'TransformerHandler'),
+
 		$CONTEXT . '/javax/xml/transform/sax',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/transform/sax/package-frame.html'
 
 	),
 
 	array(
 	//javax.xml.transform.stream   
 		array(
-			'StreamResult', 'StreamSource'
-        ),
+			'StreamResult', 'StreamSource'),
+
 		$CONTEXT . '/javax/xml/transform/stream',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/transform/stream/package-frame.html'
 
 	),
 
@@ -2260,11 +2399,12 @@ $this->_contextKeywords = array(
 	//javax.xml.validation   
 		array(
 			'Schema', 'SchemaFactory', 'SchemaFactoryLoader', 
-			'TypeInfoProvider', 'Validator', 'ValidatorHandler'
-        ),
+			'TypeInfoProvider', 'Validator', 'ValidatorHandler'),
+
 		$CONTEXT . '/javax/xml/validation',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/validation/package-frame.html'
 
 	),
 
@@ -2274,11 +2414,12 @@ $this->_contextKeywords = array(
 			'XPath', 'XPathConstants', 'XPathException', 
 			'XPathExpression', 'XPathExpressionException', 'XPathFactory', 
 			'XPathFactoryConfigurationException', 'XPathFunction', 'XPathFunctionException', 
-			'XPathFunctionResolver', 'XPathVariableResolver'
-        ),
+			'XPathFunctionResolver', 'XPathVariableResolver'),
+
 		$CONTEXT . '/javax/xml/xpath',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/xpath/package-frame.html'
 
 	),
 
@@ -2287,11 +2428,12 @@ $this->_contextKeywords = array(
 		array(
 			'ChannelBinding', 'GSSContext', 'GSSCredential', 
 			'GSSException', 'GSSManager', 'GSSName', 
-			'MessageProp', 'Oid'
-        ),
+			'MessageProp', 'Oid'),
+
 		$CONTEXT . '/org/ietf/jgss',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/ietf/jgss/package-frame.html'
 
 	),
 
@@ -2361,22 +2503,24 @@ $this->_contextKeywords = array(
 			'VisibilityHelper', 'WCharSeqHelper', 'WCharSeqHolder', 
 			'WStringSeqHelper', 'WStringSeqHolder', 'WStringValueHelper', 
 			'WrongTransaction', 'WrongTransactionHelper', 'WrongTransactionHolder', 
-			'_IDLTypeStub', '_PolicyStub'
-        ),
+			'_IDLTypeStub', '_PolicyStub'),
+
 		$CONTEXT . '/org/omg/CORBA',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA/package-frame.html'
 
 	),
 
 	array(
 	//org.omg.CORBA_2_3   
 		array(
-			'ORB'
-        ),
+			'ORB'),
+
 		$CONTEXT . '/org/omg/CORBA_2_3',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA_2_3/package-frame.html'
 
 	),
 
@@ -2384,11 +2528,12 @@ $this->_contextKeywords = array(
 	//org.omg.CORBA_2_3.portable   
 		array(
 			'Delegate', 'InputStream', 'ObjectImpl', 
-			'OutputStream'
-        ),
+			'OutputStream'),
+
 		$CONTEXT . '/org/omg/CORBA_2_3/portable',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA_2_3/portable/package-frame.html'
 
 	),
 
@@ -2396,22 +2541,24 @@ $this->_contextKeywords = array(
 	//org.omg.CORBA.DynAnyPackage
 		array(
 			'Invalid', 'InvalidSeq', 'InvalidValue', 
-			'TypeMismatch'
-        ),
+			'TypeMismatch'),
+
 		$CONTEXT . '/org/omg/CORBA/DynAnyPackage',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA/DynAnyPackage/package-frame.html'
 
 	),
 
 	array(
 	//org.omg.CORBA.ORBPackage
 		array(
-			'InconsistentTypeCode', 'InvalidName'
-        ),
+			'InconsistentTypeCode', 'InvalidName'),
+
 		$CONTEXT . '/org/omg/CORBA/ORBPackage',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA/ORBPackage/package-frame.html'
 
 	),
 
@@ -2424,22 +2571,24 @@ $this->_contextKeywords = array(
 			'OutputStream', 'RemarshalException', 'ResponseHandler', 
 			'ServantObject', 'Streamable', 'StreamableValue', 
 			'UnknownException', 'ValueBase', 'ValueFactory', 
-			'ValueInputStream', 'ValueOutputStream'
-        ),
+			'ValueInputStream', 'ValueOutputStream'),
+
 		$CONTEXT . '/org/omg/CORBA/portable',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA/portable/package-frame.html'
 
 	),
 
 	array(
 	//org.omg.CORBA.TypeCodePackage
 		array(
-			'BadKind', 'Bounds'
-        ),
+			'BadKind', 'Bounds'),
+
 		$CONTEXT . '/org/omg/CORBA/TypeCodePackage',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA/TypeCodePackage/package-frame.html'
 
 	),
 
@@ -2457,11 +2606,12 @@ $this->_contextKeywords = array(
 			'NamingContextExtPOA', 'NamingContextHelper', 'NamingContextHolder', 
 			'NamingContextOperations', 'NamingContextPOA', '_BindingIteratorImplBase', 
 			'_BindingIteratorStub', '_NamingContextExtStub', '_NamingContextImplBase', 
-			'_NamingContextStub'
-        ),
+			'_NamingContextStub'),
+
 		$CONTEXT . '/org/omg/CosNaming',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CosNaming/package-frame.html'
 
 	),
 
@@ -2469,11 +2619,12 @@ $this->_contextKeywords = array(
 	//org.omg.CosNaming.NamingContextExtPackage 
 		array(
 			'AddressHelper', 'InvalidAddress', 'InvalidAddressHelper', 
-			'InvalidAddressHolder', 'StringNameHelper', 'URLStringHelper'
-        ),
+			'InvalidAddressHolder', 'StringNameHelper', 'URLStringHelper'),
+
 		$CONTEXT . '/org/omg/CosNaming/NamingContextExtPackage',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CosNaming/NamingContextExtPackage/package-frame.html'
 
 	),
 
@@ -2485,22 +2636,24 @@ $this->_contextKeywords = array(
 			'InvalidName', 'InvalidNameHelper', 'InvalidNameHolder', 
 			'NotEmpty', 'NotEmptyHelper', 'NotEmptyHolder', 
 			'NotFound', 'NotFoundHelper', 'NotFoundHolder', 
-			'NotFoundReason', 'NotFoundReasonHelper', 'NotFoundReasonHolder'
-        ),
+			'NotFoundReason', 'NotFoundReasonHelper', 'NotFoundReasonHolder'),
+
 		$CONTEXT . '/org/omg/CosNaming/NamingContextPackage',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CosNaming/NamingContextPackage/package-frame.html'
 
 	),
 
 	array(
 	//org.omg.Dynamic 
 		array(
-			'Parameter'
-        ),
+			'Parameter'),
+
 		$CONTEXT . '/org/omg/Dynamic',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/Dynamic/package-frame.html'
 
 	),
 
@@ -2523,22 +2676,24 @@ $this->_contextKeywords = array(
 			'NameValuePairSeqHelper', '_DynAnyFactoryStub', '_DynAnyStub', 
 			'_DynArrayStub', '_DynEnumStub', '_DynFixedStub', 
 			'_DynSequenceStub', '_DynStructStub', '_DynUnionStub', 
-			'_DynValueStub'
-        ),
+			'_DynValueStub'),
+
 		$CONTEXT . '/org/omg/DynamicAny',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/DynamicAny/package-frame.html'
 
 	),
 
 	array(
 	//org.omg.DynamicAny.DynAnyFactoryPackage 
 		array(
-			'InconsistentTypeCode', 'InconsistentTypeCodeHelper'
-        ),
+			'InconsistentTypeCode', 'InconsistentTypeCodeHelper'),
+
 		$CONTEXT . '/org/omg/DynamicAny/DynAnyFactoryPackage',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/DynamicAny/DynAnyFactoryPackage/package-frame.html'
 
 	),
 
@@ -2546,11 +2701,12 @@ $this->_contextKeywords = array(
 	//org.omg.DynamicAny.DynAnyPackage   
 		array(
 			'InvalidValue', 'InvalidValueHelper', 'TypeMismatch', 
-			'TypeMismatchHelper'
-        ),
+			'TypeMismatchHelper'),
+
 		$CONTEXT . '/org/omg/DynamicAny/DynAnyPackage',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/DynamicAny/DynAnyPackage/package-frame.html'
 
 	),
 
@@ -2569,22 +2725,24 @@ $this->_contextKeywords = array(
 			'TAG_MULTIPLE_COMPONENTS', 'TAG_ORB_TYPE', 'TAG_POLICIES', 
 			'TAG_RMI_CUSTOM_MAX_STREAM_FORMAT', 'TaggedComponent', 'TaggedComponentHelper', 
 			'TaggedComponentHolder', 'TaggedProfile', 'TaggedProfileHelper', 
-			'TaggedProfileHolder', 'TransactionService'
-        ),
+			'TaggedProfileHolder', 'TransactionService'),
+
 		$CONTEXT . '/org/omg/IOP',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/IOP/package-frame.html'
 
 	),
 
 	array(
 	//org.omg.IOP.CodecFactoryPackage   
 		array(
-			'UnknownEncoding', 'UnknownEncodingHelper'
-        ),
+			'UnknownEncoding', 'UnknownEncodingHelper'),
+
 		$CONTEXT . '/org/omg/IOP/CodecFactoryPackage',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/IOP/CodecFactoryPackage/package-frame.html'
 
 	),
 
@@ -2592,22 +2750,24 @@ $this->_contextKeywords = array(
 	//org.omg.IOP.CodecPackage 
 		array(
 			'FormatMismatch', 'FormatMismatchHelper', 'InvalidTypeForEncoding', 
-			'InvalidTypeForEncodingHelper', 'TypeMismatch', 'TypeMismatchHelper'
-        ),
+			'InvalidTypeForEncodingHelper', 'TypeMismatch', 'TypeMismatchHelper'),
+
 		$CONTEXT . '/org/omg/IOP/CodecPackage',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/IOP/CodecPackage/package-frame.html'
 
 	),
 
 	array(
 	//org.omg.Messaging
 		array(
-			'SYNC_WITH_TRANSPORT', 'SyncScopeHelper'
-        ),
+			'SYNC_WITH_TRANSPORT', 'SyncScopeHelper'),
+
 		$CONTEXT . '/org/omg/Messaging',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/Messaging/package-frame.html'
 
 	),
 
@@ -2633,11 +2793,12 @@ $this->_contextKeywords = array(
 			'SUCCESSFUL', 'SYSTEM_EXCEPTION', 'ServerIdHelper', 
 			'ServerRequestInfo', 'ServerRequestInfoOperations', 'ServerRequestInterceptor', 
 			'ServerRequestInterceptorOperations', 'TRANSPORT_RETRY', 'UNKNOWN', 
-			'USER_EXCEPTION'
-        ),
+			'USER_EXCEPTION'),
+
 		$CONTEXT . '/org/omg/PortableInterceptor',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableInterceptor/package-frame.html'
 
 	),
 
@@ -2645,11 +2806,13 @@ $this->_contextKeywords = array(
 	//org.omg.PortableInterceptor.ORBInitInfoPackage   
 		array(
 			'DuplicateName', 'DuplicateNameHelper', 'InvalidName', 
-			'InvalidNameHelper', 'ObjectIdHelper'
-        ),
+			'InvalidNameHelper', 'ObjectIdHelper'),
+
 		$CONTEXT . '/org/omg/PortableInterceptor/ORBInitInfoPackage',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableInterceptor/ORBInitInfoPackage/package-frame.html'
+
 	),
 
 	array(
@@ -2672,33 +2835,36 @@ $this->_contextKeywords = array(
 			'ServantLocatorPOA', 'ServantManager', 'ServantManagerOperations', 
 			'ServantRetentionPolicy', 'ServantRetentionPolicyOperations', 'ServantRetentionPolicyValue', 
 			'THREAD_POLICY_ID', 'ThreadPolicy', 'ThreadPolicyOperations', 
-			'ThreadPolicyValue', '_ServantActivatorStub', '_ServantLocatorStub'
-        ),
+			'ThreadPolicyValue', '_ServantActivatorStub', '_ServantLocatorStub'),
+
 		$CONTEXT . '/org/omg/PortableServer',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableServer/package-frame.html'
 
 	),
 
 	array(
 	//org.omg.PortableServer.CurrentPackage
 		array(
-			'NoContext', 'NoContextHelper'
-        ),
+			'NoContext', 'NoContextHelper'),
+
 		$CONTEXT . '/org/omg/PortableServer/CurrentPackage',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableServer/CurrentPackage/package-frame.html'
 
 	),
 
 	array(
 	//org.omg.PortableServer.POAManagerPackage 
 		array(
-			'AdapterInactive', 'AdapterInactiveHelper', 'State'
-        ),
+			'AdapterInactive', 'AdapterInactiveHelper', 'State'),
+
 		$CONTEXT . '/org/omg/PortableServer/POAManagerPackage',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableServer/POAManagerPackage/package-frame.html'
 
 	),
 
@@ -2711,52 +2877,61 @@ $this->_contextKeywords = array(
 			'ObjectAlreadyActiveHelper', 'ObjectNotActive', 'ObjectNotActiveHelper', 
 			'ServantAlreadyActive', 'ServantAlreadyActiveHelper', 'ServantNotActive', 
 			'ServantNotActiveHelper', 'WrongAdapter', 'WrongAdapterHelper', 
-			'WrongPolicy', 'WrongPolicyHelper'
-        ),
+			'WrongPolicy', 'WrongPolicyHelper'),
+
 		$CONTEXT . '/org/omg/PortableServer/POAPackage',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableServer/POAPackage/package-frame.html'
 
 	),
 
 	array(
 	//org.omg.PortableServer.portable   
 		array(
-			'Delegate'
-        ),
+			'Delegate'),
+
 		$CONTEXT . '/org/omg/PortableServer/portable',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableServer/portable/package-frame.html'
+
 	),
 
 	array(
 	//org.omg.PortableServer.ServantLocatorPackage
 		array(
-			'CookieHolder'
-        ),
+			'CookieHolder'),
+
 		$CONTEXT . '/org/omg/PortableServer/ServantLocatorPackage',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableServer/ServantLocatorPackage/package-frame.html'
+
 	),
 
 	array(
 	//org.omg.SendingContext   
 		array(
-			'RunTime', 'RunTimeOperations'
-        ),
+			'RunTime', 'RunTimeOperations'),
+
 		$CONTEXT . '/org/omg/SendingContext',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/SendingContext/package-frame.html'
+
 	),
 
 	array(
 	//org.omg.stub.java.rmi   
 		array(
-			'_Remote_Stub'
-        ),
+			'_Remote_Stub'),
+
 		$CONTEXT . '/org/omg/stub/java/rmi',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/stub/java/rmi/package-frame.html'
+
 	),
 
 	array(
@@ -2771,21 +2946,25 @@ $this->_contextKeywords = array(
 			'EntityReference', 'NameList', 'NamedNodeMap', 
 			'Node', 'NodeList', 'Notation', 
 			'ProcessingInstruction', 'Text', 'TypeInfo', 
-			'UserDataHandler'
-        ),
+			'UserDataHandler'),
+
 		$CONTEXT . '/org/w3c/dom',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/w3c/dom/package-frame.html'
+
 	),
 
 	array(
 	//org.w3c.dom.bootstrap   
 		array(
-			'DOMImplementationRegistry'
-        ),
+			'DOMImplementationRegistry'),
+
 		$CONTEXT . '/org/w3c/dom/bootstrap',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/w3c/dom/bootstrap/package-frame.html'
+
 	),
 
 	array(
@@ -2793,11 +2972,13 @@ $this->_contextKeywords = array(
 		array(
 			'DocumentEvent', 'Event', 'EventException', 
 			'EventListener', 'EventTarget', 'MouseEvent', 
-			'MutationEvent', 'UIEvent'
-        ),
+			'MutationEvent', 'UIEvent'),
+
 		$CONTEXT . '/org/w3c/dom/events',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/w3c/dom/events/package-frame.html'
+
 	),
 
 	array(
@@ -2806,11 +2987,13 @@ $this->_contextKeywords = array(
 			'DOMImplementationLS', 'LSException', 'LSInput', 
 			'LSLoadEvent', 'LSOutput', 'LSParser', 
 			'LSParserFilter', 'LSProgressEvent', 'LSResourceResolver', 
-			'LSSerializer', 'LSSerializerFilter'
-        ),
+			'LSSerializer', 'LSSerializerFilter'),
+
 		$CONTEXT . '/org/w3c/dom/ls',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/w3c/dom/ls/package-frame.html'
+
 	),
 
 	array(
@@ -2821,11 +3004,13 @@ $this->_contextKeywords = array(
 			'ErrorHandler', 'HandlerBase', 'InputSource', 
 			'Locator', 'Parser', 'SAXException', 
 			'SAXNotRecognizedException', 'SAXNotSupportedException', 'SAXParseException', 
-			'XMLFilter', 'XMLReader'
-        ),
+			'XMLFilter', 'XMLReader'),
+
 		$CONTEXT . '/org/xml/sax',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/xml/sax/package-frame.html'
+
 	),
 
 	array(
@@ -2833,11 +3018,13 @@ $this->_contextKeywords = array(
 		array(
 			'Attributes2', 'Attributes2Impl', 'DeclHandler', 
 			'DefaultHandler2', 'EntityResolver2', 'LexicalHandler', 
-			'Locator2', 'Locator2Impl'
-        ),
+			'Locator2', 'Locator2Impl'),
+
 		$CONTEXT . '/org/xml/sax/ext',
+		'color:#444;font-weight:bold;',
 		true,
-		''
+		'http://java.sun.com/j2se/1.5.0/docs/api/org/xml/sax/ext/package-frame.html'
+
 	),
 
 
@@ -2850,11 +3037,11 @@ $this->_contextKeywords = array(
 		),
     	$CONTEXT . '/dtype',
         true,
-        ''	
+        'http://java.sun.com/docs/books/tutorial/java/nutsandbolts/datatypes.html'	
     ),
     
     array(
-        //  const values
+        //const values
         array(
             'false', 'null', 'true'
         ),
