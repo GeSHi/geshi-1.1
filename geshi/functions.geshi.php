@@ -251,14 +251,14 @@ function geshi_use_doubles ($prefix, $require_leading_number = false)
     return array(
         array(
              // double precision with e, e.g. 3.5e7 or -.45e2
-            "#(^|$banned)?({$plus_minus}[0-9]$leading_number_symbol\.[0-9]+[eE]{$plus_minus}[0-9]+f?)($banned|\$)?#",
+            "#(^|$banned)?({$plus_minus}[0-9]$leading_number_symbol\.[0-9]+[eE]{$plus_minus}[0-9]+(f|l)?)($banned|\$)?#",
             // double precision with e and no decimal place, e.g. 5e2
-            "#(^|$banned)?({$plus_minus}[0-9]+[eE]{$plus_minus}[0-9]+f?)($banned|\$)?#",
+            "#(^|$banned)?({$plus_minus}[0-9]+[eE]{$plus_minus}[0-9]+(f|l)?)($banned|\$)?#",
             // double precision (.123 or 34.342 for example)
             // There are some cases where the - sign will not be highlighted for various reasons,
             // but I'm happy that it's done where it can be. Maybe it might be worth looking at
             // later if there are any real problems, else I'll ignore it
-            "#(^|$banned)?({$plus_minus}[0-9]$leading_number_symbol\.[0-9]+f?)($banned|\$)?#"
+            "#(^|$banned)?({$plus_minus}[0-9]$leading_number_symbol\.[0-9]+(f|l)?)($banned|\$)?#"
         ),
         '.', //doubles must have a dot
         array(
