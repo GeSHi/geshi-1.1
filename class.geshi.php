@@ -540,6 +540,34 @@ class GeSHi
     }
     
     // }}}
+    // {{{ getSupportedThemes()
+    
+    /**
+     * Returns every theme supported by this installation of GeSHi
+     * 
+     * @param bool $return_human  If <kbd>true</kbd>, the array returned is of
+     *                            the form <kbd>theme_name => human name</kbd>,
+     *                            otherwise it is an array of <kbd>theme_name</kbd>s
+     * @return array A list of themes supported by GeSHi
+     */
+    function getSupportedThemes ($return_human = false)
+    {
+        $themes = array();
+        
+        $ignore = array('.', '..', 'CVS');
+        $dh = opendir(GESHI_THEMES_ROOT);
+        while (false !== ($theme_folder = readdir($dh))) {
+            if (in_array($theme_folder, $ignore) || is_file(GESHI_THEMES_ROOT . $theme_folder)) continue;
+            if ($return_human) {
+                $themes[$theme_folder] = GeSHi::getHumanThemeName($theme_folder);
+            } else {
+                $themes[] = $theme_folder;
+            }
+        }
+        
+        return $themes;
+    }
+    
     // {{{ themesSupportedBy()
     
     /**
@@ -653,7 +681,7 @@ class GeSHi
     }
     
     // }}}
-    // {{{ languageSupportsTheme()
+    // {{{ themeSupportsLanguage()
     
     /**
      * Given a theme and language, returns whether the them
