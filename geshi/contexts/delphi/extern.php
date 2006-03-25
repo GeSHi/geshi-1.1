@@ -34,12 +34,12 @@
 
 $this->_contextDelimiters = array(
     array(
-        array('exports'),
+        array('REGEX#(^|(?=\b))exports((?=\b)|$)#im'),
         array(';'),
         false
     ),
     array(
-        array('external'),
+        array('REGEX#(^|(?=\b))external((?=\b)|$)#im'),
         array(';'),
         false
     )
@@ -122,5 +122,7 @@ $this->_objectSplitters = array(
         false
     )
 );
+
+$this->_isComplex = true;
 
 ?>
