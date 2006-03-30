@@ -84,12 +84,9 @@ $this->_contextDelimiters = array(
  * 'preprocessor/general' context kicks in so that the "define" of my->define
  * is no longer in the current 'preprocessor' context and won't be linked.
  *
- * Unfortunately this approach fails for non-standard directives i.e. if
- * #define were instead #makemacro in the above code, a link would be generated
- * for it (although due to code in GeSHiCCodeParser->parseToken it would not be
- * highlighted differently - the entire line would be marked non-standard).
- * Given that we're not catering for non-standard stuff this seems acceptable
- * for the moment, though not desirable.
+ * This doesn't work for non-standard directives since they don't match a child
+ * context: for those we instead return null for $data['url'] in
+ * GeSHiCCodeParser->parseToken().
  */
 $this->_contextKeywords = array(
     array(

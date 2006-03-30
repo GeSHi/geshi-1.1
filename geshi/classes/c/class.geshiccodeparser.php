@@ -55,26 +55,35 @@ class GeSHiCCodeParser extends GeSHiCodeParser
     function GeSHiCCodeParser(&$styler, $language)
     {
         $this->GeSHiCodeParser($styler, $language);
+        /**
+         * Get the url for non-standard preprocessor directives into
+         * $this->_CnonStdPreprocDirectivesUrl
+         */
+        include GESHI_CONTEXTS_ROOT.'c'.GESHI_DIR_SEPARATOR.
+          'common_keywords.php';
     }
 
     function parseToken($token, $context_name, $data)
     {
         /**
-         * Demarcate non-standard preprocessor directives; don't allow
-         * subsequent tokens matching a standard include directive to highlight
-         * as a child preprocessor context.  Unfortunately this doesn't prevent
-         * such tokens from being linked since the context nevertheless changes
-         * - see comments in preprocessor.php.
+         * Demarcate non-standard preprocessor directives and link them to a
+         * hard-coded url; don't allow subsequent tokens matching a standard
+         * include directive to highlight as a child preprocessor context or to
+         * generate a link.
          */
+        $nonstd_ppdir_linked = false;
         if ($context_name == $this->_language.'/preprocessor/start' ||
           $context_name == $this->_language.'/preprocessor/end') {
             $this->_state = 0;
         } else if ($context_name == $this->_language.'/preprocessor' &&
           $this->_state == 0) {
             $this->_state = 1;
+            $data['url'] = $this->_CnonStdPreprocDirectivesUrl;
+            $nonstd_ppdir_linked = true;
         }
         if ($this->_state == 1) {
             $context_name = $this->_language.'/preprocessor/nonstd';
+            if (!$nonstd_ppdir_linked) $data['url'] = null;
         }
 
         /**
