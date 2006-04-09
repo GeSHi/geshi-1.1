@@ -44,13 +44,6 @@
 class GeSHiPHPDoubleStringContext extends GeSHiStringContext
 {
     /**
-     * A cached copy of the parent name
-     * @var string
-     * @access private
-     */
-    var $_parentName;
-    
-    /**
      * The regular expressions used to match variables
      * in this context.
      * 
@@ -67,23 +60,17 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
         'REGEX#(\{?\$\$?\{?[a-zA-Z_][a-zA-Z0-9_]*\[[\$a-zA-Z0-9_\s\[\]\']*\]\}?)#',
         'REGEX#(\{?)(\$\$?\{?[a-zA-Z_][a-zA-Z0-9_]*)(\s*->\s*)([a-zA-Z_][a-zA-Z0-9_]*)(\}?)#'
     );
-     
-    /**
-     * Loads data for a PHP Double String Context.
-     * 
-     * @var GeSHiStyler The styler to be used for this context 
-     */
-    function load (&$styler)
-    {
-        parent::load($styler);
-        $this->_parentName = parent::getName();
-    }
     
     /**
      * Adds code detected as being in this context to the parse data
      */    
     function _addParseData ($code, $first_char_of_next_context = '')
     {
+        static $parent_name;
+        if (!$parent_name) {
+            $parent_name = parent::name();
+        }
+        
         geshi_dbg('GeSHiPHPDoubleStringContext::_addParseData(' . substr($code, 0, 15) . '...)');
 
         while (true) {
@@ -122,7 +109,7 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
                 // as the correct context, and the rest of the variable (recurse to catch
                 // other variables inside this possible variable)
                 geshi_dbg('Variable was escaped');
-                $this->_styler->addParseData(substr($possible_var, 0, 2), $this->_parentName . '/esc',
+                $this->_styler->addParseData(substr($possible_var, 0, 2), $parent_name . '/esc',
                     $this->_getExtraParseData(), $this->_complexFlag);
                 $this->_addParseData(substr($possible_var, 2));
             } else {
@@ -154,24 +141,24 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
                     // Then we matched off the third regex - the one that does objects
                     // The first { if there is one, and $this (which is in index 2
                     $this->_styler->addParseData($start_brace . $earliest_data['tab'][2],
-                        $this->_parentName . '/var', $this->_getExtraParseData(), $this->_complexFlag);
+                        $parent_name . '/var', $this->_getExtraParseData(), $this->_complexFlag);
                     // The -> with any whitespace around it
-                    $this->_styler->addParseData($earliest_data['tab'][3], $this->_parentName . '/symbol',
+                    $this->_styler->addParseData($earliest_data['tab'][3], $parent_name . '/symbol',
                         $this->_getExtraParseData(), $this->_complexFlag);
                     // The method name
-                    $this->_styler->addParseData($earliest_data['tab'][4], $this->_parentName . '/oodynamic',
+                    $this->_styler->addParseData($earliest_data['tab'][4], $parent_name . '/oodynamic',
                         $this->_getExtraParseData(), $this->_complexFlag);
                     // The closing }, if any
                     if ($earliest_data['tab'][5]) {
                         if ($start_brace) {
-                            $this->_styler->addParseData($earliest_data['tab'][5], $this->_parentName . '/var',
+                            $this->_styler->addParseData($earliest_data['tab'][5], $parent_name . '/var',
                                 $this->_getExtraParseData(), $this->_complexFlag);
                         } else {
                             parent::_addParseData('}');
                         }
                     } 
                 } else {
-                    $this->_styler->addParseData($possible_var, $this->_parentName . '/var',
+                    $this->_styler->addParseData($possible_var, $parent_name . '/var',
                         $this->_getExtraParseData(), $this->_complexFlag);
                 }
             }
