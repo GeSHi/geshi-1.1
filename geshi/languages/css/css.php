@@ -42,12 +42,93 @@
  * 
  */
 
+
 /** Get the GeSHiCodeContext class */ 
-require_once GESHI_CLASSES_ROOT . 'class.geshicodecontext.php';
+/*require_once GESHI_CLASSES_ROOT . 'class.geshicodecontext.php';
 
 
 $this->_humanLanguageName = 'CSS';
 
 $this->_rootContext =& new GeSHiCodeContext('css');
+*/
+function geshi_css_css (&$context)
+{
+    $context->addChild('inline_media', 'cssinlinemedia', 'css');
+    //$context->addChild('rule');
+    /*
+    new GeSHiCodeContext('css',  $DIALECT, 'rule'),
+    new GeSHiContext('css',  $DIALECT, 'comment'),
+    new GeSHiContext('css',  $DIALECT, 'attribute_selector'),
+    new GeSHiCodeContext('css', $DIALECT, 'at_rule')
+);
+ 
+
+$this->_contextKeywords = array(
+    array(
+        array(
+            '@font-face'
+        ),
+        $CONTEXT . '/at_rule/start',
+        false,
+        ''
+    ),
+    
+    // Psuedoclasses
+    array(
+        array(
+            'hover', 'link', 'visited', 'active', 'focus', 'first-child', 'first-letter',
+            'first-line', 'before', 'after'
+         ),
+         $CONTEXT . '/psuedoclass',
+         false,
+         ''
+     )
+);
+
+$this->_contextSymbols  = array(
+    array(
+        array(
+            ',', '*', '>', '+'
+        ),
+        $CONTEXT . '/symbol',
+    )
+);
+
+$this->_contextRegexps  = array(
+    array(
+        array(
+            '#(\.[a-zA-Z][a-zA-Z0-9\-_]*)#'
+        ),
+        '.',
+        array(
+            1 => array($CONTEXT . '/class', false)
+        )
+    ),
+    array(
+        array(
+            '/(#[a-zA-Z][a-zA-Z0-9\-_]*)/'
+        ),
+        '#',
+        array(
+            1 => array($CONTEXT . '/id', false)
+        )
+    )
+);*/
+}
+
+function geshi_css_css_inline_media (&$context)
+{
+    $this->_contextDelimiters = array(
+    array(
+        array('REGEX#@media\s+\w+\s+\{#'),
+        array('}'),
+        false
+    )
+);
+
+/*$this->_childContexts = array(
+    new GeSHiCodeContext('css',  $DIALECT, 'rule')
+);*/
+}
 
 ?>
