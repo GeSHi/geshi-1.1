@@ -76,7 +76,7 @@ class GeSHiSingleCharContext extends GeSHiContext
      */
     function getContextStartData ($code, $start_of_context)
     {
-        geshi_dbg('GeSHiSingleCharContext::getContextStartData(' . $this->_contextName . ', ' . $start_of_context . ')', GESHI_DBG_API | GESHI_DBG_PARSE);
+        geshi_dbg('GeSHiSingleCharContext::getContextStartData(' . $this->_contextName . ', ' . $start_of_context . ')');
         
         $offset = 0;
         while (true) {
@@ -146,7 +146,7 @@ class GeSHiSingleCharContext extends GeSHiContext
      */
     function _addParseData ($code, $first_char_of_next_context = '')
     {
-        geshi_dbg('GeSHiSingleCharContext::_addParseData(' . substr($code, 0, 15) . '...)', GESHI_DBG_PARSE);       
+        geshi_dbg('GeSHiSingleCharContext::_addParseData(' . substr($code, 0, 15) . '...)');       
         if (in_array(substr($code, 0, 1), $this->_escapeCharacters)) {
             $this->_styler->addParseData($code, $this->_contextName . '/esc',
                 $this->_getExtraParseData(), $this->_complexFlag);
