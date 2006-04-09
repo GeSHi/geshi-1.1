@@ -63,6 +63,7 @@ $this->setStyle('double_string/oodynamic', 'color:#933;');
 $this->setStyle('heredoc', 'color:#f00;');
 $this->setStyle('heredoc/start', 'color:#006;font-weight:bold;');
 $this->setStyle('heredoc/end', 'color:#006;font-weight:bold;');
+$this->setStyle('heredoc/esc', 'color:#006;font-weight:bold;');
 $this->setStyle('heredoc/var', 'color:#22f;');
 $this->setStyle('heredoc/symbol', 'color:#008000;');
 $this->setStyle('heredoc/oodynamic', 'color:#933;');
