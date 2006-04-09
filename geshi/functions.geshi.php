@@ -32,9 +32,12 @@
  * 
  */
 
-$GLOBALS['geshi_dbg_level'] = 0;
-function geshi_dbg_level ($level) {
-    $GLOBALS['geshi_dbg_level'] = $level;
+$GLOBALS['geshi_dbg'] = false;
+function geshi_dbg_on () {
+    $GLOBALS['geshi_dbg'] = true;
+}
+function geshi_dbg_off () {
+    $GLOBALS['geshi_dbg'] = false;
 }
 
 /**
@@ -47,10 +50,9 @@ function geshi_dbg_level ($level) {
  * @param boolean Whether to add a newline to the message
  * @param boolean Whether to return the count of errors or not
  */
-function geshi_dbg ($message, $context, $add_nl = true, $return_counts = false)
+function geshi_dbg ($message, $add_nl = true)
 {
-    //echo "DBG: " . (GESHI_DBG & $context) . "  " . $context . "  " . "<br />";
-    if (((GESHI_DBG & $context)) || ($GLOBALS['geshi_dbg_level'] & $context)) {
+    if ($GLOBALS['geshi_dbg']) {
         //
         // Message can have the following symbols at start
         //
@@ -102,27 +104,11 @@ function geshi_dbg ($message, $context, $add_nl = true, $return_counts = false)
 
 /**
  * Checks whether a file name is able to be read by GeSHi
- * 
- * The file must be within the GESHI_ROOT directory
- * 
- * @param string The absolute pathname of the file to check
- * @return boolean Whether the file is readable by GeSHi
- * @todo [blocking 1.1.5] Check that path does not contain links etc (bug 15)
- */
-/*function geshi_can_include ($file_name)
-{
-    return (GESHI_ROOT == substr($file_name, 0, strlen(GESHI_ROOT)) &&
-        is_file($file_name) && is_readable($file_name));
-}*/
-
-/**
- * Checks whether a file name is able to be read by GeSHi
  *
  * The file must be within the GESHI_ROOT directory
  *
  * @param string The absolute pathname of the file to check
  * @return boolean Whether the file is readable by GeSHi
- * @todo [blocking 1.1.5] Check that path does not contain links etc (bug 15)
  */
 function geshi_can_include ($file_name)
 {
@@ -150,14 +136,13 @@ function geshi_can_include ($file_name)
             $file_type = filetype($file_name);
             $can_include &= (('file' == $file_type || 'dir' == $file_type) && !is_link($file_name));
 
-            // Change to the parent's directory for next test
+            // Change to the parent directory for next test
             $file_name = dirname($file_name);
         } while (GESHI_ROOT == substr($file_name, 0, strlen(GESHI_ROOT) && $can_include));
     }
 
     return $can_include;
 }
-
 
 /**
  * Drop-in replacement for strpos and stripos. Also can handle regular expression
@@ -176,7 +161,6 @@ function geshi_can_include ($file_name)
  */
 function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = false, $need_table = false)
 {
-    //geshi_dbg('Checking haystack: ' . $haystack . ' against needle ' . $needle . ' (' . $offset . ')',GESHI_DBG_PARSE, false);
     if ('REGEX' != substr($needle, 0, 5)) {
         if (!$case_sensitive) {
             return array('pos' => stripos($haystack, $needle, $offset), 'len' => strlen($needle));
@@ -210,67 +194,9 @@ function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = 
 }
 
 /**
- * Returns the regexp for integer numbers, for use with GeSHiCodeContexts
- * 
- * @param string The prefix to use for the name of this number match
- * @return array
  * @todo [blocking 1.1.5] Octal/hexadecimal numbers are common, so should have functions
  *       for those, and make sure that integers/doubles do not collide
  */
-function geshi_use_integers ($prefix)
-{
-    return array(
-        array(
-            '#([^a-zA-Z_0-9\.]|^)([-]?[0-9]+)(?=[^a-zA-Z_0-9]|$)#'
-        ),
-        '',
-        array(
-            1 => true, // catch banned stuff for highlighting by the code context that it is in
-            2 => array(
-                $prefix . '/' . GESHI_NUM_INT,
-                false
-                ),
-            3 => true
-        )
-    );
-}
-
-/**
- * Returns the regexp for double numbers, for use with GeSHiCodeContexts
- * 
- * @param string The prefix to use for the name of this number match
- * @param boolean Whether a number is required in front of the decimal point or not.
- * @return array
- */
-function geshi_use_doubles ($prefix, $require_leading_number = false)
-{
-    $banned = '[^a-zA-Z_0-9]';
-    $plus_minus = '[\-\+]?';
-    $leading_number_symbol = ($require_leading_number) ? '+' : '*';
-
-    return array(
-        array(
-             // double precision with e, e.g. 3.5e7 or -.45e2
-            "#(^|$banned)?({$plus_minus}[0-9]$leading_number_symbol\.[0-9]+[eE]{$plus_minus}[0-9]+[fl]?)($banned|\$)?#",
-            // double precision with e and no decimal place, e.g. 5e2
-            "#(^|$banned)?({$plus_minus}[0-9]+[eE]{$plus_minus}[0-9]+[fl]?)($banned|\$)?#",
-            // double precision (.123 or 34.342 for example)
-            // There are some cases where the - sign will not be highlighted for various reasons,
-            // but I'm happy that it's done where it can be. Maybe it might be worth looking at
-            // later if there are any real problems, else I'll ignore it
-            "#(^|$banned)?({$plus_minus}[0-9]$leading_number_symbol\.[0-9]+[fl]?)($banned|\$)?#"
-        ),
-        '.', //doubles must have a dot
-        array(
-            1 => true, // as above, catch for normal stuff
-            2 => array(
-                0 => $prefix . '/' . GESHI_NUM_DBL,
-                1 => false // Don't attempt to highlight numbers as code
-            ),
-            true
-        )
-    );
-}
 
 function geshi_is_whitespace ($token)
 {
@@ -322,6 +248,16 @@ if (!function_exists('stripos')) {
 
 		return strlen($segments[0]) + $fix;
 	}
+}
+
+
+function &geshi_styler ()
+{
+    static $styler = null;
+    if (!$styler) {
+        $styler = new GeSHiStyler;
+    }
+    return $styler;
 }
 
 ?>
