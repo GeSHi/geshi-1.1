@@ -183,7 +183,7 @@ class GeSHiStringContext extends GeSHiContext
                     geshi_dbg('match, data = ' . print_r($data, true));
                     return $data['len'];
                 }
-                geshi_dbg('no match', GESHI_DBG_PARSE);
+                geshi_dbg('no match');
             }
         }
         // No matches...
