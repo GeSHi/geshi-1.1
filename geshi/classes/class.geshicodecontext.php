@@ -1,70 +1,61 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
+ * <pre>
+ *   File:   geshi/classes/class.geshicodecontext.php
+ *   Author: Nigel McNie
+ *   E-mail: nigel@geshi.org
+ * </pre>
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
  * 
- *  This file is part of GeSHi.
+ * This program is part of GeSHi.
  *
- *  GeSHi is free software; you can redistribute it and/or modify
+ *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
  *  (at your option) any later version.
  *
- *  GeSHi is distributed in the hope that it will be useful,
+ *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- *
+ * 
  *  You should have received a copy of the GNU General Public License
- *  along with GeSHi; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  *
- * You can view a copy of the GNU GPL in the COPYING file that comes
- * with GeSHi, in the docs/ directory.
- *
- * @package   core
- * @author    Nigel McNie <nigel@geshi.org>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright (C) 2005 Nigel McNie
- * @version   $Id$
+ * @package    geshi
+ * @subpackage core
+ * @author     Nigel McNie <nigel@geshi.org>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * @copyright  (C) 2004 - 2006 Nigel McNie
+ * @version    $Id$
  * 
  */
 
 /**
- * This class represents a "Code" context - one where keywords and
- * regular expressions can be used to highlight part of the context.
+ * This class represents a "Code" context - one where keywords,
+ * regular expressions and other things can be used to highlight
+ * part of the context.
  *
  * If the context you are in requires keyword or regular expression
  * support, then GeSHiCodeContext is the context type that you need.
  *
- * <b>Usage:</b>
- *
- * Use this class in a context or language file, to define a code
- * context:
- *
- * <pre> 'CHILD_CONTEXTS' => array(
- *   ...
- *   new GeSHiCodeContext([params])
- *   ...
- * ),</pre>
- *
- * <pre> 'CONTEXTS' => array(
- *   ...
- *   new GeSHiCodeContext([params])
- *   ...
- * ),</pre>
- *
- * @package core
- * @author  Nigel McNie <nigel@geshi.org>
- * @since   1.1.0
- * @version $Revision$
- * @see     GeSHiContext
- * 
+ * @package    geshi
+ * @subpackage core
+ * @author     Nigel McNie <nigel@geshi.org>
+ * @since      1.1.0
+ * @version    $Revision$
+ * @see        GeSHiContext
+ * @todo       [blocking 1.1.9] Document better
  */
 class GeSHiCodeContext extends GeSHiContext
 {
+    
+    // {{{ properties
+    
     /**#@+
      * @var array
      * @access private
@@ -72,60 +63,138 @@ class GeSHiCodeContext extends GeSHiContext
 
     /**
      * Keywords for this code context
-     * @var array
      */
     var $_contextKeywords = array();
 
     /**
      * Characters that cannot appear before a keyword
-     * @var array
      */
     var $_contextCharactersDisallowedBeforeKeywords = array();
 
     /**
      * Characters that cannot appear after a keyword
-     * @var array
      */
     var $_contextCharactersDisallowedAfterKeywords = array();
 
     /**
      * A lookup table for use with regex matched starters/enders
-     * @var array
+     * @todo initialise to array?
      */
     var $_contextKeywordLookup;
 
     /**
      * A symbol array
-     * @var array
      */
     var $_contextSymbols = array();
 
     /**
      * A regex array
-     * @var array
      */
     var $_contextRegexps = array();
     
     /**
      * An array of object "splitters"
      */
-    var $_objectSplitters = array();
+    //var $_objectSplitters = array();
     
     /**
      * Whether this code context has finished loading yet
 	 * @todo [blocking 1.1.1] Do this by static variable?
      */
-    var $_codeContextLoaded = false;
+    //var $_codeContextLoaded = false;
      
      /**#@-*/
+     
+     // }}}
 
+    function addKeywordGroup ($keywords, $context_name, $case_sensitive = false, $url_data = '') {
+        $this->_contextKeywords[] = array($keywords, "$this->_contextName/$context_name", $case_sensitive, $url_data);
+    }
+    function setCharactersDisallowedBeforeKeywords($chars) {
+        $this->_contextCharactersDisallowedBeforeKeywords = (array)$chars;
+    }
+    function setCharactersDisallowedAfterKeywords($chars) {
+        $this->_contextCharactersDisallowedAfterKeywords  = (array)$chars;
+    }
+    
+    function addSymbolGroup($symbols, $context_name) {
+        $this->_contextSymbols[] = array($symbols, "$this->_contextName/$context_name");
+    }
+
+    function addRegexGroup($regexes, $test_char, $handler_info) {
+        // Add context name to the beginning of entries 
+        foreach (array_keys($handler_info) as $key) {
+            if (is_array($handler_info[$key])) {
+                $handler_info[$key][0] = $this->_contextName . '/' . $handler_info[$key][0];
+            }
+        }
+        $this->_contextRegexps[] = array((array) $regexes, $test_char, $handler_info);
+    }
+    
+    function useStandardIntegers ()
+    {
+        $this->addRegexGroup('#([^a-zA-Z_0-9\.]|^)([0-9]+)(?=[^a-zA-Z_0-9]|$)#', '', array(
+                1 => true, // catch banned stuff for highlighting by the code context that it is in
+                2 => array('num/int', false),
+                3 => true
+            )
+        );
+    }
+    
+    function useStandardDoubles ($plus_minus_context, $require_leading_number = false)
+    {
+        $banned = '[^a-zA-Z_0-9]';
+        $plus_minus = '[\-\+]?';
+        $leading_number_symbol = ($require_leading_number) ? '+' : '*';
+
+        $this->addRegexGroup(array(
+             // double precision with e, e.g. 3.5e7 or -.45e2
+            "#(^|$banned)?({$plus_minus})([0-9]$leading_number_symbol\.[0-9]+[eE]{$plus_minus}[0-9]+[fl]?)($banned|\$)?#",
+            // double precision with e and no decimal place, e.g. 5e2
+            "#(^|$banned)?({$plus_minus})([0-9]+[eE]{$plus_minus}[0-9]+[fl]?)($banned|\$)?#",
+            // double precision (.123 or 34.342 for example)
+            // There are some cases where the - sign will not be highlighted for various reasons,
+            // but I'm happy that it's done where it can be. Maybe it might be worth looking at
+            // later if there are any real problems, else I'll ignore it
+            "#(^|$banned)?({$plus_minus})([0-9]$leading_number_symbol\.[0-9]+[fl]?)($banned|\$)?#"
+        ),
+        '.', //doubles must have a dot
+        array(
+            1 => true, // as above, catch for normal stuff
+            2 => array($plus_minus_context, false),
+            3 => array(
+                0 => 'num/dbl',
+                1 => false // Don't attempt to highlight numbers as code
+            ),
+            4 => true
+        )
+        );
+    }
+    
+    function addObjectSplitter ($splitters, $ootoken_name, $splitter_name, $check_is_code = false)
+    {
+        $splitter_match = '';
+        foreach ((array)$splitters as $splitter) {
+            $splitter_match .= preg_quote($splitter) . '|';
+        }
+        
+        $this->addRegexGroup("#(" . substr($splitter_match, 0, -1) . ")(\s*)([a-zA-Z\*\(_][a-zA-Z0-9_\*]*)#", '',
+            array(
+                // If array, first index is name and second index is whether to let code have a go
+                // If not array and set, the whole thing is passed to code to have a go
+                // If not set, then nothing
+                1 => array($splitter_name, false), // highlight splitter with its name
+                3 => array($ootoken_name, $check_is_code)
+            )
+        );
+    }
 
     /**
      * Redefinition of {@link GeSHiContext::load()} in order to also
      * load keywords, regular expressions etc.
      *
      */
-    function load (&$styler)
+    /*function load (&$styler)
     {
         parent::load($styler);
 
@@ -147,13 +216,13 @@ class GeSHiCodeContext extends GeSHiContext
                 ),
                 '', // char to check for
                 array(
-                    1 => true,
-                    2 => true, // highlight splitter
+                    1 => array('sym', false),
+                    2 => array('sym', false), // highlight splitter
                     3 => array($data[1], $data[2]) // $data[2] says whether to give code a go at the match first
                 )
             );
         }
-    }
+    }*/
     
     /**
      * Overrides {@link GeSHiContext::_addParseData()} to highlight a code context, including
@@ -163,13 +232,13 @@ class GeSHiCodeContext extends GeSHiContext
      * @param string The first character of the context after this
      */
     function _addParseData ($code, $first_char_of_next_context = '')
-    {
+    {//geshi_dbg_on();
         //$first_char_of_next_context = '';
-        geshi_dbg('GeSHiCodeContext::_addParseData(' . substr($code, 0, 15) . ', ' . $first_char_of_next_context . ')', GESHI_DBG_PARSE);
+        geshi_dbg('GeSHiCodeContext::_addParseData(' . substr($code, 0, 15) . ', ' . $first_char_of_next_context . ')');
         
         $regex_matches = array();
         foreach ($this->_contextRegexps as $regex_group_key => $regex_data) {
-            geshi_dbg('  Regex group: ' . $regex_group_key, GESHI_DBG_PARSE);
+            geshi_dbg('  Regex group: ' . $regex_group_key);
             // Set style of this group
             // $regex_data = array(
             //    0 => regex (with brackets to signify groupings
@@ -180,10 +249,10 @@ class GeSHiCodeContext extends GeSHiContext
             //   ...
             if (!$regex_data[1] || false !== strpos($code, $regex_data[1])) {
                 foreach ($regex_data[0] as $regex) {
-                    geshi_dbg('    Trying regex ' . $regex . '... ', GESHI_DBG_PARSE, false);
+                    geshi_dbg('    Trying regex ' . $regex . '... ', false);
                     $matches = array();
                     preg_match_all($regex, $code, $matches);
-                    geshi_dbg('found ' . count($matches[0]) . ' matches', GESHI_DBG_PARSE);
+                    geshi_dbg('found ' . count($matches[0]) . ' matches');
                     
                     // If there are matches...
                     if (count($matches[0])) {
@@ -206,7 +275,7 @@ class GeSHiCodeContext extends GeSHiContext
                 }
             }
         }
-        geshi_dbg('    Regex matches: ' . str_replace("\n", "\r", print_r($regex_matches, true)), GESHI_DBG_PARSE);    
+        geshi_dbg('    Regex matches: ' . str_replace("\n", "\r", print_r($regex_matches, true)));    
 
         $regex_replacements = array();
         foreach ($regex_matches as $data) {
@@ -250,7 +319,8 @@ class GeSHiCodeContext extends GeSHiContext
                 }
             }
         }
-        geshi_dbg('  Regex replacements: ' . str_replace("\n", "\r", print_r($regex_replacements, true)), GESHI_DBG_PARSE);
+        geshi_dbg('  Regex replacements: ' . str_replace("\n", "\r", print_r($regex_replacements, true)));
+        //geshi_dbg_off();
         // Now what we do is make an array that looks like this:
         // array(
         //    [position] => [replacement for regex]
@@ -292,7 +362,7 @@ class GeSHiCodeContext extends GeSHiContext
      function _codeContextHighlight ($code, $regex_replacements = array(), $first_char_of_next_context = '')
      {
         geshi_dbg('GeSHiCodeContext::_codeContextHighlight(' . substr($code, 0, 15) . ', ' .
-            (($regex_replacements) ? 'array(...)' : 'null') . ', ' . $first_char_of_next_context . ')', GESHI_DBG_PARSE);
+            (($regex_replacements) ? 'array(...)' : 'null') . ', ' . $first_char_of_next_context . ')');
         //$first_char_of_next_context = '';
         
         if (!is_array($this->_contextKeywordLookup)) {
@@ -318,7 +388,7 @@ class GeSHiCodeContext extends GeSHiContext
         // For each character
         for ($i = 0; $i < $length; $i++) {
             if (isset($regex_replacements[$i])) {
-                geshi_dbg('  Regex replacements available at position ' . $i . ': ' . $regex_replacements[$i][0][0] . '...', GESHI_DBG_PARSE);
+                geshi_dbg('  Regex replacements available at position ' . $i . ': ' . $regex_replacements[$i][0][0] . '...');
                 // There's regular expressions expected to go here
                 foreach ($regex_replacements[$i] as $replacement) {
                     $result[++$result_pointer] = $replacement;
@@ -339,7 +409,7 @@ class GeSHiCodeContext extends GeSHiContext
                 continue;
             }
             
-            geshi_dbg('@b  Current char is: ' . str_replace("\n", '\n', $char), GESHI_DBG_PARSE);
+            geshi_dbg('@b  Current char is: ' . str_replace("\n", '\n', $char));
             
             if ($keyword_match_allowed && isset($this->_contextKeywordLookup[$char])) {
                 foreach ($this->_contextKeywordLookup[$char] as $keyword_array) {
@@ -347,10 +417,10 @@ class GeSHiCodeContext extends GeSHiContext
                     if (strlen($keyword_array[0]) < $earliest_keyword) {
                         // We can skip keywords that are shorter than the best
                         // earliest we can currently do
-                        geshi_dbg('  [skipping ' . $keyword_array[0], GESHI_DBG_PARSE);
+                        geshi_dbg('  [skipping ' . $keyword_array[0]);
                         continue;
                     }
-                    geshi_dbg('    Checking code for ' . $keyword_array[0], GESHI_DBG_PARSE);
+                    geshi_dbg('    Checking code for ' . $keyword_array[0]);
                     // If case sensitive
                     if ($this->_contextKeywords[$keyword_array[1]][2]) {
                         $next_part_is_keyword = ($keyword_array[0] == substr($code, $i, strlen($keyword_array[0])));
@@ -358,7 +428,7 @@ class GeSHiCodeContext extends GeSHiContext
                         $next_part_is_keyword = (strtolower($keyword_array[0]) == strtolower(substr($code, $i, strlen($keyword_array[0]))));
                     }
 
-                    geshi_dbg("  next part is keyword: $next_part_is_keyword", GESHI_DBG_PARSE);
+                    geshi_dbg("  next part is keyword: $next_part_is_keyword");
                     // OPTIMIZE (use lookup to remember for length $foo(1 => false, 2 => false) so if kw is length 1 or 2 then don't need to check
                     //$after_allowed = ( !in_array(substr($code, $i + strlen($keyword_array[0]), 1), array_diff($this->_context_characters_disallowed_after_keywords, $this->_context_keywords[$keyword_array[1]][4])) );
                     // the first char of the keyword is always $char???
@@ -367,7 +437,7 @@ class GeSHiCodeContext extends GeSHiContext
                     // the first char from the next context...
                     if ( '' == $after_char ) $after_char = $first_char_of_next_context;
 
-                    geshi_dbg("  after char to check: |$after_char|", GESHI_DBG_PARSE);
+                    geshi_dbg("  after char to check: |$after_char|");
                     $after_allowed = ('' == $after_char || !ctype_alnum($after_char) ||
                         (ctype_alnum($after_char) &&
                         !ctype_alnum($char)) );
@@ -381,7 +451,7 @@ class GeSHiCodeContext extends GeSHiContext
                     if ($next_part_is_keyword && $after_allowed) {
                         //if ( false === $earliest_pos || $pos < $earliest_pos || ($pos == $earliest_pos && strlen($keyword_array[0]) > strlen($earliest_keyword)) )
                         if (strlen($keyword_array[0]) > strlen($earliest_keyword)) {
-                            geshi_dbg('@bfound', GESHI_DBG_PARSE);
+                            geshi_dbg('@bfound');
                             // what is _pos for?
                             // What are any of them for??
                             $earliest_pos           = true;//$pos;
@@ -401,14 +471,14 @@ class GeSHiCodeContext extends GeSHiContext
             //echo "Symbol string is |$current_symbols|\n";
 
             if (false !== $earliest_pos) {
-                geshi_dbg('Keyword matched: ' . $earliest_keyword, GESHI_DBG_PARSE);
+                geshi_dbg('Keyword matched: ' . $earliest_keyword);
                 // there's a keyword match!
 
                 $result[++$result_pointer] = array($earliest_keyword,
                                                    $this->_contextKeywords[$earliest_keyword_group][1],
                                                    $this->_getURL($earliest_keyword, $earliest_keyword_group));
                 $i += strlen($earliest_keyword) - 1;
-                geshi_dbg("strlen of earliest keyword is " . strlen($earliest_keyword) . " (pos is $i)", GESHI_DBG_PARSE);
+                geshi_dbg("strlen of earliest keyword is " . strlen($earliest_keyword) . " (pos is $i)");
                 // doesn't help
                 $earliest_pos = false;
                 $earliest_keyword = '';
@@ -427,13 +497,13 @@ class GeSHiCodeContext extends GeSHiContext
                 $this->_contextCharactersDisallowedBeforeKeywords));
             // Disallow underscores before keywords
             $keyword_match_allowed = ($keyword_match_allowed && ('_' != $before_char));
-            geshi_dbg('  Keyword matching allowed: ' . $keyword_match_allowed, GESHI_DBG_PARSE);
-            geshi_dbg('    [checked ' . substr($code, $i, 1) . ' against ' . print_r($this->_contextCharactersDisallowedBeforeKeywords, true), GESHI_DBG_PARSE);
+            geshi_dbg('  Keyword matching allowed: ' . $keyword_match_allowed);
+            geshi_dbg('    [checked ' . substr($code, $i, 1) . ' against ' . print_r($this->_contextCharactersDisallowedBeforeKeywords, true));
         }
 
         unset($result[0]);        
-        //geshi_dbg('@b  Resultant Parse Data:', GESHI_DBG_PARSE);
-        //geshi_dbg(str_replace("\n", "\r", print_r($result, true)), GESHI_DBG_PARSE);
+        //geshi_dbg('@b  Resultant Parse Data:');
+        //geshi_dbg(str_replace("\n", "\r", print_r($result, true)));
         //return array(array($code, $this->_contextName));
         return $result;
      }
@@ -450,7 +520,7 @@ class GeSHiCodeContext extends GeSHiContext
     function _checkForSymbol($possible_symbol, &$result,&$result_pointer)
     {
         $skip = false;
-        geshi_dbg('Checking ' . $possible_symbol . ' for symbol match', GESHI_DBG_PARSE); 
+        geshi_dbg('Checking ' . $possible_symbol . ' for symbol match'); 
         foreach ($this->_contextSymbols as $symbol_data) {
             if (in_array($possible_symbol, $symbol_data[0])) {
                 // we've matched the symbol in $symbol_group
@@ -478,11 +548,11 @@ class GeSHiCodeContext extends GeSHiContext
     /// in this form already.
     function _createContextKeywordLookup ()
     {
-        geshi_dbg('GeSHiCodeContext::_createContextKeywordLookup()', GESHI_DBG_PARSE);
+        geshi_dbg('GeSHiCodeContext::_createContextKeywordLookup()');
 
         $this->_contextKeywordLookup = array();
         foreach ($this->_contextKeywords as $keyword_group_key => $keyword_group_array) {
-            geshi_dbg("  keyword group key: $keyword_group_key", GESHI_DBG_PARSE);
+            geshi_dbg("  keyword group key: $keyword_group_key");
 
             foreach ($keyword_group_array[0] as $keyword) {
                 // If keywords are case sensitive, add them straight in.
@@ -501,9 +571,9 @@ class GeSHiCodeContext extends GeSHiContext
             }
         }
         if (isset($key)) {
-            geshi_dbg('  Lookup created, first entry: ' . print_r($this->_contextKeywordLookup[$key][0], true), GESHI_DBG_PARSE);
+            geshi_dbg('  Lookup created, first entry: ' . print_r($this->_contextKeywordLookup[$key][0], true));
         } else {
-            geshi_dbg('  Lookup created with no entries', GESHI_DBG_PARSE);
+            geshi_dbg('  Lookup created with no entries');
         }
     }
 
