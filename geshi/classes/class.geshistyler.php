@@ -42,6 +42,7 @@
  */
 class GeSHiStyler
 {
+    
     // {{{ properties
     
     /**
@@ -49,11 +50,6 @@ class GeSHiStyler
      */
     var $charset;
 
-    /**
-     * @var string
-     */    
-    var $fileExtension;
-    
     /**
      * Array of themes to attempt to use for highlighting, in
      * preference order
@@ -118,7 +114,7 @@ class GeSHiStyler
      */
     function setStyle ($context_name, $style, $start_name = 'start', $end_name = 'end')
     {
-        geshi_dbg('GeSHiStyler::setStyle(' . $context_name . ', ' . $style . ')', GESHI_DBG_PARSE);
+        geshi_dbg('GeSHiStyler::setStyle(' . $context_name . ', ' . $style . ')');
         if ($context_name) {
             $context_name = "/$context_name";
         }
@@ -152,7 +148,7 @@ class GeSHiStyler
         unset($this->_styleData[$context_name]);
         unset($this->_styleData["$context_name/$context_start_name"]);
         unset($this->_styleData["$context_name/$context_end_name"]);
-        geshi_dbg('  removed style data for ' . $context_name, GESHI_DBG_PARSE);
+        geshi_dbg('  removed style data for ' . $context_name);
     }
 
     // }}}
@@ -197,12 +193,12 @@ class GeSHiStyler
     // {{{ loadStyles()
     
     function loadStyles ($language, $load_theme = false) {
-        geshi_dbg('GeSHiStyler::loadStyles(' . $language . ')', GESHI_DBG_PARSE);
+        geshi_dbg('GeSHiStyler::loadStyles(' . $language . ')');
         if ($this->reloadThemeData) {
-            geshi_dbg('  Loading theme data', GESHI_DBG_PARSE);
+            geshi_dbg('  Loading theme data');
             // Trash old data
             if ($load_theme) {
-                geshi_dbg('  Old data trashed', GESHI_DBG_PARSE);
+                geshi_dbg('  Old data trashed');
                 $this->_styleData = array();
             }
             
@@ -210,7 +206,7 @@ class GeSHiStyler
             $tmp = $this->language;
             $this->language = $language;
             foreach ($this->themes as $theme) {
-                $theme_file = GESHI_THEMES_ROOT . $theme . GESHI_DIR_SEP . $language . $this->fileExtension;
+                $theme_file = GESHI_THEMES_ROOT . $theme . GESHI_DIR_SEP . $language . '.php';
                 if (is_readable($theme_file)) {
                     require $theme_file;
                     break;
@@ -232,7 +228,7 @@ class GeSHiStyler
      * Makes sure that GeSHiStyler has a code parser and
      * renderer associated with it.
      */
-    function resetParseData ($language)
+    function resetParseData ()
     {
         // Set result to empty
         $this->_parsedCode = '';
@@ -242,7 +238,7 @@ class GeSHiStyler
         if (is_null($this->_codeParser)) {
             /** Get the default code parser class */
             require_once GESHI_CLASSES_ROOT . 'class.geshidefaultcodeparser.php';
-            $this->_codeParser =& new GeSHiDefaultCodeParser($this, $language);
+            $this->_codeParser =& new GeSHiDefaultCodeParser($this, $this->language);
         }
 
         // It the user did not explicitly set a renderer with GeSHi::accept(), then
@@ -254,7 +250,7 @@ class GeSHiStyler
         }
         
         // Load theme data now
-        $this->loadStyles($language, true);
+        $this->loadStyles($this->language, true);
     }
 
     // }}}
@@ -400,29 +396,7 @@ class GeSHiStyler
     }
     
     // }}}
-    // {{{ setCacheData()
-    
-    /**
-     * Sets cache data
-     */
-    function setCacheData ($cached_file_name, $cache_str)
-    {
-        $this->_contextCacheData[$cached_file_name] = $cache_str;
-    }
-    
-    // }}}
-    // {{{ getCacheData()
-    
-    /**
-     * Gets cache data
-     */
-    function getCacheData ($cached_file_name)
-    {
-        return isset($this->_contextCacheData[$cached_file_name]) ?
-            $this->_contextCacheData[$cached_file_name] : null;
-    }
-    
-    // }}}
+
 }
 
 ?>
