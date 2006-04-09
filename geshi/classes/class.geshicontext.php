@@ -123,7 +123,7 @@ class GeSHiContext
      * tree with itself - this is how PHP inserts itself into HTML contexts
      * @var GeSHiContext
      */
-    var $_infectiousContext;
+    //var $_infectiousContext;
     
     /**
      * Whether this context has been already loaded
@@ -153,7 +153,9 @@ class GeSHiContext
      * The name of the context if not aliased
      * @var string
      */
-    var $_aliasForContext = '';
+    //var $_aliasForContext = '';
+    
+    var $_aliasName = '';
     
     /**
      * Whether this context should never be trimmed
@@ -186,9 +188,30 @@ class GeSHiContext
         require_once GESHI_LANGUAGES_ROOT . $language_file;
         
         $context =& new GeSHiCodeContext($name);
-        $context->_childContexts[] = $this;
+        
+        // Add this context to the children of the new root context
+        //$keys = array_keys($context->_childContexts);
+        //foreach ($keys as $key) {
+        //    $context->_childContexts[$key]->_childContexts[] = $this;
+        //}
+        
+        // @todo I don't like this... it assumes we are not passing an object
+        // by reference (if we do things break horribly), and so therefore
+        // may not be PHP5 compliant
+        $context->addEmbeddedChild($this);
+        
+        //$context->_childContexts[] = $this;
         return $context;
     }
+    
+    function addEmbeddedChild ($context)
+    {
+        $keys = array_keys($this->_childContexts);
+        foreach ($keys as $key) {
+            $this->_childContexts[$key]->addEmbeddedChild($context);
+        }
+        $this->_childContexts[] = $context;
+    }   
     
     /**
      * Adds a child context to this context.
@@ -204,7 +227,7 @@ class GeSHiContext
     function addChild ($name, $type = '', $language = '')
     {
         // Get the class if needed
-        if ($type && 'string' != $type) {
+        if ($type && 'string' != $type && 'code' != $type) {
             if ($language) {
                 $language .= GESHI_DIR_SEP;
             }
@@ -215,12 +238,17 @@ class GeSHiContext
         $this->_childContexts[] =& new $classname("$this->_contextName/$name");
     }
     
-    function addChildLanguage ($name, $start_delimiters, $end_delimiters, $case_sensitive = false)
+    var $_isChildLanguage = false;
+    
+    function addChildLanguage ($name, $start_delimiters, $end_delimiters, $case_sensitive = false,
+        $parse_delimiter_flag = GESHI_CHILD_PARSE_BOTH)
     {
         /** Get function info for the child language */
         require_once GESHI_LANGUAGES_ROOT . $name . '.php';
         $context =& new GeSHiCodeContext($name);
         $context->addDelimiters($start_delimiters, $end_delimiters, $case_sensitive);
+        $context->parseDelimiters($parse_delimiter_flag);
+        $context->_isChildLanguage = true;
         $this->_childContexts[] =& $context;
     }
     
@@ -240,6 +268,17 @@ class GeSHiContext
     function parseDelimiters ($flag)
     {
         $this->_delimiterParseData = $flag;
+    }
+    
+    function alias ($name)
+    {
+        $pos = strpos($this->_contextName, '/');
+        $pos = strpos($this->_contextName, '/', $pos + 1);
+        $pos = (false !== $pos) ? $pos : strlen($this->_contextName);
+        $name = substr($this->_contextName, 0, $pos) . '/' . $name;
+        //$this->_aliasName = $name;
+        $this->_contextName = $name;
+        $this->_isAlias = true;
     }
     
     // {{{ GeSHiContext()
@@ -341,6 +380,7 @@ class GeSHiContext
      * 
      * @return boolean
      */
+    
     function isAlias ()
     {
         return $this->_isAlias;
@@ -432,13 +472,14 @@ class GeSHiContext
      * 
      * Relies on child being a subclass of or actually being a GeSHiContext
      */
+    /*
     function infectWith (&$context)
     {
         $this->_infectiousContext =& $context;
         //geshi_dbg('  Added infectious context ' . $context->getName()
         //    . ' to ' . $this->getName(), GESHI_DBG_NOTICE + GESHI_DBG_LOADING);
     }
-    
+    */
     // }}}
     // {{{ trimUselessChildren()
     
@@ -512,7 +553,7 @@ class GeSHiContext
         //
         
         // If there is an overriding context...
-        if ($this->_overridingChildContext) {
+        if (/*$this->_overridingChildContext*/ $this->_isChildLanguage) {
             // Find the end of this thing
             $finish_data = $this->_getContextEndData($code, $context_start_key, $context_start_delimiter, true); // true?
             // If this context should not parse the ender, add it on to the stuff to parse
@@ -522,7 +563,12 @@ class GeSHiContext
             // Make a temp copy of the stuff the occ will parse
             $tmp = substr($code, 0, $finish_data['pos']);
             // Tell the occ to parse the copy
-            $this->_overridingChildContext->parseCode($tmp); // start with no starter at all
+            
+            // Cheat :)
+            $this->_isChildLanguage = false;
+            $this->parseCode($tmp);
+            $this->_isChildLanguage = true;
+            //$this->_overridingChildContext->parseCode($tmp); // start with no starter at all
             // trim the code
             $code = substr($code, $finish_data['pos']);
             return;
@@ -654,9 +700,9 @@ class GeSHiContext
      */    
     function contextCanStart ($code)
     {
-        if ($this->_neverTrim) {
-            return true;
-        }
+        //if ($this->_neverTrim) {
+        //    return true;
+        //}
         foreach ($this->_contextDelimiters as $key => $delim_array) {
             foreach ($delim_array[0] as $delimiter) {
                 //geshi_dbg('    Checking delimiter ' . $delimiter . '... ', GESHI_DBG_INFO + GESHI_DBG_LOADING, false);
@@ -931,9 +977,14 @@ class GeSHiContext
     // }}}
     // {{{ _getExtraParseData()
     
+    // This may not be needed any more, since the context name can be changed immediately
+    // because of one stage loading. This is used by the delphi code parser though, so be careful
+    // that we don't lose required functionality this way.
+    //
+    // If it works we can remove this method and the many calls made to it
     function _getExtraParseData ($data = array())
     {
-        $return = ($this->_isAlias ? array('alias_name' => $this->_aliasForContext) : array());
+        $return = ($this->_aliasName ? array('alias_name' => $this->_aliasName) : array());
         return array_merge($return, $data);
     }
     
