@@ -230,6 +230,11 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
             $this->_store[] = array($token, $context_name, $data);
             return false;
 		}
+        // Ignore doxygen
+        if ('doxygen/doxygen' == substr($context_name, 0, 15)) {
+            $this->_store[] = array($token, $context_name, $data);
+            return false;
+        }
         $flush = false;
 
         //echo htmlspecialchars("$token: $context_name") . ": $this->_state<br />\n";   
