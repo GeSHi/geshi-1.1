@@ -251,10 +251,10 @@ if (!function_exists('stripos')) {
 }
 
 
-function &geshi_styler ()
+function &geshi_styler ($force_new = false)
 {
     static $styler = null;
-    if (!$styler) {
+    if (!$styler || $force_new) {
         $styler = new GeSHiStyler;
     }
     return $styler;
