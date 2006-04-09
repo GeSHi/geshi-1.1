@@ -43,6 +43,8 @@
  */
 class GeSHiPHPDoubleStringContext extends GeSHiStringContext
 {
+    var $_parentName = '';
+    
     /**
      * The regular expressions used to match variables
      * in this context.
@@ -61,15 +63,18 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
         'REGEX#(\{?)(\$\$?\{?[a-zA-Z_][a-zA-Z0-9_]*)(\s*->\s*)([a-zA-Z_][a-zA-Z0-9_]*)(\}?)#'
     );
     
+    function GeSHiPHPDoubleStringContext ($context_name)
+    {
+        $this->GeSHiStringContext($context_name);
+        $this->_parentName = parent::name();
+    }
+    
     /**
      * Adds code detected as being in this context to the parse data
      */    
     function _addParseData ($code, $first_char_of_next_context = '')
     {
-        static $parent_name;
-        if (!$parent_name) {
-            $parent_name = parent::name();
-        }
+        $parent_name = $this->_parentName;
         
         geshi_dbg('GeSHiPHPDoubleStringContext::_addParseData(' . substr($code, 0, 15) . '...)');
 
