@@ -260,7 +260,7 @@ class GeSHi
         $this->_initialiseTiming();
 
         // Create a new styler
-        $this->_styler =& geshi_styler();
+        $this->_styler =& geshi_styler(true);
 
         // Set the initial source/language
         $this->setSource($source);
@@ -377,7 +377,10 @@ class GeSHi
      */
     function setTheme ($themes)
     {
-        $this->_styler->useThemes(GeSHi::_clean(func_get_args()));
+        // Passed in reverse order so priority is preserved
+        for ($i = func_num_args() - 1; $i >= 0; $i--) {
+            $this->_styler->useThemes(GeSHi::_clean(func_get_arg($i)));
+        }
     }
     
     // }}}
@@ -643,8 +646,13 @@ class GeSHi
                 . "class.{$codeparser_name}.php";
             if (geshi_can_include($codeparser_file)) {
                 require_once $codeparser_file;
-                $this->_styler->setCodeParser(new $codeparser_name($this->_styler, $this->_language));
             }
+        }
+
+        // Now the code parser (if existing) has been included,
+        // create it if it is defined
+        if (class_exists($codeparser_name)) {
+            $this->_styler->setCodeParser(new $codeparser_name($this->_styler, $this->_language));
         }
     }
 
@@ -667,8 +675,11 @@ class GeSHi
         //$result = preg_replace('#([a-z0-9\._\-]+@[[a-z0-9\-\.]+[a-z]+)#si', '<a href="mailto:\\1">\\1</a>', $result);
         // Destroy root context, we don't need it anymore
         $this->_rootContext = null;
-        // Perhaps this should be done as well: $this->_styler =& new GeSHiStyler;
-        return $this->_styler->getParsedCode();        
+        // Get code
+        $code = $this->_styler->getParsedCode();
+        // Trash the old GeSHiStyler
+        $this->_styler =& geshi_styler(true);
+        return $code;        
     }
     
     // }}}
