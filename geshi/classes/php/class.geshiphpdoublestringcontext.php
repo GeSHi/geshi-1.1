@@ -84,7 +84,7 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
      */    
     function _addParseData ($code, $first_char_of_next_context = '')
     {
-        geshi_dbg('GeSHiPHPDoubleStringContext::_addParseData(' . substr($code, 0, 15) . '...)', GESHI_DBG_PARSE);
+        geshi_dbg('GeSHiPHPDoubleStringContext::_addParseData(' . substr($code, 0, 15) . '...)');
 
         while (true) {
             $earliest_data = array('pos' => false, 'len' => 0);
@@ -111,7 +111,7 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
             
             // Now the entire possible var is in:
             $possible_var = substr($code, $pos, $len);
-            geshi_dbg('Found variable at position ' . $earliest_data['pos'] . '(' . $possible_var . ')', GESHI_DBG_PARSE);
+            geshi_dbg('Found variable at position ' . $earliest_data['pos'] . '(' . $possible_var . ')');
             
             // Check that the dollar sign that started this variable was not escaped
             //$first_part = str_replace('\\\\', '', substr($code, 0, $pos));
@@ -121,7 +121,7 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
                 // This variable has been escaped, so add the escaped dollar sign
                 // as the correct context, and the rest of the variable (recurse to catch
                 // other variables inside this possible variable)
-                geshi_dbg('Variable was escaped', GESHI_DBG_PARSE);
+                geshi_dbg('Variable was escaped');
                 $this->_styler->addParseData(substr($possible_var, 0, 2), $this->_parentName . '/esc',
                     $this->_getExtraParseData(), $this->_complexFlag);
                 $this->_addParseData(substr($possible_var, 2));
