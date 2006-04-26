@@ -59,15 +59,13 @@ function geshi_java_java (&$context)
             'protected', 'public', 'return', 'static', 'strictfp',
             'super', 'switch', 'synchronized', 'this', 'throw', 'throws',
             'transient', 'try', 'volatile', 'while' 
-        ), 'keyword', true
-    );
+    ), 'keyword', true);
     
     // Data Types
     $context->addKeywordGroup(array(
             'byte', 'short', 'int', 'long', 'float', 'double',
             'char', 'boolean', 'void'
-        ), 'dtype', true
-    );
+    ), 'dtype', true);
     
     // Package java.util
     $context->addKeywordGroup(array(
@@ -100,9 +98,7 @@ function geshi_java_java (&$context)
             'TooManyListenersException', 'TreeMap', 'TreeSet', 
             'UUID', 'UnknownFormatConversionException', 'UnknownFormatFlagsException', 
             'Vector', 'WeakHashMap'
-        ), 'java/util', true,
-        'http://java.sun.com/j2se/1.5.0/docs/api/java/util/{FNAME}.html'
-    );
+    ), 'java/util', true, 'http://java.sun.com/j2se/1.5.0/docs/api/java/util/{FNAME}.html');
     
     // Package java.lang
     $context->addKeywordGroup(
@@ -139,9 +135,7 @@ function geshi_java_java (&$context)
             'Throwable', 'TypeNotPresentException', 'UnknownError', 
             'UnsatisfiedLinkError', 'UnsupportedClassVersionError', 'UnsupportedOperationException', 
             'VerifyError', 'VirtualMachineError', 'Void'
-        ), 'java/lang', false,
-        'http://java.sun.com/j2se/1.5.0/docs/api/java/lang/{FNAME}.html'
-    );
+    ), 'java/lang', false, 'http://java.sun.com/j2se/1.5.0/docs/api/java/lang/{FNAME}.html');
     
     // Package javax.swing
     $context->addKeywordGroup(
@@ -194,28 +188,23 @@ function geshi_java_java (&$context)
             'UIDefaults', 'UIDefaults.ActiveValue', 'UIDefaults.LazyInputMap', 
             'UIDefaults.LazyValue', 'UIDefaults.ProxyLazyValue', 'UIManager', 
             'UIManager.LookAndFeelInfo', 'UnsupportedLookAndFeelException', 'ViewportLayout', 
-            'WindowConstants'),
-
-        'javax/swing', true,
-        'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/{FNAME}.html'
-    );
+            'WindowConstants'
+    ), 'javax/swing', true, 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/{FNAME}.html');
     
     // Constants
     $context->addKeywordGroup(array(
             'false', 'null', 'true'
-        ), 'const', true
-    );
+    ), 'const', true);
     
     $context->setCharactersDisallowedBeforeKeywords("'");
     $context->setCharactersDisallowedAfterKeywords("'");
     
     // Symbols
     $context->addSymbolGroup(array(
-            '(', ')', ',', ';', ':', '[', ']',
-            '+', '-', '*', '%', '/', '&', '|', '!', '?', 
-            '<', '>', '{', '}', '=', '.', '@'
-            ), 'symbol'
-    );
+        '(', ')', ',', ';', ':', '[', ']',
+        '+', '-', '*', '%', '/', '&', '|', '!', '?', 
+        '<', '>', '{', '}', '=', '.', '@'
+    ), 'symbol');
 
     // Numbers
     $context->useStandardIntegers();

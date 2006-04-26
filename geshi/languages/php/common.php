@@ -31,7 +31,7 @@
  * @author     Nigel McNie <nigel@geshi.org>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Nigel McNie
- * @version   $Id$
+ * @version    $Id$
  * 
  */
 
@@ -42,7 +42,7 @@ function geshi_php_common (&$context)
     $context->addDelimiters('<%', '%>');
 
     // Children for PHP
-    $context->addChild('single_string');
+    $context->addChild('single_string', 'string');
     $context->addChild('double_string', 'phpdoublestring', 'php');
     $context->addChild('heredoc', 'phpdoublestring', 'php');
     $context->addChild('single_comment');
@@ -54,19 +54,17 @@ function geshi_php_common (&$context)
     $context->addKeywordGroup(array(
             'echo', 'print', 'array', 'isset', 'unset', 'int', 'integer',
             'bool', 'boolean', 'float', 'string'
-        ), 'keyword', false, 'http://www.php.net/{FNAME}'
-    );
+    ), 'keyword', false, 'http://www.php.net/{FNAME}');
     
     $context->setCharactersDisallowedBeforeKeywords('$', '_');
     $context->setCharactersDisallowedAfterKeywords("'", '_');
 
     // PHP symbols
     $context->addSymbolGroup(array(
-            '(', ')', ',', ';', ':', '[', ']',
-            '+', '-', '*', '/', '&', '|', '!', '<', '>',
-            '{', '}', '=', '@', '?', '.'
-        ), 'symbol'
-    );
+        '(', ')', ',', ';', ':', '[', ']',
+        '+', '-', '*', '/', '&', '|', '!', '<', '>',
+        '{', '}', '=', '@', '?', '.'
+    ), 'symbol');
     
     // PHP Variables
     // @todo [blocking 1.1.1] maybe later let the test string be a regex or something
