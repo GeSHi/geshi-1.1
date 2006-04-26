@@ -33,7 +33,7 @@
  */
 
 /** Get the GeSHiCSSInlineMediaContext class */
-require_once GESHI_CLASSES_ROOT . 'css' . GESHI_DIR_SEPARATOR . 'class.geshicssinlinemediacontext.php';
+require_once GESHI_CLASSES_ROOT . 'css' . GESHI_DIR_SEP . 'class.geshicssinlinemediacontext.php';
 
 $this->_childContexts = array(
     new GeSHiCSSInlineMediaContext('css', $DIALECT, 'inline_media'),

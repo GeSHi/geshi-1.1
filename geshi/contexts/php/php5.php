@@ -32,10 +32,8 @@
  * 
  */
 
-/** Get the GeSHiStringContext class */
-require_once GESHI_CLASSES_ROOT . 'class.geshistringcontext.php';
 /** Get the GeSHiPHPDoubleStringContext class */
-require_once GESHI_CLASSES_ROOT . 'php' . GESHI_DIR_SEPARATOR . 'class.geshiphpdoublestringcontext.php';
+require_once GESHI_CLASSES_ROOT . 'php' . GESHI_DIR_SE . 'class.geshiphpdoublestringcontext.php';
 
 $this->_contextDelimiters = array(
 	array(
