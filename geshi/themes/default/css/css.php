@@ -61,8 +61,8 @@ $this->setStyle('at_rule/end', 'color:#008000;');
 $this->setStyle('at_rule/paren', 'color:#933;');
 $this->setStyle('at_rule/symbol', 'color:#008000;');
 
-$this->setStyle('inline_media', 'color:#b1b100;');
-$this->setStyle('inline_media/starter', 'color:#c9c;font-weight:bold;');
+//$this->setStyle('inline_media', 'color:#b1b100;');
+//$this->setStyle('inline_media/starter', 'color:#c9c;font-weight:bold;');
 $this->setStyle('inline_media/start', 'color:#000;font-weight:bold;');
 $this->setStyle('inline_media/end', 'color:#000;font-weight:bold;');
 
