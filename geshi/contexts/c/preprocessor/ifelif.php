@@ -33,9 +33,9 @@
  */
 
 /** Get the shared tokens lists */
-include GESHI_CONTEXTS_ROOT.'c'.GESHI_DIR_SEPARATOR.'common_keywords.php';
+require GESHI_CONTEXTS_ROOT . 'c' . GESHI_DIR_SEP . 'common_keywords.php';
 /** Get some helper functions all prefixed by geshic_ bar geshi_parent_context*/
-require_once GESHI_CONTEXTS_ROOT.'c'.GESHI_DIR_SEPARATOR.'helper_functions.php';
+require_once GESHI_CONTEXTS_ROOT . 'c' . GESHI_DIR_SEP . 'helper_functions.php';
 
 $this->_childContexts = array(
     new GeSHiContext('c', $DIALECT, 'preprocessor/multi_comment'),

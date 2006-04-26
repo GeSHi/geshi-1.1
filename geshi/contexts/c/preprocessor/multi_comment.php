@@ -35,6 +35,6 @@
 // replicate the logic of the file in the main C context
 $path_parts = pathinfo(__FILE__);
 $filename = $path_parts['basename'];
-include(GESHI_CONTEXTS_ROOT.'c'.GESHI_DIR_SEPARATOR.$filename);
+require GESHI_CONTEXTS_ROOT . 'c' . GESHI_DIR_SEP . $filename;
 
 ?>

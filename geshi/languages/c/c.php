@@ -32,16 +32,12 @@
  *
  */
 
-/** Get the GeSHiCodeContext class */ 
-require_once GESHI_CLASSES_ROOT . 'class.geshicodecontext.php';
 /** Get the GeSHicCodeParser class */
-require_once GESHI_CLASSES_ROOT . 'c' . GESHI_DIR_SEPARATOR .
-  'class.geshiccodeparser.php';
+require_once GESHI_CLASSES_ROOT . 'c' . GESHI_DIR_SEP . 'class.geshiccodeparser.php';
 
 $this->_humanLanguageName = 'C';
 
 $this->_rootContext =& new GeSHiCodeContext('c');
-$this->_styler->setCodeParser(new GeSHiCCodeParser($this->_styler,
-  $this->_language));
+$this->_styler->setCodeParser(new GeSHiCCodeParser($this->_styler, $this->_language));
 
 ?>

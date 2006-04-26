@@ -33,7 +33,7 @@
  */
 
 /** Get the shared tokens lists */
-include GESHI_CONTEXTS_ROOT.'c'.GESHI_DIR_SEPARATOR.'common_keywords.php';
+require GESHI_CONTEXTS_ROOT . 'c' . GESHI_DIR_SEP . 'common_keywords.php';
 
 /** @note we could create child contexts for else, endif to catch syntax errors
   * but if we start down that path it could be a pretty long journey...

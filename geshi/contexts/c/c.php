@@ -53,10 +53,8 @@
  *
  */
 
-/** Get the GeSHiStringContext class */
-require_once GESHI_CLASSES_ROOT.'class.geshistringcontext.php';
 /** Get the shared tokens lists */
-include GESHI_CONTEXTS_ROOT.'c'.GESHI_DIR_SEPARATOR.'common_keywords.php';
+require GESHI_CONTEXTS_ROOT.'c'.GESHI_DIR_SEP.'common_keywords.php';
 
 $this->_childContexts = array(
     new GeSHiContext('c', $DIALECT, 'multi_comment'),
