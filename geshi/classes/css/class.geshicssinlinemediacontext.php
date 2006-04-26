@@ -32,6 +32,10 @@
  * 
  */
 
+
+/// NOTE: This class is no longer used by CSS, and will probably be removed.
+/// The functionality it brings can be handled by the code parser anyway
+
 /**
  * The GeSHiCSSInlineMediaContext class
  * 
