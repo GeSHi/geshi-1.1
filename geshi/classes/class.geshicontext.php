@@ -31,7 +31,7 @@
  * @author     Nigel McNie <nigel@geshi.org>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Nigel McNie
- * @version   $Id$
+ * @version    $Id$
  * 
  */
 
@@ -55,12 +55,18 @@ class GeSHiContext
      */
     
     /**
-     * The context name. A unique identifier that corresponds to a path under
-     * the GESHI_CLASSES_ROOT folder where the configuration file for this
-     * context is.
+     * The context name.
+     *
      * @var string
      */
     var $_contextName;
+
+    /**
+     * The language that this context is in
+     * 
+     * @var string
+     */
+    var $_languageName = '';
     
     /**
      * The file name from where to load data for this context
@@ -76,18 +82,21 @@ class GeSHiContext
     
     /**
      * The styler helper object
+     * 
      * @var GeSHiStyler
      */
     var $_styler;
     
     /**
      * The context delimiters
+     * 
      * @var array
      */
     var $_contextDelimiters = array();
     
     /**
      * The child contexts
+     * 
      * @var array
      */
     var $_childContexts = array();
@@ -95,6 +104,7 @@ class GeSHiContext
     /**
      * The style type of this context, used for backward compatibility
      * with GeSHi 1.0.X
+     * 
      * @var int
      */
     var $_contextStyleType = GESHI_STYLE_NONE;
@@ -102,18 +112,21 @@ class GeSHiContext
     /**
      * Delimiter parse data. Controls which context - the parent or child -
      * should parse the delimiters for a context
+     * 
      * @var int
      */
     var $_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
     
     /**
      * The overriding child context, if any
+     * 
      * @var GeSHiContext
      */
-    var $_overridingChildContext;
+    //var $_overridingChildContext;
     
     /**
      * The matching regex table for regex starters
+     * 
      * @var array
      */
      var $_startRegexTable = array();
@@ -129,22 +142,25 @@ class GeSHiContext
      * Whether this context has been already loaded
      * @var boolean
      */
-    var $_loaded = false;
+    //var $_loaded = false;
     
     /**
      * The name for stuff detected in the start of a context
+     * 
      * @var string 
      */
     var $_startName = 'start';
     
     /**
      * The name for stuff detected in the end of a context
+     * 
      * @var string 
      */
     var $_endName = 'end';
 
     /**
      * Whether this context is an alias context
+     * 
      * @var boolean
      */
     var $_isAlias = false;
@@ -161,7 +177,7 @@ class GeSHiContext
      * Whether this context should never be trimmed
      * @var boolean
      */
-    var $_neverTrim = false;
+    //var $_neverTrim = false;
     
     /**
      * Whether this context should be broken up by whitespace
@@ -169,176 +185,51 @@ class GeSHiContext
      * @var int
      */
     var $_complexFlag = GESHI_COMPLEX_NO;
-    /**#@-*/
-    
-    
-    //var $_languageName; // e.g. php/php
-    
-    // }}}
-    
-    function name() { return $this->_contextName; }
-    
-    function embedInside ($name) {
-        if ('/' == GESHI_DIR_SEP) {
-            $language_file = $name . '.php';
-        } else {
-            $language_file = explode('/', $name);
-            $language_file = implode(GESHI_DIR_SEP, $language_file) . '.php';
-        }
-        require_once GESHI_LANGUAGES_ROOT . $language_file;
-        
-        $context =& new GeSHiCodeContext($name);
-        
-        // Add this context to the children of the new root context
-        //$keys = array_keys($context->_childContexts);
-        //foreach ($keys as $key) {
-        //    $context->_childContexts[$key]->_childContexts[] = $this;
-        //}
-        
-        // @todo I don't like this... it assumes we are not passing an object
-        // by reference (if we do things break horribly), and so therefore
-        // may not be PHP5 compliant
-        $context->addEmbeddedChild($this);
-        
-        //$context->_childContexts[] = $this;
-        return $context;
-    }
-    
-    function addEmbeddedChild ($context)
-    {
-        $keys = array_keys($this->_childContexts);
-        foreach ($keys as $key) {
-            $this->_childContexts[$key]->addEmbeddedChild($context);
-        }
-        $this->_childContexts[] = $context;
-    }   
-    
+
     /**
-     * Adds a child context to this context.
+     * Whether this context is a child context
      * 
-     * @param string $name The name of the child context to add. The function geshi_[lang]_[dialect]_$name must
-     *                     be defined to populate the context with information.
-     * @param string $type An optional type of context for the child. The class <kbd>GeSHi[$type]Context</kbd>
-     *                     will be used for the context. A commonn value would be <kbd>'string'</kbd>.
-     * @param string $lang If the type of class you want to use is language specific (and thus is in a directory
-     *                     under <kbd>GESHI_CLASSES_ROOT</kbd>), specify the name of the directory here.
-     * @since 1.1.1
+     * @var boolean
      */
-    function addChild ($name, $type = '', $language = '')
-    {
-        // Get the class if needed
-        if ($type && 'string' != $type && 'code' != $type) {
-            if ($language) {
-                $language .= GESHI_DIR_SEP;
-            }
-            /** Get the context class required for this child */
-            require_once GESHI_CLASSES_ROOT . $language . 'class.geshi' . $type . 'context.php';
-        }
-        $classname = 'geshi' . $type . 'context';
-        $this->_childContexts[] =& new $classname("$this->_contextName/$name");
-    }
-    
     var $_isChildLanguage = false;
-    
-    function addChildLanguage ($name, $start_delimiters, $end_delimiters, $case_sensitive = false,
-        $parse_delimiter_flag = GESHI_CHILD_PARSE_BOTH)
-    {
-        /** Get function info for the child language */
-        require_once GESHI_LANGUAGES_ROOT . $name . '.php';
-        $context =& new GeSHiCodeContext($name);
-        $context->addDelimiters($start_delimiters, $end_delimiters, $case_sensitive);
-        $context->parseDelimiters($parse_delimiter_flag);
-        $context->_isChildLanguage = true;
-        $this->_childContexts[] =& $context;
-    }
-    
-    function addDelimiters ($start, $end, $case_sensitive = false) {
-        $this->_contextDelimiters[] = array((array)$start, (array)$end, $case_sensitive);
-    } 
-    
-    
-   
-    // @todo move to GeSHiStringContext
-    function setEscapeCharacters ($chars) { $this->_escapeCharacters = (array)$chars; }
-    function setCharactersToEscape ($chars) {$this->_charsToEscape = (array)$chars; }
-    
-    function setComplexFlag ($flag) {$this->_complexFlag = $flag;}
-    //function setContextDelimiters ($delimiters) {$this->_contextDelimiters = $delimiters;}
-    
-    function parseDelimiters ($flag)
-    {
-        $this->_delimiterParseData = $flag;
-    }
-    
-    function alias ($name)
-    {
-        $pos = strpos($this->_contextName, '/');
-        $pos = strpos($this->_contextName, '/', $pos + 1);
-        $pos = (false !== $pos) ? $pos : strlen($this->_contextName);
-        $name = substr($this->_contextName, 0, $pos) . '/' . $name;
-        //$this->_aliasName = $name;
-        $this->_contextName = $name;
-        $this->_isAlias = true;
-    }
-    
+
+    /**#@-*/
+
+    // }}}
     // {{{ GeSHiContext()
     
     /**
      * Creates a new GeSHiContext.
      * 
      * @param string The name of the language this context represents
-     * @param string The dialect of the language this context represents
-     * @param string The name of the context
      * @param array  The name used for aliasing
      * @todo [blocking 1.1.9] Better comment
      */
-    function GeSHiContext ($context_name, /*$dialect_name = '', $context_name = '', */$alias_name = '')
+    function GeSHiContext ($context_name, $alias_name = '')
     {
-        $this->_contextName = $context_name; // e.g. php/php
+        $this->_contextName = $context_name;
+        $pos = strpos($context_name, '/');
+        $pos = strpos($context_name, '/', $pos + 1);
+        $pos = (false !== $pos) ? $pos : strlen($context_name);
+        $this->_languageName = substr($context_name, 0, $pos);
         
         $this->_styler =& geshi_styler();
         
         $funcname = 'geshi_' . str_replace('/', '_', $context_name);
         $funcname($this);
-        //require GESHI_CONTEXTS_ROOT . $this->_languageName . '.php';
-        
-        // Set dialect
-        //if ('' == $dialect_name) {
-        //    $dialect_name = $language_name;
-        //}
-        //$this->_dialectName = $dialect_name;
-        
-        // Set the context and file names
-        //if ('' == $context_name) {
-            // Root of a language
-            //$this->_fileName = $this->_contextName = $language_name . '/' . $dialect_name;
-            //return;
-        //}
-        
-        //$this->_fileName = $language_name . '/' . $context_name;
-/*
-        if ($alias_name) {
-            $this->_contextName = $alias_name;
-            $this->_isAlias     = true;
-            $this->_aliasForContext = "$language_name/$dialect_name/$context_name";
-        } else {
-            $this->_contextName = "$language_name/$dialect_name/$context_name";
-        }
-        */
     }
     
     // }}}
-    // {{{ getName()
-    
+    // {{{ name()
     /**
      * Returns the name of this context
      * 
      * @return string The full name of this context (language, dialect and context)
      */
-    /*function getName ()
+    function name ()
     {
         return $this->_contextName;
-    }*/
+    }
     
     // }}}
     // {{{ getStartName()
@@ -387,100 +278,143 @@ class GeSHiContext
     }
     
     // }}}
-    // {{{ load()
+    // {{{ embedInside()
     
     /**
-     * Loads the context data
+     * Embeds this context inside the named context.
      * 
-     * @param GeSHiStyler The styler object to use
+     * This is used to embed "sublanguages" - for example, PHP inside HTML
+     * 
+     * @param  string $name The name of the context to embed this context inside
+     * @return GeSHiContext The context that this context was embedded inside
      */
-    /*function load (&$styler)
+    function embedInside ($name)
     {
-        geshi_dbg('Loading context: ' . $this->_contextName);
-        
-        if ($this->_loaded) {
-            geshi_dbg('@oAlready loaded');
-            return;
-        }
-        $this->_loaded = true;
-        
-        $this->_styler =& $styler;
-        
-        if (!geshi_can_include(GESHI_CONTEXTS_ROOT . $this->_fileName . '.php')) {
-            geshi_dbg('@e  Cannot get context information for ' . $this->getName() . ' from file '
-                . GESHI_CONTEXTS_ROOT . $this->_fileName . '.php');
-            return array('code' => GESHI_ERROR_FILE_UNAVAILABLE, 'name' => $this->_contextName);
-        }geshi_dbg('@oCan load file');
-        
-        // Load the data for this context
-        $CONTEXT = $this->_contextName;
-        $DIALECT = $this->_dialectName;
-        // @todo [blocking 1.1.5] This needs testing to see if it is faster
-        if (false) {
-            $language_file_name = GESHI_CONTEXTS_ROOT . $this->_contextName . '.php';
-            $cached_data = $this->_styler->getCacheData($language_file_name);
-            if (null == $cached_data) {
-                // Data not loaded for this context yet
-                //geshi_dbg('@wLoading data for context ' . $this->_contextName, GESHI_DBG_INFO + GESHI_DBG_LOADING);
-                // Get the data, stripping the start/end PHP code markers which aren't allowed in eval()
-                $cached_data = substr(implode('', file($language_file_name)), 5, -3);
-                $this->_styler->setCacheData($language_file_name, $cached_data);
-            } else {
-                //geshi_dbg('@oRetrieving data from cache for context ' . $this->_contextName,
-                //    GESHI_DBG_INFO + GESHI_DBG_LOADING);
-            }
-            eval($cached_data);
+        // @todo note this is also GeSHi::_getLanguageDataFile
+        if ('/' == GESHI_DIR_SEP) {
+            $language_file = $name . '.php';
         } else {
-            require GESHI_CONTEXTS_ROOT . $this->_fileName . '.php';
+            $language_file = explode('/', $name);
+            $language_file = implode(GESHI_DIR_SEP, $language_file) . '.php';
         }
         
-        // Push the infectious context into the child contexts
-        if (null != $this->_infectiousContext) {
-            // Add the context to each of the current contexts...
-            $keys = array_keys($this->_childContexts);
-            foreach ($keys as $key) {
-                $this->_childContexts[$key]->infectWith($this->_infectiousContext);
-            }
-            // And add the infectious context to this context itself
-            $this->_childContexts[] =& $this->_infectiousContext;
-            //geshi_dbg('  Added infectious context ' . $this->_infectiousContext->getName()
-            //    . ' to ' . $this->getName(), GESHI_DBG_INFO + GESHI_DBG_LOADING);
-        }
+        /** Get the appropriate functions for the language we are embedding inside */
+        require_once GESHI_LANGUAGES_ROOT . $language_file;
+        
+        $context =& new GeSHiCodeContext($name);
+        
+        // @todo I don't like this... it assumes we are not passing an object
+        // by reference (if we do things break horribly), and so therefore
+        // may not be PHP5 compliant
+        $context->addEmbeddedChild($this);
+        
+        return $context;
+    }
 
-        // Recursively load the child contexts
+    // }}}
+    // {{{ addEmbeddedChild()
+    
+    /**
+     * @todo this isn't really "public" - language file developers should not care about
+     * this method
+     */
+    function addEmbeddedChild ($context)
+    {
         $keys = array_keys($this->_childContexts);
         foreach ($keys as $key) {
-            $this->_childContexts[$key]->load($styler);
+            $this->_childContexts[$key]->addEmbeddedChild($context);
         }
-        
-        // Load the overriding child context, if any
-        if ($this->_overridingChildContext) {
-            if (null != $this->_infectiousContext) {
-                $this->_overridingChildContext->infectWith($this->_infectiousContext);
-            }
-            $this->_overridingChildContext->load($styler);
-        }
-        //geshi_dbg('@o  Finished loading context ' . $this->_styleName . ' successfully',
-        //    GESHI_DBG_NOTICE + GESHI_DBG_LOADING);
-    }*/
-
+        $this->_childContexts[] = $context;
+    }
+    
     // }}}
-    // {{{ infectWith()
+    // {{{ addChild()
     
     /**
-     * Adds an "infectious child" to this context.
+     * Adds a child context to this context.
      * 
-     * Relies on child being a subclass of or actually being a GeSHiContext
+     * @param string $name The name of the child context to add. The function geshi_[lang]_[dialect]_$name must
+     *                     be defined to populate the context with information. Alternatively, if $name starts
+     *                     with the language name the function geshi_$name will be used instead.
+     * @param string $type An optional type of context for the child. The class <kbd>GeSHi[$type]Context</kbd>
+     *                     will be used for the context. A commonn value would be <kbd>'string'</kbd>.
+     * @param string $lang If the type of class you want to use is language specific (and thus is in a directory
+     *                     under <kbd>GESHI_CLASSES_ROOT</kbd>), specify the name of the directory here.
+     * @since 1.1.1
      */
-    /*
-    function infectWith (&$context)
+    function addChild ($name, $type = '', $language = '')
     {
-        $this->_infectiousContext =& $context;
-        //geshi_dbg('  Added infectious context ' . $context->getName()
-        //    . ' to ' . $this->getName(), GESHI_DBG_NOTICE + GESHI_DBG_LOADING);
+        // Get the class if needed
+        if ($type && 'string' != $type && 'code' != $type) {
+            if ($language) {
+                $language .= GESHI_DIR_SEP;
+            }
+            /** Get the context class required for this child */
+            require_once GESHI_CLASSES_ROOT . $language . 'class.geshi' . $type . 'context.php';
+        }
+
+        $classname = 'geshi' . $type . 'context';
+        $this->_childContexts[] =& new $classname($this->_makeContextName($name));
     }
-    */
+    
     // }}}
+    // {{{ addChildLanguage()
+    
+    /**
+     * Adds a child to this context that is actually a language
+     * 
+     * e.g. doxygen within PHP
+     */
+    function addChildLanguage ($name, $start_delimiters, $end_delimiters, $case_sensitive = false,
+        $parse_delimiter_flag = GESHI_CHILD_PARSE_BOTH)
+    {
+        /** Get function info for the child language */
+        require_once GESHI_LANGUAGES_ROOT . $name . '.php';
+        $context =& new GeSHiCodeContext($name);
+        $context->addDelimiters($start_delimiters, $end_delimiters, $case_sensitive);
+        $context->parseDelimiters($parse_delimiter_flag);
+        // @todo setter
+        $context->_isChildLanguage = true;
+        $this->_childContexts[] =& $context;
+    }
+
+    // }}}
+    // {{{ addDelimiters()
+    
+    /**
+     * Sets the delimiters for this context
+     */
+    function addDelimiters ($start, $end, $case_sensitive = false)
+    {
+        $this->_contextDelimiters[] = array((array) $start, (array) $end, $case_sensitive);
+    } 
+    
+    // }}}
+    // {{{ setComplexFlag()
+    
+    function setComplexFlag ($flag)
+    {
+        $this->_complexFlag = $flag;
+    }
+
+    // }}}
+    // {{{ parseDelimiters()
+        
+    function parseDelimiters ($flag)
+    {
+        $this->_delimiterParseData = $flag;
+    }
+    
+    // }}}
+    // {{{ alias()
+    
+    function alias ($name)
+    {
+        $this->_contextName = ($name) ? "$this->_languageName/$name" : $name;
+        $this->_isAlias = true;
+    }
+
+    // }}}    
     // {{{ trimUselessChildren()
     
     /**
@@ -1007,6 +941,16 @@ class GeSHiContext
     }
     
     // }}}
+    // {{{ _makeContextName
+    
+    function _makeContextName ($name)
+    {
+        return (substr($name, 0, strlen($this->_languageName)) == $this->_languageName)
+            ? $name : "$this->_contextName/$name";
+    }
+    
+    // }}}
+    
 }
 
 ?>
