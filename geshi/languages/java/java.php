@@ -3,8 +3,8 @@
  * GeSHi - Generic Syntax Highlighter
  * <pre>
  *   File:   geshi/languages/java/java.php
- *   Author: Nigel McNie
- *   E-mail: nigel@geshi.org
+ *   Author: Tim Wright
+ *   E-mail: tim.w@clear.net.nz
  * </pre>
  * 
  * For information on how to use GeSHi, please consult the documentation
