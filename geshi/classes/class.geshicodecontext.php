@@ -108,7 +108,7 @@ class GeSHiCodeContext extends GeSHiContext
      // }}}
 
     function addKeywordGroup ($keywords, $context_name, $case_sensitive = false, $url_data = '') {
-        $this->_contextKeywords[] = array($keywords, "$this->_contextName/$context_name", $case_sensitive, $url_data);
+        $this->_contextKeywords[] = array((array)$keywords, $this->_makeContextName($context_name), $case_sensitive, $url_data);
     }
     function setCharactersDisallowedBeforeKeywords($chars) {
         $this->_contextCharactersDisallowedBeforeKeywords = (array)$chars;
@@ -118,14 +118,14 @@ class GeSHiCodeContext extends GeSHiContext
     }
     
     function addSymbolGroup($symbols, $context_name) {
-        $this->_contextSymbols[] = array($symbols, "$this->_contextName/$context_name");
+        $this->_contextSymbols[] = array($symbols, $this->_makeContextName($context_name));
     }
 
     function addRegexGroup($regexes, $test_char, $handler_info) {
         // Add context name to the beginning of entries 
         foreach (array_keys($handler_info) as $key) {
             if (is_array($handler_info[$key])) {
-                $handler_info[$key][0] = $this->_contextName . '/' . $handler_info[$key][0];
+                $handler_info[$key][0] = $this->_makeContextName($handler_info[$key][0]);
             }
         }
         $this->_contextRegexps[] = array((array) $regexes, $test_char, $handler_info);
@@ -162,10 +162,7 @@ class GeSHiCodeContext extends GeSHiContext
         array(
             1 => true, // as above, catch for normal stuff
             2 => array($plus_minus_context, false),
-            3 => array(
-                0 => 'num/dbl',
-                1 => false // Don't attempt to highlight numbers as code
-            ),
+            3 => array('num/dbl', false), // Don't attempt to highlight numbers as code
             4 => true
         )
         );
