@@ -55,14 +55,12 @@ function geshi_css_common (&$context)
     
     // CSS classes
     $context->addRegexGroup('#(\.[a-zA-Z][a-zA-Z0-9\-_]*)#', '.', array(
-            1 => array('css/css/class', false)
-        )
-    );
+        1 => array('css/css/class', false)
+    ));
     // CSS IDs
     $context->addRegexGroup('/(#[a-zA-Z][a-zA-Z0-9\-_]*)/', '#', array(
             1 => array('css/css/id', false)
-        )
-    );
+    ));
 }
 
 ?>
