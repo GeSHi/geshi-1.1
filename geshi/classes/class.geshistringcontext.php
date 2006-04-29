@@ -60,6 +60,9 @@ class GeSHiStringContext extends GeSHiContext
      * This is used by the 'DELIM' "character" in the _charsToEscape array. We
      * abuse the fact that _addParseData will be called right after _getContextEndData
      * if the context is to be passed
+     * 
+     * @todo [blocking 1.1.1] this probably can be removed since DELIM is not
+     * going to be supported anymore
      */
     var $_lastOpener;
     
@@ -187,7 +190,7 @@ class GeSHiStringContext extends GeSHiContext
     {
         // Feature: If 'DELIM' is one of the "characters" in the _charsToEscape array, then it is
         // replaced by the context opener
-        // @todo [blocking 1.1.5] remove DELIM support
+        // @todo [blocking 1.1.1] remove DELIM support
         $chars_to_escape = str_replace('DELIM', $this->_lastOpener, $this->_charsToEscape);
 
         geshi_dbg('Checking: ' . substr($code, 0, 15));
