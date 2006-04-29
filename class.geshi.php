@@ -578,10 +578,6 @@ class GeSHi
         $this->_parsePreProcess();
         $this->_times['pre'][1] = $this->_times['parse'][0] = microtime();
 
-        // Prepare the styler for parsing 
-        $this->_styler->resetParseData();
-        // Remove contexts from the parse tree that aren't interesting
-        $this->_rootContext->trimUselessChildren($this->_source);
         // The important bit - parse the code
         $this->_rootContext->parseCode($this->_source);
 
@@ -645,6 +641,9 @@ class GeSHi
             $codeparser_file = GESHI_CLASSES_ROOT . $language_name . GESHI_DIR_SEP
                 . "class.{$codeparser_name}.php";
             if (geshi_can_include($codeparser_file)) {
+                /** Get the GeSHiCodeParser class */
+                require_once GESHI_CLASSES_ROOT . 'class.geshicodeparser.php';
+                /** Get the language code parser */
                 require_once $codeparser_file;
             }
         }
@@ -654,6 +653,11 @@ class GeSHi
         if (class_exists($codeparser_name)) {
             $this->_styler->setCodeParser(new $codeparser_name($this->_styler, $this->_language));
         }
+        
+        // Reset the styler parse data
+        $this->_styler->resetParseData();
+        // Remove contexts from the parse tree that aren't interesting
+        $this->_rootContext->trimUselessChildren($this->_source);
     }
 
     // }}}
