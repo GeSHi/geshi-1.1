@@ -240,6 +240,8 @@ class GeSHiStyler
         // If the language we are using does not have a code
         // parser associated with it, use the default one
         if (is_null($this->_codeParser)) {
+            /** Get the GeSHiCodeParser class */
+            require_once GESHI_CLASSES_ROOT . 'class.geshicodeparser.php';
             /** Get the default code parser class */
             require_once GESHI_CLASSES_ROOT . 'class.geshidefaultcodeparser.php';
             $this->_codeParser =& new GeSHiDefaultCodeParser($this, $this->language);
@@ -248,6 +250,8 @@ class GeSHiStyler
         // It the user did not explicitly set a renderer with GeSHi::accept(), then
         // use the default renderer (HTML)
         if (is_null($this->_renderer)) {
+            /** Get the GeSHiRenderer class */
+            require_once GESHI_CLASSES_ROOT . 'class.geshirenderer.php';
             /** Get the renderer class */
             require_once GESHI_RENDERERS_ROOT . 'class.geshirendererhtml.php';
             $this->_renderer =& new GeSHiRendererHTML($this);
@@ -268,9 +272,11 @@ class GeSHiStyler
      */
     function setCodeParser (&$codeparser)
     {
-        // @todo [blocking 1.1.1] handle case when not so (which should never happen)
         if (is_subclass_of($codeparser, 'GeSHiCodeParser')) {
             $this->_codeParser =& $codeparser;
+        } else {
+            trigger_error('GeSHiStyler::setCodeParser(): code parser must be a subclass '
+                . 'of GeSHiCodeParser', E_USER_ERROR);
         }
     }
     
