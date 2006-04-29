@@ -35,9 +35,6 @@
  * 
  */
 
-/** Get the GeSHiCodeParser class */
-require_once GESHI_CLASSES_ROOT . 'class.geshicodeparser.php';
-
 /**
  * The GeSHiPHPCodeParser class
  * 
@@ -65,18 +62,6 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
      * @access private
      */
     var $_classNames = array();
-    
-    // }}}
-    // {{{ GeSHiPHPCodeParser()
-    
-    /**
-     * This will probably disappear from here as theming support
-     * arrives
-     */
-    function GeSHiPHPCodeParser (&$styler, $language)
-    {
-        $this->GeSHiCodeParser($styler, $language);
-    }
     
     // }}}
     // {{{ parseToken()
