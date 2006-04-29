@@ -156,7 +156,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
      */
     function parseToken ($token, $context_name, $data)
     {
-        geshi_dbg('GeSHiDelphiCodeParser::parseToken("' . substr(str_replace("\n", '\n', $token), 0, 15) . '"...,' . $context_name . ')', GESHI_DBG_PARSE);
+        geshi_dbg('GeSHiDelphiCodeParser::parseToken("' . substr(str_replace("\n", '\n', $token), 0, 15) . '"...,' . $context_name . ')');
 
         //Check for linebraks...
         if (false !== stripos($token, "\n")) {
@@ -198,19 +198,19 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
         }
 
         if ($context_name == $this->_language . '/brksym') {
-            geshi_dbg('Detected bracket symbol context ...', GESHI_DBG_PARSE);
+            geshi_dbg('Detected bracket symbol context ...');
             for ($t2 = 0; $t2 < strlen($token); $t2++) {
                 $t2sub = substr($token, $t2, 1);
                 // Count opening and closing brackets to avoid highlighting of parameters called register in procedure\function declarations
                 if ('(' == $t2sub||'[' == $t2sub) {
-                    geshi_dbg('Detected opening bracket "'.$t2sub.'" on level BC' . $this->_bracketCount . '\OBC' . $this->_openBlockCount . '...', GESHI_DBG_PARSE);
+                    geshi_dbg('Detected opening bracket "'.$t2sub.'" on level BC' . $this->_bracketCount . '\OBC' . $this->_openBlockCount . '...');
                     $this->_bracketCount++;
                 }
                 if (')' == $t2sub||']' == $t2sub) {
                     if (--$this->_bracketCount < 0) {
                         $this->_bracketCount = 0;
                     }
-                    geshi_dbg('Detected closing bracket "'.$t2sub.'" on level BC' . $this->_bracketCount . '\OBC' . $this->_openBlockCount . '...', GESHI_DBG_PARSE);
+                    geshi_dbg('Detected closing bracket "'.$t2sub.'" on level BC' . $this->_bracketCount . '\OBC' . $this->_openBlockCount . '...');
                 }
             }
         }
@@ -223,7 +223,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
                 'record' == $token_l ||
                 'try' == $token_l ||
                 'asm' == $token_l) {
-                geshi_dbg('Detected opening block "'.$token_l.'" on level BC' . $this->_bracketCount . '\OBC' . $this->_openBlockCount . '...' . stripos($context_name, 'comment'), GESHI_DBG_PARSE);
+                geshi_dbg('Detected opening block "'.$token_l.'" on level BC' . $this->_bracketCount . '\OBC' . $this->_openBlockCount . '...' . stripos($context_name, 'comment'));
 
                 $this->_openBlockCount++;
                 $this->_openBlockType[] = $token_l;
@@ -243,7 +243,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
                     $this->_openBlockCount = 0;
                 }
                 array_pop($this->_openBlockType);
-                geshi_dbg('Detected closing block "'.$token_l.'" on level BC' . $this->_bracketCount . '\OBC' . $this->_openBlockCount . '...' . stripos($context_name, 'comment'), GESHI_DBG_PARSE);
+                geshi_dbg('Detected closing block "'.$token_l.'" on level BC' . $this->_bracketCount . '\OBC' . $this->_openBlockCount . '...' . stripos($context_name, 'comment'));
 
                 if ($this->_inASMBlock) {
                     $this->_inASMBlock = true;
@@ -271,7 +271,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
 
         // If we detect a semicolon we require remembering it, thus we can highlight the register directive correctly.
         if ($context_name == $this->_language && $this->_semicolonFlag) {
-        geshi_dbg('Detected token '. $token . ' after semi-colon on level BC' . $this->_bracketCount . '\OBC' . $this->_openBlockCount . '...', GESHI_DBG_PARSE);
+        geshi_dbg('Detected token '. $token . ' after semi-colon on level BC' . $this->_bracketCount . '\OBC' . $this->_openBlockCount . '...');
             // Register is a directive here
             $this->_semicolonFlag = false;
             // Highlight as directive only if all previous opened brackets are closed again
