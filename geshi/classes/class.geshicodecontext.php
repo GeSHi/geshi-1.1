@@ -185,41 +185,6 @@ class GeSHiCodeContext extends GeSHiContext
             )
         );
     }
-
-    /**
-     * Redefinition of {@link GeSHiContext::load()} in order to also
-     * load keywords, regular expressions etc.
-     *
-     */
-    /*function load (&$styler)
-    {
-        parent::load($styler);
-
-        if ($this->_codeContextLoaded) {
-            return;
-        }
-        $this->_codeContextLoaded = true;
-        
-        // Add regex for methods
-        foreach ($this->_objectSplitters as $data) {
-            $splitter_match = '';
-            foreach ($data[0] as $splitter) {
-                    $splitter_match .= preg_quote($splitter) . '|';
-            }
-            
-            $this->_contextRegexps[] = array(
-                array(
-                    "#(" . substr($splitter_match, 0, -1) . ")(\s*)([a-zA-Z\*\(_][a-zA-Z0-9_\*]*)#"
-                ),
-                '', // char to check for
-                array(
-                    1 => array('sym', false),
-                    2 => array('sym', false), // highlight splitter
-                    3 => array($data[1], $data[2]) // $data[2] says whether to give code a go at the match first
-                )
-            );
-        }
-    }*/
     
     /**
      * Overrides {@link GeSHiContext::_addParseData()} to highlight a code context, including
