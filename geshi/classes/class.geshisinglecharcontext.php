@@ -63,6 +63,22 @@ class GeSHiSingleCharContext extends GeSHiContext
     /**#@-*/
     
     // }}}
+    // {{{ setEscapeCharacters()
+    
+    function setEscapeCharacters ($chars)
+    {
+        $this->_escapeCharacters = (array) $chars;
+    }
+    
+    // }}}
+    // {{{ setCharactersToEscape()
+    
+    function setCharactersToEscape ($chars)
+    {
+        $this->_charsToEscape = (array) $chars;
+    }
+    
+    // }}}
     // {{{ getContextStartData()
     /**
      * GetContextStartData
