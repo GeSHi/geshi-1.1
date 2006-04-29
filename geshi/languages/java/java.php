@@ -29,14 +29,14 @@
  * @package    geshi
  * @subpackage lang
  * @author     Tim Wright <tim.w@clear.net.nz>
- * @copyright  (C) 2006 Tim Wright, Nigel McNie
+ * @copyright  (C) 2005 - 2006 Tim Wright, Nigel McNie
  * @version    $Id$
  *
  */
  
 function geshi_java_java (&$context)
 {
-    $name = $context->name();
+    //$name = $context->name();
     
     // Children of java context
     $context->addChild('double_string', 'string');
