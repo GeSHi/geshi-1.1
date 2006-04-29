@@ -3,8 +3,8 @@
  * GeSHi - Generic Syntax Highlighter
  * <pre>
  *   File:   geshi/classes/java/class.geshijavacodeparser.php
- *   Author: Nigel McNie
- *   E-mail: nigel@geshi.org
+ *   Author: Tim Wright
+ *   E-mail: tim.w@clear.net.nz
  * </pre>
  * 
  * For information on how to use GeSHi, please consult the documentation
@@ -36,13 +36,11 @@
  */
  
 /** @todo Code parsers may well be moved to geshi/languages */
-/** Get the GeSHiCodeParser class */
-require_once GESHI_CLASSES_ROOT . 'class.geshicodeparser.php';
  
 class GeSHiJavaCodeParser extends GeSHiCodeParser
 { 
  
-  /**
+    /**
      * A flag that can be used for the "state" of parsing
      * 
      * @var string
@@ -202,10 +200,10 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
      * This will probably disappear from here as theming support
      * arrives
      */
-    function GeSHiJavaCodeParser (&$styler, $language)
-    {
-        $this->GeSHiCodeParser($styler, $language);
-    }
+    //function GeSHiJavaCodeParser (&$styler, $language)
+    //{
+    //    $this->GeSHiCodeParser($styler, $language);
+    //}
  
    /**
      * This method can either return an array like
@@ -213,19 +211,9 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
      * array of arrays. This way, it can hold onto
      * data it needs for parsing
      * 
-     * @todo [blocking 1.1.1] Use this to put class names into a
+     * @todo [DONE] Use this to put class names into a
      * different context, and highlight them where they occur differently.
      * 
-     * @todo [blocking 1.1.5] Use this to highlight function
-     * names, e.g. function Foo means that Foo is php/php/function_names
-     * and anywhere else Foo is encountered it is converted. This
-     * will have to take into account:
-     * 
-     * - the name and dialect of the language currently being used (may
-     *   have to alter GeSHiStyler for this
-     * - the & symbol that might be before the function
-     * - the function token is actually in the right context (e.g. java/$DIALECT)
-     * - the function isn't actually a method (can highlight those too, of course)
      */
     function parseToken ($token, $context_name, $data)	
     {
