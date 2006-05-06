@@ -374,9 +374,7 @@ function geshi_delphi_delphi_single_string (&$context)
     $context->addDelimiters("'", array("'", "\n"));
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
     $context->setEscapeCharacters('\\');
-    // @todo [blocking 1.1.5] [for ben] Can you have single strings broken over multiple lines
-    // if a \ is put before the end of the line? If so, delete this todo. If not, e-mail me.
-    $context->setCharactersToEscape(array('\\', "'", "\n"));
+    $context->setCharactersToEscape(array('\\', "'"));
 }
 
 function geshi_delphi_delphi_preprocessor (&$context)
