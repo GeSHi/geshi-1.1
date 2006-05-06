@@ -41,6 +41,9 @@ $this->setStyle('single_string', 'color:#f00;');
 $this->setStyle('single_string/esc', 'color:#006;font-weight:bold;');
 
 $this->setStyle('preprocessor', 'color:#080;font-style:italic;');
+$this->setStyle('preprocessor/switch', 'color:#080;font-style:italic;font-weight:bold;');
+$this->setStyle('preprocessor/num/int', 'color:#080;');
+$this->setStyle('preprocessor/single_string', 'color:#080;');
 
 $this->setStyle('asm', 'color:#000;');
 $this->setStyle('asm/start', 'color:#f00;font-weight:bold;');

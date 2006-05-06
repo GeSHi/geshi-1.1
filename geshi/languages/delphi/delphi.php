@@ -131,12 +131,13 @@
  * *might* want to do only *after* support is back up to scratch :) - Nigel
  */
 
+require_once("common.php");
+
 function geshi_delphi_delphi (&$context)
 {
-    $context->addChild('single_comment');
-    $context->addChild('multi_comment');
-    $context->addChild('single_string', 'string');
-    $context->addChild('preprocessor');
+    geshi_delphi_common($context);
+
+    $context->addChild('preprocessor', 'code');
     $context->addChild('asm', 'code');
     $context->addChild('extern', 'code'); // NOTE: to be aliased as delphi/delphi
     $context->addChild('property', 'code');
@@ -158,23 +159,41 @@ function geshi_delphi_delphi (&$context)
         'safecall', 'stdcall', 'varargs'
     ), 'keyword');
     
-    // Keytypes
-    $context->addKeywordGroup(array(
-        'AnsiChar', 'AnsiString', 'Bool', 'Boolean', 'Byte', 'ByteBool', 'Cardinal', 'Char',
-        'Comp', 'Currency', 'DWORD', 'Double', 'Extended', 'Int64', 'Integer', 'IUnknown',
-        'LongBool', 'LongInt', 'LongWord', 'PAnsiChar', 'PAnsiString', 'PBool', 'PBoolean', 'PByte',
-        'PByteArray', 'PCardinal', 'PChar', 'PComp', 'PCurrency', 'PDWORD', 'PDate', 'PDateTime',
-        'PDouble', 'PExtended', 'PInt64', 'PInteger', 'PLongInt', 'PLongWord', 'Pointer', 'PPointer',
-        'PShortInt', 'PShortString', 'PSingle', 'PSmallInt', 'PString', 'PHandle', 'PVariant', 'PWord',
-        'PWordArray', 'PWordBool', 'PWideChar', 'PWideString', 'Real', 'Real48', 'ShortInt', 'ShortString',
-        'Single', 'SmallInt', 'String', 'TClass', 'TDate', 'TDateTime', 'TextFile', 'THandle',
-        'TObject', 'TTime', 'Variant', 'WideChar', 'WideString', 'Word', 'WordBool'
-    ), 'keytype');
+    geshi_delphi_keytype($context);
+    geshi_delphi_keyident_self($context);
 
-    // Keyidents
-    $context->addKeywordGroup(array(
-        'false', 'nil', 'self', 'true'
-    ), 'keyident');
+    // Symbols
+    $context->addSymbolGroup(array(
+        '+', '-', '*', '/'
+    ), 'mathsym');
+    $context->addSymbolGroup(array(
+        ':', ';', ','
+    ), 'ctrlsym');
+    $context->addSymbolGroup(array(
+        '<', '=', '>'
+    ), 'cmpsym');
+    $context->addSymbolGroup(array(
+        '(', ')', '[', ']'
+    ), 'brksym');
+    
+    $context->addSymbolGroup(array(
+        '@', '^'
+    ), 'oopsym');
+
+    geshi_delphi_chars($context);
+    geshi_delphi_integers($context);
+
+    // Floats
+    $context->useStandardDoubles('mathsym', true);
+
+    // Ranges
+    $context->addRegexGroup('/(\.\.)/', '.', array(
+        1 => array('ctrlsym', false)
+    ));
+
+    $context->addObjectSplitter('.', '/oodynamic', 'oopsym');
+
+    $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
 
     // Standard functions of Unit System
     $context->addKeywordGroup(array(
@@ -311,77 +330,34 @@ function geshi_delphi_delphi (&$context)
         'Variance'
     ), 'stdprocs/math');
 
-    // Symbols
-    $context->addSymbolGroup(array(
-        '+', '-', '*', '/'
-    ), 'mathsym');
-    $context->addSymbolGroup(array(
-        ':', ';', ','
-    ), 'ctrlsym');
-    $context->addSymbolGroup(array(
-            '<', '=', '>'
-    ), 'cmpsym');
-    $context->addSymbolGroup(array(
-        '(', ')', '[', ']'
-    ), 'brksym');
-    // @todo might not need the . now because addObjectSplitter handles it
-    $context->addSymbolGroup(array(
-        '.', '@', '^'
-    ), 'oopsym');
-
-    // Characters
-    $context->addRegexGroup('/(#[0-9]+)/', '#', array(
-        1 => array('char', false)
-    ));
-    $context->addRegexGroup('/(#\$[0-9a-fA-F]+)/', '#', array(
-        1 => array('charhex', false)
-    ));
-    $context->addRegexGroup('/(\$[0-9a-fA-F]+)/', '$', array(
-        1 => array('hex', false)
-    ));
-    $context->addRegexGroup('/(\.\.)/', '.', array(
-        1 => array('ctrlsym', false)
-    ));
-    
-    $context->useStandardIntegers();
-    $context->useStandardDoubles('mathsym', true);
-
-    $context->addObjectSplitter('.', '/oodynamic', 'oopsym');
-
-    $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
 }
     
 // This feature is yet to be implemented in the new language file format
 //$this->_styler->useThemes('boride');
 
-function geshi_delphi_delphi_single_comment (&$context)
+function geshi_delphi_delphi_single_string(&$context)
 {
-    $context->addDelimiters('//', "\n");
-    //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
-    $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
+    geshi_delphi_single_string($context);
 }
 
-function geshi_delphi_delphi_multi_comment (&$context)
+function geshi_delphi_delphi_single_comment(&$context)
 {
-    $context->addDelimiters('{', '}');
-    $context->addDelimiters('(*', '*)');
-    //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
-    $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
+    geshi_delphi_single_comment($context);
 }
 
-function geshi_delphi_delphi_single_string (&$context)
+function geshi_delphi_delphi_multi_comment(&$context)
 {
-    $context->addDelimiters("'", array("'", "\n"));
-    //$this->_contextStyleType = GESHI_STYLE_STRINGS;
-    $context->setEscapeCharacters('\\');
-    $context->setCharactersToEscape(array('\\', "'"));
+    geshi_delphi_multi_comment($context);
 }
 
-function geshi_delphi_delphi_preprocessor (&$context)
+function geshi_delphi_delphi_preprocessor(&$context)
 {
-    $context->addDelimiters('{$', '}');
-    $context->addDelimiters('(*$', '*)');
-    //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
+    geshi_delphi_preprocessor($context);
+}
+
+function geshi_delphi_delphi_preprocessor_single_string(&$context)
+{
+    geshi_delphi_single_string($context);
 }
 
 function geshi_delphi_delphi_asm (&$context)
@@ -390,7 +366,7 @@ function geshi_delphi_delphi_asm (&$context)
          'REGEX#(^|(?=\b))end((?=\b)|$)#im');
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
 
-    $context->addChild('delphi/delphi/preprocessor');
+    $context->addChild('delphi/delphi/preprocessor', 'code');
     $context->addChild('delphi/delphi/single_comment');
     $context->addChild('delphi/delphi/multi_comment');
 
@@ -428,6 +404,9 @@ function geshi_delphi_delphi_asm (&$context)
         'cr0', 'cr1', 'cr2', 'cr3', 'cr4',
         'dr0', 'dr1', 'dr2', 'dr3', 'dr4', 'dr5', 'dr6', 'dr7'
     ), 'register');
+    $context->addRegexGroup('/(?=\b)(st\([0-7]\))/im', '', array(
+        1 => array('register', false)
+    ));
 
     // CPU i386 instructions
     $context->addKeywordGroup(array(
@@ -537,9 +516,12 @@ function geshi_delphi_delphi_asm (&$context)
         'PF2IW', 'PFNACC', 'PFPNACC', 'PI2FW', 'PSWAPD'
     ), 'instr/3Dnow2');
 
+    // @todo Split into the same subgroups like for delphi/delphi
     $context->addSymbolGroup(array(
         ',', ';', '[', ']', '(', ')', '.', '&', '+', '-', '/', '*'
     ), 'symbol');
+
+    $context->addObjectSplitter('.', 'oodynamic', 'symbol');
 
     $context->addRegexGroup('#([@a-zA-Z_][@a-zA-Z0-9_]+:)#', ':', array(
         1 => array('label', false)
@@ -547,13 +529,9 @@ function geshi_delphi_delphi_asm (&$context)
     $context->addRegexGroup('/(\$[0-9a-fA-F_]+)/', '$', array(
         1 => array('hex', false)
     ));
-    $context->addRegexGroup('/(?=\b)(st\([0-7]\))/im', '', array(
-        1 => array('register', false)
-    ));
-    
+
     $context->useStandardIntegers();
-    
-    $context->addObjectSplitter('.', 'oodynamic', 'symbol');
+    $context->useStandardDoubles('mathsym', true);
 }
 
 function geshi_delphi_delphi_extern (&$context)
@@ -561,7 +539,7 @@ function geshi_delphi_delphi_extern (&$context)
     $context->addDelimiters('REGEX#(^|(?=\b))exports((?=\b)|$)#im', ';');
     $context->addDelimiters('REGEX#(^|(?=\b))external((?=\b)|$)#im', ';');
 
-    $context->addChild('delphi/delphi/preprocessor');
+    $context->addChild('delphi/delphi/preprocessor', 'code');
     $context->addChild('delphi/delphi/multi_comment');
     $context->addChild('delphi/delphi/single_comment');
     $context->addChild('delphi/delphi/single_string', 'string');
@@ -575,9 +553,7 @@ function geshi_delphi_delphi_extern (&$context)
     ), 'keyword');
 
     $context->addSymbolGroup(array(
-        // @todo [blocking 1.1.5] [for ben]  the [ and ] symbols are repeated in both these arrays...
-        // in addition . is already in oopsym, perhaps this array is meant to go?
-        ',', '[', ']', '.'
+        ','
     ), 'symbol');
     $context->addSymbolGroup(array(
         '(', ')', '[', ']'
@@ -597,6 +573,8 @@ function geshi_delphi_delphi_extern (&$context)
 
     $context->addObjectSplitter('.', 'oodynamic', 'oopsym');
 
+    // @todo This might be subject to change, depending on how I will handle this context.
+    // It might be that I'll have to split this context a bit ...
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
@@ -604,7 +582,7 @@ function geshi_delphi_delphi_exports_brackets (&$context)
 {
     $context->addDelimiters('(', ')');
 
-    $context->addChild('delphi/delphi/preprocessor');
+    $context->addChild('delphi/delphi/preprocessor', 'code');
     $context->addChild('delphi/delphi/single_comment');
     $context->addChild('delphi/delphi/multi_comment');
 
@@ -616,36 +594,13 @@ function geshi_delphi_delphi_exports_brackets (&$context)
         'var', 'out', 'const', 'array'
     ), 'keyword');
     
-    // Keytypes
-    $context->addKeywordGroup(array(
-        'Boolean', 'ByteBool', 'LongBool', 'WordBool', 'Bool',
+    geshi_delphi_keytype($context);
 
-        'Byte',  'SmallInt',
-        'ShortInt', 'Word',
-        'Integer', 'Cardinal',
-        'LongInt', 'DWORD',
-        'Int64',
+    geshi_delphi_keyident_noself($context);
 
-        'Single', 'Double', 'Extended',
-        'Real48', 'Real', 'Comp', 'Currency',
-
-        'Pointer',
-
-        'Char', 'AnsiChar', 'WideChar',
-        'PChar', 'PAnsiChar', 'PWideChar',
-        'String', 'AnsiString', 'WideString',
-
-        'THandle'
-    ), 'keytype');
-
-    $context->addKeywordGroup(array(
-        'nil',
-        'false', 'true'
-    ), '/keyident');
     $context->addSymbolGroup(array(
         ':', ';', ',', '='
     ), 'ctrlsym');
-    $context->addSymbolGroup('.', 'oopsym');
 
     $context->addRegexGroup('/(#[0-9]+)/', '#', array(
         1 => array('char', false)
@@ -654,12 +609,13 @@ function geshi_delphi_delphi_exports_brackets (&$context)
         1 => array('charhex', false)
     ));
     $context->addRegexGroup('/(\$[0-9a-fA-F]+)/', '$', array(
-        1 => array('/hex', false)
+        1 => array('hex', false)
     ));
     
     $context->useStandardIntegers();
+    $context->useStandardDoubles('mathsym', true);
 
-    $context->addObjectSplitter('.', 'oodynamic', 'oopsym');
+    $context->addObjectSplitter('.', '/oodynamic', 'oopsym');
 
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
@@ -668,7 +624,7 @@ function geshi_delphi_delphi_property (&$context)
 {
     $context->addDelimiters('property', ';');
     
-    $context->addChild('delphi/delphi/preprocessor');
+    $context->addChild('delphi/delphi/preprocessor', 'code');
     $context->addChild('delphi/delphi/single_comment');
     $context->addChild('delphi/delphi/multi_comment');
     $context->addChild('property_index', 'code');
@@ -680,30 +636,10 @@ function geshi_delphi_delphi_property (&$context)
         'read','write','index','stored','default','nodefault','implements',
         'dispid','readonly','writeonly'
     ), 'keyword');
-    $context->addKeywordGroup(array(
-        'Boolean', 'ByteBool', 'LongBool', 'WordBool', 'Bool',
+    
+    geshi_delphi_keytype($context);
 
-        'Byte',  'SmallInt',
-        'ShortInt', 'Word',
-        'Integer', 'Cardinal',
-        'LongInt', 'DWORD',
-        'Int64',
-
-        'Single', 'Double', 'Extended',
-        'Real48', 'Real', 'Comp', 'Currency',
-
-        'Pointer',
-
-        'Char', 'AnsiChar', 'WideChar',
-        'PChar', 'PAnsiChar', 'PWideChar',
-        'String', 'AnsiString', 'WideString',
-
-        'THandle'
-    ), 'keytype');
-    $context->addKeywordGroup(array(
-        'nil',
-        'false', 'true'
-    ), 'keyident');
+    geshi_delphi_keyident_noself($context);
     
     $context->addKeywordGroup(':', 'ctrlsym');
     
@@ -721,6 +657,7 @@ function geshi_delphi_delphi_property (&$context)
     
     $context->addObjectSplitter('.', 'oodynamic', 'oopsym');
     
+    // @todo: This might require some changes later on to fix some bugs ...
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
@@ -728,39 +665,19 @@ function geshi_delphi_delphi_property_property_index(&$context)
 {
     $context->addDelimiters('[', ']');
 
-    $context->addChild('delphi/delphi/preprocessor');
+    $context->addChild('delphi/delphi/preprocessor', 'code');
     $context->addChild('delphi/delphi/single_comment');
     $context->addChild('delphi/delphi/multi_comment');
 
     //$this->_startName = 'brksym'; // highlight starter as if it was a keyword
     //$this->_endName   = 'brksym';  // highlight ender as if it was a ctrlsym
 
-    $context->addKeywordGroup(array(
-        'Boolean', 'ByteBool', 'LongBool', 'WordBool', 'Bool',
-
-        'Byte',  'SmallInt',
-        'ShortInt', 'Word',
-        'Integer', 'Cardinal',
-        'LongInt', 'DWORD',
-        'Int64',
-
-        'Single', 'Double', 'Extended',
-        'Real48', 'Real', 'Comp', 'Currency',
-
-        'Pointer',
-
-        'Char', 'AnsiChar', 'WideChar',
-        'PChar', 'PAnsiChar', 'PWideChar',
-        'String', 'AnsiString', 'WideString',
-
-        'THandle'
-    ), 'keytype');
+    geshi_delphi_keytype($context);
 
     $context->addSymbolGroup(array(
         ':', ';', ','
     ), 'ctrlsym');
-    $context->addSymbolGroup('.', 'oopsym');
-    
+
     $context->addRegexGroup('/(#[0-9]+)/', '#', array(
         1 => array('char', false)
     ));
@@ -774,6 +691,9 @@ function geshi_delphi_delphi_property_property_index(&$context)
     $context->useStandardIntegers();
 
     $context->addObjectSplitter('.', 'oopdynamic', 'oopsym');
+
+    // @todo: This might require some changes later on to fix some bugs ...
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
+
 ?>

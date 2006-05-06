@@ -40,7 +40,11 @@ $this->setStyle('single_string/esc', 'color:#000;');
 
 $this->setStyle('multi_comment', 'color:#000080;font-style:italic;');
 $this->setStyle('single_comment', 'color:#000080;font-style:italic;');
+
 $this->setStyle('preprocessor', 'color:#008000;font-style:italic;');
+$this->setStyle('preprocessor/switch', 'color:#008000;font-style:italic;font-weight:bold;');
+$this->setStyle('preprocessor/num/int', 'color:#008000;');
+$this->setStyle('preprocessor/single_string', 'color:#008000;');
 
 $this->setStyle('keyword', 'color:#000;font-weight:bold;');
 
