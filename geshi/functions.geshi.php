@@ -145,7 +145,7 @@ function geshi_can_include ($file_name)
         } while (GESHI_ROOT == substr($file_name, 0, strlen(GESHI_ROOT) && $can_include));
     }
 
-    return $can_include;
+    return (bool) $can_include;
 }
 
 /**
