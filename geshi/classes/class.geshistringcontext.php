@@ -51,10 +51,10 @@ class GeSHiStringContext extends GeSHiContext
     /**#@-
      * @access private
      */
-    var $_escapeCharacters;
+    var $_escapeCharacters = array();
     
     // Characters that should be escaped
-    var $_charsToEscape;
+    var $_charsToEscape = array();
     
     /**
      * This is used by the 'DELIM' "character" in the _charsToEscape array. We
@@ -112,15 +112,25 @@ class GeSHiStringContext extends GeSHiContext
                 $possible_string = substr($code, 0, $pos);            
                 geshi_dbg('  String might be: ' . $possible_string);
                 
-                foreach ($this->_escapeCharacters as $escape_char) {
-                    // remove escaped escape characters
-                    $possible_string = str_replace($escape_char . $escape_char, '', $possible_string);
+                $not_escaped = true;
+                if ($this->_escapeCharacters) {
+                    foreach ($this->_escapeCharacters as $escape_char) {
+                        // remove escaped escape characters
+                        $possible_string = str_replace($escape_char . $escape_char, '', $possible_string);
+                    }
+                    
+                    geshi_dbg('  String with double escapes removed: ' . $possible_string);
+
+                    //@todo [blocking 1.1.1] possible bug: only last escape character checked here
+                    foreach ($this->_escapeCharacters as $escape_char) {
+                        if (substr($possible_string, -1) == $escape_char) {
+                            $not_escaped = false;
+                            break;
+                        }
+                    }
                 }
                 
-                geshi_dbg('  String with double escapes removed: ' . $possible_string);
-
-                //@todo [blocking 1.1.1] possible bug: only last escape character checked here                
-                if (substr($possible_string, -1) != $escape_char) {
+                if ($not_escaped) {
                     // We may have found the correct ender. If we haven't, then this string
                     // never ends and we will set the end position to the length of the code
                     // substr($code, $pos, 1) == $ender
@@ -129,10 +139,12 @@ class GeSHiStringContext extends GeSHiContext
                     $pos = (false !== $pos && $endpos['pos'] === $pos) ? $pos : strlen($code);
                     return array('pos' => $pos, 'len' => $len, 'dlm' => $ender);
                 }
+                
                 // else, start further up
                 ++$pos;
             }
         }
+        
         return false;
     }
     
