@@ -39,6 +39,7 @@
  * MAJOR TODOs:
  * 
  * @todo [in progress] language file format rethink
+ * @todo can php/common be used as a language? it shouldn't be
  */
 
 //
