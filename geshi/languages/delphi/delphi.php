@@ -131,7 +131,7 @@
  * *might* want to do only *after* support is back up to scratch :) - Nigel
  */
 
-require_once("common.php");
+require_once GESHI_LANGUAGES_ROOT . 'delphi' . GESHI_DIR_SEP . 'common.php';
 
 function geshi_delphi_delphi (&$context)
 {
