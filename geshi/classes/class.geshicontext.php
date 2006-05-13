@@ -209,8 +209,8 @@ class GeSHiContext
     {
         $this->_contextName = $context_name;
         $pos = strpos($context_name, '/');
-        $pos = strpos($context_name, '/', $pos + 1);
-        $pos = (false !== $pos) ? $pos : strlen($context_name);
+        //$pos = strpos($context_name, '/', $pos + 1);
+        //$pos = (false !== $pos) ? $pos : strlen($context_name);
         $this->_languageName = substr($context_name, 0, $pos);
         
         $this->_styler =& geshi_styler();
@@ -410,7 +410,7 @@ class GeSHiContext
     
     function alias ($name)
     {
-        $this->_contextName = ($name) ? "$this->_languageName/$name" : $name;
+        $this->_contextName = ('' == $name) ? "$this->_languageName/$name" : $name;
         $this->_isAlias = true;
     }
 
@@ -945,7 +945,7 @@ class GeSHiContext
     
     function _makeContextName ($name)
     {
-        return (substr($name, 0, strlen($this->_languageName)) == $this->_languageName)
+        return (substr($name, 0, strlen($this->_languageName) + 1) == "{$this->_languageName}/")
             ? $name : "$this->_contextName/$name";
     }
     
