@@ -70,6 +70,9 @@ class GeSHiStringContext extends GeSHiContext
     
     // {{{ setEscapeCharacters()
     
+    /**
+     * @todo [blocking 1.1.1] Should be able to escape the delimiter using itself
+     */
     function setEscapeCharacters ($chars)
     {
         $this->_escapeCharacters = (array) $chars;
