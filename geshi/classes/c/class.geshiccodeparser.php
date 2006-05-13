@@ -59,7 +59,7 @@ class GeSHiCCodeParser extends GeSHiCodeParser
          * Get the url for non-standard preprocessor directives into
          * $this->_CnonStdPreprocDirectivesUrl
          */
-        include GESHI_CONTEXTS_ROOT.'c'.GESHI_DIR_SEPARATOR.
+        include GESHI_CONTEXTS_ROOT.'c'.GESHI_DIR_SEP.
           'common_keywords.php';
     }
 
