@@ -45,6 +45,7 @@
  * @since   1.1.0
  * @version $Revision$
  * @see     GeSHiStringContext, GeSHiContext
+ * @todo perhaps this could be done by codeparser?
  */
 class GeSHiPHPDoubleStringContext extends GeSHiStringContext
 {
