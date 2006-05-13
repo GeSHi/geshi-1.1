@@ -1,9 +1,8 @@
-<?
-
+<?php
 /**
  * GeSHi - Generic Syntax Highlighter
  * <pre>
- *   File:   geshi/languages/delphi/delphi.php
+ *   File:   geshi/languages/delphi/common.php
  *   Author: Benny Baumann
  *   E-mail: BenBE@benbe.omorphia.de
  * </pre>
