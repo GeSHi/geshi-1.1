@@ -118,7 +118,7 @@ class GeSHiCodeContext extends GeSHiContext
     }
     
     function addSymbolGroup($symbols, $context_name) {
-        $this->_contextSymbols[] = array($symbols, $this->_makeContextName($context_name));
+        $this->_contextSymbols[] = array((array)$symbols, $this->_makeContextName($context_name));
     }
 
     function addRegexGroup($regexes, $test_char, $handler_info) {
