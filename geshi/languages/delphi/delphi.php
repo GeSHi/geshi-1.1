@@ -138,9 +138,16 @@ function geshi_delphi_delphi (&$context)
     geshi_delphi_common($context);
 
     $context->addChild('preprocessor', 'code');
-    $context->addChild('asm', 'code');
+    // Commented out: ASM is now a child language of its own
+    //$context->addChild('asm', 'code');
     $context->addChild('extern', 'code'); // NOTE: to be aliased as delphi/delphi
     $context->addChild('property', 'code');
+    
+    // Hook in ASM sublanguage
+    // @todo [blocking 1.1.1] evaluate usage of fifth parameter:
+    // it might be able to be defaulted to GESHI_CHILD_PARSE_NONE
+    $context->addChildLanguage('delphi/asm', 'REGEX#(^|(?=\b))asm((?=\b)|$)#im',
+        'REGEX#(^|(?=\b))end((?=\b)|$)#im', false, GESHI_CHILD_PARSE_NONE);
     
     // Keywords
     $context->addKeywordGroup(array(
@@ -191,7 +198,7 @@ function geshi_delphi_delphi (&$context)
         1 => array('ctrlsym', false)
     ));
 
-    $context->addObjectSplitter('.', '/oodynamic', 'oopsym');
+    $context->addObjectSplitter('.', 'oodynamic', 'oopsym');
 
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
 
@@ -360,10 +367,14 @@ function geshi_delphi_delphi_preprocessor_single_string(&$context)
     geshi_delphi_single_string($context);
 }
 
+/*
 function geshi_delphi_delphi_asm (&$context)
 {
-    $context->addDelimiters('REGEX#(^|(?=\b))asm((?=\b)|$)#im',
-         'REGEX#(^|(?=\b))end((?=\b)|$)#im');
+    //$context->addDelimiters('REGEX#(^|(?=\b))asm((?=\b)|$)#im',
+    //     'REGEX#(^|(?=\b))end((?=\b)|$)#im');
+    //$context->addChildLanguage('delphi/asm', 'REGEX#(^|(?=\b))asm((?=\b)|$)#im',
+    //    'REGEX#(^|(?=\b))end((?=\b)|$)#im');
+    
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
 
     $context->addChild('delphi/delphi/preprocessor', 'code');
@@ -532,7 +543,9 @@ function geshi_delphi_delphi_asm (&$context)
 
     $context->useStandardIntegers();
     $context->useStandardDoubles('mathsym', true);
+    
 }
+*/
 
 function geshi_delphi_delphi_extern (&$context)
 {
