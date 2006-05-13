@@ -2,7 +2,7 @@
 /**
  * GeSHi - Generic Syntax Highlighter
  * <pre>
- *   File:   geshi/themes/boride/d2/delphi/delphi.php
+ *   File:   geshi/themes/boride/d8/delphi/asm.php
  *   Author: Benny Baumann
  *   E-mail: BenBE@benbe.omorphia.de
  * </pre>
@@ -36,21 +36,14 @@
  */
 
 /*
- * Delphi styles for boring Borland IDE theme
+ * Delphi ASM styles for boring Borland IDE theme
  */
-$this->setStyle('single_string', 'color:#000;');
-$this->setStyle('single_string/esc', 'color:#000;');
-
-$this->setStyle('multi_comment', 'color:#000080;font-style:italic;');
-$this->setStyle('single_comment', 'color:#000080;font-style:italic;');
-
-$this->setStyle('preprocessor', 'color:#000080;font-style:italic;');
-$this->setStyle('preprocessor/switch', 'color:#000080;font-style:italic;font-weight:bold;');
-$this->setStyle('preprocessor/num/int', 'color:#000080;');
-$this->setStyle('preprocessor/single_string', 'color:#000080;');
-
+$this->setStyle('start', 'color:#000;font-weight:bold;');
+$this->setStyle('end', 'color:#000;font-weight:bold;');
 $this->setStyle('keyword', 'color:#000;font-weight:bold;');
-
-$this->loadStyles('delphi/asm');
+$this->setStyle('keyop', 'color:#000;font-weight:bold;');
+$this->setStyle('control', 'color:#000;font-weight:bold;');
+$this->setStyle('register', 'color:#000;');
+$this->setStyle('instr/*', 'color:#000;font-weight:bold;');
 
 ?>
