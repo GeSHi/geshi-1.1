@@ -178,7 +178,7 @@ class GeSHiCodeContext extends GeSHiContext
             $splitter_match .= preg_quote($splitter) . '|';
         }
         
-        $this->addRegexGroup("#(" . substr($splitter_match, 0, -1) . ")(\s*)([a-zA-Z\*\(_][a-zA-Z0-9_\*]*)#", '',
+        $this->addRegexGroup("#(" . substr($splitter_match, 0, -1) . ")(\s*)([a-zA-Z_][a-zA-Z0-9_]*)#", '',
             array(
                 // If array, first index is name and second index is whether to let code have a go
                 // If not array and set, the whole thing is passed to code to have a go
