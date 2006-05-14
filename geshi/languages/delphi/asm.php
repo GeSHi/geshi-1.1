@@ -205,7 +205,7 @@ function geshi_delphi_asm (&$context)
     ));
 
     $context->useStandardIntegers();
-    $context->useStandardDoubles('mathsym', true);
+    $context->useStandardDoubles(array('require_leading_number' => true));
 }
 
 ?>

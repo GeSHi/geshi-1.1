@@ -138,7 +138,7 @@ function geshi_javascript_javascript (&$context)
     ), 'symbol');
 
     $context->useStandardIntegers();
-    $context->useStandardDoubles('symbol');
+    $context->useStandardDoubles();
 
     $context->addObjectSplitter('.', 'oodynamic', 'symbol', true);
 }

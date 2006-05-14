@@ -112,7 +112,7 @@ function geshi_c_c (&$context)
     ), 'symbol');
     
     $context->useStandardIntegers();
-    $context->useStandardDoubles('symbol');
+    $context->useStandardDoubles(array('chars_after_number' => array('f', 'l')));
     
     $context->addObjectSplitter(array('.', '->'), 'member', 'symbol');
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
@@ -272,7 +272,7 @@ function geshi_c_c_preprocessor_ifelif (&$context)
     ), 'c/c/symbol');
     
     $context->useStandardIntegers();
-    $context->useStandardDoubles('symbol');
+    $context->useStandardDoubles(array('chars_after_number' => array('f', 'l')));
     
     $context->parseDelimiters(GESHI_CHILD_PARSE_LEFT);
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
@@ -410,7 +410,7 @@ function geshi_c_c_preprocessor_general (&$context)
     ), 'symbol');
     
     $context->useStandardIntegers();
-    $context->useStandardDoubles('symbol');
+    $context->useStandardDoubles(array('chars_after_number' => array('f', 'l')));
     
     $context->addObjectSplitter(array(
         '.', '->'

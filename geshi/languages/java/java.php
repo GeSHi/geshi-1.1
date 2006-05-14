@@ -98,7 +98,7 @@ function geshi_java_java (&$context)
             'TooManyListenersException', 'TreeMap', 'TreeSet', 
             'UUID', 'UnknownFormatConversionException', 'UnknownFormatFlagsException', 
             'Vector', 'WeakHashMap'
-    ), 'java/util', true, 'http://java.sun.com/j2se/1.5.0/docs/api/java/util/{FNAME}.html');
+    ), 'java/java/java/util', true, 'http://java.sun.com/j2se/1.5.0/docs/api/java/util/{FNAME}.html');
     
     // Package java.lang
     $context->addKeywordGroup(
@@ -135,7 +135,7 @@ function geshi_java_java (&$context)
             'Throwable', 'TypeNotPresentException', 'UnknownError', 
             'UnsatisfiedLinkError', 'UnsupportedClassVersionError', 'UnsupportedOperationException', 
             'VerifyError', 'VirtualMachineError', 'Void'
-    ), 'java/lang', false, 'http://java.sun.com/j2se/1.5.0/docs/api/java/lang/{FNAME}.html');
+    ), 'java/java/java/lang', false, 'http://java.sun.com/j2se/1.5.0/docs/api/java/lang/{FNAME}.html');
     
     // Package javax.swing
     $context->addKeywordGroup(
@@ -189,7 +189,7 @@ function geshi_java_java (&$context)
             'UIDefaults.LazyValue', 'UIDefaults.ProxyLazyValue', 'UIManager', 
             'UIManager.LookAndFeelInfo', 'UnsupportedLookAndFeelException', 'ViewportLayout', 
             'WindowConstants'
-    ), 'javax/swing', true, 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/{FNAME}.html');
+    ), 'java/java/javax/swing', true, 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/{FNAME}.html');
     
     // Constants
     $context->addKeywordGroup(array(
@@ -208,7 +208,7 @@ function geshi_java_java (&$context)
 
     // Numbers
     $context->useStandardIntegers();
-    $context->useStandardDoubles('symbol');
+    $context->useStandardDoubles();
 
     // Objects
     $context->addObjectSplitter('.', 'ootoken', 'symbol');

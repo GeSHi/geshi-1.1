@@ -95,7 +95,7 @@ function geshi_php_common (&$context)
     
     // Number support
     $context->useStandardIntegers();
-    $context->useStandardDoubles('symbol');
+    $context->useStandardDoubles();
     
     // PHP Objects
     $context->addObjectSplitter('->', 'oodynamic', 'symbol');
