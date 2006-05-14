@@ -170,6 +170,27 @@ function geshi_c_c_character_constant (&$context)
         'REGEX#x[0-9a-f]{1,}#i', '\\', '"'));
 }
 
+/**
+ * Duplicate these functions for the preprocessor simply so that they can have
+ * a different highlighting context.
+ */
+function geshi_c_c_preprocessor_multi_comment (&$context)
+{
+    geshi_c_c_multi_comment ($context);
+}
+function geshi_c_c_preprocessor_single_comment (&$context)
+{
+    geshi_c_c_single_comment ($context);
+}
+function geshi_c_c_preprocessor_string_literal (&$context)
+{
+    geshi_c_c_string_literal($context);
+}
+function geshi_c_c_preprocessor_character_constant (&$context)
+{
+    geshi_c_c_character_constant ($context);
+}
+
 function geshi_c_c_preprocessor (&$context)
 {
     $context->addChild('ifelif', 'code');
@@ -234,16 +255,16 @@ function geshi_c_c_preprocessor (&$context)
 
 function geshi_c_c_preprocessor_ifelif (&$context)
 {
-    $context->addChild('c/c/multi_comment');
-    $context->addChild('c/c/single_comment');
-    $context->addChild('c/c/string_literal', 'string');
-    $context->addChild('c/c/character_constant', 'singlechar');
+    $context->addChild('c/c/preprocessor/multi_comment');
+    $context->addChild('c/c/preprocessor/single_comment');
+    $context->addChild('c/c/preprocessor/string_literal', 'string');
+    $context->addChild('c/c/preprocessor/character_constant', 'singlechar');
     
     $context->addDelimiters(array(
         'REGEX#(?<=\bif\b)#', 'REGEX#(?<=\belif\b)#'
     ), 'REGEX#(?<!\\\)\n#', true);
     
-    $context->addKeywordGroup('defined', 'directive', true,
+    $context->addKeywordGroup('defined', 'c/c/preprocessor/directive', true,
         'http://clc-wiki.net/wiki/{FNAME}');
     $context->addKeywordGroup(array(
         'BUFSIZ', 'CHAR_BIT', 'CHAR_MAX', 'CHAR_MIN', 'CLOCKS_PER_SEC',
@@ -263,7 +284,8 @@ function geshi_c_c_preprocessor_ifelif (&$context)
         '__STDC_VERSION__', '__STDC_ISO_10646__', 'stderr', 'stdin',
         'stdout', '__TIME__', 'TMP_MAX', 'true', 'UCHAR_MAX', 'UINT_MAX',
         'ULONG_MAX', 'USHRT_MAX'
-    ), 'c/c/stdmacroorobject', true, 'http://clc-wiki.net/wiki/{FNAME}');
+    ), 'c/c/preprocessor/stdmacroorobject', true,
+    'http://clc-wiki.net/wiki/{FNAME}');
 
     /** @note not all of these symbols have meaning in this context - e.g. I can't
       * see how to use & or [] in a preprocessor constant, and a semicolon has no
@@ -273,7 +295,7 @@ function geshi_c_c_preprocessor_ifelif (&$context)
     $context->addSymbolGroup(array(
         ',', '.', '?', ':', '>', '<', '~', '!', '=', '%', '^', '+', '-', '/', '*',
         '&', '(', ')', '{', '}', '[', ']', ';', '\\'/*line continuation character*/
-    ), 'c/c/symbol');
+    ), 'c/c/preprocessor/symbol');
     
     $context->useStandardIntegers();
     $context->useStandardDoubles(array('chars_after_number' => array('f', 'l')));
@@ -284,8 +306,8 @@ function geshi_c_c_preprocessor_ifelif (&$context)
 
 function geshi_c_c_preprocessor_include (&$context)
 {
-    $context->addChild('c/c/multi_comment');
-    $context->addChild('c/c/single_comment');
+    $context->addChild('c/c/preprocessor/multi_comment');
+    $context->addChild('c/c/preprocessor/single_comment');
 
     $context->addDelimiters('REGEX#(?<=\binclude\b)#',
         array(/*"\n", */'REGEX#(?<!\\\)\n#'), true);
@@ -300,7 +322,8 @@ function geshi_c_c_preprocessor_include (&$context)
         'setjmp.h', 'signal.h', 'stdarg.h', 'stdbool.h', 'stddef.h',
         'stdint.h', 'stdio.h', 'stdlib.h', 'string.h', 'tgmath.h',
         'time.h', 'wchar.h', 'wctype.h'
-    ), 'c/c/stdheader', true, 'http://clc-wiki.net/wiki/{FNAME}');
+    ), 'c/c/preprocessor/include/stdheader', true,
+    'http://clc-wiki.net/wiki/{FNAME}');
     
     $context->addKeywordGroup(array(
         'BUFSIZ', 'CHAR_BIT', 'CHAR_MAX', 'CHAR_MIN', 'CLOCKS_PER_SEC',
@@ -320,9 +343,11 @@ function geshi_c_c_preprocessor_include (&$context)
         '__STDC_VERSION__', '__STDC_ISO_10646__', 'stderr', 'stdin',
         'stdout', '__TIME__', 'TMP_MAX', 'true', 'UCHAR_MAX', 'UINT_MAX',
         'ULONG_MAX', 'USHRT_MAX'
-    ), 'c/c/stdmacroorobject', true, 'http://clc-wiki.net/wiki/{FNAME}');
+    ), 'c/c/preprocessor/stdmacroorobject', true,
+    'http://clc-wiki.net/wiki/{FNAME}');
 
-    $context->addSymbolGroup(array('<', '>'), 'c/c/preprocessor/symbol/std_include');
+    $context->addSymbolGroup(array('<', '>'),
+      'c/c/preprocessor/symbol/std_include');
     $context->addSymbolGroup('"', 'c/c/preprocessor/symbol/impl_include');
 
     $context->parseDelimiters(GESHI_CHILD_PARSE_LEFT);
@@ -334,10 +359,10 @@ require_once GESHI_CONTEXTS_ROOT.'c'.GESHI_DIR_SEP.'helper_functions.php';
 
 function geshi_c_c_preprocessor_general (&$context)
 {
-    $context->addChild('c/c/multi_comment');
-    $context->addChild('c/c/single_comment');
-    $context->addChild('c/c/string_literal', 'string');
-    $context->addChild('c/c/character_constant', 'singlechar');
+    $context->addChild('c/c/preprocessor/multi_comment');
+    $context->addChild('c/c/preprocessor/single_comment');
+    $context->addChild('c/c/preprocessor/string_literal', 'string');
+    $context->addChild('c/c/preprocessor/character_constant', 'singlechar');
     
     $context->addDelimiters(geshic_make_ppdir_regexps(array(
         // $this->_CgeneralPPdirectives comes from common_keywords.php
@@ -350,11 +375,13 @@ function geshi_c_c_preprocessor_general (&$context)
     $context->addKeywordGroup(array(
         'break', 'case', 'continue', 'default', 'do', 'else', 'for', 'goto',
         'if', 'return', 'switch', 'while'
-    ), 'c/c/ctlflow-keyword', true, 'http://clc-wiki.net/wiki/{FNAME}');
+    ), 'c/c/preprocessor/ctlflow-keyword', true,
+    'http://clc-wiki.net/wiki/{FNAME}');
     
     $context->addKeywordGroup(array(
         'enum', 'struct', 'typedef', 'union'
-    ), 'c/c/declarator-keyword', true, 'http://clc-wiki.net/wiki/{FNAME}');
+    ), 'c/c/preprocessor/declarator-keyword', true,
+    'http://clc-wiki.net/wiki/{FNAME}');
     
     $context->addKeywordGroup(array(
         'auto', '_Bool', 'char', 'clock_t', '_Complex', 'const', 'div_t',
@@ -363,7 +390,8 @@ function geshi_c_c_preprocessor_general (&$context)
         'restrict', 'short', 'signal', 'signed', 'size_t', 'static', 'string',
         'time_t', 'tm'/*a struct*/, 'unsigned', 'va_list', 'void', 'volatile',
         'wchar_t'
-    ), 'c/c/typeorqualifier', true, 'http://clc-wiki.net/wiki/{FNAME}');
+    ), 'c/c/preprocessor/typeorqualifier', true,
+    'http://clc-wiki.net/wiki/{FNAME}');
     
     $context->addKeywordGroup(array(
         'abort', 'abs', 'acos', 'asctime', 'asin', 'assert', 'atan',
@@ -391,7 +419,8 @@ function geshi_c_c_preprocessor_general (&$context)
         'tan', 'tanh', 'time', 'tmpfile', 'tmpname', 'tolower', 'toupper',
         'ungetc', 'va_arg', 'va_end', 'va_start', 'vfprintf', 'vprintf',
         'vsprintf'
-    ), 'c/c/stdfunction', true, 'http://clc-wiki.net/wiki/{FNAME}');
+    ), 'c/c/preprocessor/stdfunction', true,
+    'http://clc-wiki.net/wiki/{FNAME}');
     
     $context->addKeywordGroup(array(
         'BUFSIZ', 'CHAR_BIT', 'CHAR_MAX', 'CHAR_MIN', 'CLOCKS_PER_SEC',
@@ -411,19 +440,20 @@ function geshi_c_c_preprocessor_general (&$context)
         '__STDC_VERSION__', '__STDC_ISO_10646__', 'stderr', 'stdin',
         'stdout', '__TIME__', 'TMP_MAX', 'true', 'UCHAR_MAX', 'UINT_MAX',
         'ULONG_MAX', 'USHRT_MAX'
-    ), 'c/c/stdmacroorobject', true, 'http://clc-wiki.net/wiki/{FNAME}');
+    ), 'c/c/preprocessor/stdmacroorobject', true,
+    'http://clc-wiki.net/wiki/{FNAME}');
     
     $context->addSymbolGroup(array(
         ',', '.', '?', ':', '>', '<', '~', '!', '=', '%', '^', '+', '-', '/', '*',
         '&', '(', ')', '{', '}', '[', ']', ';', '\\'/*line continuation character*/
-    ), 'symbol');
+    ), 'c/c/preprocessor/symbol');
     
     $context->useStandardIntegers();
     $context->useStandardDoubles(array('chars_after_number' => array('f', 'l')));
     
     $context->addObjectSplitter(array(
         '.', '->'
-    ), 'member', 'symbol');
+    ), 'c/c/preprocessor/member', 'symbol');
     
     
     $context->parseDelimiters(GESHI_CHILD_PARSE_LEFT);
