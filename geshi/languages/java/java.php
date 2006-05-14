@@ -34,6 +34,9 @@
  *
  */
  
+/** Get the GeSHiSingleCharContext class */
+require_once GESHI_CLASSES_ROOT . 'class.geshisinglecharcontext.php';
+
 function geshi_java_java (&$context)
 {
     //$name = $context->name();
