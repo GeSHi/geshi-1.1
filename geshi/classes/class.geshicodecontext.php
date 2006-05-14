@@ -141,31 +141,34 @@ class GeSHiCodeContext extends GeSHiContext
         );
     }
     
-    function useStandardDoubles ($plus_minus_context, $require_leading_number = false)
+    /**
+     * @param array $options An array of options to configure double number
+     *                       highlighting
+     */
+    function useStandardDoubles ($options = array())
     {
         $banned = '[^a-zA-Z_0-9]';
         $plus_minus = '[\-\+]?';
-        $leading_number_symbol = ($require_leading_number) ? '+' : '*';
+        $leading_number_symbol = (isset($options['require_leading_number'])
+            && $options['require_leading_number']) ? '+' : '*';
+        $chars_after_number = (isset($options['chars_after_number']))
+            ? '[' . implode('', (array)$options['chars_after_number']) . ']?' : '';
 
         $this->addRegexGroup(array(
              // double precision with e, e.g. 3.5e7 or -.45e2
-            "#(^|$banned)?({$plus_minus})([0-9]$leading_number_symbol\.[0-9]+[eE]{$plus_minus}[0-9]+[fl]?)($banned|\$)?#",
+            "#(^|$banned)?([0-9]$leading_number_symbol\.[0-9]+[eE]{$plus_minus}[0-9]+$chars_after_number)($banned|\$)?#",
             // double precision with e and no decimal place, e.g. 5e2
-            "#(^|$banned)?({$plus_minus})([0-9]+[eE]{$plus_minus}[0-9]+[fl]?)($banned|\$)?#",
+            "#(^|$banned)?([0-9]+[eE]{$plus_minus}[0-9]+$chars_after_number)($banned|\$)?#",
             // double precision (.123 or 34.342 for example)
             // There are some cases where the - sign will not be highlighted for various reasons,
             // but I'm happy that it's done where it can be. Maybe it might be worth looking at
             // later if there are any real problems, else I'll ignore it
-            "#(^|$banned)?({$plus_minus})([0-9]$leading_number_symbol\.[0-9]+[fl]?)($banned|\$)?#"
-        ),
-        '.', //doubles must have a dot
-        array(
+            "#(^|$banned)?([0-9]$leading_number_symbol\.[0-9]+$chars_after_number)($banned|\$)?#"
+        ), '.', array(
             1 => true, // as above, catch for normal stuff
-            2 => array($plus_minus_context, false),
-            3 => array('num/dbl', false), // Don't attempt to highlight numbers as code
-            4 => true
-        )
-        );
+            2 => array('num/dbl', false), // Don't attempt to highlight numbers as code
+            3 => true
+        ));
     }
     
     function addObjectSplitter ($splitters, $ootoken_name, $splitter_name, $check_is_code = false)
