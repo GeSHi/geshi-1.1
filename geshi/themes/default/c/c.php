@@ -25,9 +25,10 @@
  * with GeSHi, in the docs/ directory.
  *
  * @package   theme
- * @author    
+ * @author    http://clc-wiki.net/wiki/User:Netocrat
+ * @link      http://clc-wiki.net/wiki/Development:GeSHi_C Bug reports
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright (C) 2006
+ * @copyright (C) 2006 Netocrat
  * @version   $Id$
  *
  */
