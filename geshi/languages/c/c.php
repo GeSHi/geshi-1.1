@@ -25,12 +25,16 @@
  * with GeSHi, in the docs/ directory.
  *
  * @package   lang
- * @author    
+ * @author    http://clc-wiki.net/wiki/User:Netocrat
+ * @link      http://clc-wiki.net/wiki/Development:GeSHi_C Bug reports
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright (C) 2006
+ * @copyright (C) 2006 Netocrat
  * @version   $Id$
  *
  */
+
+/** A single include file for all data including keyword listings; accessed. */
+require_once GESHI_LANGUAGES_ROOT.'c'.GESHI_DIR_SEP.'common.php';
 
 function geshi_c_c (&$context)
 {
@@ -40,81 +44,28 @@ function geshi_c_c (&$context)
     $context->addChild('character_constant', 'singlechar');
     $context->addChild('preprocessor', 'code');
     
-    $context->addKeywordGroup(array(
-        'break', 'case', 'continue', 'default', 'do', 'else', 'for', 'goto',
-        'if', 'return', 'switch', 'while'
-    ), 'ctlflow-keyword', true, 'http://clc-wiki.net/wiki/{FNAME}');
+    $context->addKeywordGroup(geshi_c_get_ctlflow_keywords(),
+      'ctlflow-keyword', true, geshi_c_get_ctlflow_keywords_url());
 
-    $context->addKeywordGroup(array(
-        'enum', 'struct', 'typedef', 'union'
-    ), 'declarator-keyword', true, 'http://clc-wiki.net/wiki/{FNAME}');
+    $context->addKeywordGroup(geshi_c_get_declarator_keywords(),
+      'declarator-keyword', true, geshi_c_get_declarator_keywords_url());
     
-    $context->addKeywordGroup(array(
-        'auto', '_Bool', 'char', 'clock_t', '_Complex', 'const', 'div_t',
-        'double', 'extern', 'FILE', 'float', 'fpos_t', '_Imaginary', 'inline',
-        'int', 'jmp_buf', 'ldiv_t', 'long', 'ptrdiff_t', 'register',
-        'restrict', 'short', 'signal', 'signed', 'size_t', 'static', 'string',
-        'time_t', 'tm'/*a struct*/, 'unsigned', 'va_list', 'void', 'volatile',
-        'wchar_t'
-    ), 'typeorqualifier', true, 'http://clc-wiki.net/wiki/{FNAME}');
+    $context->addKeywordGroup(geshi_c_get_types_and_qualifiers(),
+      'typeorqualifier', true, geshi_c_get_types_and_qualifiers_url());
     
-    $context->addKeywordGroup(array(
-        'abort', 'abs', 'acos', 'asctime', 'asin', 'assert', 'atan',
-        'atan2', 'atexit', 'atof', 'atoi', 'atol', 'bsearch', 'calloc',
-        'ceil', 'clearerr', 'clock', 'cos', 'cosh', 'ctime', 'difftime',
-        'div', 'exit', 'exp', 'fabs', 'fclose', 'feof', 'ferror',
-        'fflush', 'fgetc', 'fgetpos', 'fgets', 'floor', 'fmod', 'fopen',
-        'fprintf', 'fputc', 'fputs', 'fread', 'free', 'freopen', 'frexp',
-        'fscanf', 'fseek', 'fsetpos', 'ftell', 'fwrite', 'getc',
-        'getchar', 'getenv', 'gets', 'gmtime', 'isalnum', 'isalpha',
-        'iscntrl', 'isdigit', 'isgraph', 'islower', 'isprint', 'ispunct',
-        'isspace', 'isupper', 'isxdigit', 'labs', 'ldexp', 'ldiv',
-        'localtime', 'log', 'log10', 'longjmp', 'main'/*user-supplied but
-        fits best in this grouping*/, 'malloc', 'memchr',
-        'memcmp', 'memcpy', 'memmove', 'memset', 'mktime', 'modf',
-        'offsetof', 'perror', 'pow', 'printf', 'putc', 'putchar', 'puts',
-        'qsort', 'raise', 'rand', 'realloc', 'remove', 'rename', 'rewind',
-        'scanf', 'setbuf', 'setjmp', 'setvbuf', 'sin', 'sinh',
-        'sizeof'/*actually an operator rather than a function (except for
-         C99 VLAs) but fits best here*/, 'snprintf', 'sprintf', 'sqrt',
-        'srand', 'sscanf', 'strcat', 'strchr', 'strcmp', 'strcoll',
-        'strcpy', 'strcspn', 'strerror', 'strftime', 'strlen', 'strncat',
-        'strncmp', 'strncpy', 'strpbrk', 'strrchr', 'strspn', 'strstr',
-        'strtod', 'strtok', 'strtol', 'strtoul', 'strxfrm', 'system',
-        'tan', 'tanh', 'time', 'tmpfile', 'tmpname', 'tolower', 'toupper',
-        'ungetc', 'va_arg', 'va_end', 'va_start', 'vfprintf', 'vprintf',
-        'vsprintf'
-    ), 'stdfunction', true, 'http://clc-wiki.net/wiki/{FNAME}');
+    $context->addKeywordGroup(geshi_c_get_standard_functions(),
+      'stdfunction', true, geshi_c_get_standard_functions_url());
     
-    $context->addKeywordGroup(array(
-        'BUFSIZ', 'CHAR_BIT', 'CHAR_MAX', 'CHAR_MIN', 'CLOCKS_PER_SEC',
-        '__DATE__', 'DBL_DIG', 'DBL_EPSILON', 'DBL_MANT_DIG', 'DBL_MAX',
-        'DBL_MAX_EXP', 'DBL_MIN', 'DBL_MIN_EXP', 'EDOM', 'EOF', 'ERANGE',
-        'errno', 'EXIT_FAILURE', 'EXIT_SUCCESS', 'false', '__FILE__',
-        'FILENAME_MAX', 'FLT_DIG', 'FLT_EPSILON', 'FLT_MANT_DIG',
-        'FLT_MAX', 'FLT_MAX_EXP', 'FLT_MIN', 'FLT_MIN_EXP', 'FLT_RADIX',
-        'FLT_ROUNDS', 'FOPEN_MAX', 'HUGE_VAL', 'INT_MAX', 'INT_MIN',
-        'LDBL_DIG', 'LDBL_EPSILON', 'LDBL_MANT_DIG', 'LDBL_MAX',
-        'LDBL_MAX_EXP', 'LDBL_MIN', 'LDBL_MIN_EXP', '__LINE__', 'LONG_MAX',
-        'LONG_MIN', 'L_tmpnam', 'NULL', 'RAND_MAX', 'SCHAR_MAX',
-        'SCHAR_MIN', 'SEEK_CUR', 'SEEK_END', 'SEEK_SET', 'SHRT_MAX',
-        'SHRT_MIN', 'SIGABRT', 'SIG_DFL', 'SIG_ERR', 'SIGFPE', 'SIG_IGN',
-        'SIGILL', 'SIGINT', 'SIGSEGV', 'SIGTERM', '__STDC__',
-        '__STDC_HOSTED__', '__STDC_IEC_559__', '__STDC_IEC_559_COMPLEX__',
-        '__STDC_VERSION__', '__STDC_ISO_10646__', 'stderr', 'stdin',
-        'stdout', '__TIME__', 'TMP_MAX', 'true', 'UCHAR_MAX', 'UINT_MAX',
-        'ULONG_MAX', 'USHRT_MAX'
-    ), 'stdmacroorobject', true, 'http://clc-wiki.net/wiki/{FNAME}');
+    $context->addKeywordGroup(geshi_c_get_standard_macros_and_objects(),
+      'stdmacroorobject', true, geshi_c_get_standard_macros_and_objects_url());
     
-    $context->addSymbolGroup(array(
-        ',', '.', '?', ':', '>', '<', '~', '!', '=', '%', '^', '+', '-', '/', '*',
-        '&', '(', ')', '{', '}', '[', ']', ';', '\\'/*line continuation character*/
-    ), 'symbol');
+    $context->addSymbolGroup(geshi_c_get_standard_symbols(), 'symbol');
     
     $context->useStandardIntegers();
-    $context->useStandardDoubles(array('chars_after_number' => array('f', 'l')));
+    $context->useStandardDoubles(array('chars_after_number' => array('f','l')));
     
-    $context->addObjectSplitter(array('.', '->'), 'member', 'symbol');
+    $context->addObjectSplitter(geshi_c_get_structure_access_symbols(),
+      'member', 'symbol');
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
     
 }
@@ -130,7 +81,8 @@ function geshi_c_c_single_comment (&$context)
     $context->addDelimiters('//', 'REGEX#(?<!\\\)\n#');
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
-    // without this, detection of a following preprocessor directive is inhibited
+    // without this, detection of a following preprocessor directive is
+    // inhibited
     $context->parseDelimiters(GESHI_CHILD_PARSE_LEFT);
 }
 
@@ -145,9 +97,9 @@ function geshi_c_c_string_literal (&$context)
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
 
     $context->setEscapeCharacters('\\');
-    /** @todo string literals and character constants may be immediately preceded
-      * by a capital L to indicate a wide-character constant and it would be nice to
-      * include that in the highlighting.
+    /** @todo string literals and character constants may be immediately
+      * preceded by a capital L to indicate a wide-character constant and it
+      * would be nice to include that in the highlighting.
       */
     $context->setCharactersToEscape(array("'", '?', 'a', 'b', 'f',
         'v', 'n', 'r', 't', 'REGEX#[0-7]{1,3}#',
@@ -161,10 +113,7 @@ function geshi_c_c_character_constant (&$context)
 
     $context->setEscapeCharacters('\\');
 
-    /** @note string literals and character constants may be immediately preceded
-      * by a capital L to indicate a wide-character constant and it would be nice to
-      * include that in the highlighting.
-      */
+    /** @todo same todo as for geshi_c_c_string_literal(). */
     $context->setCharactersToEscape(array("'", '?', 'a', 'b', 'f',
         'v', 'n', 'r', 't', 'REGEX#[0-7]{1,3}#',
         'REGEX#x[0-9a-f]{1,}#i', '\\', '"'));
@@ -234,23 +183,36 @@ function geshi_c_c_preprocessor (&$context)
      * </code>
      * the first "define" - in #define - is linked and highlighted in the
      * 'preprocessor/directive' context and immediately afterwards the child
-     * 'preprocessor/general' context kicks in so that the "define" of my->define
-     * is no longer in the current 'preprocessor' context and won't be linked.
+     * 'preprocessor/general' context kicks in so that the "define" of
+     * my->define is no longer in the current 'preprocessor' context and won't
+     * be linked.
      *
-     * This doesn't work for non-standard directives since they don't match a child
-     * context: for those we instead return null for $data['url'] in
+     * This doesn't work for non-standard directives since they don't match a
+     * child context: for those we instead return null for $data['url'] in
      * GeSHiCCodeParser->parseToken().
      */
-    $context->addKeywordGroup(array(
-        'define', 'endif', 'elif', 'else', 'error', 'if', 'ifdef', 'ifndef',
-        'include', 'line', 'pragma', 'undef'
-    ), 'directive', true, 'http://clc-wiki.net/wiki/hash_{FNAME}');
-    $context->addKeywordGroup('_Pragma', 'directive', true,
-        'http://clc-wiki.net/wiki/underscore{FNAME}');
+    $context->addKeywordGroup(geshi_c_get_start_of_line_PP_directives_hashsym(),
+      'directive', true, geshi_c_get_start_of_line_PP_directives_hashsym_url());
+    $context->addKeywordGroup(
+      geshi_c_get_start_of_line_PP_directives_nohashsym(), 'directive', true,
+      geshi_c_get_start_of_line_PP_directives_nohashsym_url());
     
     //$context->parseDelimiters(GESHI_CHILD_PARSE_BOTH);
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
     
+}
+
+/**
+ * Returns an array of regexps for starting child preprocessor contexts based
+ * on the string array of directives in the $directives parameter.
+ */
+function geshi_c_make_ppdir_regexps($directives)
+{
+    $regexps = array();
+    foreach ($directives as $directive) {
+        $regexps[] = 'REGEX#(?<=\b'.$directive.'\b)#';
+    }
+    return $regexps;
 }
 
 function geshi_c_c_preprocessor_ifelif (&$context)
@@ -260,45 +222,27 @@ function geshi_c_c_preprocessor_ifelif (&$context)
     $context->addChild('c/c/preprocessor/string_literal', 'string');
     $context->addChild('c/c/preprocessor/character_constant', 'singlechar');
     
-    $context->addDelimiters(array(
-        'REGEX#(?<=\bif\b)#', 'REGEX#(?<=\belif\b)#'
-    ), 'REGEX#(?<!\\\)\n#', true);
+    $context->addDelimiters(geshi_c_make_ppdir_regexps(
+      geshi_c_get_if_elif_PP_directives()), 'REGEX#(?<!\\\)\n#', true);
     
-    $context->addKeywordGroup('defined', 'c/c/preprocessor/directive', true,
-        'http://clc-wiki.net/wiki/{FNAME}');
-    $context->addKeywordGroup(array(
-        'BUFSIZ', 'CHAR_BIT', 'CHAR_MAX', 'CHAR_MIN', 'CLOCKS_PER_SEC',
-        '__DATE__', 'DBL_DIG', 'DBL_EPSILON', 'DBL_MANT_DIG', 'DBL_MAX',
-        'DBL_MAX_EXP', 'DBL_MIN', 'DBL_MIN_EXP', 'EDOM', 'EOF', 'ERANGE',
-        'errno', 'EXIT_FAILURE', 'EXIT_SUCCESS', 'false', '__FILE__',
-        'FILENAME_MAX', 'FLT_DIG', 'FLT_EPSILON', 'FLT_MANT_DIG',
-        'FLT_MAX', 'FLT_MAX_EXP', 'FLT_MIN', 'FLT_MIN_EXP', 'FLT_RADIX',
-        'FLT_ROUNDS', 'FOPEN_MAX', 'HUGE_VAL', 'INT_MAX', 'INT_MIN',
-        'LDBL_DIG', 'LDBL_EPSILON', 'LDBL_MANT_DIG', 'LDBL_MAX',
-        'LDBL_MAX_EXP', 'LDBL_MIN', 'LDBL_MIN_EXP', '__LINE__', 'LONG_MAX',
-        'LONG_MIN', 'L_tmpnam', 'NULL', 'RAND_MAX', 'SCHAR_MAX',
-        'SCHAR_MIN', 'SEEK_CUR', 'SEEK_END', 'SEEK_SET', 'SHRT_MAX',
-        'SHRT_MIN', 'SIGABRT', 'SIG_DFL', 'SIG_ERR', 'SIGFPE', 'SIG_IGN',
-        'SIGILL', 'SIGINT', 'SIGSEGV', 'SIGTERM', '__STDC__',
-        '__STDC_HOSTED__', '__STDC_IEC_559__', '__STDC_IEC_559_COMPLEX__',
-        '__STDC_VERSION__', '__STDC_ISO_10646__', 'stderr', 'stdin',
-        'stdout', '__TIME__', 'TMP_MAX', 'true', 'UCHAR_MAX', 'UINT_MAX',
-        'ULONG_MAX', 'USHRT_MAX'
-    ), 'c/c/preprocessor/stdmacroorobject', true,
-    'http://clc-wiki.net/wiki/{FNAME}');
+    $context->addKeywordGroup(geshi_c_get_non_start_of_line_PP_directives(),
+      'c/c/preprocessor/directive', true,
+      geshi_c_get_non_start_of_line_PP_directives_url());
+    $context->addKeywordGroup(geshi_c_get_standard_macros_and_objects(),
+      'c/c/preprocessor/stdmacroorobject', true,
+      geshi_c_get_standard_macros_and_objects_url());
 
-    /** @note not all of these symbols have meaning in this context - e.g. I can't
-      * see how to use & or [] in a preprocessor constant, and a semicolon has no
-      * use at all - but it's probably not harmful to highlight them as symbols
-      * anyway, and they shouldn't occur in error-free code.
+    /** @note not all of these symbols have meaning in this context -
+      * e.g. I can't see how to use & or [] in a preprocessor constant, and a
+      * semicolon has no use at all - but it's probably not harmful to
+      * highlight them as symbols anyway, and they shouldn't occur in
+      * error-free code.
       */
-    $context->addSymbolGroup(array(
-        ',', '.', '?', ':', '>', '<', '~', '!', '=', '%', '^', '+', '-', '/', '*',
-        '&', '(', ')', '{', '}', '[', ']', ';', '\\'/*line continuation character*/
-    ), 'c/c/preprocessor/symbol');
+    $context->addSymbolGroup(geshi_c_get_standard_symbols(),
+      'c/c/preprocessor/symbol');
     
     $context->useStandardIntegers();
-    $context->useStandardDoubles(array('chars_after_number' => array('f', 'l')));
+    $context->useStandardDoubles(array('chars_after_number' => array('f','l')));
     
     $context->parseDelimiters(GESHI_CHILD_PARSE_LEFT);
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
@@ -309,42 +253,22 @@ function geshi_c_c_preprocessor_include (&$context)
     $context->addChild('c/c/preprocessor/multi_comment');
     $context->addChild('c/c/preprocessor/single_comment');
 
-    $context->addDelimiters('REGEX#(?<=\binclude\b)#',
-        array(/*"\n", */'REGEX#(?<!\\\)\n#'), true);
+    $context->addDelimiters(geshi_c_make_ppdir_regexps(
+      geshi_c_get_include_PP_directive()),
+      array(/*"\n", */'REGEX#(?<!\\\)\n#'), true);
     
     /**
-     * @note A header file need not be specified directly as <file> or "file" - it
-     * could be specified indirectly as a macro expanding to one of those two forms.
+     * @note A header file need not be specified directly as <file> or "file" -
+     * it could be specified indirectly as a macro expanding to one of those
+     * two forms.
      */
-    $context->addKeywordGroup(array(
-        'assert.h', 'complex.h', 'ctype.h', 'errno.h', 'fenv.h', 'float.h',
-        'inttypes.h', 'iso646.h', 'locale.h', 'limits.h', 'math.h',
-        'setjmp.h', 'signal.h', 'stdarg.h', 'stdbool.h', 'stddef.h',
-        'stdint.h', 'stdio.h', 'stdlib.h', 'string.h', 'tgmath.h',
-        'time.h', 'wchar.h', 'wctype.h'
-    ), 'c/c/preprocessor/include/stdheader', true,
-    'http://clc-wiki.net/wiki/{FNAME}');
+    $context->addKeywordGroup(geshi_c_get_standard_headers(),
+      'c/c/preprocessor/include/stdheader', true,
+      geshi_c_get_standard_headers_url());
     
-    $context->addKeywordGroup(array(
-        'BUFSIZ', 'CHAR_BIT', 'CHAR_MAX', 'CHAR_MIN', 'CLOCKS_PER_SEC',
-        '__DATE__', 'DBL_DIG', 'DBL_EPSILON', 'DBL_MANT_DIG', 'DBL_MAX',
-        'DBL_MAX_EXP', 'DBL_MIN', 'DBL_MIN_EXP', 'EDOM', 'EOF', 'ERANGE',
-        'errno', 'EXIT_FAILURE', 'EXIT_SUCCESS', 'false', '__FILE__',
-        'FILENAME_MAX', 'FLT_DIG', 'FLT_EPSILON', 'FLT_MANT_DIG',
-        'FLT_MAX', 'FLT_MAX_EXP', 'FLT_MIN', 'FLT_MIN_EXP', 'FLT_RADIX',
-        'FLT_ROUNDS', 'FOPEN_MAX', 'HUGE_VAL', 'INT_MAX', 'INT_MIN',
-        'LDBL_DIG', 'LDBL_EPSILON', 'LDBL_MANT_DIG', 'LDBL_MAX',
-        'LDBL_MAX_EXP', 'LDBL_MIN', 'LDBL_MIN_EXP', '__LINE__', 'LONG_MAX',
-        'LONG_MIN', 'L_tmpnam', 'NULL', 'RAND_MAX', 'SCHAR_MAX',
-        'SCHAR_MIN', 'SEEK_CUR', 'SEEK_END', 'SEEK_SET', 'SHRT_MAX',
-        'SHRT_MIN', 'SIGABRT', 'SIG_DFL', 'SIG_ERR', 'SIGFPE', 'SIG_IGN',
-        'SIGILL', 'SIGINT', 'SIGSEGV', 'SIGTERM', '__STDC__',
-        '__STDC_HOSTED__', '__STDC_IEC_559__', '__STDC_IEC_559_COMPLEX__',
-        '__STDC_VERSION__', '__STDC_ISO_10646__', 'stderr', 'stdin',
-        'stdout', '__TIME__', 'TMP_MAX', 'true', 'UCHAR_MAX', 'UINT_MAX',
-        'ULONG_MAX', 'USHRT_MAX'
-    ), 'c/c/preprocessor/stdmacroorobject', true,
-    'http://clc-wiki.net/wiki/{FNAME}');
+    $context->addKeywordGroup(geshi_c_get_standard_macros_and_objects(),
+      'c/c/preprocessor/stdmacroorobject', true,
+      geshi_c_get_standard_macros_and_objects_url());
 
     $context->addSymbolGroup(array('<', '>'),
       'c/c/preprocessor/symbol/std_include');
@@ -354,9 +278,6 @@ function geshi_c_c_preprocessor_include (&$context)
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
 }
 
-/** Get some helper functions all prefixed by geshic_ bar geshi_parent_context*/
-require_once GESHI_CONTEXTS_ROOT.'c'.GESHI_DIR_SEP.'helper_functions.php';
-
 function geshi_c_c_preprocessor_general (&$context)
 {
     $context->addChild('c/c/preprocessor/multi_comment');
@@ -364,96 +285,37 @@ function geshi_c_c_preprocessor_general (&$context)
     $context->addChild('c/c/preprocessor/string_literal', 'string');
     $context->addChild('c/c/preprocessor/character_constant', 'singlechar');
     
-    $context->addDelimiters(geshic_make_ppdir_regexps(array(
-        // $this->_CgeneralPPdirectives comes from common_keywords.php
-        /** @todo a common include file that constructs these array members
-          * dynamically as the comment above indicates they were previously */
-        'define', 'endif', 'else', 'error', 'ifdef', 'ifndef',
-        'line', 'pragma', 'undef', '_Pragma'
-        )), 'REGEX#(?<!\\\)\n#', true);
+    $context->addDelimiters(geshi_c_make_ppdir_regexps(
+      geshi_c_get_general_PP_directives()), 'REGEX#(?<!\\\)\n#', true);
     
-    $context->addKeywordGroup(array(
-        'break', 'case', 'continue', 'default', 'do', 'else', 'for', 'goto',
-        'if', 'return', 'switch', 'while'
-    ), 'c/c/preprocessor/ctlflow-keyword', true,
-    'http://clc-wiki.net/wiki/{FNAME}');
+    $context->addKeywordGroup(geshi_c_get_ctlflow_keywords(),
+      'c/c/preprocessor/ctlflow-keyword', true,
+      geshi_c_get_ctlflow_keywords_url());
     
-    $context->addKeywordGroup(array(
-        'enum', 'struct', 'typedef', 'union'
-    ), 'c/c/preprocessor/declarator-keyword', true,
-    'http://clc-wiki.net/wiki/{FNAME}');
+    $context->addKeywordGroup(geshi_c_get_declarator_keywords(),
+      'c/c/preprocessor/declarator-keyword', true,
+      geshi_c_get_declarator_keywords_url());
     
-    $context->addKeywordGroup(array(
-        'auto', '_Bool', 'char', 'clock_t', '_Complex', 'const', 'div_t',
-        'double', 'extern', 'FILE', 'float', 'fpos_t', '_Imaginary', 'inline',
-        'int', 'jmp_buf', 'ldiv_t', 'long', 'ptrdiff_t', 'register',
-        'restrict', 'short', 'signal', 'signed', 'size_t', 'static', 'string',
-        'time_t', 'tm'/*a struct*/, 'unsigned', 'va_list', 'void', 'volatile',
-        'wchar_t'
-    ), 'c/c/preprocessor/typeorqualifier', true,
-    'http://clc-wiki.net/wiki/{FNAME}');
+    $context->addKeywordGroup(geshi_c_get_types_and_qualifiers(),
+      'c/c/preprocessor/typeorqualifier', true,
+      geshi_c_get_types_and_qualifiers_url());
     
-    $context->addKeywordGroup(array(
-        'abort', 'abs', 'acos', 'asctime', 'asin', 'assert', 'atan',
-        'atan2', 'atexit', 'atof', 'atoi', 'atol', 'bsearch', 'calloc',
-        'ceil', 'clearerr', 'clock', 'cos', 'cosh', 'ctime', 'difftime',
-        'div', 'exit', 'exp', 'fabs', 'fclose', 'feof', 'ferror',
-        'fflush', 'fgetc', 'fgetpos', 'fgets', 'floor', 'fmod', 'fopen',
-        'fprintf', 'fputc', 'fputs', 'fread', 'free', 'freopen', 'frexp',
-        'fscanf', 'fseek', 'fsetpos', 'ftell', 'fwrite', 'getc',
-        'getchar', 'getenv', 'gets', 'gmtime', 'isalnum', 'isalpha',
-        'iscntrl', 'isdigit', 'isgraph', 'islower', 'isprint', 'ispunct',
-        'isspace', 'isupper', 'isxdigit', 'labs', 'ldexp', 'ldiv',
-        'localtime', 'log', 'log10', 'longjmp', 'main'/*user-supplied but
-        fits best in this grouping*/, 'malloc', 'memchr',
-        'memcmp', 'memcpy', 'memmove', 'memset', 'mktime', 'modf',
-        'offsetof', 'perror', 'pow', 'printf', 'putc', 'putchar', 'puts',
-        'qsort', 'raise', 'rand', 'realloc', 'remove', 'rename', 'rewind',
-        'scanf', 'setbuf', 'setjmp', 'setvbuf', 'sin', 'sinh',
-        'sizeof'/*actually an operator rather than a function (except for
-         C99 VLAs) but fits best here*/, 'snprintf', 'sprintf', 'sqrt',
-        'srand', 'sscanf', 'strcat', 'strchr', 'strcmp', 'strcoll',
-        'strcpy', 'strcspn', 'strerror', 'strftime', 'strlen', 'strncat',
-        'strncmp', 'strncpy', 'strpbrk', 'strrchr', 'strspn', 'strstr',
-        'strtod', 'strtok', 'strtol', 'strtoul', 'strxfrm', 'system',
-        'tan', 'tanh', 'time', 'tmpfile', 'tmpname', 'tolower', 'toupper',
-        'ungetc', 'va_arg', 'va_end', 'va_start', 'vfprintf', 'vprintf',
-        'vsprintf'
-    ), 'c/c/preprocessor/stdfunction', true,
-    'http://clc-wiki.net/wiki/{FNAME}');
+    $context->addKeywordGroup(geshi_c_get_standard_functions_url(),
+      'c/c/preprocessor/stdfunction', true,
+      geshi_c_get_standard_functions_url());
     
-    $context->addKeywordGroup(array(
-        'BUFSIZ', 'CHAR_BIT', 'CHAR_MAX', 'CHAR_MIN', 'CLOCKS_PER_SEC',
-        '__DATE__', 'DBL_DIG', 'DBL_EPSILON', 'DBL_MANT_DIG', 'DBL_MAX',
-        'DBL_MAX_EXP', 'DBL_MIN', 'DBL_MIN_EXP', 'EDOM', 'EOF', 'ERANGE',
-        'errno', 'EXIT_FAILURE', 'EXIT_SUCCESS', 'false', '__FILE__',
-        'FILENAME_MAX', 'FLT_DIG', 'FLT_EPSILON', 'FLT_MANT_DIG',
-        'FLT_MAX', 'FLT_MAX_EXP', 'FLT_MIN', 'FLT_MIN_EXP', 'FLT_RADIX',
-        'FLT_ROUNDS', 'FOPEN_MAX', 'HUGE_VAL', 'INT_MAX', 'INT_MIN',
-        'LDBL_DIG', 'LDBL_EPSILON', 'LDBL_MANT_DIG', 'LDBL_MAX',
-        'LDBL_MAX_EXP', 'LDBL_MIN', 'LDBL_MIN_EXP', '__LINE__', 'LONG_MAX',
-        'LONG_MIN', 'L_tmpnam', 'NULL', 'RAND_MAX', 'SCHAR_MAX',
-        'SCHAR_MIN', 'SEEK_CUR', 'SEEK_END', 'SEEK_SET', 'SHRT_MAX',
-        'SHRT_MIN', 'SIGABRT', 'SIG_DFL', 'SIG_ERR', 'SIGFPE', 'SIG_IGN',
-        'SIGILL', 'SIGINT', 'SIGSEGV', 'SIGTERM', '__STDC__',
-        '__STDC_HOSTED__', '__STDC_IEC_559__', '__STDC_IEC_559_COMPLEX__',
-        '__STDC_VERSION__', '__STDC_ISO_10646__', 'stderr', 'stdin',
-        'stdout', '__TIME__', 'TMP_MAX', 'true', 'UCHAR_MAX', 'UINT_MAX',
-        'ULONG_MAX', 'USHRT_MAX'
-    ), 'c/c/preprocessor/stdmacroorobject', true,
-    'http://clc-wiki.net/wiki/{FNAME}');
+    $context->addKeywordGroup(geshi_c_get_standard_macros_and_objects(),
+      'c/c/preprocessor/stdmacroorobject', true,
+      geshi_c_get_standard_macros_and_objects_url());
     
-    $context->addSymbolGroup(array(
-        ',', '.', '?', ':', '>', '<', '~', '!', '=', '%', '^', '+', '-', '/', '*',
-        '&', '(', ')', '{', '}', '[', ']', ';', '\\'/*line continuation character*/
-    ), 'c/c/preprocessor/symbol');
+    $context->addSymbolGroup(geshi_c_get_standard_symbols(),
+      'c/c/preprocessor/symbol');
     
     $context->useStandardIntegers();
-    $context->useStandardDoubles(array('chars_after_number' => array('f', 'l')));
+    $context->useStandardDoubles(array('chars_after_number' => array('f','l')));
     
-    $context->addObjectSplitter(array(
-        '.', '->'
-    ), 'c/c/preprocessor/member', 'symbol');
+    $context->addObjectSplitter(geshi_c_get_structure_access_symbols(),
+      'c/c/preprocessor/member', 'symbol');
     
     
     $context->parseDelimiters(GESHI_CHILD_PARSE_LEFT);
