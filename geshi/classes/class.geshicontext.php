@@ -202,10 +202,10 @@ class GeSHiContext
      * Creates a new GeSHiContext.
      * 
      * @param string The name of the language this context represents
-     * @param array  The name used for aliasing
+     * @param string An initialisation function
      * @todo [blocking 1.1.9] Better comment
      */
-    function GeSHiContext ($context_name, $alias_name = '')
+    function GeSHiContext ($context_name, $init_function = '')
     {
         $this->_contextName = $context_name;
         $pos = strpos($context_name, '/');
@@ -216,7 +216,36 @@ class GeSHiContext
         $this->_styler =& geshi_styler();
         
         $funcname = 'geshi_' . str_replace('/', '_', $context_name);
-        $funcname($this);
+        $init_function = ('' != $init_function) ? 'geshi_' . $this->_languageName
+            . '_' . $init_function : '';
+        
+        if (function_exists($funcname)) {
+            $funcname($this);
+            // @todo [blocking 1.1.1] Although we added functionality
+            // for specifying the function to initialise the context
+            // with, so far the usage has been exclusivly to name
+            // function as the context name (just without dialect)
+            // anyway, so perhaps we could save some hassle and just
+            // try that function (geshi_lang_context_name) anyway
+        } elseif ('' != $init_function && function_exists($init_function)) {
+            $init_function($this);
+        } else {
+            // @todo [blocking 1.1.1] bug #74: die nicely
+            if (function_exists('debug_backtrace')) {
+                $data = debug_backtrace();
+                $file = $data[2]['file'];
+                $line = $data[2]['line'];
+            } else {
+                $data = array(
+                    'file' => 'Unknown',
+                    'line' => 0
+                );
+            }
+            trigger_error("Can't find function for context $context_name\n"
+                . 'looked for ' . $funcname . (($init_function != '') ? ' and ' . $init_function : '')
+                . ' in file ' . $file . ' on line ' . $line,
+                E_USER_ERROR);
+        }
     }
     
     // }}}
@@ -338,23 +367,22 @@ class GeSHiContext
      *                     with the language name the function geshi_$name will be used instead.
      * @param string $type An optional type of context for the child. The class <kbd>GeSHi[$type]Context</kbd>
      *                     will be used for the context. A commonn value would be <kbd>'string'</kbd>.
-     * @param string $lang If the type of class you want to use is language specific (and thus is in a directory
-     *                     under <kbd>GESHI_CLASSES_ROOT</kbd>), specify the name of the directory here.
+     * @param string $init_function
      * @since 1.1.1
      */
-    function addChild ($name, $type = '', $language = '')
+    function addChild ($name, $type = '', $init_function = '')
     {
         // Get the class if needed
-        if ($type && 'string' != $type && 'code' != $type) {
+        /*if ($type && 'string' != $type && 'code' != $type) {
             if ($language) {
                 $language .= GESHI_DIR_SEP;
             }
-            /** Get the context class required for this child */
+            /** Get the context class required for this child *//*
             require_once GESHI_CLASSES_ROOT . $language . 'class.geshi' . $type . 'context.php';
-        }
+        }*/
 
         $classname = 'geshi' . $type . 'context';
-        $this->_childContexts[] =& new $classname($this->_makeContextName($name));
+        $this->_childContexts[] =& new $classname($this->_makeContextName($name), $init_function);
     }
     
     // }}}
