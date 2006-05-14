@@ -25,9 +25,10 @@
  * with GeSHi, in the docs/ directory.
  *
  * @package   core
- * @author    
+ * @author    http://clc-wiki.net/wiki/User:Netocrat
+ * @link      http://clc-wiki.net/wiki/Development:GeSHi_C Bug reports
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright (C) 2006
+ * @copyright (C) 2006 Netocrat
  * @version   $Id$
  *
  */
@@ -55,12 +56,8 @@ class GeSHiCCodeParser extends GeSHiCodeParser
     function GeSHiCCodeParser(&$styler, $language)
     {
         $this->GeSHiCodeParser($styler, $language);
-        /**
-         * Get the url for non-standard preprocessor directives into
-         * $this->_CnonStdPreprocDirectivesUrl
-         */
-        include GESHI_CONTEXTS_ROOT.'c'.GESHI_DIR_SEP.
-          'common_keywords.php';
+        /** for geshi_c_get_non_std_preproc_directives_url() */
+        require_once GESHI_LANGUAGES_ROOT.'c'.GESHI_DIR_SEP.'common.php';
     }
 
     function parseToken($token, $context_name, $data)
@@ -78,7 +75,7 @@ class GeSHiCCodeParser extends GeSHiCodeParser
         } else if ($context_name == $this->_language.'/preprocessor' &&
           $this->_state == 0) {
             $this->_state = 1;
-            $data['url'] = $this->_CnonStdPreprocDirectivesUrl;
+            $data['url'] = geshi_c_get_non_std_preproc_directives_url();
             $nonstd_ppdir_linked = true;
         }
         if ($this->_state == 1) {
