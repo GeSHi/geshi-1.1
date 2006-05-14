@@ -30,54 +30,68 @@
  * with GeSHi, in the docs/ directory.
  *
  * @package   lang
- * @author    
+ * @author    http://clc-wiki.net/wiki/User:Netocrat
+ * @link      http://clc-wiki.net/wiki/Development:GeSHi_C Bug reports
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright (C) 2006
+ * @copyright (C) 2006 Netocrat
  * @version   $Id$
  *
  */
 
 /**
- * Control-flow keywords (complete list)
+ * Aside from those containing unusual symbols such as hash or underscore,
+ * this url can be used for all tokens - the wiki will redirect to any more
+ * specific location as required.
  */
-$this->_CcontrolFlowKeywords = array(
-    array(
+function geshi_c_get_default_url()
+{
+    return 'http://clc-wiki.net/wiki/{FNAME}';
+}
+
+/** Control-flow keywords (complete list) */
+function geshi_c_get_ctlflow_keywords()
+{
+    return array(
         'break', 'case', 'continue', 'default', 'do', 'else', 'for', 'goto',
         'if', 'return', 'switch', 'while'
-    ),
-    'http://clc-wiki.net/wiki/{FNAME}'
-);
+    );
+}
+function geshi_c_get_ctlflow_keywords_url()
+{
+    return geshi_c_get_default_url();
+}
 
-/**
- * Declaration and type-related keywords (complete list)
- */
-$this->_CdeclaratorKeywords = array(
-    array(
-        'enum', 'struct', 'typedef', 'union'
-    ),
-    'http://clc-wiki.net/wiki/{FNAME}'
-);
+/** Declaration and type-related keywords (complete list) */
+function geshi_c_get_declarator_keywords()
+{
+    return array('enum', 'struct', 'typedef', 'union');
+}
+function geshi_c_get_declarator_keywords_url()
+{
+    return geshi_c_get_default_url();
+}
 
-/**
- * Types and qualifiers (need to verify as complete list but probably not)
- */
-$this->_CtypesAndQualifiers = array(
-    array(
+/** Types and qualifiers (need to verify as complete list but probably not) */
+function geshi_c_get_types_and_qualifiers()
+{
+    return array(
         'auto', '_Bool', 'char', 'clock_t', '_Complex', 'const', 'div_t',
         'double', 'extern', 'FILE', 'float', 'fpos_t', '_Imaginary', 'inline',
         'int', 'jmp_buf', 'ldiv_t', 'long', 'ptrdiff_t', 'register',
         'restrict', 'short', 'signal', 'signed', 'size_t', 'static', 'string',
         'time_t', 'tm'/*a struct*/, 'unsigned', 'va_list', 'void', 'volatile',
         'wchar_t'
-    ),
-    'http://clc-wiki.net/wiki/{FNAME}'
-);
+    );
+}
+function geshi_c_get_types_and_qualifiers_url()
+{
+    return geshi_c_get_default_url();
+}
 
-/**
- * Standard library functions (need to verify whether comprehensive)
- */
-$this->_CstandardFunctions = array(
-    array(
+/** Standard library functions (need to verify whether comprehensive) */
+function geshi_c_get_standard_functions()
+{
+    return array(
         'abort', 'abs', 'acos', 'asctime', 'asin', 'assert', 'atan',
         'atan2', 'atexit', 'atof', 'atoi', 'atol', 'bsearch', 'calloc',
         'ceil', 'clearerr', 'clock', 'cos', 'cosh', 'ctime', 'difftime',
@@ -103,16 +117,20 @@ $this->_CstandardFunctions = array(
         'tan', 'tanh', 'time', 'tmpfile', 'tmpname', 'tolower', 'toupper',
         'ungetc', 'va_arg', 'va_end', 'va_start', 'vfprintf', 'vprintf',
         'vsprintf'
-    ),
-    'http://clc-wiki.net/wiki/{FNAME}'
-);
+    );
+}
+function geshi_c_get_standard_functions_url()
+{
+    return geshi_c_get_default_url();
+}
 
 /**
  * Standard macros and objects (not comprehensive - many missing; NB in
  * particular the macros in 7.8.1 and 7.18 in N1124 e.g. INT8_C)
  */
-$this->_CstandardMacrosAndObjects = array(
-    array(
+function geshi_c_get_standard_macros_and_objects()
+{
+    return array(
         'BUFSIZ', 'CHAR_BIT', 'CHAR_MAX', 'CHAR_MIN', 'CLOCKS_PER_SEC',
         '__DATE__', 'DBL_DIG', 'DBL_EPSILON', 'DBL_MANT_DIG', 'DBL_MAX',
         'DBL_MAX_EXP', 'DBL_MIN', 'DBL_MIN_EXP', 'EDOM', 'EOF', 'ERANGE',
@@ -130,113 +148,128 @@ $this->_CstandardMacrosAndObjects = array(
         '__STDC_VERSION__', '__STDC_ISO_10646__', 'stderr', 'stdin',
         'stdout', '__TIME__', 'TMP_MAX', 'true', 'UCHAR_MAX', 'UINT_MAX',
         'ULONG_MAX', 'USHRT_MAX'
-    ),
-    'http://clc-wiki.net/wiki/{FNAME}'
-);
+    );
+}
+function geshi_c_get_standard_macros_and_objects_url()
+{
+    return geshi_c_get_default_url();
+}
 
-/**
- * Standard C headers (comprehensive list from N1124)
- */
-$this->_CstandardHeaders = array(
-    array(
+/** Standard C headers (comprehensive list from N1124) */
+function geshi_c_get_standard_headers()
+{
+    return array(
         'assert.h', 'complex.h', 'ctype.h', 'errno.h', 'fenv.h', 'float.h',
         'inttypes.h', 'iso646.h', 'locale.h', 'limits.h', 'math.h',
         'setjmp.h', 'signal.h', 'stdarg.h', 'stdbool.h', 'stddef.h',
         'stdint.h', 'stdio.h', 'stdlib.h', 'string.h', 'tgmath.h',
         'time.h', 'wchar.h', 'wctype.h'
-    ),
-    'http://clc-wiki.net/wiki/{FNAME}'
-);
+    );
+}
+function geshi_c_get_standard_headers_url()
+{
+    return geshi_c_get_default_url();
+}
 
 /**
  * Start-of-line preprocessor directives preceded by a hash (comprehensive list)
  */
-$this->_CstartoflinePPdirectives_Hash = array(
-    array(
+function geshi_c_get_start_of_line_PP_directives_hashsym()
+{
+    return array(
         'define', 'endif', 'elif', 'else', 'error', 'if', 'ifdef', 'ifndef',
         'include', 'line', 'pragma', 'undef'
-    ),
-    'http://clc-wiki.net/wiki/hash_{FNAME}'
-);
+    );
+}
+function geshi_c_get_start_of_line_PP_directives_hashsym_url()
+{
+    return 'http://clc-wiki.net/wiki/hash_{FNAME}';
+}
 
 /**
  * Start-of-line preprocessor directives not preceded by a hash (comprehensive
  * list)
  */
-$this->_CstartoflinePPdirectives_NoHash = array(
-    array(
-        '_Pragma',
-    ),
-    'http://clc-wiki.net/wiki/underscore{FNAME}'
-);
+function geshi_c_get_start_of_line_PP_directives_nohashsym()
+{
+    return array('_Pragma');
+}
+function geshi_c_get_start_of_line_PP_directives_nohashsym_url()
+{
+    return 'http://clc-wiki.net/wiki/underscore{FNAME}';
+}
 
 /**
  * Start-of-line preprocessor directives that should be matched to start the
  * preprocessor/ifelif context.
  * N.B. single-dimensional array
  */
-$this->_CifelifPPdirectives = array(
-    'if', 'elif'
-);
+function geshi_c_get_if_elif_PP_directives()
+{
+    return array('if', 'elif');
+}
 
 /**
- * Start-of-line preprocessor directives that should be matched to start the
+ * Start-of-line preprocessor directive that should be matched to start the
  * preprocessor/include context.
- * N.B. single-dimensional array
  */
-$this->_CincludePPdirectives = array(
-    'include'
-);
+function geshi_c_get_include_PP_directive()
+{
+    return array('include');
+}
 
 /**
  * Start-of-line preprocessor directives that should be matched to start the
  * preprocessor/general context.
  * N.B. single-dimensional array
  */
-$this->_CgeneralPPdirectives = array_diff(
-    array_merge(
-        $this->_CstartoflinePPdirectives_Hash[0],
-        $this->_CstartoflinePPdirectives_NoHash[0]
-    ),
-    $this->_CifelifPPdirectives,
-    $this->_CincludePPdirectives
-);
+function geshi_c_get_general_PP_directives()
+{
+    return array_diff(
+      array_merge(
+        geshi_c_get_start_of_line_PP_directives_hashsym(),
+        geshi_c_get_start_of_line_PP_directives_nohashsym()
+      ),
+      geshi_c_get_if_elif_PP_directives(),
+      geshi_c_get_include_PP_directive()
+    );
+}
 
 /**
  * Non-start-of-line preprocessor directives - only one; used in #if or #elsif
  * directives
  */
-$this->_CnonStartOfLinePPdirectives = array(
-    array(
-        'defined'
-    ),
-    'http://clc-wiki.net/wiki/{FNAME}'
-);
+function geshi_c_get_non_start_of_line_PP_directives()
+{
+    return array('defined');
+}
+function geshi_c_get_non_start_of_line_PP_directives_url()
+{
+    return geshi_c_get_default_url();
+}
 
 /**
  * The url for non-standard preprocessor directives, used only in
  * class.geshiccodeparser.php
  */
-function geshi_c_c_get_non_std_preproc_directives_url()
+function geshi_c_get_non_std_preproc_directives_url()
 {
     return 'http://www.clc-wiki.net/wiki/Non-standard preprocessor directives';
 }
 
-/**
- * Standard C symbols (need to verify whether this list is complete)
- * N.B. single-dimensional array
- */
-$this->_CstandardSymbols = array(
-    ',', '.', '?', ':', '>', '<', '~', '!', '=', '%', '^', '+', '-', '/', '*',
-    '&', '(', ')', '{', '}', '[', ']', ';', '\\'/*line continuation character*/
-);
+/** Standard C symbols (need to verify whether this list is complete) */
+function geshi_c_get_standard_symbols()
+{
+    return array(
+     ',', '.', '?', ':', '>', '<', '~', '!', '=', '%', '^', '+', '-', '/', '*',
+     '&', '(', ')', '{', '}', '[', ']', ';', '\\'/*line continuation character*/
+    );
+}
 
-/**
- * C tokens that access structure members
- * N.B. single-dimensional array
- */
-$this->_CobjectSplitters = array(
-    '.', '->'
-);
+/** C tokens that access structure members */
+function geshi_c_get_structure_access_symbols()
+{
+    return array('.', '->');
+}
 
 ?>
