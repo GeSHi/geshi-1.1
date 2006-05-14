@@ -777,29 +777,4 @@ function geshi_php_php4 (&$context)
 
 }
 
-function geshi_php_php4_single_string (&$context)
-{
-    geshi_php_single_string($context);
-}
-
-function geshi_php_php4_double_string (&$context)
-{
-    geshi_php_double_string($context);
-}
-
-function geshi_php_php4_heredoc (&$context)
-{
-    geshi_php_heredoc($context);
-}
-
-function geshi_php_php4_single_comment (&$context)
-{
-    geshi_php_single_comment($context);
-}
-
-function geshi_php_php4_multi_comment (&$context)
-{
-    geshi_php_multi_comment($context);
-}
-
 ?>

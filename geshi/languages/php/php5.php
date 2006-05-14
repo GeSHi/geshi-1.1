@@ -781,29 +781,4 @@ function geshi_php_php5 (&$context)
     
 }
 
-function geshi_php_php5_single_string (&$context)
-{
-    geshi_php_single_string($context);
-}
-
-function geshi_php_php5_double_string (&$context)
-{
-    geshi_php_double_string($context);
-}
-
-function geshi_php_php5_heredoc (&$context)
-{
-    geshi_php_heredoc($context);
-}
-
-function geshi_php_php5_single_comment (&$context)
-{
-    geshi_php_single_comment($context);
-}
-
-function geshi_php_php5_multi_comment (&$context)
-{
-    geshi_php_multi_comment($context);
-}
-
 ?>
