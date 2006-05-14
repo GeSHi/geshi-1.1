@@ -133,7 +133,7 @@ class GeSHiCodeContext extends GeSHiContext
     
     function useStandardIntegers ()
     {
-        $this->addRegexGroup('#([^a-zA-Z_0-9\.]|^)([0-9]+)(?=[^a-zA-Z_0-9]|$)#', '', array(
+        $this->addRegexGroup('#([^a-zA-Z_0-9\.]|^)([0-9]+)(?=[^a-zA-Z_0-9\.]|$)#', '', array(
                 1 => true, // catch banned stuff for highlighting by the code context that it is in
                 2 => array('num/int', false),
                 3 => true
