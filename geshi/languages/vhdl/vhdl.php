@@ -27,7 +27,7 @@
  * @package   lang
  * @author    Nigel McNie <nigel@geshi.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright (C) 2005 Nigel McNie
+ * @copyright (C) 2005 Nigel McNie <-- Lol at him
  * @version   $Id$
  *
  */
