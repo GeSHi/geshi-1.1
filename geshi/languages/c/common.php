@@ -217,8 +217,10 @@ $this->_CnonStartOfLinePPdirectives = array(
  * The url for non-standard preprocessor directives, used only in
  * class.geshiccodeparser.php
  */
-$this->_CnonStdPreprocDirectivesUrl = 'http://www.clc-wiki.net/wiki/'.
-              'Non-standard preprocessor directives';
+function geshi_c_c_get_non_std_preproc_directives_url()
+{
+    return 'http://www.clc-wiki.net/wiki/Non-standard preprocessor directives';
+}
 
 /**
  * Standard C symbols (need to verify whether this list is complete)
