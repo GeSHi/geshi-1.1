@@ -192,11 +192,15 @@ function geshi_c_c_preprocessor (&$context)
      *
      * The list of non-newline whitespace characters recognised by C and
      * used in the r.e. below is: [ \t\f\v]
+     *
+     * Technically a C source file must end in a newline, but the regexp
+     * below allows for the possibility that C code passed into GeSHi is
+     * missing the newline and implicitly terminated.
      */
     $context->addDelimiters(array(
-        'REGEX#(((^|\n)([ \t\f\v]*)\\\)*(^|\n)([ \t\f\v]*)\#' .
-        '([ \t\f\v]*)((([ \t\f\v]*)\\\\\n)*([ \t\f\v]*)'.
-        '(?=(([^ \t\f\v]*?([ \t\f\v]*))*[^\n\\\\]\n|\n))))#',
+        'REGEX#(((^|\n)([ \t\f\v]*)\\\)*(^|\n)([ \t\f\v]*)\#'.
+        '([ \t\f\v]*)((([ \t\f\v]*)\\\\(\n|$))*([ \t\f\v]*)'.
+        '(?=(([^ \t\f\v]*?([ \t\f\v]*))*[^\n\\\\](\n|$)|(\n|$)))))#',
         'REGEX#(((^|\n)([ \t\f\v]*)\\\)*(^|\n)([ \t\f\v]*)(?=_Pragma))#',
     ), 'REGEX#(?<!\\\)\n#',  true);
     
@@ -223,7 +227,7 @@ function geshi_c_c_preprocessor (&$context)
     $context->addKeywordGroup('_Pragma', 'directive', true,
         'http://clc-wiki.net/wiki/underscore{FNAME}');
     
-    //$this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
+    //$context->parseDelimiters(GESHI_CHILD_PARSE_BOTH);
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
     
 }
@@ -325,6 +329,9 @@ function geshi_c_c_preprocessor_include (&$context)
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
 }
 
+/** Get some helper functions all prefixed by geshic_ bar geshi_parent_context*/
+require_once GESHI_CONTEXTS_ROOT.'c'.GESHI_DIR_SEP.'helper_functions.php';
+
 function geshi_c_c_preprocessor_general (&$context)
 {
     $context->addChild('c/c/multi_comment');
@@ -332,11 +339,13 @@ function geshi_c_c_preprocessor_general (&$context)
     $context->addChild('c/c/string_literal', 'string');
     $context->addChild('c/c/character_constant', 'singlechar');
     
-    $context->addDelimiters(array(
+    $context->addDelimiters(geshic_make_ppdir_regexps(array(
         // $this->_CgeneralPPdirectives comes from common_keywords.php
+        /** @todo a common include file that constructs these array members
+          * dynamically as the comment above indicates they were previously */
         'define', 'endif', 'else', 'error', 'ifdef', 'ifndef',
         'line', 'pragma', 'undef', '_Pragma'
-    ), 'REGEX#(?<!\\\)\n#', true);
+        )), 'REGEX#(?<!\\\)\n#', true);
     
     $context->addKeywordGroup(array(
         'break', 'case', 'continue', 'default', 'do', 'else', 'for', 'goto',
