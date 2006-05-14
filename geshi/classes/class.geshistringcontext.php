@@ -95,7 +95,8 @@ class GeSHiStringContext extends GeSHiContext
     {
         geshi_dbg('GeSHiStringContext::_getContextEndData(' . $this->_contextName . ', ' . $context_open_key . ', ' . $context_opener . ')');
         $this->_lastOpener = $context_opener;
-                
+        $ender_data = array();
+        
         foreach ($this->_contextDelimiters[$context_open_key][1] as $ender) {
             geshi_dbg('  Checking ender: ' . $ender);
 
@@ -125,8 +126,18 @@ class GeSHiStringContext extends GeSHiContext
                     geshi_dbg('  String with double escapes removed: ' . $possible_string);
 
                     //@todo [blocking 1.1.1] possible bug: only last escape character checked here
+                    // note: possibly fixed now
                     foreach ($this->_escapeCharacters as $escape_char) {
                         if (substr($possible_string, -1) == $escape_char) {
+                            $not_escaped = false;
+                            break;
+                        }
+                        
+                        if ($escape_char == $ender
+                            && substr($code, $pos + 1, 1) == $escape_char) {
+                            // We have encountered the case where a string
+                            // has its own ender as a delimiter and as an
+                            // escape character
                             $not_escaped = false;
                             break;
                         }
@@ -140,15 +151,18 @@ class GeSHiStringContext extends GeSHiContext
                     $endpos = geshi_get_position($code, $ender, $pos);
                     geshi_dbg('  position of ender: ' . $endpos['pos']);
                     $pos = (false !== $pos && $endpos['pos'] === $pos) ? $pos : strlen($code);
-                    return array('pos' => $pos, 'len' => $len, 'dlm' => $ender);
+                    if (!$ender_data || $ender_data['pos'] > $pos) {
+                        $ender_data = array('pos' => $pos, 'len' => $len, 'dlm' => $ender);
+                    }
+                    break;
                 }
                 
                 // else, start further up
                 ++$pos;
             }
         }
-        
-        return false;
+        geshi_dbg('Ender data: ' . print_r($ender_data, true));
+        return ($ender_data) ? $ender_data : false;
     }
     
     /**
