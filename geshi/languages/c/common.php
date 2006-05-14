@@ -38,6 +38,9 @@
  *
  */
 
+/** Get the GeSHiSingleCharContext class */
+require_once GESHI_CLASSES_ROOT . 'class.geshisinglecharcontext.php';
+
 /**
  * Aside from those containing unusual symbols such as hash or underscore,
  * this url can be used for all tokens - the wiki will redirect to any more
