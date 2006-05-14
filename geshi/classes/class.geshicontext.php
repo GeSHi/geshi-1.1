@@ -464,7 +464,7 @@ class GeSHiContext
         geshi_dbg('CODE: ' . str_replace("\n", "\r", substr($code, 0, 100)) . "<<<<<\n");
         if ($context_start_delimiter) geshi_dbg('Delimiter: ' . $context_start_delimiter);
         // Skip empty/almost empty contexts
-        if (!$code || ' ' == $code) {
+        if ('' == $code || geshi_is_whitespace($code)) {
             $this->_addParseData($code);
             return;
         }
