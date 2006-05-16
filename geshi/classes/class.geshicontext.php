@@ -208,44 +208,91 @@ class GeSHiContext
     function GeSHiContext ($context_name, $init_function = '')
     {
         $this->_contextName = $context_name;
-        $pos = strpos($context_name, '/');
-        //$pos = strpos($context_name, '/', $pos + 1);
-        //$pos = (false !== $pos) ? $pos : strlen($context_name);
-        $this->_languageName = substr($context_name, 0, $pos);
-        
+        $this->_languageName = substr($context_name, 0, strpos($context_name, '/'));
         $this->_styler =& geshi_styler();
         
-        $funcname = 'geshi_' . str_replace('/', '_', $context_name);
-        $init_function = ('' != $init_function) ? 'geshi_' . $this->_languageName
-            . '_' . $init_function : '';
-        
-        if (function_exists($funcname)) {
-            $funcname($this);
-            // @todo [blocking 1.1.1] Although we added functionality
-            // for specifying the function to initialise the context
-            // with, so far the usage has been exclusivly to name
-            // function as the context name (just without dialect)
-            // anyway, so perhaps we could save some hassle and just
-            // try that function (geshi_lang_context_name) anyway
-        } elseif ('' != $init_function && function_exists($init_function)) {
-            $init_function($this);
-        } else {
-            // @todo [blocking 1.1.1] bug #74: die nicely
-            if (function_exists('debug_backtrace')) {
-                $data = debug_backtrace();
-                $file = $data[2]['file'];
-                $line = $data[2]['line'];
-            } else {
-                $data = array(
-                    'file' => 'Unknown',
-                    'line' => 0
-                );
-            }
-            trigger_error("Can't find function for context $context_name\n"
-                . 'looked for ' . $funcname . (($init_function != '') ? ' and ' . $init_function : '')
-                . ' in file ' . $file . ' on line ' . $line,
-                E_USER_ERROR);
+        // @todo [blocking 1.1.1] re-order to put user-defined init
+        // function first?
+        $functions = array(
+            'geshi_' . str_replace('/', '_', $context_name),
+            'geshi'  . str_replace('/', '_', substr($context_name, strpos($context_name, '/')))
+        );
+        if ('' != $init_function) {
+            $functions[] =  'geshi_' . $this->_languageName
+                . '_' . $init_function;
         }
+        
+        foreach ($functions as $function) {
+            if (function_exists($function)) {
+                $function($this);
+                return;
+            }
+        }
+
+        // If PHP version is greater that 4.3.0 then debug_backtrace
+        // can give us a nice output of the error that occurs. This
+        // code shamelessly ripped from libheart, which got it from
+        // a comment on the php.net manual.
+        if (function_exists('debug_backtrace')) {
+            $backtrace = debug_backtrace();
+            $calls = array();
+            $backtrace_output = "<pre><strong>Call stack (most recent first):</strong>\n<ul>";
+
+            foreach ($backtrace as $bt) {
+                $bt['file']  = (isset($bt['file']) ? $bt['file'] : 'Unknown');
+                $bt['line']  = (isset($bt['line']) ? $bt['line'] : 0);
+                $bt['class'] = (isset($bt['class']) ? $bt['class'] : '');
+                $bt['type']  = (isset($bt['type']) ? $bt['type'] : '');
+                $bt['args']  = (isset($bt['args']) ? $bt['args'] : array());
+    
+                $args = '';
+                foreach ($bt['args'] as $arg) {
+                    if (!empty($args)) {
+                        $args .= ', ';
+                    }
+                    switch (gettype($arg)) {
+                        case 'integer':
+                        case 'double':
+                            $args .= $arg;
+                        break;
+                        case 'string':
+                            $arg = substr($arg, 0, 64) . ((strlen($arg) > 64) ? '...' : '');
+                            $args .= '"' . $arg . '"';
+                            break;
+                        case 'array':
+                            $args .= 'array(' . count($arg) . ')';
+                            break;
+                        case 'object':
+                            $args .= 'object(' . get_class($arg) . ')';
+                            break;
+                        case 'resource':
+                            $args .= 'resource(' . strstr($arg, '#') . ')';
+                            break;
+                        case 'boolean':
+                            $args .= $arg ? 'true' : 'false';
+                            break;
+                        case 'NULL':
+                            $args .= 'null';
+                            break;
+                        default:
+                            $args .= 'unknown';
+                    }
+                }
+    
+                $backtrace_output .= '<li>' . htmlspecialchars($bt['class'])
+                    . '' . htmlspecialchars($bt['type']) . ''
+                    . '' . htmlspecialchars($bt['function']) . ''
+                    . '(' . htmlspecialchars($args)
+                    . ') at ' . htmlspecialchars($bt['file'])
+                    . ':' . $bt['line'] . "</li>";
+            }
+            $backtrace_output .= '</ul></pre>';
+        } else {
+            $backtrace_output = '[No backtrace available]';
+        }
+        trigger_error("Could not find function for context $context_name\n"
+            . 'looked for ' . implode(', ', $functions) . "\n"
+            . $backtrace_output, E_USER_ERROR);
     }
     
     // }}}
@@ -349,8 +396,7 @@ class GeSHiContext
      */
     function addEmbeddedChild ($context)
     {
-        $keys = array_keys($this->_childContexts);
-        foreach ($keys as $key) {
+        foreach (array_keys($this->_childContexts) as $key) {
             $this->_childContexts[$key]->addEmbeddedChild($context);
         }
         $this->_childContexts[] = $context;
@@ -372,15 +418,6 @@ class GeSHiContext
      */
     function addChild ($name, $type = '', $init_function = '')
     {
-        // Get the class if needed
-        /*if ($type && 'string' != $type && 'code' != $type) {
-            if ($language) {
-                $language .= GESHI_DIR_SEP;
-            }
-            /** Get the context class required for this child *//*
-            require_once GESHI_CLASSES_ROOT . $language . 'class.geshi' . $type . 'context.php';
-        }*/
-
         $classname = 'geshi' . $type . 'context';
         $this->_childContexts[] =& new $classname($this->_makeContextName($name), $init_function);
     }
@@ -496,48 +533,22 @@ class GeSHiContext
             $this->_addParseData($code);
             return;
         }
-        
-        // FIRST:
-        //   If there is an "overriding child context", it should immediately take control
-        //   of the entire parsing.
-        //   An "overriding child context" has the following properties:
-        //     * No starter or ender delimiter
-        //
-        //   The overridden context has the following properties:
-        //     * Explicit starter/ender
-        //     * No children (they're not relevant after all)
-        //   
-        //   An example: HTML embeds CSS highlighting by using the html/css context. This context
-        //   has one overriding child context: css. After all, once in the CSS context, HTML don't care
-        //   anymore.
-        //   Likewise, javascript embedded in HTML is an overriding child - HTML does the work of deciding
-        //   exactly where javascript gets called, and javascript does the rest.
-        //
-        
-        // If there is an overriding context...
-        if (/*$this->_overridingChildContext*/ $this->_isChildLanguage) {
-            // Find the end of this thing
-            $finish_data = $this->_getContextEndData($code, $context_start_key, $context_start_delimiter, true); // true?
-            // If this context should not parse the ender, add it on to the stuff to parse
-            if ($this->shouldParseEnder()) {
-                $finish_data['pos'] += $finish_data['len'];
-            }
-            // Make a temp copy of the stuff the occ will parse
-            $tmp = substr($code, 0, $finish_data['pos']);
-            // Tell the occ to parse the copy
-            
-            // Cheat :)
-            $this->_isChildLanguage = false;
-            $this->parseCode($tmp);
-            $this->_isChildLanguage = true;
-            //$this->_overridingChildContext->parseCode($tmp); // start with no starter at all
-            // trim the code
-            $code = substr($code, $finish_data['pos']);
-            return;
-        }
-        
+                
         // Add the start of this context to the parse data if it is already known
-        if ($context_start_delimiter) {
+        // NOTE: related to bug 75: if remove childLanguage check, then the
+        // start delimiter is marked as lang/dialect/start instead of whatever the
+        // language would have marked it as.
+        // This means that, for example with doxygen, beginning
+        // doxygen within java means that the doxygen starter
+        // is parsed as doxygen code. I guess that is reasonable
+        // and the intended thing for GESHI_CHILD_PARSE_LEFT/BOTH
+        //
+        // NOTE: say we use GESHI_CHILD_PARSE_RIGHT for doxygen delimiter.
+        // Then the left delimiter will be parsed as java/java/multi_comment_start
+        // then the doxygen, then the ender for doxygen. But the multi_comment
+        // will end immediately. I don't think this is a bug, it's more of a caveat.
+        // I think this happens for embedded languages also.
+        if ($context_start_delimiter && !$this->_isChildLanguage) {
             $this->_addParseDataStart($context_start_delimiter);
             $code = substr($code, strlen($context_start_delimiter));
         }
@@ -565,11 +576,15 @@ class GeSHiContext
                     if ($finish_data['pos'] <= $earliest_context_data['pos']) {
                         geshi_dbg('Earliest context and Finish data: finish is closer');
                         
+                        if ($this->shouldParseEnder() && $this->_isChildLanguage) {
+                            $finish_data['pos'] += $finish_data['len'];
+                        }
+                        
                         // Add the parse data
                         $this->_addParseData(substr($code, 0, $finish_data['pos']), substr($code, $finish_data['pos'], 1));
                         
                         // If we should pass the ender, add the parse data
-                        if ($this->shouldParseEnder()) {
+                        if ($this->shouldParseEnder() && !$this->_isChildLanguage) {
                         	$this->_addParseDataEnd(substr($code, $finish_data['pos'], $finish_data['len']));
                         	$finish_data['pos'] += $finish_data['len'];
                         }
@@ -611,10 +626,13 @@ class GeSHiContext
                     // finish early...
                     geshi_dbg('No earliest data but finish data');
 
+                    if ($this->shouldParseEnder() && $this->_isChildLanguage) {
+                        $finish_data['pos'] += $finish_data['len'];
+                    }
                     // second param = first char of next context
                     $this->_addParseData(substr($code, 0, $finish_data['pos']), substr($code, $finish_data['pos'], 1));
                     
-                    if ($this->shouldParseEnder()) {
+                    if ($this->shouldParseEnder() && !$this->_isChildLanguage) {
                        	$this->_addParseDataEnd(substr($code, $finish_data['pos'], $finish_data['len']));
                        	$finish_data['pos'] += $finish_data['len'];
                     }
