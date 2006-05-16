@@ -142,15 +142,22 @@ function geshi_c_c_preprocessor_character_constant (&$context)
 
 function geshi_c_c_preprocessor (&$context)
 {
-    $context->addChild('ifelif', 'code');
-    $context->addChild('include', 'code');
-    $context->addChild('general', 'code');
+    // these two temporarily disabled because the general context is disabled
+    // so there's now potential for problems like an ordinary 'if' within a
+    // #define to incorrectly trigger the start of a 'c/c/preprocessor/ifelif'
+    // context
+//    $context->addChild('ifelif', 'code');
+//    $context->addChild('include', 'code');
+    // without this, '<' and '>' don't get passed to parseToken()
+    // ...bug or by design?
+    $context->addSymbolGroup(array('<', '>'), 'c/c/preprocessor/symbol');
+    // this is a big performance-loss culprit - it's disabled now but it would
+    // be handy to have a way to enter the context via the parser instead
+//    $context->addChild('general', 'code');
 
     /**
      * A preprocessing directive beginning with a # must occur at the start
-     * of a line, but may optionally be preceded by whitespace, and any line
-     * may be continued by appending a trailing \ character. So we account
-     * for a hash preceded by a continued line of whitespace.  The hash may
+     * of a line, but may optionally be preceded by whitespace.  The hash may
      * optionally be followed by whitespace in the same manner, after which
      * the actual directive keyword is specified.  Finally though, a hash
      * without a following directive is allowed as a 'null directive'.
@@ -163,15 +170,19 @@ function geshi_c_c_preprocessor (&$context)
      * The list of non-newline whitespace characters recognised by C and
      * used in the r.e. below is: [ \t\f\v]
      *
-     * Technically a C source file must end in a newline, but the regexp
-     * below allows for the possibility that C code passed into GeSHi is
-     * missing the newline and implicitly terminated.
+     * The rule that lines may be continued by appending a trailing \
+     * character is no longer handled here as it added too much of a
+     * performance penalty and because after disabling the child contexts above,
+     * if we assume well-formed code it's unnecessary.  Its handling was in any
+     * case incomplete - it didn't deal with e.g. a preprocessor directive
+     * split in the middle.  The parseToken() member function of
+     * GeSHiCCodeParser would need adjustment to handle that properly but
+     * before implementing it specifically for C highlighting there may be some
+     * generic functionality that we can implement to allow parseToken() to
+     * change contexts as an alternative to the regex's specified below.
      */
     $context->addDelimiters(array(
-        'REGEX#(((^|\n)([ \t\f\v]*)\\\)*(^|\n)([ \t\f\v]*)\#'.
-        '([ \t\f\v]*)((([ \t\f\v]*)\\\\(\n|$))*([ \t\f\v]*)'.
-        '(?=(([^ \t\f\v]*?([ \t\f\v]*))*[^\n\\\\](\n|$)|(\n|$)))))#',
-        'REGEX#(((^|\n)([ \t\f\v]*)\\\)*(^|\n)([ \t\f\v]*)(?=_Pragma))#',
+        'REGEX#((^|\n)([ \t\f\v]*)(?=(\#|_Pragma(\b))))#',
     ), 'REGEX#(?<!\\\)\n#',  true);
     
     /**
@@ -191,11 +202,13 @@ function geshi_c_c_preprocessor (&$context)
      * child context: for those we instead return null for $data['url'] in
      * GeSHiCCodeParser->parseToken().
      */
-    $context->addKeywordGroup(geshi_c_get_start_of_line_PP_directives_hashsym(),
-      'directive', true, geshi_c_get_start_of_line_PP_directives_hashsym_url());
-    $context->addKeywordGroup(
-      geshi_c_get_start_of_line_PP_directives_nohashsym(), 'directive', true,
-      geshi_c_get_start_of_line_PP_directives_nohashsym_url());
+    // Now that the general context is disabled, these keywords are once again
+    // subject to a false highlighting a second time, so they are disabled here
+//    $context->addKeywordGroup(geshi_c_get_start_of_line_PP_directives_hashsym(),
+//      'directive', true, geshi_c_get_start_of_line_PP_directives_hashsym_url());
+//    $context->addKeywordGroup(
+//      geshi_c_get_start_of_line_PP_directives_nohashsym(), 'directive', true,
+//      geshi_c_get_start_of_line_PP_directives_nohashsym_url());
     
     //$context->parseDelimiters(GESHI_CHILD_PARSE_BOTH);
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
@@ -256,7 +269,7 @@ function geshi_c_c_preprocessor_include (&$context)
     $context->addDelimiters(geshi_c_make_ppdir_regexps(
       geshi_c_get_include_PP_directive()),
       array(/*"\n", */'REGEX#(?<!\\\)\n#'), true);
-    
+
     /**
      * @note A header file need not be specified directly as <file> or "file" -
      * it could be specified indirectly as a macro expanding to one of those
