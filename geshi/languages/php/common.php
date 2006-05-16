@@ -45,11 +45,11 @@ function geshi_php_common (&$context)
     $context->addDelimiters('<%', '%>');
 
     // Children for PHP
-    $context->addChild('single_string', 'string', 'single_string');
-    $context->addChild('double_string', 'phpdoublestring', 'double_string');
-    $context->addChild('heredoc', 'phpdoublestring', 'heredoc');
-    $context->addChild('single_comment', '', 'single_comment');
-    $context->addChild('multi_comment', '', 'multi_comment');
+    $context->addChild('single_string', 'string');
+    $context->addChild('double_string', 'phpdoublestring');
+    $context->addChild('heredoc', 'phpdoublestring');
+    $context->addChild('single_comment');
+    $context->addChild('multi_comment');
     // Parse PHPDoc comments with doxygen
     $context->addChildLanguage('doxygen/doxygen', '/**', '*/');
     
@@ -137,11 +137,11 @@ function geshi_php_single_comment (&$context)
     $context->parseDelimiters(GESHI_CHILD_PARSE_LEFT);
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
 }
-
+/*
 function geshi_php_multi_comment (&$context)
 {
-    $context->addDelimiters('/*', '*/');
+    $context->addDelimiters('/*', '*//*');
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
-}
+}*/
 
 ?>
