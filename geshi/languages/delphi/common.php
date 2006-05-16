@@ -37,9 +37,9 @@
 
 function geshi_delphi_common(&$context)
 {
-    $context->addChild('single_comment', '', 'single_comment');
-    $context->addChild('multi_comment', '', 'multi_comment');
-    $context->addChild('single_string', 'string', 'single_string');
+    $context->addChild('single_comment');
+    $context->addChild('multi_comment');
+    $context->addChild('single_string', 'string');
 
 }
 
@@ -123,6 +123,10 @@ function geshi_delphi_preprocessor (&$context)
 //    $context->addDelimiters('(*$', '*)');
 
     $context->useStandardIntegers();
+    // @note need third parameter here, changes function called
+    // from geshi_delphi_delphi_preprocessor_single_string
+    // and geshi_delphi_preprocessor_single_string
+    // to geshi_delphi_single_string
     $context->addChild('single_string', 'string', 'single_string');
 
     $context->addKeywordGroup(array(

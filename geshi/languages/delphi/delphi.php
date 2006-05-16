@@ -137,7 +137,7 @@ function geshi_delphi_delphi (&$context)
 {
     geshi_delphi_common($context);
 
-    $context->addChild('preprocessor', 'code', 'preprocessor');
+    $context->addChild('preprocessor', 'code');
     $context->addChild('extern', 'code'); // NOTE: to be aliased as delphi/delphi
     $context->addChild('property', 'code');
     
@@ -340,27 +340,15 @@ function geshi_delphi_delphi (&$context)
 // This feature is yet to be implemented in the new language file format
 //$this->_styler->useThemes('boride');
 
-/*
-function geshi_delphi_delphi_preprocessor(&$context)
-{
-    geshi_delphi_preprocessor($context);
-}
-
-function geshi_delphi_delphi_preprocessor_single_string(&$context)
-{
-    geshi_delphi_single_string($context);
-}
-*/
-
 function geshi_delphi_delphi_extern (&$context)
 {
     $context->addDelimiters('REGEX#(^|(?=\b))exports((?=\b)|$)#im', ';');
     $context->addDelimiters('REGEX#(^|(?=\b))external((?=\b)|$)#im', ';');
 
-    $context->addChild('delphi/delphi/preprocessor', 'code', 'preprocessor');
-    $context->addChild('delphi/delphi/multi_comment', '', 'multi_comment');
-    $context->addChild('delphi/delphi/single_comment', '', 'single_comment');
-    $context->addChild('delphi/delphi/single_string', 'string', 'single_string');
+    $context->addChild('delphi/delphi/preprocessor', 'code');
+    $context->addChild('delphi/delphi/multi_comment');
+    $context->addChild('delphi/delphi/single_comment');
+    $context->addChild('delphi/delphi/single_string', 'string');
     $context->addChild('delphi/delphi/exports_brackets', 'code');
 
     //$this->_startName = 'keyword';
@@ -400,9 +388,9 @@ function geshi_delphi_delphi_exports_brackets (&$context)
 {
     $context->addDelimiters('(', ')');
 
-    $context->addChild('delphi/delphi/preprocessor', 'code', 'preprocessor');
-    $context->addChild('delphi/delphi/single_comment', '', 'single_comment');
-    $context->addChild('delphi/delphi/multi_comment', '', 'multi_comment');
+    $context->addChild('delphi/delphi/preprocessor', 'code');
+    $context->addChild('delphi/delphi/single_comment');
+    $context->addChild('delphi/delphi/multi_comment');
 
     //$this->_startName = 'brksym'; // highlight starter as if it was a brksym
     //$this->_endName   = 'brksym';  // highlight ender as if it was a brksym
@@ -433,7 +421,7 @@ function geshi_delphi_delphi_exports_brackets (&$context)
     $context->useStandardIntegers();
     $context->useStandardDoubles(array('require_leading_number' => true));
 
-    $context->addObjectSplitter('.', '/oodynamic', 'oopsym');
+    $context->addObjectSplitter('.', 'oodynamic', 'oopsym');
 
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
@@ -442,9 +430,9 @@ function geshi_delphi_delphi_property (&$context)
 {
     $context->addDelimiters('property', ';');
     
-    $context->addChild('delphi/delphi/preprocessor', 'code', 'preprocessor');
-    $context->addChild('delphi/delphi/single_comment', '', 'single_comment');
-    $context->addChild('delphi/delphi/multi_comment', '', 'multi_comment');
+    $context->addChild('delphi/delphi/preprocessor', 'code');
+    $context->addChild('delphi/delphi/single_comment');
+    $context->addChild('delphi/delphi/multi_comment');
     $context->addChild('property_index', 'code');
     
     //$this->_startName = 'keyword'; // highlight starter as if it was a keyword
@@ -483,9 +471,9 @@ function geshi_delphi_delphi_property_property_index(&$context)
 {
     $context->addDelimiters('[', ']');
 
-    $context->addChild('delphi/delphi/preprocessor', 'code', 'preprocessor');
-    $context->addChild('delphi/delphi/single_comment', '', 'single_comment');
-    $context->addChild('delphi/delphi/multi_comment', '', 'multi_comment');
+    $context->addChild('delphi/delphi/preprocessor', 'code');
+    $context->addChild('delphi/delphi/single_comment');
+    $context->addChild('delphi/delphi/multi_comment');
 
     //$this->_startName = 'brksym'; // highlight starter as if it was a keyword
     //$this->_endName   = 'brksym';  // highlight ender as if it was a ctrlsym

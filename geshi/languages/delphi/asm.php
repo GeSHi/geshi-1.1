@@ -40,9 +40,9 @@ function geshi_delphi_asm (&$context)
 {
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
 
-    $context->addChild('delphi/delphi/preprocessor', 'code', 'preprocessor');
-    $context->addChild('delphi/delphi/single_comment', '', 'single_comment');
-    $context->addChild('delphi/delphi/multi_comment', '', 'multi_comment');
+    $context->addChild('delphi/delphi/preprocessor', 'code');
+    $context->addChild('delphi/delphi/single_comment');
+    $context->addChild('delphi/delphi/multi_comment');
 
     //Assembler Directives
     $context->addKeywordGroup(array(
