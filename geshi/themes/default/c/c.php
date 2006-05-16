@@ -60,6 +60,10 @@ $this->setStyle('string_literal/esc', 'color: black; font-weight:bold;');
 // any preprocessor token that doesn't fit something more specific below is
 // styled in this context i.e. it's equivalent to the root context for code
 $this->setStyle('preprocessor', 'font-style:italic; color:black;');
+// these two contexts are (for the moment at least) styled as for the above
+// whilst directives are disabled in the language file
+$this->setStyle('preprocessor/ifelif/start', 'font-style:italic; color:black;');
+$this->setStyle('preprocessor/include/start','font-style:italic; color:black;');
 // this applies to the # and any preceding/trailing whitespace including
 // lines continued with a \ (for _Pragma, it only applies to preceding
 // whitespace including lines continued with a \)
