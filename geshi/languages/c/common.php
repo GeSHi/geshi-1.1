@@ -41,14 +41,19 @@
 /** Get the GeSHiSingleCharContext class */
 require_once GESHI_CLASSES_ROOT . 'class.geshisinglecharcontext.php';
 
+function geshi_c_get_base_url()
+{
+    return 'http://clc-wiki.net/wiki/';
+}
+
 /**
  * Aside from those containing unusual symbols such as hash or underscore,
  * this url can be used for all tokens - the wiki will redirect to any more
  * specific location as required.
  */
-function geshi_c_get_default_url()
+function geshi_c_get_default_url($token = '{FNAME}')
 {
-    return 'http://clc-wiki.net/wiki/{FNAME}';
+    return geshi_c_get_base_url().$token;
 }
 
 /** Control-flow keywords (complete list) */
@@ -169,9 +174,9 @@ function geshi_c_get_standard_headers()
         'time.h', 'wchar.h', 'wctype.h'
     );
 }
-function geshi_c_get_standard_headers_url()
+function geshi_c_get_standard_headers_url($token = '{FNAME}')
 {
-    return geshi_c_get_default_url();
+    return geshi_c_get_default_url($token);
 }
 
 /**
@@ -184,9 +189,9 @@ function geshi_c_get_start_of_line_PP_directives_hashsym()
         'include', 'line', 'pragma', 'undef'
     );
 }
-function geshi_c_get_start_of_line_PP_directives_hashsym_url()
+function geshi_c_get_start_of_line_PP_directives_hashsym_url($token = '{FNAME}')
 {
-    return 'http://clc-wiki.net/wiki/hash_{FNAME}';
+    return "http://clc-wiki.net/wiki/hash_$token";
 }
 
 /**
@@ -197,9 +202,9 @@ function geshi_c_get_start_of_line_PP_directives_nohashsym()
 {
     return array('_Pragma');
 }
-function geshi_c_get_start_of_line_PP_directives_nohashsym_url()
+function geshi_c_get_start_of_line_PP_directives_nohashsym_url($token='{FNAME}')
 {
-    return 'http://clc-wiki.net/wiki/underscore{FNAME}';
+    return "http://clc-wiki.net/wiki/underscore$token";
 }
 
 /**
@@ -246,9 +251,9 @@ function geshi_c_get_non_start_of_line_PP_directives()
 {
     return array('defined');
 }
-function geshi_c_get_non_start_of_line_PP_directives_url()
+function geshi_c_get_non_start_of_line_PP_directives_url($token = '{FNAME}')
 {
-    return geshi_c_get_default_url();
+    return geshi_c_get_default_url($token);
 }
 
 /**
