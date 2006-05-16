@@ -137,11 +137,11 @@ function geshi_php_single_comment (&$context)
     $context->parseDelimiters(GESHI_CHILD_PARSE_LEFT);
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
 }
-/*
+
 function geshi_php_multi_comment (&$context)
 {
     $context->addDelimiters('/*', '*//*');
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
-}*/
+}
 
 ?>
