@@ -93,6 +93,7 @@ class GeSHiCCodeParser extends GeSHiCodeParser
 
     function parseToken($token, $context_name, $data)
     {
+        $do_flush = false;
         /**
          * Keyword-highlight standard preprocessor directives and link them to a
          * url; also highlight and link standard headers.
