@@ -111,6 +111,13 @@ class GeSHiCodeContext extends GeSHiContext
      var $_useStandardIntegers = false;
      
      /**
+      * Options for standard integer support
+      * 
+      * @var array
+      */
+     var $_integerOptions = array();
+     
+     /**
       * Whether standard double support will be used for this context
       * 
       * @var boolean
@@ -122,7 +129,7 @@ class GeSHiCodeContext extends GeSHiContext
       * 
       * @var array
       */
-     var $_standardDoubleOptions = array();
+     var $_doubleOptions = array();
      
      /**#@-*/
      
@@ -152,9 +159,10 @@ class GeSHiCodeContext extends GeSHiContext
         $this->_contextRegexps[] = array((array) $regexes, $test_char, $handler_info);
     }
     
-    function useStandardIntegers ()
+    function useStandardIntegers ($options = array())
     {//echo "using standard ints: $this->_contextName<br />";
         $this->_useStandardIntegers = true;
+        $this->_integerOptions = $options;
     }
     
     /**
@@ -164,7 +172,7 @@ class GeSHiCodeContext extends GeSHiContext
     function useStandardDoubles ($options = array())
     {
         $this->_useStandardDoubles = true;
-        $this->_standardDoubleOptions = $options;
+        $this->_doubleOptions = $options;
     }
     
     function addObjectSplitter ($splitters, $ootoken_name, $splitter_name, $check_is_code = false)
@@ -562,13 +570,15 @@ class GeSHiCodeContext extends GeSHiContext
     function _initPostProcess ()
     {
         if ($this->_useStandardDoubles) {
-            $options = $this->_standardDoubleOptions;
             $banned = '[^a-zA-Z_0-9]';
             $plus_minus = '[\-\+]?';
-            $leading_number_symbol = (isset($options['require_leading_number'])
-                && $options['require_leading_number']) ? '+' : '*';
-            $chars_after_number = (isset($options['chars_after_number']))
-                ? '[' . implode('', (array)$options['chars_after_number']) . ']?' : '';
+            $context_name = (isset($this->_doubleOptions['context_name'])) ?
+                $this->_doubleOptions['context_name'] : 'num/dbl';
+            $leading_number_symbol = (isset($this->_doubleOptions['require_leading_number'])
+                && $this->_doubleOptions['require_leading_number']) ? '+' : '*';
+            $chars_after_number = (isset($this->_doubleOptions['chars_after_number'])) ?
+                '[' . implode('', (array)$this->_doubleOptions['chars_after_number']) . ']?'
+                : '';
     
             $this->addRegexGroup(array(
                  // double precision with e, e.g. 3.5e7 or -.45e2
@@ -582,15 +592,17 @@ class GeSHiCodeContext extends GeSHiContext
                 "#(^|$banned)?([0-9]$leading_number_symbol\.[0-9]+$chars_after_number)($banned|\$)?#"
             ), '.', array(
                 1 => true, // as above, catch for normal stuff
-                2 => array('num/dbl', false), // Don't attempt to highlight numbers as code
+                2 => array($context_name, false), // Don't attempt to highlight numbers as code
                 3 => true
             ));
         }
         
         if ($this->_useStandardIntegers) {
+            $context_name = (isset($this->_integerOptions['context_name'])) ?
+                $this->_integerOptions['context_name'] : 'num/int';
             $this->addRegexGroup('#([^a-zA-Z_0-9\.]|^)([0-9]+)(?=[^a-zA-Z_0-9\.]|$)#', '', array(
                     1 => true, // catch banned stuff for highlighting by the code context that it is in
-                    2 => array('num/int', false),
+                    2 => array($context_name, false),
                     3 => true
                 )
             );
