@@ -115,6 +115,7 @@ class GeSHiCCodeParser extends GeSHiCodeParser
             $this->_hltIfElifPPkeyWords = false;
         }
 
+        $skipfirst = false;
         /** Highlight and link preprocessor directives. */
         if ($context_name == $this->_language.'/preprocessor/end') {
             $this->_state = GESHI_C_NORMAL;
