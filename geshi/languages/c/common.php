@@ -6,8 +6,8 @@
  * found in the docs/ directory, or online at http://geshi.org/docs/
  *
  *
- * Most of the keyword lists in this file are used in multiple contexts; this
- * file avoids redundancy and keeps all lists in one spot.
+ * This file keeps all data for C highlighting in one spot to avoid it being
+ * split across languages/c/c.php and classes/c/class.geshiccodeparser.php.
  *
  *
  *  This file is part of GeSHi.
@@ -64,9 +64,9 @@ function geshi_c_get_ctlflow_keywords()
         'if', 'return', 'switch', 'while'
     );
 }
-function geshi_c_get_ctlflow_keywords_url()
+function geshi_c_get_ctlflow_keywords_url($token = '{FNAME}')
 {
-    return geshi_c_get_default_url();
+    return geshi_c_get_default_url($token);
 }
 
 /** Declaration and type-related keywords (complete list) */
@@ -208,9 +208,7 @@ function geshi_c_get_start_of_line_PP_directives_nohashsym_url($token='{FNAME}')
 }
 
 /**
- * Start-of-line preprocessor directives that should be matched to start the
- * preprocessor/ifelif context.
- * N.B. single-dimensional array
+ * The if and elif start-of-line preprocessor directives.
  */
 function geshi_c_get_if_elif_PP_directives()
 {
@@ -218,40 +216,23 @@ function geshi_c_get_if_elif_PP_directives()
 }
 
 /**
- * Start-of-line preprocessor directive that should be matched to start the
- * preprocessor/include context.
+ * Preprocessor directives for which control-flow-keyword highlighting should
+ * be enabled.
  */
-function geshi_c_get_include_PP_directive()
+function geshi_c_get_PP_directives_needing_ctrl_flow_keywd_hlt()
 {
-    return array('include');
+    return array('define', 'if', 'elif', 'ifdef', 'ifndef', 'undef');
 }
 
 /**
- * Start-of-line preprocessor directives that should be matched to start the
- * preprocessor/general context.
- * N.B. single-dimensional array
+ * Non-start-of-line preprocessor directives - only one - that occur in #if and
+ * #elsif directives
  */
-function geshi_c_get_general_PP_directives()
-{
-    return array_diff(
-      array_merge(
-        geshi_c_get_start_of_line_PP_directives_hashsym(),
-        geshi_c_get_start_of_line_PP_directives_nohashsym()
-      ),
-      geshi_c_get_if_elif_PP_directives(),
-      geshi_c_get_include_PP_directive()
-    );
-}
-
-/**
- * Non-start-of-line preprocessor directives - only one; used in #if or #elsif
- * directives
- */
-function geshi_c_get_non_start_of_line_PP_directives()
+function geshi_c_get_if_elif_PP_subdirectives()
 {
     return array('defined');
 }
-function geshi_c_get_non_start_of_line_PP_directives_url($token = '{FNAME}')
+function geshi_c_get_if_elif_PP_subdirectives_url($token = '{FNAME}')
 {
     return geshi_c_get_default_url($token);
 }
@@ -272,6 +253,12 @@ function geshi_c_get_standard_symbols()
      ',', '.', '?', ':', '>', '<', '~', '!', '=', '%', '^', '+', '-', '/', '*',
      '&', '(', ')', '{', '}', '[', ']', ';', '\\'/*line continuation character*/
     );
+}
+
+/** The symbols (list of one) that are limited to the preprocessor. */
+function geshi_c_get_preprocessor_symbols()
+{
+    return array('#');
 }
 
 /** C tokens that access structure members */
