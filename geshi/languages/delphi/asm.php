@@ -200,6 +200,9 @@ function geshi_delphi_asm (&$context)
     $context->addRegexGroup('#([@a-zA-Z_][@a-zA-Z0-9_]+:)#', ':', array(
         1 => array('label', false)
     ));
+    $context->addRegexGroup('#(@@[@a-zA-Z0-9_]+)#', '@@', array(
+        1 => array('label', false)
+    ));
     $context->addRegexGroup('/(\$[0-9a-fA-F_]+)/', '$', array(
         1 => array('hex', false)
     ));
