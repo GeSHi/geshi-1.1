@@ -103,10 +103,31 @@ class GeSHiCodeContext extends GeSHiContext
      */
     //var $_codeContextLoaded = false;
      
+     /**
+      * Whether standard integer support will be used for this context
+      * 
+      * @var boolean
+      */
+     var $_useStandardIntegers = false;
+     
+     /**
+      * Whether standard double support will be used for this context
+      * 
+      * @var boolean
+      */
+     var $_useStandardDoubles = false;
+     
+     /**
+      * Options for standard double support
+      * 
+      * @var array
+      */
+     var $_standardDoubleOptions = array();
+     
      /**#@-*/
      
      // }}}
-
+            
     function addKeywordGroup ($keywords, $context_name, $case_sensitive = false, $url_data = '') {
         $this->_contextKeywords[] = array((array)$keywords, $this->_makeContextName($context_name), $case_sensitive, $url_data);
     }
@@ -132,13 +153,8 @@ class GeSHiCodeContext extends GeSHiContext
     }
     
     function useStandardIntegers ()
-    {
-        $this->addRegexGroup('#([^a-zA-Z_0-9\.]|^)([0-9]+)(?=[^a-zA-Z_0-9\.]|$)#', '', array(
-                1 => true, // catch banned stuff for highlighting by the code context that it is in
-                2 => array('num/int', false),
-                3 => true
-            )
-        );
+    {//echo "using standard ints: $this->_contextName<br />";
+        $this->_useStandardIntegers = true;
     }
     
     /**
@@ -147,28 +163,8 @@ class GeSHiCodeContext extends GeSHiContext
      */
     function useStandardDoubles ($options = array())
     {
-        $banned = '[^a-zA-Z_0-9]';
-        $plus_minus = '[\-\+]?';
-        $leading_number_symbol = (isset($options['require_leading_number'])
-            && $options['require_leading_number']) ? '+' : '*';
-        $chars_after_number = (isset($options['chars_after_number']))
-            ? '[' . implode('', (array)$options['chars_after_number']) . ']?' : '';
-
-        $this->addRegexGroup(array(
-             // double precision with e, e.g. 3.5e7 or -.45e2
-            "#(^|$banned)?([0-9]$leading_number_symbol\.[0-9]+[eE]{$plus_minus}[0-9]+$chars_after_number)($banned|\$)?#",
-            // double precision with e and no decimal place, e.g. 5e2
-            "#(^|$banned)?([0-9]+[eE]{$plus_minus}[0-9]+$chars_after_number)($banned|\$)?#",
-            // double precision (.123 or 34.342 for example)
-            // There are some cases where the - sign will not be highlighted for various reasons,
-            // but I'm happy that it's done where it can be. Maybe it might be worth looking at
-            // later if there are any real problems, else I'll ignore it
-            "#(^|$banned)?([0-9]$leading_number_symbol\.[0-9]+$chars_after_number)($banned|\$)?#"
-        ), '.', array(
-            1 => true, // as above, catch for normal stuff
-            2 => array('num/dbl', false), // Don't attempt to highlight numbers as code
-            3 => true
-        ));
+        $this->_useStandardDoubles = true;
+        $this->_standardDoubleOptions = $options;
     }
     
     function addObjectSplitter ($splitters, $ootoken_name, $splitter_name, $check_is_code = false)
@@ -562,6 +558,45 @@ class GeSHiCodeContext extends GeSHiContext
         }
         return '';
     }
+    
+    function _initPostProcess ()
+    {
+        if ($this->_useStandardDoubles) {
+            $options = $this->_standardDoubleOptions;
+            $banned = '[^a-zA-Z_0-9]';
+            $plus_minus = '[\-\+]?';
+            $leading_number_symbol = (isset($options['require_leading_number'])
+                && $options['require_leading_number']) ? '+' : '*';
+            $chars_after_number = (isset($options['chars_after_number']))
+                ? '[' . implode('', (array)$options['chars_after_number']) . ']?' : '';
+    
+            $this->addRegexGroup(array(
+                 // double precision with e, e.g. 3.5e7 or -.45e2
+                "#(^|$banned)?([0-9]$leading_number_symbol\.[0-9]+[eE]{$plus_minus}[0-9]+$chars_after_number)($banned|\$)?#",
+                // double precision with e and no decimal place, e.g. 5e2
+                "#(^|$banned)?([0-9]+[eE]{$plus_minus}[0-9]+$chars_after_number)($banned|\$)?#",
+                // double precision (.123 or 34.342 for example)
+                // There are some cases where the - sign will not be highlighted for various reasons,
+                // but I'm happy that it's done where it can be. Maybe it might be worth looking at
+                // later if there are any real problems, else I'll ignore it
+                "#(^|$banned)?([0-9]$leading_number_symbol\.[0-9]+$chars_after_number)($banned|\$)?#"
+            ), '.', array(
+                1 => true, // as above, catch for normal stuff
+                2 => array('num/dbl', false), // Don't attempt to highlight numbers as code
+                3 => true
+            ));
+        }
+        
+        if ($this->_useStandardIntegers) {
+            $this->addRegexGroup('#([^a-zA-Z_0-9\.]|^)([0-9]+)(?=[^a-zA-Z_0-9\.]|$)#', '', array(
+                    1 => true, // catch banned stuff for highlighting by the code context that it is in
+                    2 => array('num/int', false),
+                    3 => true
+                )
+            );
+        }
+    }
+    
 }
 
 ?>
