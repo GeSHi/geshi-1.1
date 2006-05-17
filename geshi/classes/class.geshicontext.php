@@ -208,27 +208,59 @@ class GeSHiContext
     function GeSHiContext ($context_name, $init_function = '')
     {
         $this->_contextName = $context_name;
-        $this->_languageName = substr($context_name, 0, strpos($context_name, '/'));
+        $this->_languageName = substr($context_name, 0,
+            strpos($context_name, '/'));
         $this->_styler =& geshi_styler();
-        
-        // @todo [blocking 1.1.1] re-order to put user-defined init
-        // function first?
-        $functions = array(
-            'geshi_' . str_replace('/', '_', $context_name),
-            'geshi'  . str_replace('/', '_', substr($context_name, strpos($context_name, '/')))
-        );
+       
+        // Try a list of functions that should be used to populate this context.
+        $tried_functions = array();
+        // First function to try is the user-defined one
         if ('' != $init_function) {
-            $functions[] =  'geshi_' . $this->_languageName
-                . '_' . $init_function;
-        }
-        
-        foreach ($functions as $function) {
+            $function =  'geshi_' . $this->_languageName . '_' . $init_function;
             if (function_exists($function)) {
                 $function($this);
                 return;
             }
+            $tried_functions[] = $function;
         }
+        
+        // Next choice is the full context name function
+        $function = 'geshi_' . str_replace('/', '_', $context_name);
+        if (function_exists($function)) {
+            $function($this);
+            return;
+        }
+        $tried_functions[] = $function;
 
+        // Next is the dialect shortcut function
+        $function = 'geshi'  . str_replace('/', '_', substr($context_name,
+            strpos($context_name, '/')));
+        if (function_exists($function)) {
+            $function($this);
+            return;
+        }
+        $tried_functions[] = $function;
+
+        // Final chance is the language shortcut function
+        $root_language_name = "$this->_languageName/$this->_languageName/";
+        if ($root_language_name != substr($context_name, 0,
+            strlen($root_language_name))) {
+            $function = 'geshi_' . str_replace('/', '_', $this->_languageName
+                . substr($context_name, strpos($context_name, '/',
+                strpos($context_name, '/') + 1)));
+            if (function_exists($function)) {
+                $function($this);
+                return;
+            }
+            $tried_functions[] = $function;
+        }
+        
+        // If we are still inside this constructor then none of the functions
+        // we have tried have been available to call. Time to raise an error.
+        // This will in general only ever happen to developers building new
+        // language files, so we can afford to take our time and build a nice
+        // error message to help them debug it.
+        //
         // If PHP version is greater that 4.3.0 then debug_backtrace
         // can give us a nice output of the error that occurs. This
         // code shamelessly ripped from libheart, which got it from
@@ -239,6 +271,7 @@ class GeSHiContext
             $backtrace_output = "<pre><strong>Call stack (most recent first):</strong>\n<ul>";
 
             foreach ($backtrace as $bt) {
+                // Set some defaults for debug values
                 $bt['file']  = (isset($bt['file']) ? $bt['file'] : 'Unknown');
                 $bt['line']  = (isset($bt['line']) ? $bt['line'] : 0);
                 $bt['class'] = (isset($bt['class']) ? $bt['class'] : '');
@@ -278,7 +311,8 @@ class GeSHiContext
                             $args .= 'unknown';
                     }
                 }
-    
+
+                // Build a new entry for the output.
                 $backtrace_output .= '<li>' . htmlspecialchars($bt['class'])
                     . '' . htmlspecialchars($bt['type']) . ''
                     . '' . htmlspecialchars($bt['function']) . ''
@@ -288,10 +322,11 @@ class GeSHiContext
             }
             $backtrace_output .= '</ul></pre>';
         } else {
-            $backtrace_output = '[No backtrace available]';
+            $backtrace_output = '[No backtrace available - debug_backtrace() '
+                . 'not available]';
         }
         trigger_error("Could not find function for context $context_name\n"
-            . 'looked for ' . implode(', ', $functions) . "\n"
+            . 'looked for ' . implode(', ', $tried_functions) . "\n"
             . $backtrace_output, E_USER_ERROR);
     }
     
