@@ -60,28 +60,31 @@ $this->setStyle('string_literal/esc', 'color: black; font-weight:bold;');
 // any preprocessor token that doesn't fit something more specific below is
 // styled in this context i.e. it's equivalent to the root context for code
 $this->setStyle('preprocessor', 'font-style:italic; color:black;');
-// these two contexts are (for the moment at least) styled as for the above
-// whilst directives are disabled in the language file
-$this->setStyle('preprocessor/ifelif/start', 'font-style:italic; color:black;');
-$this->setStyle('preprocessor/include/start','font-style:italic; color:black;');
-// this applies to the # and any preceding/trailing whitespace including
-// lines continued with a \ (for _Pragma, it only applies to preceding
-// whitespace including lines continued with a \)
+// this currently only applies to whitespace including newlines, so it's not
+// currently effective
 $this->setStyle('preprocessor/start',
   'font-style:italic; font-weight:bold; color:black;');
+// this styles any preprocessor directive preceded by a hash (as well as _Pragma
+// where equivalent), all # symbols (even when used as a # or ## operator), and
+// the "defined" preprocessor keyword within #if and #elif directives
 $this->setStyle('preprocessor/directive',
   'font-style:italic; font-weight:bold; color:black;');
-// non-standard directives are marked for portability awareness
+// this styles everything after the # for non-standard directives (including
+// the directive itself) to allow marking for portability awareness
 $this->setStyle('preprocessor/nonstd', 'font-style:italic; color:#444;');
 // matches only any standard header name in a #include directive
 $this->setStyle('preprocessor/include/stdheader',
   'font-style:italic; color:#b06cc8;');
+// commented out because these are currently contextualised as
+// preprocessor/symbol
 // the enclosing <> symbols
-$this->setStyle('preprocessor/symbol/std_include',
-  'font-style:italic; font-weight:bold; color:black;');
+//$this->setStyle('preprocessor/symbol/std_include',
+//  'font-style:italic; font-weight:bold; color:black;');
+// commented out because these are currently contextualised as part of a string
+// literal
 // the enclosing "" symbols
-$this->setStyle('preprocessor/symbol/impl_include',
-  'font-style:italic; color:#080;');
+//$this->setStyle('preprocessor/symbol/impl_include',
+//  'font-style:italic; color:#080;');
 
 // preprocessor context - counterparts to normal code context
 
