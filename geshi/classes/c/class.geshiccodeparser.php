@@ -36,13 +36,25 @@
 /** Get the GeSHiCodeParser class */
 require_once GESHI_CLASSES_ROOT.'class.geshicodeparser.php';
 
-/** Parsing states */
-define('GESHI_C_NORMAL', 0);
-define('GESHI_C_PP', 1);
-define('GESHI_C_PPSTART', 2);
-define('GESHI_C_PPINCLUDE', 3);
-define('GESHI_C_PPHDRSTART', 4);
-define('GESHI_C_PPHDRPROV', 5);
+/**
+ * Parsing states; should be powers of two due to the implications of the
+ * comment below.
+ */
+define('GESHI_C_NORMAL'    , 0);
+/**
+ * Defines for 2 and 4 are skipped intentionally so that GESHI_C_PP can be
+ * tested for using a bitwise-and even when GESHI_C_PPINCLUDE or
+ * GESHI_C_PPNONSTD are true - this is not really necessary since in the only
+ * places the test is used, 'include' and 'non-standard' directives will
+ * currently otherwise test false, but it doesn't cost any extra code or
+ * processing to allow this as an abstraction.
+ */
+define('GESHI_C_PP'        , 1);
+define('GESHI_C_PPINCLUDE' , 3);
+define('GESHI_C_PPNONSTD'  , 5);
+define('GESHI_C_PPSTART'   , 8);
+define('GESHI_C_PPHDRSTART', 16);
+define('GESHI_C_PPHDRPROV' , 32);
 
 /**
  * The GeSHiCCodeParser class
@@ -62,12 +74,11 @@ class GeSHiCCodeParser extends GeSHiCodeParser
     var $_state = GESHI_C_NORMAL;
 
     /**
-     * A stack for storing tokens within parseToken().
-     *
-     * @var array
-     * @access private
+     * Whether to highlight preprocessor sub-directives that are valid only
+     * within a #if or #elif block - currently only "defined" applies.
+     * @var boolean
      */
-    var $_store = array();
+    var $_hltIfElifPPkeyWords;
 
     /**
      * Whether we've yet found an initial hash for a preprocessor directive.
@@ -93,113 +104,113 @@ class GeSHiCCodeParser extends GeSHiCodeParser
 
     function parseToken($token, $context_name, $data)
     {
-        $do_flush = false;
-        /**
-         * Keyword-highlight standard preprocessor directives and link them to a
-         * url; also highlight and link standard headers.
-         */
+        $flush_stdhdr = false;
         $ret = array(&$token, &$context_name, &$data);
-        if ($context_name == $this->_language.'/preprocessor') {
-            if ($this->_state == GESHI_C_NORMAL) {
-                $this->_state = GESHI_C_PPSTART;
-                $this->_initial_hash = false;
-                $dircmptok = '';
-            }
-            if ($this->_state == GESHI_C_PPSTART) {
-                if ($token{0} == '#') {
-                    $dircmptok = substr($token, 1);
-                    $this->_initial_hash = true;
-                } else $dircmptok = $token;
-                if ($this->_initial_hash && $dircmptok == '') {
-                    // skip
-                } else if (in_array($dircmptok,
-                  geshi_c_get_start_of_line_PP_directives_hashsym())) {
-                    $data['url'] =
-                      geshi_c_get_start_of_line_PP_directives_hashsym_url(
-                        $dircmptok);
-                    $this->_state = $dircmptok == 'include' ?
-                      GESHI_C_PPINCLUDE : GESHI_C_PP;
-                    $context_name = $this->_language.'/preprocessor/directive';
-                } else if (in_array($dircmptok,
-                  geshi_c_get_start_of_line_PP_directives_nohashsym())) {
-                    $data['url'] =
-                      geshi_c_get_start_of_line_PP_directives_nohashsym_url(
-                        $dircmptok);
-                    $context_name = $this->_language.'/preprocessor/directive';
-                    $this->_state = GESHI_C_PP;
-                } else if ($this->_initial_hash &&
-                  !geshi_is_whitespace($dircmptok) && $dircmptok != '\\') {
-                    $data['url'] = geshi_c_get_non_std_preproc_directives_url();
-                    $context_name = $this->_language.'/preprocessor/directive';
-                    $this->_state = GESHI_C_PP;
-                }
-            }
-        } else if ($context_name == $this->_language.'/preprocessor/end') {
-            $this->_state = GESHI_C_NORMAL;
+
+        if (($context_name == $this->_language.'/preprocessor/start' ||
+          $context_name == $this->_language.'/preprocessor/directive') &&
+          $this->_state == GESHI_C_NORMAL) {
+            $this->_state = GESHI_C_PPSTART;
+            $this->_initial_hash = false;
+            $this->_hltIfElifPPkeyWords = false;
         }
-        if ($this->_state == GESHI_C_PPINCLUDE) {
-            if ($token == '<') {
-                $this->_state = GESHI_C_PPHDRSTART;
-                $this->_provisional_hdr = '';
-            }
-        } else if ($this->_state == GESHI_C_PPHDRSTART) {
-            $this->_provisional_hdr .= $token;
-            if ($token == '>') {
-                $do_flush = true;
+
+        /** Highlight and link preprocessor directives. */
+        if ($context_name == $this->_language.'/preprocessor/end') {
+            $this->_state = GESHI_C_NORMAL;
+        } else if ($this->_state == GESHI_C_PPSTART) {
+            $skipfirst = false;
+            if ($token == '#') {
+                $this->_initial_hash = true;
+            } else if (in_array($token,
+              geshi_c_get_start_of_line_PP_directives_hashsym())) {
+                $skipfirst = true;
+                $data['url'] =
+                  geshi_c_get_start_of_line_PP_directives_hashsym_url(
+                    $token);
+                $this->_state = $token == 'include' ?
+                  GESHI_C_PPINCLUDE : GESHI_C_PP;
+                $this->_hltIfElifPPkeyWords = in_array($token,
+                  geshi_c_get_if_elif_PP_directives());
+                $context_name = $this->_language.'/preprocessor/directive';
+            } else if (in_array($token,
+              geshi_c_get_start_of_line_PP_directives_nohashsym()) &&
+              !$this->_initial_hash) {
+                $skipfirst = true;
+                $data['url'] =
+                  geshi_c_get_start_of_line_PP_directives_nohashsym_url(
+                    $token);
+                $context_name = $this->_language.'/preprocessor/directive';
                 $this->_state = GESHI_C_PP;
-            } else {
-                $this->_store[] = $ret;
-                $ret = false;
-                if (in_array($this->_provisional_hdr,
-                  geshi_c_get_standard_headers())) {
-                    $this->_state = GESHI_C_PPHDRPROV;
-                }
+            } else if ($this->_initial_hash &&
+              !geshi_is_whitespace($token) && $token != '\\') {
+                $data['url'] = geshi_c_get_non_std_preproc_directives_url();
+                $context_name = $this->_language.'/preprocessor/directive';
+                $this->_state = GESHI_C_PPNONSTD;
             }
-        } else if ($this->_state == GESHI_C_PPHDRPROV) {
-            if ($token != '>') $do_flush = true;
-            else {
-                // right now only the header is stored on the stack; this code
-                // doesn't take account of the possibility of anything else
-                $this->_store[0][0] = $this->_provisional_hdr;
-                $this->_store[0][1] = $this->_language.'/preprocessor/include/'.
-                  'stdheader';
-                $this->_store[0][2]['url'] = geshi_c_get_standard_headers_url(
-                  $this->_provisional_hdr);
-                array_splice($this->_store, 1, count($this->_store));
-                $do_flush = true;
-                $this->_state = GESHI_C_PP;
-            }
-        } else $do_flush = true; // for safety only - there really shouldn't be
-                                 // a stack at this point
-        if ($do_flush) {
-            $this->_store[] = $ret;
-            $ret = $this->_store;
-            $this->_store = array();
         }
 
         /**
-         * Now simplify theming by aggregating common contexts.
+         * Mark everything following a non-standard preprocessor directive;
+         * also mark the directive itself.
          */
-        if ($context_name == $this->_language.'/preprocessor/include' ||
-          $context_name == $this->_language.'/preprocessor/ifelif' ||
-          $context_name == $this->_language.'/preprocessor/general') {
-            $context_name = $this->_language.'/preprocessor';
+        if ($this->_state == GESHI_C_PPNONSTD) {
+            $context_name = $this->_language.'/preprocessor/nonstd';
         }
+
         /**
-         * @note it would be nice to be able to avoid these by being able to
-         * specify the desired context as a parameter to useStandardIntegers()
-         * and useStandardDoubles()
+         * Highlight and link standard headers; also concatenate tokenised
+         * header names into a single token to remove symbol contexts.
          */
-        if ($context_name == $this->_language.'/preprocessor/include/num/int' ||
-          $context_name == $this->_language.'/preprocessor/ifelif/num/int' ||
-          $context_name == $this->_language.'/preprocessor/general/num/int') {
-            $context_name = $this->_language.'/preprocessor/num/int';
+        if ($this->_state == GESHI_C_PPINCLUDE) {
+            if ($token{0} == '<') {
+                $this->_state = GESHI_C_PPHDRSTART;
+                // special-case handling for e.g. </dir/file.h> where "</" will
+                // be tokenised as a single symbol
+                $this->_provisional_hdr = substr($token, 1);
+                $token = '<';
+            }
+        } else if ($this->_state == GESHI_C_PPHDRSTART) {
+            if ($token == '>') {
+                if (in_array($this->_provisional_hdr,
+                  geshi_c_get_standard_headers())) {
+                    $flush_stdhdr = 'STDLINK';
+                } else $flush_stdhdr = true;
+                $this->_state = GESHI_C_PP;
+            } else {
+                $this->_provisional_hdr .= $token;
+                $ret = false;
+            }
         }
-        if ($context_name == $this->_language.'/preprocessor/include/num/dbl' ||
-          $context_name == $this->_language.'/preprocessor/ifelif/num/dbl' ||
-          $context_name == $this->_language.'/preprocessor/general/num/dbl') {
-            $context_name = $this->_language.'/preprocessor/num/dbl';
+        if ($flush_stdhdr) {
+            $hdrtoken[0] = $this->_provisional_hdr;
+            $hdrtoken[1] = $this->_language.'/preprocessor/include';
+            if ($flush_stdhdr === 'STDLINK') {
+                $hdrtoken[1] .= '/stdheader';
+                $hdrtoken[2]['url'] = geshi_c_get_standard_headers_url(
+                  $this->_provisional_hdr);
+            } else {
+                // consider: would it be appropriate to instead implement and
+                // call a geshi_c_get_non_std_stdheader_url()?
+                $hdrtoken[2]['url'] = null;
+            }
+            $tmp = array($hdrtoken, $ret);
+            $ret = $tmp;
+            $this->_provisional_hdr = ''; // redundant but included for safety
         }
+
+        /**
+         * Highlight and link sub-directives that can only occur within a #if or
+         * #elif preprocessor directive (i.e. "defined").
+         */
+        if (($this->_state & GESHI_C_PP) && !$skipfirst &&
+          $this->_hltIfElifPPkeyWords) {
+            if (in_array($token, geshi_c_get_if_elif_PP_subdirectives())) {
+                $data['url'] = geshi_c_get_if_elif_PP_subdirectives_url($token);
+                $context_name = 'c/c/preprocessor/directive';
+            }
+        }
+
         return $ret;
     }
 }
