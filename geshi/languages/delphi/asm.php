@@ -206,6 +206,10 @@ function geshi_delphi_asm (&$context)
 
     $context->useStandardIntegers();
     $context->useStandardDoubles(array('require_leading_number' => true));
+
+    geshi_delphi_keyident_self($context);
+
+    geshi_delphi_stdprocs($context);
 }
 
 ?>
