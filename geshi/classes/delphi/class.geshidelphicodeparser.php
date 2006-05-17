@@ -251,7 +251,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
             }
         }
 
-        if ($this->_inASMBlock) {
+        if ($this->_inASMBlock && stripos($this->_language, 'delphi/asm')) {
             if ($this->_instrExpected) {
                 $this->_instrExpected = false;
             } else {
@@ -323,6 +323,13 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
     }
 
     // }}}
+    
+    function flush() {
+        $store = $this->_store;
+        $this->_store = false;
+        return $store;
+    }
+
 }
 
 ?>
