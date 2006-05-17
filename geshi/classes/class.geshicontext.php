@@ -67,19 +67,7 @@ class GeSHiContext
      * @var string
      */
     var $_languageName = '';
-    
-    /**
-     * The file name from where to load data for this context
-     * @var string
-     */
-    //var $_fileName;
-    
-    /**
-     * The dialect name of this context
-     * @var string
-     */
-    //var $_dialectName;
-    
+
     /**
      * The styler helper object
      * 
@@ -118,32 +106,12 @@ class GeSHiContext
     var $_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
     
     /**
-     * The overriding child context, if any
-     * 
-     * @var GeSHiContext
-     */
-    //var $_overridingChildContext;
-    
-    /**
      * The matching regex table for regex starters
      * 
      * @var array
      */
      var $_startRegexTable = array();
-    
-    /**
-     * The "infectious context". Will be used to "infect" the context
-     * tree with itself - this is how PHP inserts itself into HTML contexts
-     * @var GeSHiContext
-     */
-    //var $_infectiousContext;
-    
-    /**
-     * Whether this context has been already loaded
-     * @var boolean
-     */
-    //var $_loaded = false;
-    
+        
     /**
      * The name for stuff detected in the start of a context
      * 
@@ -219,6 +187,7 @@ class GeSHiContext
             $function =  'geshi_' . $this->_languageName . '_' . $init_function;
             if (function_exists($function)) {
                 $function($this);
+                $this->_initPostProcess();
                 return;
             }
             $tried_functions[] = $function;
@@ -228,6 +197,7 @@ class GeSHiContext
         $function = 'geshi_' . str_replace('/', '_', $context_name);
         if (function_exists($function)) {
             $function($this);
+            $this->_initPostProcess();
             return;
         }
         $tried_functions[] = $function;
@@ -237,6 +207,7 @@ class GeSHiContext
             strpos($context_name, '/')));
         if (function_exists($function)) {
             $function($this);
+            $this->_initPostProcess();
             return;
         }
         $tried_functions[] = $function;
@@ -250,6 +221,7 @@ class GeSHiContext
                 strpos($context_name, '/') + 1)));
             if (function_exists($function)) {
                 $function($this);
+                $this->_initPostProcess();
                 return;
             }
             $tried_functions[] = $function;
@@ -401,6 +373,10 @@ class GeSHiContext
      */
     function embedInside ($name)
     {
+        // Perform any post processing now because we are about to override
+        // ourselves.
+        $this->_initPostProcess();
+        
         // @todo note this is also GeSHi::_getLanguageDataFile
         if ('/' == GESHI_DIR_SEP) {
             $language_file = $name . '.php';
@@ -1022,12 +998,23 @@ class GeSHiContext
     }
     
     // }}}
-    // {{{ _makeContextName
+    // {{{ _makeContextName()
     
     function _makeContextName ($name)
     {
         return (substr($name, 0, strlen($this->_languageName) + 1) == "{$this->_languageName}/")
             ? $name : "$this->_contextName/$name";
+    }
+    
+    // }}}
+    // {{{ _initPostProcess()
+    
+    /**
+     * Called after the init function has had its fun to
+     * do any cleanup required
+     */
+    function _initPostProcess ()
+    {
     }
     
     // }}}
