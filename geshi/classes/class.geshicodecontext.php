@@ -528,7 +528,7 @@ class GeSHiCodeContext extends GeSHiContext
                 // Otherwise, if they're not and the first char of the lookup is alphabetical,
                 // add it to both parts of the lookup (a and A for example).
                 $key = substr($keyword, 0, 1);
-                if (ctype_alpha($key) && !$keyword_group_array[3]) {
+                if (ctype_alpha($key) && !$keyword_group_array[2]) {
                     $this->_contextKeywordLookup[strtoupper(substr($keyword, 0, 1))][] =
                         array(0 => $keyword, 1 => $keyword_group_key /*$keyword_group_array[1]*/);
                     $this->_contextKeywordLookup[strtolower(substr($keyword, 0, 1))][] =
