@@ -213,9 +213,9 @@ class GeSHiContext
         $tried_functions[] = $function;
 
         // Final chance is the language shortcut function
-        $root_language_name = "$this->_languageName/$this->_languageName/";
-        if ($root_language_name != substr($context_name, 0,
-            strlen($root_language_name))) {
+        $root_language_name = "$this->_languageName/$this->_languageName";
+        if ($context_name != $root_language_name && "$root_language_name/" !=
+            substr($context_name, 0, strlen($root_language_name) + 1)) {
             $function = 'geshi_' . str_replace('/', '_', $this->_languageName
                 . substr($context_name, strpos($context_name, '/',
                 strpos($context_name, '/') + 1)));
