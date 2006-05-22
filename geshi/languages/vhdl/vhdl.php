@@ -1,6 +1,11 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
+ * <pre>
+ *   File:   geshi/languages/vhdl/vhdl.php
+ *   Author: Lingzi Xue
+ *   E-mail: chocolatemurderer@gmail.com
+ * </pre>
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -25,28 +30,71 @@
  * with GeSHi, in the docs/ directory.
  *
  * @package   lang
- * @author    Nigel McNie <nigel@geshi.org>
+ * @author    Lingzi Xue <chocolatemurderer@gmail.com>, Nigel McNie <nigel@geshi.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright (C) 2005 Nigel McNie <-- Lol at him
+ * @copyright (C) 2004 -2006 Nigel McNie
  * @version   $Id$
  *
  */
 
-/*
- * VHDL language file for GeSHi
- * 
- * [notes about language]
- * 
- * [notes about this implementation of the language]
- * 
- */
+/** Get the GeSHiSingleCharContext class */
+require_once GESHI_CLASSES_ROOT . 'class.geshisinglecharcontext.php';
 
-/** Get the GeSHiCodeContext class */ 
-require_once GESHI_CLASSES_ROOT . 'class.geshicodecontext.php';
+function geshi_vhdl_vhdl (&$context)
+{
+    $context->addChild('single_string', 'singlechar');
+    $context->addChild('double_string', 'string');
+    $context->addChild('comment');
 
+    // Basic keywords
+    $context->addKeywordGroup(array(
+        'abs','access','after','alias','all','and','architecture','array','assert','attribute',
+        'begin','block','body','buffer','bus','case','component','configuration','constant',
+        'disconnent','downto','else','elsif','end','end block','end case','end component',
+        'end for','end generate','end if','end loop','end process','end record','end units',
+        'entity','exit','file','for','function','generate','generic','generic map','group',
+        'guarded','if','impure','in','inertial','inout','is','label','library','linkage',
+        'literal','loop','map','mod','nand','new','next','nor','null','of','on','open','or',
+        'others','out','package','package body','port','port map','postponed','procedure',
+        'process','pure','range','record','register','reject','rem','report','return','rol',
+        'ror','select','severity','signal','sla','sll','sra','srl','subtype','then','to',
+        'transport','type','unaffected','units','until','use','variable','wait','when','while',
+        'with','xnor','xor'
+    ), 'keyword');
 
-$this->_humanLanguageName = 'VHDL';
+    $context->setCharactersDisallowedBeforeKeywords("'");
+    $context->setCharactersDisallowedAfterKeywords("'");
 
-$this->_rootContext =& new GeSHiCodeContext('vhdl');
+    $context->addSymbolGroup(array(
+        '(', ')', ',', ';', ':', '[', ']',
+        '+', '-', '*', '/', '&', '|', '!', '<', '>',
+        '{', '}', '=', '@', '.'
+    ), 'symbol');
+
+    $context->useStandardIntegers();
+    $context->useStandardDoubles();  
+}
+
+function geshi_vhdl_vhdl_single_string (&$context)
+{
+    $context->addDelimiters("'", "'");
+    //$this->_contextStyleType = GESHI_STYLE_STRINGS;
+    $context->setEscapeCharacters('\\');
+    $context->setCharactersToEscape('\\', "'");
+}
+
+function geshi_vhdl_vhdl_double_string (&$context)
+{
+    $context->addDelimiters('"', '"');
+    //$this->_contextStyleType = GESHI_STYLE_STRINGS;
+    $context->setEscapeCharacters('\\');
+    $context->setCharactersToEscape('n', 'r', 't', '\\', '"');
+}
+    
+function geshi_vhdl_vhdl_comment (&$context)
+{
+    $context->addDelimiters('--', "\n");
+    //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
+}   
 
 ?>
