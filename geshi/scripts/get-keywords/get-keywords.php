@@ -46,7 +46,7 @@ define('GESHI_GET_KEYWORDS_VERSION', '0.1.3');
  * get-keywords.php --list-groups css
  * ...
  * 
- * @todo [blocking 1.1.1] customise output format options (one per line, formatted for pasting into lang file, HTML)
+ * @todo possibly remove this script
  */
   
 // As always...

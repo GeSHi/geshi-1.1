@@ -1,6 +1,11 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
+ * <pre>
+ *   File:   geshi/languages/c/class.geshiccodeparser.php
+ *   Author: Netocrat
+ *   E-mail: N/A
+ * </pre>
  *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -34,7 +39,7 @@
  */
 
 /** Get the GeSHiCodeParser class */
-require_once GESHI_CLASSES_ROOT.'class.geshicodeparser.php';
+require_once GESHI_CLASSES_ROOT . 'class.geshicodeparser.php';
 
 /**
  * Parsing states; should be powers of two due to the implications of the
@@ -60,12 +65,15 @@ define('GESHI_C_PPHDRPROV' , 32);
  * The GeSHiCCodeParser class
  *
  * @package core
- * @author  
- * @since   
+ * @author  http://clc-wiki.net/wiki/User:Netocrat
+ * @since   1.1.1
  * @version $Revision$
  */
 class GeSHiCCodeParser extends GeSHiCodeParser
 {
+    
+    // {{{ properties
+    
     /**
      * A flag that can be used for the "state" of parsing
      * @var string
@@ -95,13 +103,19 @@ class GeSHiCCodeParser extends GeSHiCodeParser
      */
     var $_provisional_hdr;
 
+    // }}}
+    // {{{ GeSHiCCodeParser()
+    
     function GeSHiCCodeParser(&$styler, $language)
     {
         $this->GeSHiCodeParser($styler, $language);
         /** for geshi_c_get_non_std_preproc_directives_url() */
         require_once GESHI_LANGUAGES_ROOT.'c'.GESHI_DIR_SEP.'common.php';
     }
-
+    
+    // }}}
+    // {{{ parseToken()
+    
     function parseToken($token, $context_name, $data)
     {
         $flush_stdhdr = false;
@@ -214,6 +228,9 @@ class GeSHiCCodeParser extends GeSHiCodeParser
 
         return $ret;
     }
+    
+    // }}}
+    
 }
 
 ?>

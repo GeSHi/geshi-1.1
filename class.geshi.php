@@ -38,7 +38,6 @@
 /**
  * MAJOR TODOs:
  * 
- * @todo [in progress] language file format rethink
  * @todo can php/common be used as a language? it shouldn't be
  */
 
@@ -639,7 +638,7 @@ class GeSHi
         $language_name   = substr($this->_language, 0, strpos($this->_language, '/'));
         $codeparser_name = 'geshi' . $language_name . 'codeparser';
         if (!class_exists($codeparser_name)) {
-            $codeparser_file = GESHI_CLASSES_ROOT . $language_name . GESHI_DIR_SEP
+            $codeparser_file = GESHI_LANGUAGES_ROOT . $language_name . GESHI_DIR_SEP
                 . "class.{$codeparser_name}.php";
             if (geshi_can_include($codeparser_file)) {
                 /** Get the GeSHiCodeParser class */

@@ -35,8 +35,6 @@
  * 
  */
  
-/** @todo Code parsers may well be moved to geshi/languages */
- 
 class GeSHiJavaCodeParser extends GeSHiCodeParser
 { 
  

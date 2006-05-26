@@ -1,6 +1,11 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
+ * <pre>
+ *   File:   geshi/languages/c/c.php
+ *   Author: Netocrat
+ *   E-mail: N/A
+ * </pre>
  *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/

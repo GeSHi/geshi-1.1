@@ -1,7 +1,12 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- *
+ * <pre>
+ *   File:   geshi/languages/delphi/class.delphicodeparser.php
+ *   Author: Nigel McNie
+ *   E-mail: nigel@geshi.org
+ * </pre>
+ * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
  *
@@ -24,10 +29,10 @@
  * You can view a copy of the GNU GPL in the COPYING file that comes
  * with GeSHi, in the docs/ directory.
  *
- * @package   core
+ * @package   lang
  * @author    Benny Baumann <BenBE@benbe.omorphia.de>, Nigel McNie <nigel@geshi.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright (C) 2005 Nigel McNie
+ * @copyright (C) 2004 - 2006 Nigel McNie
  * @version   $Id$
  *
  */
@@ -38,13 +43,14 @@ require_once GESHI_CLASSES_ROOT . 'class.geshicodeparser.php';
 /**
  * The GeSHiDelphiCodeParser class
  *
- * @package core
+ * @package lang
  * @author  Benny Baumann <BenBE@benbe.omorphia.de>, Nigel McNie <nigel@geshi.org>
  * @since   1.1.1
  * @version $Revision$
  */
 class GeSHiDelphiCodeParser extends GeSHiCodeParser
 {
+    
     // {{{ properties
 
     /**
@@ -323,12 +329,15 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
     }
 
     // }}}
+    // {{{ flush()
     
     function flush() {
         $store = $this->_store;
         $this->_store = false;
         return $store;
     }
+    
+    // }}}
 
 }
 

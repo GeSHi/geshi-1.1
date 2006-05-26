@@ -1,14 +1,14 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
+ * <pre>
+ *   File:   geshi/languages/c/common.php
+ *   Author: Netocrat
+ *   E-mail: N/A
+ * </pre>
  *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- *
- *
- * This file keeps all data for C highlighting in one spot to avoid it being
- * split across languages/c/c.php and classes/c/class.geshiccodeparser.php.
- *
  *
  *  This file is part of GeSHi.
  *
@@ -36,6 +36,11 @@
  * @copyright (C) 2006 Netocrat
  * @version   $Id$
  *
+ */
+
+/**
+ * This file keeps all data for C highlighting in one spot to avoid it being
+ * split across languages/c/c.php and languages/c/class.geshiccodeparser.php.
  */
 
 /** Get the GeSHiSingleCharContext class */

@@ -2,7 +2,7 @@
 /**
  * GeSHi - Generic Syntax Highlighter
  * <pre>
- *   File:   geshi/classes/class.geshicodecontext.php
+ *   File:   geshi/languages/php/class.geshiphpcodeparser.php
  *   Author: Nigel McNie
  *   E-mail: nigel@geshi.org
  * </pre>
@@ -45,6 +45,7 @@
  */
 class GeSHiPHPCodeParser extends GeSHiCodeParser
 {
+    
     // {{{ properties
     
     /**
@@ -105,6 +106,7 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
     }
     
     // }}}
+    
 }
 
 ?>
