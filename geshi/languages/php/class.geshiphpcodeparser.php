@@ -73,7 +73,7 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
      * array of arrays. This way, it can hold onto
      * data it needs for parsing
      * 
-     * @todo [blocking 1.1.1] Use this to put class names into a
+     * @todo [blocking 1.1.2] Use this to put class names into a
      * different context, and highlight them where they occur differently.
      * 
      * @todo [blocking 1.1.5] Use this to highlight function

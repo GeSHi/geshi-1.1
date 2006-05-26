@@ -56,16 +56,6 @@ class GeSHiStringContext extends GeSHiContext
     // Characters that should be escaped
     var $_charsToEscape = array();
     
-    /**
-     * This is used by the 'DELIM' "character" in the _charsToEscape array. We
-     * abuse the fact that _addParseData will be called right after _getContextEndData
-     * if the context is to be passed
-     * 
-     * @todo [blocking 1.1.1] this probably can be removed since DELIM is not
-     * going to be supported anymore
-     */
-    var $_lastOpener;
-    
     /**#@-*/
     
     // {{{ setEscapeCharacters()

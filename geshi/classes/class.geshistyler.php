@@ -65,7 +65,6 @@ class GeSHiStyler
     /**
      * @var string
      * Note: only set once language name is determined to be valid
-     * @todo [blocking 1.1.1] Some methods use this by parameter in this class, perhaps they could use this field?
      */
     var $language = '';
     
