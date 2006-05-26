@@ -837,7 +837,7 @@ class GeSHiContext
             $balance_closer = $this->_contextDelimiters[$context_open_key][3][1];
 
             // We get the first push for free
-            // @todo [blocking 1.1.1] if what we are balancing against is not related
+            // @todo [blocking 1.1.2] if what we are balancing against is not related
             // to the starter of the context then we have a problem... check $context_opener
             // for starter stuff instead of assuming
             $balance_count = 1;
