@@ -94,7 +94,7 @@ function geshi_html_html_string (&$context)
     $context->addDelimiters('"', '"');
     // NOTE: need to support _neverTrim
     $context->addChildLanguage('javascript/javascript', array('javascript:', 'return'),
-        array('"', "'"));
+        array('"', "'"), false, GESHI_CHILD_PARSE_LEFT);
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
 }
 
