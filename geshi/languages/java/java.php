@@ -50,7 +50,6 @@ function geshi_java_java (&$context)
     $context->addChildLanguage('doxygen/doxygen', '/**', '*/', false, GESHI_CHILD_PARSE_BOTH);
     
     // Keyword groups
-    // @todo [blocking 1.1.1] Get Tim to do his magic auto-populate thing on this file
     
     // Keywords
     $context->addKeywordGroup(array(
