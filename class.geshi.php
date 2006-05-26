@@ -674,7 +674,7 @@ class GeSHi
      */
     function _parsePostProcess ()
     {
-        // @todo [blocking 1.1.1] (bug 12) Evaluate feasability and get working if possible the functionality below...
+        // @todo [blocking 1.1.5] (bug 5) Evaluate feasability and get working if possible the functionality below...
         //$result = preg_replace('#([^"])(((https?)|(ftp))://[a-z0-9\-]+\.([a-z0-9\-\.]+)+/?([a-zA-Z0-9\.\-_%]+/?)*\??([a-zA-Z0-9=&\[\];%]+)?(\#[a-zA-Z0-9\-_]+)?)#', '\\1<a href="\\2">\\2</a>', $result);
         //$result = preg_replace('#([a-z0-9\._\-]+@[[a-z0-9\-\.]+[a-z]+)#si', '<a href="mailto:\\1">\\1</a>', $result);
         // Destroy root context, we don't need it anymore

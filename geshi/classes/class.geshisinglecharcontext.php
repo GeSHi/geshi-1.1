@@ -50,7 +50,6 @@
  * @since      1.1.1
  * @version    $Revision$
  * @see        GeSHiContext
- * @todo [blocking 1.1.1] Characters to escape not being taken into account
  */
 class GeSHiSingleCharContext extends GeSHiContext
 {

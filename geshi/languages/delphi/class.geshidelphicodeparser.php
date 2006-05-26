@@ -64,7 +64,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
      * A store for a token that we can use for remembering tokens
      * across calls to parseToken().
      *
-     * @todo [blocking 1.1.1] Change to a stack and move to parent
+     * @todo [blocking 1.1.2] Change to a stack and move to parent
      */
     var $_store = null;
 
@@ -158,7 +158,6 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
      * @todo [blocking 1.1.5] delphi fixes:
      *   - highlight default keyword if after ; in property context
      *   - don't highlight functions if not before "(" brackets (alpha)
-     * @todo [blocking 1.1.1] add cleanup method to flush any stored tokens
      */
     function parseToken ($token, $context_name, $data)
     {

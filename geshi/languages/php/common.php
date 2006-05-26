@@ -51,7 +51,7 @@ function geshi_php_common (&$context)
     $context->addChild('single_comment');
     $context->addChild('multi_comment');
     // Parse PHPDoc comments with doxygen
-    $context->addChildLanguage('doxygen/doxygen', '/**', '*/');
+    $context->addChildLanguage('doxygen/doxygen', '/**', '*/', false, GESHI_CHILD_PARSE_BOTH);
     
     // Keywords that have php.net manual entries
     $context->addKeywordGroup(array(

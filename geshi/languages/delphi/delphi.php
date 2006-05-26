@@ -142,10 +142,8 @@ function geshi_delphi_delphi (&$context)
     $context->addChild('property', 'code');
     
     // Hook in ASM sublanguage
-    // @todo [blocking 1.1.1] evaluate usage of fifth parameter:
-    // it might be able to be defaulted to GESHI_CHILD_PARSE_NONE
     $context->addChildLanguage('delphi/asm', 'REGEX#(^|(?=\b))asm((?=\b)|$)#im',
-        'REGEX#(^|(?=\b))end((?=\b)|$)#im', false, GESHI_CHILD_PARSE_NONE);
+        'REGEX#(^|(?=\b))end((?=\b)|$)#im');
     
     // Keywords
     $context->addKeywordGroup(array(

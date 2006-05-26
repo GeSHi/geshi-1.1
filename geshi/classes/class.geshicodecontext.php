@@ -91,18 +91,7 @@ class GeSHiCodeContext extends GeSHiContext
      * A regex array
      */
     var $_contextRegexps = array();
-    
-    /**
-     * An array of object "splitters"
-     */
-    //var $_objectSplitters = array();
-    
-    /**
-     * Whether this code context has finished loading yet
-	 * @todo [blocking 1.1.1] Do this by static variable?
-     */
-    //var $_codeContextLoaded = false;
-     
+
      /**
       * Whether standard integer support will be used for this context
       * 

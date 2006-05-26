@@ -142,7 +142,7 @@ if (KeywordGetter::isError($keywords)) {
 }
 
 // Simply echo to standard out, although a todo would be to make this customisable
-// @todo [blocking 1.1.1] Customise the output of keywords (to a file perhaps?)
+// @todo Customise the output of keywords (to a file perhaps?)
 $result = '';
 $spaces = '            ';
 foreach ($keywords as $keyword) {

@@ -40,12 +40,10 @@ function geshi_html_html (&$context)
     $context->addChild('doctype');
     $context->addChild('tag', 'code');
     $context->addChild('comment');
-    //@todo [blocking 1.1.9] The <![CDATA[ was added to stop CSS jumping into attribute selector context
-    //the moment it was encountered, but this only really applies to XML
-    $context->addChildLanguage('css/css', 'REGEX#<style[^>]+>\s*(<!\[CDATA\[)?#i', '</style>',
-        false, GESHI_CHILD_PARSE_NONE);
-    $context->addChildLanguage('javascript/javascript', 'REGEX#<script[^>]+>#i', '</script>',
-        false, GESHI_CHILD_PARSE_NONE);
+    //@todo [blocking 1.1.9] The <![CDATA[ was added to stop CSS jumping into attribute
+    // selector context the moment it was encountered, but this only really applies to XML
+    $context->addChildLanguage('css/css', 'REGEX#<style[^>]+>\s*(<!\[CDATA\[)?#i', '</style>');
+    $context->addChildLanguage('javascript/javascript', 'REGEX#<script[^>]+>#i', '</script>');
 
     $context->addRegexGroup('#(&(([a-z0-9]{2,5})|(\#[0-9]{2,4}));)#', '&', array(
             1 => array('entity', false)
@@ -95,8 +93,8 @@ function geshi_html_html_string (&$context)
     $context->addDelimiters("'", "'");
     $context->addDelimiters('"', '"');
     // NOTE: need to support _neverTrim
-    $context->addChildLanguage('javascript/javascript', array('javascript:', 'return'), array('"', "'"),
-        false, GESHI_CHILD_PARSE_LEFT);
+    $context->addChildLanguage('javascript/javascript', array('javascript:', 'return'),
+        array('"', "'"));
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
 }
 

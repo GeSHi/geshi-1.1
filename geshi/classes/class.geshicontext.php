@@ -442,7 +442,7 @@ class GeSHiContext
      * e.g. doxygen within PHP
      */
     function addChildLanguage ($name, $start_delimiters, $end_delimiters, $case_sensitive = false,
-        $parse_delimiter_flag = GESHI_CHILD_PARSE_BOTH)
+        $parse_delimiter_flag = GESHI_CHILD_PARSE_NONE)
     {
         /** Get function info for the child language */
         require_once GESHI_LANGUAGES_ROOT . $name . '.php';
@@ -859,7 +859,7 @@ class GeSHiContext
                             geshi_dbg('  opener is closer so inc. to ' . $balance_count);
                             // Start searching from new pos just past where we found the opener
                             $offset = $opener_pos['pos'] + 1;
-                            // @todo [blocking 1.1.1] could cache closer pos at this point?
+                            // @todo [blocking 1.1.2] could cache closer pos at this point?
                         } else {
                             // closer is closer (bad english heh)
                             --$balance_count;
