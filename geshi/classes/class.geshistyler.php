@@ -254,7 +254,7 @@ class GeSHiStyler
             require_once GESHI_CLASSES_ROOT . 'class.geshirenderer.php';
             /** Get the renderer class */
             require_once GESHI_RENDERERS_ROOT . 'class.geshirendererhtml.php';
-            $this->_renderer =& new GeSHiRendererHTML($this);
+            $this->_renderer =& new GeSHiRendererHTML;
         }
         
         // Load theme data now

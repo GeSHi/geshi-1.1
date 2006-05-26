@@ -27,7 +27,7 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  *
  * @package    geshi
- * @subpackage core
+ * @subpackage renderer
  * @author     Nigel McNie <nigel@geshi.org>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Nigel McNie
@@ -39,13 +39,16 @@
  * The GeSHiRendererHTML class
  * 
  * @package    geshi
- * @subpackage core
+ * @subpackage renderer
  * @author     Nigel McNie <nigel@geshi.org>
  * @since      1.1.1
  * @version    $Revision$
  */
-class GeSHiRendererHTML extends GeSHiRenderer {
-    
+class GeSHiRendererHTML extends GeSHiRenderer
+{
+
+    // {{{ parseToken()
+        
     /**
      * Implements parseToken to put HTML tags around
      * the tokens
@@ -70,6 +73,9 @@ class GeSHiRendererHTML extends GeSHiRenderer {
         return $result;
     }
     
+    // }}}
+    // {{{ getHeader()
+    
     /**
      * Boring preset header at this time
      */
@@ -78,6 +84,9 @@ class GeSHiRendererHTML extends GeSHiRenderer {
         return '<pre style="background-color:#ffc;border:1px solid #cc9;">';
     }
     
+    // }}}
+    // {{{ getFooter()
+    
     /**
      * And preset footer
      */
@@ -85,6 +94,9 @@ class GeSHiRendererHTML extends GeSHiRenderer {
     {
         return '</pre>';
     }
+    
+    // }}}
+    
 }
 
 ?>

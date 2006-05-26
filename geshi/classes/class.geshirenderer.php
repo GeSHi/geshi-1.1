@@ -27,11 +27,11 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  *
  * @package    geshi
- * @subpackage core
+ * @subpackage renderer
  * @author     Nigel McNie <nigel@geshi.org>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Nigel McNie
- * @version   $Id$
+ * @version    $Id$
  * 
  */
 
@@ -39,7 +39,7 @@
  * The GeSHiRenderer class
  * 
  * @package    geshi
- * @subpackage core
+ * @subpackage renderer
  * @author     Nigel McNie <nigel@geshi.org>
  * @since      1.1.1
  * @version    $Revision$
@@ -47,6 +47,7 @@
  */
 class GeSHiRenderer
 {
+    
     // {{{ properties
     
     /**
@@ -55,20 +56,17 @@ class GeSHiRenderer
      * @var GeSHiStyler
      * @access private
      */
-    var $_styler;
+    var $_styler = null;
     
     // }}}
     // {{{ GeSHiRenderer()
     
     /**
      * Constructor.
-     * 
-     * @todo [blocking 1.1.1] may be able to skip passing a styler
-     * and use geshi_styler() instead
      */
-    function GeSHiRenderer(&$styler)
+    function GeSHiRenderer ()
     {
-        $this->_styler =& $styler;
+        $this->_styler =& geshi_styler();
     }
     
     // }}}
@@ -103,6 +101,7 @@ class GeSHiRenderer
     function getFooter () {}
     
     // }}}
+    
 }
 
 ?>
