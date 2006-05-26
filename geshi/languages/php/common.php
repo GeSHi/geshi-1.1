@@ -70,7 +70,7 @@ function geshi_php_common (&$context)
     ), 'symbol');
     
     // PHP Variables
-    // @todo [blocking 1.1.1] maybe later let the test string be a regex or something
+    // @todo [blocking 1.1.5] maybe later let the test string be a regex or something
     $context->addRegexGroup('#(\$\$?[a-zA-Z_][a-zA-Z0-9_]*)#', '$',
         // This is the special bit ;)
         // For each bracket pair in the regex above, you can specify a name and optionally,

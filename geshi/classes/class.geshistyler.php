@@ -196,7 +196,11 @@ class GeSHiStyler
     // }}}
     // {{{ loadStyles()
     
-    function loadStyles ($language, $load_theme = false) {
+    function loadStyles ($language = '', $load_theme = false)
+    {
+        if (!$language) {
+            $language = $this->language;
+        }
         geshi_dbg('GeSHiStyler::loadStyles(' . $language . ')');
         if ($this->reloadThemeData) {
             geshi_dbg('  Loading theme data');
@@ -258,7 +262,7 @@ class GeSHiStyler
         }
         
         // Load theme data now
-        $this->loadStyles($this->language, true);
+        $this->loadStyles('', true);
     }
 
     // }}}

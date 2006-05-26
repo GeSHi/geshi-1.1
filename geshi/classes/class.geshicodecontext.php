@@ -267,7 +267,7 @@ class GeSHiCodeContext extends GeSHiContext
                     // part of the code context 
                     } elseif (isset($this->_contextRegexps[$data[1]][2][$key])) {
                         // this may end up as array(array(match,name),array(match,name),array..)
-                        //@todo [blocking 1.1.1] may need to pass the first char of next context here if it's at the end...
+                        //@todo [blocking 1.1.3] may need to pass the first char of next context here if it's at the end...
                         $parse_data = $this->_codeContextHighlight($match);
                         foreach ($parse_data as $pdata) { 
                             $regex_replacements[$data[0]][] = $pdata;

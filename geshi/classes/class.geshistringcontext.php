@@ -71,7 +71,7 @@ class GeSHiStringContext extends GeSHiContext
     // {{{ setEscapeCharacters()
     
     /**
-     * @todo [blocking 1.1.1] Should be able to escape the delimiter using itself
+     * Sets the characters that are used to escape other characters in a string
      */
     function setEscapeCharacters ($chars)
     {
@@ -125,8 +125,6 @@ class GeSHiStringContext extends GeSHiContext
                     
                     geshi_dbg('  String with double escapes removed: ' . $possible_string);
 
-                    //@todo [blocking 1.1.1] possible bug: only last escape character checked here
-                    // note: possibly fixed now
                     foreach ($this->_escapeCharacters as $escape_char) {
                         if (substr($possible_string, -1) == $escape_char) {
                             $not_escaped = false;
@@ -217,13 +215,8 @@ class GeSHiStringContext extends GeSHiContext
      */
     function _shouldBeEscaped ($code)
     {
-        // Feature: If 'DELIM' is one of the "characters" in the _charsToEscape array, then it is
-        // replaced by the context opener
-        // @todo [blocking 1.1.1] remove DELIM support
-        $chars_to_escape = str_replace('DELIM', $this->_lastOpener, $this->_charsToEscape);
-
         geshi_dbg('Checking: ' . substr($code, 0, 15));
-        foreach ($chars_to_escape as $match) {
+        foreach ($this->_charsToEscape as $match) {
             if ('REGEX' != substr($match, 0, 5)) {
                 geshi_dbg('Test: ' . $match);
                 if (substr($code, 0, 1) == $match) {

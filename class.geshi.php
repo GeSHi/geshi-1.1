@@ -354,7 +354,7 @@ class GeSHi
     function setStyles ($selector, $styles)
     {
         geshi_dbg('GeSHi::setStyles(' . $selector . ', ' . $styles . ')');
-        $this->_styler->loadStyles($this->_language, true);
+        $this->_styler->loadStyles('', true);
         $this->_styler->setRawStyle($selector, $styles);
     }
     
