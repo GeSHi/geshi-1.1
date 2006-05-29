@@ -140,7 +140,7 @@ function geshi_php_single_comment (&$context)
 
 function geshi_php_multi_comment (&$context)
 {
-    $context->addDelimiters('/*', '*//*');
+    $context->addDelimiters('/*', '*/');
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
 }
 
