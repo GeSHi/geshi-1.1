@@ -38,7 +38,8 @@
 /**
  * MAJOR TODOs:
  * 
- * @todo can php/common be used as a language? it shouldn't be
+ * @todo [blocking 1.1.1] can php/common be used as a language? it shouldn't be
+ * @todo [blocking 1.1.1] give all files correct header and package/subpackage
  */
 
 //
