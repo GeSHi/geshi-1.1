@@ -38,7 +38,6 @@
 /**
  * MAJOR TODOs:
  * 
- * @todo [blocking 1.1.1] can php/common be used as a language? it shouldn't be
  * @todo [blocking 1.1.1] give all files correct header and package/subpackage
  */
 
@@ -738,6 +737,11 @@ class GeSHi
             $language .= '/' . $language;
         }
         $language = GeSHi::_clean($language);
+        if (substr($language, -6) == 'common') {
+            trigger_error('Cannot use "common" as a language dialect');
+            $language = substr($language, 0, strpos($language, '/'));
+            $language = "$language/$language";
+        }
         return $language;
     }
     
