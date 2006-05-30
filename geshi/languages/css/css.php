@@ -67,7 +67,7 @@ function geshi_css_css_rule (&$context)
         'border-top-color', 'border-top-style', 'border-top-width', 'border-width', 'bottom',
         'caption-side', 'clear', 'clip', 'color', 'content', 'counter-increment', 'counter-reset', 'cue',
         'cue-after', 'cue-before', 'cursor', 'direction', 'display', 'elevation', 'empty-cells', 'float',
-        'font', 'font-family', 'font-size', 'font-size-adjust', 'font-stretch', 'font-style',
+        'font', 'font-face', 'font-family', 'font-size', 'font-size-adjust', 'font-stretch', 'font-style',
         'font-variant', 'font-weight', 'height', 'left', 'letter-spacing', 'line-height', 'list-style',
         'list-style-image', 'list-style-keyword', 'list-style-position', 'list-style-type', 'margin',
         'margin-bottom', 'margin-left', 'margin-right', 'margin-top', 'marker-offset', 'max-height',
