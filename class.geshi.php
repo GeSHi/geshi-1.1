@@ -35,12 +35,6 @@
  * 
  */
 
-/**
- * MAJOR TODOs:
- * 
- * @todo [blocking 1.1.1] give all files correct header and package/subpackage
- */
-
 //
 // Set error level to E_ALL. This stops strict warnings
 // about syntax in PHP5, which we are not interested in
