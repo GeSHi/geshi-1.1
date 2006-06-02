@@ -34,6 +34,10 @@
  * @version    $Id$
  */
 
+/**#@+
+ * @access private
+ */
+
 function geshi_codeworker_roughtext (&$context)
 {
     // same as codeworker/codeworker
@@ -48,5 +52,7 @@ function geshi_codeworker_roughtext (&$context)
     );*/
 
 }
+
+/**#@-*/
 
 ?>

@@ -53,6 +53,7 @@
  */
 class GeSHiSingleCharContext extends GeSHiContext
 {
+    
     // {{{ properties
     
     /**#@-
@@ -175,6 +176,7 @@ class GeSHiSingleCharContext extends GeSHiContext
     }
     
     // }}}
+
 }
 
 ?>

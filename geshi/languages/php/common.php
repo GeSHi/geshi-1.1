@@ -35,6 +35,10 @@
  * 
  */
 
+/**#@+
+ * @access private
+ */
+
 /** Get the GeSHiPHPDoubleStringContext class */
 require_once GESHI_LANGUAGES_ROOT . 'php' . GESHI_DIR_SEP . 'class.geshiphpdoublestringcontext.php';
 
@@ -143,5 +147,7 @@ function geshi_php_multi_comment (&$context)
     $context->addDelimiters('/*', '*/');
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
 }
+
+/**#@-*/
 
 ?>

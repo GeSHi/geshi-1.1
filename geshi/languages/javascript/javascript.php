@@ -35,6 +35,10 @@
  *
  */
 
+/**#@+
+ * @access private
+ */
+
 function geshi_javascript_javascript (&$context)
 {
     $context->addChild('single_comment');
@@ -170,5 +174,7 @@ function geshi_javascript_javascript_double_string (&$context)
     $context->setCharactersToEscape(array('n', 'r', 't', '\\', '"'));
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
 }
+
+/**#@-*/
 
 ?>

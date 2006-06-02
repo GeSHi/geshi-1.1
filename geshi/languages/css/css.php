@@ -27,12 +27,16 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  *
  * @package    geshi
- * @subpackage core
+ * @subpackage lang
  * @author     Nigel McNie <nigel@geshi.org>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Nigel McNie
  * @version    $Id$
  *
+ */
+
+/**#@+
+ * @access private
  */
 
 /** Get common functions for CSS */
@@ -172,5 +176,7 @@ function geshi_css_css_at_rule (&$context)
         ':', ';', '(', ')'
     ), 'symbol');
 }
+
+/**#@-*/
 
 ?>

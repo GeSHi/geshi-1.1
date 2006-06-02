@@ -48,7 +48,7 @@
 $geshi_old_reporting_level = error_reporting(E_ALL);
 
 /** GeSHi Version */
-define('GESHI_VERSION', '1.1.1alpha5');
+define('GESHI_VERSION', '1.1.1beta1dev');
 
 /** Set the correct directory separator */
 define('GESHI_DIR_SEP', ('WIN' != substr(PHP_OS, 0, 3)) ? '/' : '\\');
@@ -85,15 +85,15 @@ require GESHI_CLASSES_ROOT . 'class.geshistyler.php';
 /** Get context class */
 require GESHI_CLASSES_ROOT . 'class.geshicontext.php';
 
-//
-// Although the next two classes may not be used by a particular
-// language, there's a very good chance that they will be, so we
-// include them now to save on require_once calls later. This
-// improves performance when using an opcode cache/accelerator.
-//
-
 /** Get code context class */
 require GESHI_CLASSES_ROOT . 'class.geshicodecontext.php';
+
+//
+// Although this classe may not be used by a particular language,
+// there's a very good chance that it will be, so we include it
+// now to save on require_once calls later. This improves performance
+// when using an opcode cache/accelerator.
+//
 
 /** Get string context class */
 require GESHI_CLASSES_ROOT . 'class.geshistringcontext.php';
@@ -163,6 +163,9 @@ define('GESHI_COMPLEX_TOKENIZE', GESHI_COMPLEX_TOKENISE);
 /**
  * The GeSHi class
  *
+ * This class provides the public interface. The actual highligting is offloaded
+ * to elsewhere.
+ * 
  * @package    geshi
  * @subpackage core 
  * @author     Nigel McNie <nigel@geshi.org>
@@ -323,6 +326,7 @@ class GeSHi
      *   to {@link GeSHi::parseCode()}.</li>
      *   <li>If youpass <b>'parse'</b>, you will get the time it took to parse the last
      *   time {@link GeSHi::parseCode()} was called.
+     * </ul>
      *
      * @param  string What time you want to access
      * @return mixed The time if there is a time, else false if there was an error

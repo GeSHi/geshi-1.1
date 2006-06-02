@@ -29,9 +29,14 @@
  * @package    geshi
  * @subpackage lang
  * @author     Tim Wright <tim.w@clear.net.nz>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2005 - 2006 Tim Wright, Nigel McNie
  * @version    $Id$
  *
+ */
+ 
+ /**#@+
+ * @access private
  */
  
 /** Get the GeSHiSingleCharContext class */
@@ -2760,5 +2765,7 @@ function geshi_java_java_multi_comment (&$context)
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
 }
+
+/**#@-*/
 
 ?>

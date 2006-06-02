@@ -29,11 +29,12 @@
  * You can view a copy of the GNU GPL in the COPYING file that comes
  * with GeSHi, in the docs/ directory.
  *
- * @package   lang
- * @author    Benny Baumann <BenBE@benbe.omorphia.de>, Nigel McNie <nigel@geshi.org>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright (C) 2004 - 2006 Nigel McNie
- * @version   $Id$
+ * @package    geshi
+ * @subpackage lang
+ * @author     Benny Baumann <BenBE@benbe.omorphia.de>, Nigel McNie <nigel@geshi.org>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * @copyright  (C) 2004 - 2006 Nigel McNie
+ * @version    $Id$
  *
  */
 
@@ -43,10 +44,11 @@ require_once GESHI_CLASSES_ROOT . 'class.geshicodeparser.php';
 /**
  * The GeSHiDelphiCodeParser class
  *
- * @package lang
- * @author  Benny Baumann <BenBE@benbe.omorphia.de>, Nigel McNie <nigel@geshi.org>
- * @since   1.1.1
- * @version $Revision$
+ * @package    geshi
+ * @subpackage lang
+ * @author     Benny Baumann <BenBE@benbe.omorphia.de>, Nigel McNie <nigel@geshi.org>
+ * @since      1.1.1
+ * @version    $Revision$
  */
 class GeSHiDelphiCodeParser extends GeSHiCodeParser
 {

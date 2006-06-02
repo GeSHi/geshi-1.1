@@ -34,7 +34,16 @@
  * @version    $Id$
  * 
  */
- 
+
+/**
+ * The Java code parser.
+ * 
+ * @package    geshi
+ * @subpackage lang
+ * @author     Tim Wright <tim.w@clear.net.nz>
+ * @since      1.1.1
+ * @version    $Revision$
+ */
 class GeSHiJavaCodeParser extends GeSHiCodeParser
 { 
  

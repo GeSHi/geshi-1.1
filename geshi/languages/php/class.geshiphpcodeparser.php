@@ -38,10 +38,11 @@
 /**
  * The GeSHiPHPCodeParser class
  * 
- * @package core
- * @author  Nigel McNie <nigel@geshi.org>
- * @since   1.1.1
- * @version $Revision$
+ * @package    geshi
+ * @subpackage lang
+ * @author     Nigel McNie <nigel@geshi.org>
+ * @since      1.1.1
+ * @version    $Revision$
  */
 class GeSHiPHPCodeParser extends GeSHiCodeParser
 {

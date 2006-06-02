@@ -1,7 +1,11 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
+ * <pre>
+ *   File:   geshi/languages/web3d/vrml97.php
+ *   Author: Nigel McNie
+ *   E-mail: nigel@geshi.org
+ * </pre>
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -25,12 +29,17 @@
  * You can view a copy of the GNU GPL in the COPYING file that comes
  * with GeSHi, in the docs/ directory.
  *
- * @package   lang
- * @author    Nigel McNie <nigel@geshi.org>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright (C) 2005 Nigel McNie
- * @version   1.1.0alpha4
+ * @package    geshi
+ * @subpackage lang
+ * @author     Nigel McNie <nigel@geshi.org>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * @copyright  (C) 2004 - 2006 Nigel McNie
+ * @version    $Id$
  *
+ */
+
+/**#@+
+ * @access private
  */
 
 function geshi_web3d_vrml97 (&$context)
@@ -187,5 +196,7 @@ function geshi_web3d_vrml97_string (&$context)
         array('REGEX#javascript:#', 'REGEX#ecmascript:#', 'REGEX#vrmlscript:#'), '"',
         false, GESHI_CHILD_PARSE_LEFT);
 }
+
+/**#@-*/
 
 ?>

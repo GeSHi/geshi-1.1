@@ -38,6 +38,10 @@
  *
  */
 
+/**#@+
+ * @access private
+ */
+
 function geshi_qbasic_qbasic (&$context)
 {
     $context->addChild('string');
@@ -110,5 +114,7 @@ function geshi_qbasic_url ($keyword)
 {
     return 'http://qboho.qbasicnews.com/qboho/qck' . strtolower($keyword) . '.html';
 }
+
+/**#@-*/
 
 ?>

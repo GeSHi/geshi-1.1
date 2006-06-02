@@ -36,9 +36,15 @@
  */
 
 $GLOBALS['geshi_dbg'] = false;
+/**
+ * @access private
+ */
 function geshi_dbg_on () {
     $GLOBALS['geshi_dbg'] = true;
 }
+/**
+ * @access private
+ */
 function geshi_dbg_off () {
     $GLOBALS['geshi_dbg'] = false;
 }
@@ -52,6 +58,7 @@ function geshi_dbg_off () {
  *            the GESHI_DBG_* constants
  * @param boolean Whether to add a newline to the message
  * @param boolean Whether to return the count of errors or not
+ * @access private
  */
 function geshi_dbg ($message, $add_nl = true)
 {
@@ -110,8 +117,9 @@ function geshi_dbg ($message, $add_nl = true)
  *
  * The file must be within the GESHI_ROOT directory
  *
- * @param string The absolute pathname of the file to check
+ * @param  string  The absolute pathname of the file to check
  * @return boolean Whether the file is readable by GeSHi
+ * @access private
  */
 function geshi_can_include ($file_name)
 {
@@ -162,6 +170,7 @@ function geshi_can_include ($file_name)
  * <pre> 'pos' => position in string of needle,
  * 'len' => length of match
  * 'tab' => a table of the stuff matched in brackets for a regular expression</pre>
+ * @access private
  */
 function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = false, $need_table = false)
 {
@@ -200,6 +209,7 @@ function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = 
 /**
  * @todo [blocking 1.1.5] Octal/hexadecimal numbers are common, so should have functions
  *       for those, and make sure that integers/doubles do not collide
+ * @access private
  */
 
 function geshi_is_whitespace ($token)
@@ -231,6 +241,7 @@ function geshi_is_whitespace ($token)
  * 
  * @author      Aidan Lister <aidan@php.net>, Nigel McNie <nigel@geshi.org>
  * @version     $Revision$
+ * @access private
  */
 if (!function_exists('stripos')) {
 	function stripos ( $haystack, $needle, $offset = null )
@@ -260,6 +271,7 @@ if (!function_exists('stripos')) {
  * @param boolean $force_new If true, forces the creation of
  *                           a new GeSHi_Parser object
  * @return GeSHi_Styler
+ * @access private
  */
 function &geshi_styler ($force_new = false)
 {

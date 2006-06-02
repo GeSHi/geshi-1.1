@@ -29,12 +29,13 @@
  * You can view a copy of the GNU GPL in the COPYING file that comes
  * with GeSHi, in the docs/ directory.
  *
- * @package   core
- * @author    http://clc-wiki.net/wiki/User:Netocrat
- * @link      http://clc-wiki.net/wiki/Development:GeSHi_C Bug reports
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright (C) 2006 Netocrat
- * @version   $Id$
+ * @package    geshi
+ * @subpackage lang
+ * @author     http://clc-wiki.net/wiki/User:Netocrat
+ * @link       http://clc-wiki.net/wiki/Development:GeSHi_C Bug reports
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * @copyright  (C) 2006 Netocrat
+ * @version    $Id$
  *
  */
 
@@ -64,10 +65,11 @@ define('GESHI_C_PPHDRPROV' , 32);
 /**
  * The GeSHiCCodeParser class
  *
- * @package core
- * @author  http://clc-wiki.net/wiki/User:Netocrat
- * @since   1.1.1
- * @version $Revision$
+ * @package    geshi
+ * @subpackage lang
+ * @author     http://clc-wiki.net/wiki/User:Netocrat
+ * @since      1.1.1
+ * @version    $Revision$
  */
 class GeSHiCCodeParser extends GeSHiCodeParser
 {

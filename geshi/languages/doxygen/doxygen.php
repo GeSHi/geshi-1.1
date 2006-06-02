@@ -35,6 +35,10 @@
  * 
  */
 
+/**#@+
+ * @access private
+ */
+
 /** @todo How to document the language file functions? */
 function geshi_doxygen_doxygen (&$context)
 {
@@ -62,5 +66,7 @@ function geshi_doxygen_doxygen_htmltag (&$context)
     $context->addDelimiters('REGEX#<[/a-z_0-6]+#i', '>');
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
+
+/**#@-*/
 
 ?>

@@ -27,12 +27,16 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  *
  * @package    geshi
- * @subpackage core
+ * @subpackage lang
  * @author     Nigel McNie <nigel@geshi.org>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Nigel McNie
  * @version    $Id$
  * 
+ */
+
+/**#@+
+ * @access private
  */
 
 function geshi_css_common (&$context)
@@ -62,5 +66,7 @@ function geshi_css_common (&$context)
             1 => array('css/css/id', false)
     ));
 }
+
+/**#@-*/
 
 ?>
