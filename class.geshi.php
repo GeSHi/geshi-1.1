@@ -42,7 +42,7 @@
 $geshi_old_reporting_level = error_reporting(E_ALL);
 
 /** GeSHi Version */
-define('GESHI_VERSION', '1.1.1beta1dev');
+define('GESHI_VERSION', '1.1.1beta1');
 
 /** Set the correct directory separator */
 define('GESHI_DIR_SEP', ('WIN' != substr(PHP_OS, 0, 3)) ? '/' : '\\');
