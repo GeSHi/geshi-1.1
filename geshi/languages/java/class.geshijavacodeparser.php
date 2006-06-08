@@ -327,9 +327,11 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
         	if(substr($context_name, -8) == '/ootoken') {
         		$context_name = 'java/java/' . $this->_state;		
         	}
-        	if($token == ';') {
+            // NOTE: had to be changed as multiple symbols can be in the same token.
+            // This will change later, so this test can be re-simplified
+        	if (false !== strpos($token, ';')) {
         		$this->_state = '';	
-        	} elseif($context_name == $this->_language) {
+        	} elseif ($context_name == $this->_language) {
         		$context_name .= '/' . $this->_state;
         	}
         }
