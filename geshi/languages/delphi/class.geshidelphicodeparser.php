@@ -63,14 +63,6 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
     var $_state = '';
 
     /**
-     * A store for a token that we can use for remembering tokens
-     * across calls to parseToken().
-     *
-     * @todo [blocking 1.1.2] Change to a stack and move to parent
-     */
-    var $_store = null;
-
-    /**
      * Flag for default keyword fix
      * @var boolean
      * @access private
@@ -120,35 +112,6 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
     var $_instrExpected = false;
 
     // }}}
-    // {{{ _stackPush()
-
-    /**
-     * This method handles storing of stuff into a stack of elements.
-     */
-    function _stackPush ($token, $context_name, $data)
-    {
-        if ($this->_store) {
-            array_push($this->_store, array($token, $context_name, $data));
-        } else {
-            $this->_store = array(array($token, $context_name, $data));
-        }
-    }
-
-    // }}}
-    // {{{ _stackFlush()
-
-    /**
-     * This method returns the whole stacke including the current (additional) element passed.
-     */
-    function _stackFlush ($token, $context_name, $data)
-    {
-        $this->_stackPush($token, $context_name, $data);
-        $store = $this->_store;
-        $this->_store = false;
-        return $store;
-    }
-
-    // }}}
     // {{{ parseToken()
 
     /**
@@ -174,12 +137,12 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
         //Check if we got a whitespace
         if (geshi_is_whitespace($token)) {
             //If there's anything in the storage, simply add the whitespace
-            if ($this->_store) {
-                $this->_stackPush($token, $context_name, $data);
+            if ($this->_stack) {
+                $this->push($token, $context_name, $data);
                 return false;
             } else {
                 //Return the token as is ...
-                return $this->_stackFlush($token, $context_name, $data);
+                return $this->flush($token, $context_name, $data);
             }
         }
 
@@ -197,6 +160,9 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
                 $this->_defaultFlag = 0;
             }
         }
+        
+        // @todo for ben: I don't think alias_name is set anymore, maybe you want to check
+        // that this functionality works now?
         if (0 == $this->_defaultFlag && isset($data['alias_name']) && $data['alias_name'] == $this->_language . '/property') {
             $this->_defaultFlag = 1;
         }
@@ -204,6 +170,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
             $this->_defaultFlag = 2;
         }
 
+        // @todo for ben: now symbols are handed in one at a time, maybe this can be optimised?
         if ($context_name == $this->_language . '/brksym') {
             geshi_dbg('Detected bracket symbol context ...');
             for ($t2 = 0; $t2 < strlen($token); $t2++) {
@@ -307,37 +274,29 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
             $this->_semicolonFlag = true;
         }
 
-        if ($this->_store) {
+        if ($this->_stack) {
             // Check for various conditions ...
 
             // If we have a store we can check now to see if the current token is a bracket
             if ($context_name != $this->_language . '/brksym' || substr(trim($token), 0, 1) != '(') {
                 // Modify context to say that the keyword is actually just a bareword
-                $this->_store[0][1] = $this->_language;
+                $this->_stack[0][1] = $this->_language;
             }
-            return $this->_stackFlush($token, $context_name, $data);
+            //return $this->_stackFlush($token, $context_name, $data);
+            return $this->flush($token, $context_name, $data);
         }
 
         // If we detected a keyword, instead of passing it back we will make sure it has a bracket
         // after it, so we know for sure that it is a keyword. So we save it to "_store" and return false
         if (substr($context_name, 0, strlen($this->_language . '/stdproc')) == $this->_language . '/stdproc') {
-            $this->_stackPush($token, $context_name, $data);
+            $this->push($token, $context_name, $data);
             return false;
         }
 
         // Default action: just return the token (including all stored)
-        return $this->_stackFlush($token, $context_name, $data);
+        return $this->flush($token, $context_name, $data);
     }
 
-    // }}}
-    // {{{ flush()
-    
-    function flush() {
-        $store = $this->_store;
-        $this->_store = false;
-        return $store;
-    }
-    
     // }}}
 
 }
