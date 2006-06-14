@@ -44,6 +44,7 @@ $this->setStyle('constant', 'font-weight:bold;color:#000;');
 $this->setStyle('function', 'color:#006;');
 
 $this->setStyle('symbol', 'color:#008000;');
+$this->setStyle('varstart', 'color:#33f;');
 $this->setStyle('var', 'color:#33f;');
 
 $this->setStyle('num/int', 'color:#11e;');
@@ -70,10 +71,20 @@ $this->setStyle('heredoc/oodynamic', 'color:#933;');
 
 $this->setStyle('single_comment', 'color:#888;font-style:italic;');
 $this->setStyle('multi_comment', 'color:#888;font-style:italic;');
+$this->setStyle('phpdoc_comment', 'color:#555;font-style:italic;');
+$this->setStyle('phpdoc_comment/tag', 'color:#ca60ca;font-weight:bold;');
+$this->setStyle('phpdoc_comment/link', 'color:#0095ff;font-weight:bold;');
+$this->setStyle('phpdoc_comment/htmltag', 'color:#000;font-weight:bold;');
 
+// Stuff set in the code parser
 $this->setStyle('classname', 'color:#933;');
+$this->setStyle('definedconstant', 'font-weight:bold;color:#444;');
+$this->setStyle('phpdoc_comment/tagvalue', 'color:#0095ff;font-weight:bold;');
+$this->setStyle('phpdoc_comment/var', 'color:#33f;');
+$this->setStyle('functioncall', 'color:#600;font-weight:bold;');
+$this->setStyle('functionname', 'color:#600;');
 
 $this->loadStyles('html/html');
-$this->loadStyles('doxygen/doxygen');
+//$this->loadStyles('doxygen/doxygen');
 
 ?>
