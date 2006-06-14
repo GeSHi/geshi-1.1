@@ -41,6 +41,8 @@
 
 /** Get the GeSHiCodeParser class */
 require_once GESHI_CLASSES_ROOT . 'class.geshicodeparser.php';
+/** for geshi_c_get_non_std_preproc_directives_url() */
+require_once GESHI_LANGUAGES_ROOT . 'c' . GESHI_DIR_SEP . 'common.php';
 
 /**
  * Parsing states; should be powers of two due to the implications of the
@@ -105,16 +107,6 @@ class GeSHiCCodeParser extends GeSHiCodeParser
      */
     var $_provisional_hdr;
 
-    // }}}
-    // {{{ GeSHiCCodeParser()
-    
-    function GeSHiCCodeParser(&$styler, $language)
-    {
-        $this->GeSHiCodeParser($styler, $language);
-        /** for geshi_c_get_non_std_preproc_directives_url() */
-        require_once GESHI_LANGUAGES_ROOT.'c'.GESHI_DIR_SEP.'common.php';
-    }
-    
     // }}}
     // {{{ parseToken()
     
