@@ -68,7 +68,7 @@ class GeSHiRendererHTML extends GeSHiRenderer
         $result = '';
         if (isset($data['url'])) {
             // There's a URL associated with this token
-            $result .= '<a href="' . $data['url'] . '">';
+            $result .= '<a href="' . htmlspecialchars($data['url']) . '">';
         }
         $result .= '<span style="' . $this->_styler->getStyle($context_name) . '" ';
         $result .= 'title="' . $context_name . '">' . htmlspecialchars($token) . '</span>';
