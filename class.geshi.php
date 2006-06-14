@@ -42,7 +42,7 @@
 $geshi_old_reporting_level = error_reporting(E_ALL);
 
 /** GeSHi Version */
-define('GESHI_VERSION', '1.1.1');
+define('GESHI_VERSION', '1.1.1alpha1dev');
 
 /** Set the correct directory separator */
 define('GESHI_DIR_SEP', ('WIN' != substr(PHP_OS, 0, 3)) ? '/' : '\\');
@@ -649,7 +649,7 @@ class GeSHi
         // Now the code parser (if existing) has been included,
         // create it if it is defined
         if (class_exists($codeparser_name)) {
-            $this->_styler->setCodeParser(new $codeparser_name($this->_styler, $this->_language));
+            $this->_styler->setCodeParser(new $codeparser_name($this->_language));
         }
         
         // Reset the styler parse data
