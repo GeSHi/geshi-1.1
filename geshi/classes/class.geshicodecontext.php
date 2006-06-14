@@ -196,7 +196,7 @@ class GeSHiCodeContext extends GeSHiContext
         
         $regex_matches = array();
         foreach ($this->_contextRegexps as $regex_group_key => $regex_data) {
-            geshi_dbg('  Regex group: ' . $regex_group_key);
+            //geshi_dbg('  Regex group: ' . $regex_group_key);
             // Set style of this group
             // $regex_data = array(
             //    0 => regex (with brackets to signify groupings
@@ -207,10 +207,10 @@ class GeSHiCodeContext extends GeSHiContext
             //   ...
             if (!$regex_data[1] || false !== strpos($code, $regex_data[1])) {
                 foreach ($regex_data[0] as $regex) {
-                    geshi_dbg('    Trying regex ' . $regex . '... ', false);
+                    //geshi_dbg('    Trying regex ' . $regex . '... ', false);
                     $matches = array();
                     preg_match_all($regex, $code, $matches);
-                    geshi_dbg('found ' . count($matches[0]) . ' matches');
+                    //geshi_dbg('found ' . count($matches[0]) . ' matches');
                     
                     // If there are matches...
                     if (count($matches[0])) {
@@ -233,7 +233,7 @@ class GeSHiCodeContext extends GeSHiContext
                 }
             }
         }
-        geshi_dbg('    Regex matches: ' . str_replace("\n", "\r", print_r($regex_matches, true)));    
+        //geshi_dbg('    Regex matches: ' . str_replace("\n", "\r", print_r($regex_matches, true)));    
 
         $regex_replacements = array();
         foreach ($regex_matches as $data) {
@@ -248,8 +248,7 @@ class GeSHiCodeContext extends GeSHiContext
                     // If there is a name for this bracket group ($key) in this regex group ($data[1])...
                     if (isset($this->_contextRegexps[$data[1]][2][$key]) && is_array($this->_contextRegexps[$data[1]][2][$key])) {
                         // If we should be attempting to have a go at code highlighting first... 
-                        if (/*isset($this->_contextRegexps[$data[1]][2][$key][1]) && */
-                            true === $this->_contextRegexps[$data[1]][2][$key][1]) {
+                        if (true === $this->_contextRegexps[$data[1]][2][$key][1]) {
                             // Highlight the match, and put the code into the result
                             $highlighted_matches = $this->_codeContextHighlight($match);
                             foreach ($highlighted_matches as $stuff) {
@@ -277,7 +276,7 @@ class GeSHiCodeContext extends GeSHiContext
                 }
             }
         }
-        geshi_dbg('  Regex replacements: ' . str_replace("\n", "\r", print_r($regex_replacements, true)));
+        //geshi_dbg('  Regex replacements: ' . str_replace("\n", "\r", print_r($regex_replacements, true)));
         //geshi_dbg_off();
         // Now what we do is make an array that looks like this:
         // array(
@@ -349,6 +348,7 @@ class GeSHiCodeContext extends GeSHiContext
                 geshi_dbg('  Regex replacements available at position ' . $i . ': ' . $regex_replacements[$i][0][0] . '...');
                 // There's regular expressions expected to go here
                 foreach ($regex_replacements[$i] as $replacement) {
+                    // should be .= ?????
                     $result[++$result_pointer] = $replacement;
                 }
                 // Allow keyword matching immediately after regular expressions
@@ -443,6 +443,13 @@ class GeSHiCodeContext extends GeSHiContext
             } else {
                 // Check for a symbol instead
                 $this->_checkForSymbol($char, $result, $result_pointer);
+                /*foreach ($this->_contextSymbols as $symbol_data) {
+                    if (in_array($char, $symbol_data[0])) {
+                        $result[++$result_pointer] = array($char, $symbol_data[1], '');
+                        continue;
+                    }
+                }*/
+                //$result[++$result_pointer] = array($char, $this->_contextName);
             }
 
             /// If we move this to the end we might be able to get rid of the last one [DONE]
@@ -483,16 +490,17 @@ class GeSHiCodeContext extends GeSHiContext
             if (in_array($possible_symbol, $symbol_data[0])) {
                 // we've matched the symbol in $symbol_group
                 // start the current symbols string
-                if ($result[$result_pointer][1] == $symbol_data[1]) {
-                    $result[$result_pointer][0] .= $possible_symbol;
-                } else {
+                //if ($result[$result_pointer][1] == $symbol_data[1]) {
+                //    $result[$result_pointer][0] .= $possible_symbol;
+                //} else {
                     $result[++$result_pointer] = array($possible_symbol, $symbol_data[1]);
-                }
+                //}
                 $skip = true;
                 break;
             }
         }
         if (!$skip) {
+            // Multiple chars in same context should be concatenated
             if ($result[$result_pointer][1] == $this->_contextName) {
                 $result[$result_pointer][0] .= $possible_symbol;
             } else {
