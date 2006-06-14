@@ -43,8 +43,8 @@ $this->setStyle('comment', 'color:#888;font-style:italic;');
 
 $this->setStyle('psuedoclass', 'color:#33f;');
 $this->setStyle('symbol', 'color:#008000;');
-$this->setStyle('class', 'color:#c9c;');
-$this->setStyle('id', 'color:#c9c;font-weight:bold;');
+$this->setStyle('class', 'color:#969;');
+$this->setStyle('id', 'color:#969;font-weight:bold;');
 
 $this->setStyle('rule/start', 'font-weight:bold;color:#000;');
 $this->setStyle('rule/end', 'font-weight:bold;color:#000;');
