@@ -39,13 +39,11 @@
  */
 
 /**
- * The GeSHiCodeParser class. An abstract implementation
- * of a class that can receive tokens, modify them and
- * send them back.
+ * The GeSHiCodeParser class. An abstract implementation of a class that can receive tokens,
+ * modify them and send them back.
  * 
- * A language might use this to improve highlighting by
- * detecting things that the context tree cannot detect
- * by itself.
+ * A language might use this to improve highlighting by detecting things that the context
+ * tree cannot detect by itself.
  * 
  * @package    geshi
  * @subpackage core
@@ -62,23 +60,34 @@
  */
 class GeSHiCodeParser
 {
+    
     // {{{ properties
+    
+    /**#@+
+     * @access private
+     */
     
     /**
      * The GeSHiStyler being used to highlight the code
      * 
      * @var GeSHiStyler
-     * @access private
      */
-    var $_styler;
+    var $_styler = null;
     
     /**
      * The language/dialect that is being highlighted
      * 
      * @var string
-     * @access private
      */
-    var $_language;
+    var $_language = '';
+    
+    /**
+     * A stack. Not necessary for all code parsers but this class provides a common
+     * implementation
+     */
+    var $_stack = array();
+    
+    /**#@-*/
     
     // }}}
     // {{{ GeSHiCodeParser()
@@ -88,10 +97,10 @@ class GeSHiCodeParser
      * 
      * @param GeSHiStyler The styler oject to use
      */
-    function GeSHiCodeParser(&$styler, $language)
+    function GeSHiCodeParser($language)
     {
-        $this->_styler =& $styler;
-        $this->_language = $language;
+        $this->_styler   =& geshi_styler();
+        $this->_language =  $language;
     }
     
     // }}}
@@ -110,6 +119,17 @@ class GeSHiCodeParser
     function parseToken ($token, $context_name, $data) {}
     
     // }}}
+    // {{{ push()
+
+    /**
+     * This method handles storing of stuff into a stack of elements.
+     */
+    function push ($token, $context_name, $data)
+    {
+        $this->_stack[] =  array($token, $context_name, $data);
+    }
+
+    // }}}
     // {{{ flush()
     
     /**
@@ -117,7 +137,19 @@ class GeSHiCodeParser
      * 
      * @return array The contents of the stack
      */
-    function flush() {}
+    function flush ($token = '', $context_name = '', $data = array())
+    {
+        if ('' != $token) {
+            $this->push($token, $context_name, $data);
+        }
+        $result = $this->_stack;
+        // Does this do anything?
+        if (!$result) {
+            $result = false;
+        }
+        $this->_stack = array();
+        return $result;
+    }
     
     // }}}
     
