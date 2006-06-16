@@ -119,6 +119,24 @@ class GeSHiCodeParser
     function parseToken ($token, $context_name, $data) {}
     
     // }}}
+    // {{{ sourcePreProcess()
+    
+    /**
+     * Is given the entire source code before parsing begins so that various information
+     * about the source can be stored.
+     * 
+     * This method is completely optional. Note that there is no postprocess method - the
+     * information gathered by this method should be exploited by {@link parseToken()}
+     * 
+     * @param  string The source code
+     * @return string The source code modified as necessary
+     */
+    function sourcePreProcess ($code)
+    {
+        return $code;
+    }
+    
+    // }}}
     // {{{ push()
 
     /**
