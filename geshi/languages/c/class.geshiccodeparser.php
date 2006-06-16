@@ -78,16 +78,21 @@ class GeSHiCCodeParser extends GeSHiCodeParser
     
     // {{{ properties
     
+    /**#@+
+     * @access private
+     */
+    
     /**
      * A flag that can be used for the "state" of parsing
+     * 
      * @var string
-     * @access private
      */
     var $_state = GESHI_C_NORMAL;
 
     /**
      * Whether to highlight preprocessor sub-directives that are valid only
      * within a #if or #elif block - currently only "defined" applies.
+     * 
      * @var boolean
      */
     var $_hltIfElifPPkeyWords;
@@ -96,21 +101,38 @@ class GeSHiCCodeParser extends GeSHiCodeParser
      * Whether we've yet found an initial hash for a preprocessor directive.
      *
      * @var boolean
-     * @access private
      */
     var $_initial_hash;
 
     /**
      * The incrementally-built header filename within the <> of #include
+     * 
      * @var array
-     * @access private
      */
     var $_provisional_hdr;
 
+    /**
+     * A list of the locations where "\\\n" occurs in the source (e.g. a backslash followed
+     * by a newline).
+     * 
+     * @var array
+     */
+    var $_escapedNewlineLocations = array();
+    
+    /**
+     * The current location that we are up to when parsing the source. Used to re-insert
+     * the "\\\n" occurances
+     * 
+     * @var int
+     */
+    var $_parseLocation = 0;
+    
+    /**#@-*/
+    
     // }}}
     // {{{ parseToken()
     
-    function parseToken($token, $context_name, $data)
+    function parseToken ($token, $context_name, $data)
     {
         $flush_stdhdr = false;
         $ret = array(&$token, &$context_name, &$data);
@@ -124,7 +146,7 @@ class GeSHiCCodeParser extends GeSHiCodeParser
         }
 
         $skipfirst = false;
-        /** Highlight and link preprocessor directives. */
+        // Highlight and link preprocessor directives.
         if ($context_name == $this->_language.'/preprocessor/end') {
             $this->_state = GESHI_C_NORMAL;
         } else if ($this->_state == GESHI_C_PPSTART) {
@@ -159,18 +181,18 @@ class GeSHiCCodeParser extends GeSHiCodeParser
             }
         }
 
-        /**
-         * Mark everything following a non-standard preprocessor directive;
-         * also mark the directive itself.
-         */
+        //
+        // Mark everything following a non-standard preprocessor directive; also mark the
+        // directive itself.
+        //
         if ($this->_state == GESHI_C_PPNONSTD) {
             $context_name = $this->_language.'/preprocessor/nonstd';
         }
 
-        /**
-         * Highlight and link standard headers; also concatenate tokenised
-         * header names into a single token to remove symbol contexts.
-         */
+        //
+        // Highlight and link standard headers; also concatenate tokenised
+        // header names into a single token to remove symbol contexts.
+        //
         if ($this->_state == GESHI_C_PPINCLUDE) {
             if ($token{0} == '<') {
                 $this->_state = GESHI_C_PPHDRSTART;
@@ -191,6 +213,7 @@ class GeSHiCCodeParser extends GeSHiCodeParser
                 $ret = false;
             }
         }
+        
         if ($flush_stdhdr) {
             $hdrtoken[0] = $this->_provisional_hdr;
             $hdrtoken[1] = $this->_language.'/preprocessor/include';
@@ -208,10 +231,10 @@ class GeSHiCCodeParser extends GeSHiCodeParser
             $this->_provisional_hdr = ''; // redundant but included for safety
         }
 
-        /**
-         * Highlight and link sub-directives that can only occur within a #if or
-         * #elif preprocessor directive (i.e. "defined").
-         */
+        //
+        // Highlight and link sub-directives that can only occur within a #if or
+        // #elif preprocessor directive (i.e. "defined").
+        //
         if (($this->_state & GESHI_C_PP) && !$skipfirst &&
           $this->_hltIfElifPPkeyWords) {
             if (in_array($token, geshi_c_get_if_elif_PP_subdirectives())) {
@@ -220,7 +243,102 @@ class GeSHiCCodeParser extends GeSHiCodeParser
             }
         }
 
+
+        //
+        // Now we look at the data we have from looking at the source before parsing began.
+        // This data tells us where "\\\n" occurs in the source. We took them out then so
+        // that the parser could highlight everything normally, but now we need to put them
+        // back in.
+        //
+        // The possibility that sometimes $ret may contain an array of tokens complicates
+        // things somewhat, but hopefully this code is portable enough to handle that.
+        //
+        
+        // Firstly: if we are storing data for later, return
+        if (false === $ret) {
+            return false;
+        }
+        
+        // Check that there is a location to search for. Code below removes occurances as
+        // they happen so once there are no more occurances this will never execute.
+        if (isset($this->_escapedNewlineLocations[0])) {
+            $result = array();
+            $location = $this->_parseLocation;
+            
+            // Get a copy of the token (not a reference) that we can clobber as we please,
+            // and put into the "array of tokens" form.
+            if (!is_array($ret[0])) {
+                $thetokens = array($ret);
+                $length = strlen($thetokens[0][0]);
+            } else {
+                // This makes the assumption that returned array of arrays only has two
+                // elements. This is true for the code parser as of 2006/06/17, if it is
+                // not true in the future then a more portable length gathering loop will
+                // have to be written
+                $thetokens = $ret;
+                $length = strlen($thetokens[0][0]) + strlen($thetokens[1][0]);
+            }
+            
+            foreach ($thetokens as $eachtoken) {
+                $sublocation = 0;
+                // Check to see if the next occurance happens inside this token (the while
+                // loop allows the check to be done multiple times for the same token)
+                while (isset($this->_escapedNewlineLocations[0]) &&
+                    $location + strlen($eachtoken[0]) - $sublocation >=
+                    $this->_escapedNewlineLocations[0]) {
+                    // If inside the loop then we found an occurance, this gets the position
+                    // of the occurance inside the current token.
+                    $pos = array_shift($this->_escapedNewlineLocations) - $location;
+                    // Store the part before the occurance
+                    $result[] = array(substr($eachtoken[0], $sublocation, $pos), $eachtoken[1],
+                        $eachtoken[2]);
+                    // Store the occurance
+                    $result[] = array("\\\n", $this->_language, array());
+                    // Do some fancy math:
+                    //   - the base location of where we are up to has increased ($location)
+                    //   - the location inside the token has increased ($sublocation)
+                    //   - the length of the string has increased because of the occurance
+                    $location += $pos + 2;
+                    $sublocation += $pos;
+                    $length += 2;
+                }
+                // Now we add what ever is left after adding occurances. This may be the
+                // entire token if no occurances happened inside it.
+                $result[] = array(substr($eachtoken[0], $sublocation), $eachtoken[1], $eachtoken[2]);
+            }
+
+            // Increment where we are up to
+            $this->_parseLocation += $length;
+            return $result;
+        }
+        
+        // No fancy "\\\n" replacement happening (note at this point we have given up
+        // incrementing the parse location because it's no longer needed).
         return $ret;
+    }
+    
+    // }}}
+    // {{{ sourcePreProcess()
+    
+    /**
+     * Finds locations of "\\\n" and removes them from the source.
+     * 
+     * They are re-inserted when parseToken is being called.
+     * 
+     * @param  string $code The source code to use
+     * @return string       The code with all instances of "\\\n" removed
+     */
+    function sourcePreProcess ($code)
+    {
+        // Find all places where "\\\n" occur, and store a list of those locations
+        $pos = -1;
+        while (false !== ($pos = strpos($code, "\\\n", $pos + 1))) {
+            $this->_escapedNewlineLocations[] = $pos;
+        }
+
+        // Remove all occurances of "\\\n" so they don't interfere with parsing
+        $code = str_replace("\\\n", '', $code);
+        return $code;
     }
     
     // }}}
