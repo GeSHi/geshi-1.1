@@ -47,7 +47,7 @@ function geshi_php_php (&$context)
     geshi_php_common($context);
     
     // Standard PHP keywords
-    $context->addKeywordGroup(array(
+    /*$context->addKeywordGroup(array(
         'as', 'break', 'case', 'continue', 'do', 'declare', 'else', 'elseif',
         'endforeach', 'endif', 'endswitch', 'endwhile', 'for', 'foreach', 'if',
         'include', 'include_once', 'require', 'require_once', 'return', 'switch',
@@ -57,10 +57,18 @@ function geshi_php_php (&$context)
         'parent', 'private', 'protected', 'public', 'self', 'static', 'throw',
         'try', 'var',
         'real', 'double'
-    ), 'keyword');
-    
+    ), 'keyword');*/
+    /*
+    $constants = array_keys(get_defined_constants());
+    $output = '';
+    for ($i = 0; $i <= 706; $i++) {
+        $output .= "'" . $constants[$i] . "', ";
+    }
+    $output = wordwrap($output, 71, '<br>');
+    echo $output;exit;
+    */
     // Constants
-    $context->addKeywordGroup(array(
+    /*$context->addKeywordGroup(array(
         'DEFAULT_INCLUDE_PATH', 'E_ALL', 'E_COMPILE_ERROR', 'E_COMPILE_WARNING',
         'E_CORE_ERROR', 'E_CORE_WARNING', 'E_ERROR', 'E_NOTICE', 'E_PARSE',
         'E_STRICT', 'E_USER_ERROR', 'E_USER_NOTICE', 'E_USER_WARNING',
@@ -70,7 +78,13 @@ function geshi_php_php (&$context)
         'PHP_OUTPUT_HANDLER_END', 'PHP_OUTPUT_HANDLER_START', 'PHP_SYSCONFDIR',
         'PHP_VERSION', 'TRUE', '__CLASS__', '__FILE__', '__FUNCTION__',
         '__LINE__', '__METHOD__'
-    ), 'constant');
+    ), 'constant');*/
+    
+    // @todo [blocking 1.1.2] update this list to be correct (should include
+    // all PHP extensions, and if it does, what about constants? Should the
+    // constant list include them all? Probably should..., perhaps with an
+    // option later to behave like php-brief, by removing some functions and
+    // constants from highlighting).
     
     // Functions
     $context->addKeywordGroup(array(
