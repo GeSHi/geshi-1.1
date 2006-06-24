@@ -573,16 +573,18 @@ class GeSHi
     function parseCode ()
     {
         $this->_times['pre'][0] = microtime();
-        $this->_parsePreProcess();
+        $result = $this->_parsePreProcess();
         $this->_times['pre'][1] = $this->_times['parse'][0] = microtime();
 
-        // The important bit - parse the code
-        $this->_rootContext->parseCode($this->_source);
+        if ($result) {
+            // The important bit - parse the code
+            $this->_rootContext->parseCode($this->_source);
+        }
 
         $this->_times['parse'][1] = $this->_times['post'][0] = microtime();
         $result = $this->_parsePostProcess();
         $this->_times['post'][1] = microtime();
-        
+
         return $result;
     }
 
@@ -625,7 +627,19 @@ class GeSHi
         
         // Get data
         // This just defines a few functions (geshi_$langname_$dialectname[_$contextname])
-        require_once $this->_getLanguageDataFile();
+        $file = $this->_getLanguageDataFile();
+        if (geshi_can_include($file)) {
+            require_once $file;
+        } else {
+            $file = GESHI_LANGUAGES_ROOT . 'default/default.php';
+            if (geshi_can_include($file)) {
+                require_once $file;
+            } else {
+                // @todo [blocking 1.1.2] graceful error handling when a
+                // language does not exist
+                trigger_error('Language does not exist', E_USER_ERROR);
+            }
+        }
         
         // Build the context tree. This creates a new context which calls a function which may
         // define children contexts etc. etc.
@@ -660,6 +674,8 @@ class GeSHi
         $this->_styler->resetParseData();
         // Remove contexts from the parse tree that aren't interesting
         $this->_rootContext->trimUselessChildren($this->_source);
+        
+        return true;
     }
 
     // }}}
