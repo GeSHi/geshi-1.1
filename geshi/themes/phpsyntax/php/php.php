@@ -39,6 +39,7 @@
 $this->setRawStyle('php/php/*', 'color:#00b');
 
 $this->setStyle('keyword', 'color:#070;');
+$this->setStyle('type', 'color:#070;');
 
 $this->setStyle('symbol', 'color:#070;');
 

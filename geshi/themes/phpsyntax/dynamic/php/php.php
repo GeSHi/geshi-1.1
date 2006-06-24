@@ -35,6 +35,7 @@
 
 /*
  * PHP styles for phpsyntax dynamic theme
+ * @todo [blocking 1.1.2] add semi-colons to style definitions
  */
 $string  = ini_get('highlight.string');
 $comment = ini_get('highlight.comment');
@@ -46,6 +47,7 @@ $html    = ini_get('highlight.html');
 $this->setRawStyle('php/php/*', 'color:' . $default);
 
 $this->setStyle('keyword', 'color:' . $keyword);
+$this->setStyle('type', 'color:' . $keyword);
 
 $this->setStyle('symbol', 'color:' . $keyword);
 

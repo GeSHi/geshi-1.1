@@ -40,6 +40,7 @@ $this->setStyle('start', 'font-weight:bold;color:#000;');
 $this->setStyle('end', 'font-weight:bold;color:#000;');
 
 $this->setStyle('keyword', 'color:#a1a100;');
+$this->setStyle('type', 'color:#7f0055;');
 $this->setStyle('constant', 'font-weight:bold;color:#000;');
 $this->setStyle('function', 'color:#006;');
 
@@ -85,6 +86,5 @@ $this->setStyle('functioncall', 'color:#600;font-weight:bold;');
 $this->setStyle('functionname', 'color:#600;');
 
 $this->loadStyles('html/html');
-//$this->loadStyles('doxygen/doxygen');
 
 ?>
