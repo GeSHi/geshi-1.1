@@ -37,34 +37,37 @@
 // normal code context
 
 // could format the next 2 differently
-$this->setStyle('ctlflow-keyword', 'color:#080;');
-$this->setStyle('symbol', 'color:#080;');
-$this->setStyle('member', 'font-weight:bold;');
+$this->setStyle('ctlflow-keyword'           , 'color:#080;'                  );
+$this->setStyle('symbol'                    , 'color:#080;'                  );
+$this->setStyle('member'                    , 'font-weight:bold;'            );
 // declarator-keyword and typeorqualifier tokens appear in the same context so
 // identical formatting makes sense
-$this->setStyle('declarator-keyword', 'color:#a1a100;');
-$this->setStyle('typeorqualifier', 'color:#a1a100;');
-$this->setStyle('stdfunction', 'color:#b06cc8;');
-$this->setStyle('stdmacroorobject', 'color:purple;');
-$this->setStyle('multi_comment', 'color:#888;font-style:italic;');
-$this->setStyle('single_comment', 'color:#888;font-style:italic;');
-$this->setStyle('num/dbl', 'color:#5eafff;');
+$this->setStyle('declarator-keyword'        , 'color:#a1a100;'               );
+$this->setStyle('typeorqualifier'           , 'color:#a1a100;'               );
+$this->setStyle('stdfunction'               , 'color:#b06cc8;'               );
+$this->setStyle('stdmacroorobject'          , 'color:purple;'                );
+$this->setStyle('multi_comment'             , 'color:#888;font-style:italic;');
+$this->setStyle('single_comment'            , 'color:#888;font-style:italic;');
+$this->setStyle('num/dbl'                   , 'color:#5eafff;'               );
 // a character constant is an int, so identical formatting makes sense
-$this->setStyle('num/int', 'color:#33f;');
-$this->setStyle('character_constant', 'color:#33f;');
-$this->setStyle('character_constant/esc', 'color: black; font-weight:bold;');
-$this->setStyle('string_literal', 'color:#cd3333;');
-$this->setStyle('string_literal/esc', 'color: black; font-weight:bold;');
+$this->setStyle('num/int'                   , 'color:#33f;'                  );
+$this->setStyle('character_constant'        , 'color:#33f;'                  );
+// there's probably no advantage in colouring escapes differently here...
+$this->setStyle('character_constant/esc'    , 'color:#33f;'                  );
+$this->setStyle('widecharacter_constant'    , 'color:#7ac5cd;'               );
+// ...or here...
+$this->setStyle('widecharacter_constant/esc', 'color:#7ac5cd;'               );
+$this->setStyle('string_literal'            , 'color:#cd853f;'               );
+// ...but in string literals it's handy
+$this->setStyle('string_literal/esc'        , 'color:#754b24;'               );
+$this->setStyle('widestring_literal'        , 'color:#cd661d;'               );
+$this->setStyle('widestring_literal/esc'    , 'color:#754b24;'               );
 
 // preprocessor context - preprocessor-specific
 
 // any preprocessor token that doesn't fit something more specific below is
 // styled in this context i.e. it's equivalent to the root context for code
 $this->setStyle('preprocessor', 'font-style:italic; color:black;');
-// this currently only applies to whitespace including newlines, so it's not
-// currently effective
-$this->setStyle('preprocessor/start',
-  'font-style:italic; font-weight:bold; color:black;');
 // this styles any preprocessor directive preceded by a hash (as well as _Pragma
 // where equivalent), all # symbols (even when used as a # or ## operator), and
 // the "defined" preprocessor keyword within #if and #elif directives
@@ -73,19 +76,19 @@ $this->setStyle('preprocessor/directive',
 // this styles everything after the # for non-standard directives (including
 // the directive itself) to allow marking for portability awareness
 $this->setStyle('preprocessor/nonstd', 'font-style:italic; color:#444;');
-// matches only any standard header name in a #include directive
+// this styles "headername.h" - quotes included - within #include "headername.h"
+$this->setStyle('preprocessor/include/implheader',
+  'font-style:italic; color:#080;');
+// this styles headername.h in a #include <headername.h> directive but only when
+// headername.h matches a standard header name...
 $this->setStyle('preprocessor/include/stdheader',
   'font-style:italic; color:#b06cc8;');
-// commented out because these are currently contextualised as
-// preprocessor/symbol
-// the enclosing <> symbols
-//$this->setStyle('preprocessor/symbol/std_include',
-//  'font-style:italic; font-weight:bold; color:black;');
-// commented out because these are currently contextualised as part of a string
-// literal
-// the enclosing "" symbols
-//$this->setStyle('preprocessor/symbol/impl_include',
-//  'font-style:italic; color:#080;');
+// ...otherwise this style applies
+$this->setStyle('preprocessor/include/nonstdheader',
+  'font-style:italic; color:black;');
+// this styles the enclosing <> symbols of #include <headername.h>
+$this->setStyle('preprocessor/symbol/stdinclude',
+  'font-style:italic; font-weight:bold; color:black;');
 
 // preprocessor context - counterparts to normal code context
 
@@ -106,12 +109,20 @@ $this->setStyle('preprocessor/single_comment', 'color:#888;font-style:italic;');
 $this->setStyle('preprocessor/num/dbl', 'color:#5eafff; font-style:italic;');
 $this->setStyle('preprocessor/num/int', 'color:#33f; font-style:italic;');
 $this->setStyle('preprocessor/character_constant',
- 'color:#33f; font-style:italic;');
+  'color:#33f; font-style:italic;');
 $this->setStyle('preprocessor/character_constant/esc',
-  'color: black; font-weight:bold; font-style:italic;');
+  'color:#33f; font-style:italic;');
+$this->setStyle('preprocessor/widecharacter_constant',
+  'color:#7ac5cd; font-style:italic;');
+$this->setStyle('preprocessor/widecharacter_constant/esc',
+  'color:#7ac5cd; font-style:italic;');
 $this->setStyle('preprocessor/string_literal',
-  'color:#cd3333; font-style:italic;');
+  'color:#cd853f; font-style:italic;');
 $this->setStyle('preprocessor/string_literal/esc',
-  'color: black; font-weight:bold; font-style:italic;');
+  'color:#754b24; font-weight:bold; font-style:italic;');
+$this->setStyle('preprocessor/widestring_literal',
+  'color:#cd661d; font-style:italic;');
+$this->setStyle('preprocessor/widestring_literal/esc',
+  'color:#754b24; font-weight:bold; font-style:italic;');
 
 ?>
