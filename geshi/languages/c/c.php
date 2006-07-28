@@ -109,20 +109,20 @@ function geshi_c_c_single_comment (&$context)
 // GeSHiCCodeParser::parseToken().
 function geshi_c_c_string_literal (&$context)
 {
-    geshi_c_base_string($context, '"', '"', false);
+    geshi_c_base_string($context, '"', array('"', 'REGEX#(?=\n)#'), false);
 }
 function geshi_c_c_widestring_literal (&$context)
 {
-    geshi_c_base_string($context, 'L"', '"', true);
+    geshi_c_base_string($context, 'L"', array('"', 'REGEX#(?=\n)#'), true);
 }
 
 function geshi_c_c_character_constant (&$context)
 {
-    geshi_c_base_string($context, "'", "'", false);
+    geshi_c_base_string($context, "'", array("'", 'REGEX#(?=\n)#'), false);
 }
 function geshi_c_c_widecharacter_constant (&$context)
 {
-    geshi_c_base_string($context, "L'", "'", true);
+    geshi_c_base_string($context, "L'", array("'", 'REGEX#(?=\n)#'), true);
 }
 
 function geshi_c_base_string (&$context, $delim_start, $delim_end, $delim_cs) {
