@@ -124,5 +124,4 @@ $this->setStyle('preprocessor/widestring_literal',
   'color:#cd661d; font-style:italic;');
 $this->setStyle('preprocessor/widestring_literal/esc',
   'color:#754b24; font-weight:bold; font-style:italic;');
-
 ?>
