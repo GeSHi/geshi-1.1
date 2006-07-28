@@ -39,6 +39,7 @@
 // could format the next 2 differently
 $this->setStyle('ctlflow-keyword'           , 'color:#080;'                  );
 $this->setStyle('symbol'                    , 'color:#080;'                  );
+$this->setStyle('symbol/line-continuation'  , 'font-weight:bold;'            );
 $this->setStyle('member'                    , 'font-weight:bold;'            );
 // declarator-keyword and typeorqualifier tokens appear in the same context so
 // identical formatting makes sense
@@ -54,9 +55,9 @@ $this->setStyle('num/int'                   , 'color:#33f;'                  );
 $this->setStyle('character_constant'        , 'color:#33f;'                  );
 // there's probably no advantage in colouring escapes differently here...
 $this->setStyle('character_constant/esc'    , 'color:#33f;'                  );
-$this->setStyle('widecharacter_constant'    , 'color:#7ac5cd;'               );
+$this->setStyle('widecharacter_constant'    , 'color:#21c5f7;'               );
 // ...or here...
-$this->setStyle('widecharacter_constant/esc', 'color:#7ac5cd;'               );
+$this->setStyle('widecharacter_constant/esc', 'color:#21c5f7;'               );
 $this->setStyle('string_literal'            , 'color:#cd853f;'               );
 // ...but in string literals it's handy
 $this->setStyle('string_literal/esc'        , 'color:#754b24;'               );
@@ -113,9 +114,9 @@ $this->setStyle('preprocessor/character_constant',
 $this->setStyle('preprocessor/character_constant/esc',
   'color:#33f; font-style:italic;');
 $this->setStyle('preprocessor/widecharacter_constant',
-  'color:#7ac5cd; font-style:italic;');
+  'color:#21c5f7; font-style:italic;');
 $this->setStyle('preprocessor/widecharacter_constant/esc',
-  'color:#7ac5cd; font-style:italic;');
+  'color:#21c5f7; font-style:italic;');
 $this->setStyle('preprocessor/string_literal',
   'color:#cd853f; font-style:italic;');
 $this->setStyle('preprocessor/string_literal/esc',
