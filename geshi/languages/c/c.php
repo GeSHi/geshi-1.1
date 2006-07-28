@@ -54,33 +54,37 @@ function geshi_c_c (&$context)
     $context->addChild('multi_comment');
     $context->addChild('single_comment');
     $context->addChild('string_literal', 'string');
-    $context->addChild('character_constant', 'singlechar');
+    $context->addChild('widestring_literal', 'string');
+    // Use 'string' rather than 'singlechar' because 'singlechar' requires a
+    // length of one, whereas C's character constant escape sequences can
+    // exceed one character in length - e.g. '\xFFFF'
+    $context->addChild('character_constant', 'string');
+    $context->addChild('widecharacter_constant', 'string');
     $context->addChild('preprocessor', 'code');
-    
+
     $context->addKeywordGroup(geshi_c_get_ctlflow_keywords(),
       'ctlflow-keyword', true, geshi_c_get_ctlflow_keywords_url());
 
     $context->addKeywordGroup(geshi_c_get_declarator_keywords(),
       'declarator-keyword', true, geshi_c_get_declarator_keywords_url());
-    
+
     $context->addKeywordGroup(geshi_c_get_types_and_qualifiers(),
       'typeorqualifier', true, geshi_c_get_types_and_qualifiers_url());
-    
+
     $context->addKeywordGroup(geshi_c_get_standard_functions(),
       'stdfunction', true, geshi_c_get_standard_functions_url());
-    
+
     $context->addKeywordGroup(geshi_c_get_standard_macros_and_objects(),
       'stdmacroorobject', true, geshi_c_get_standard_macros_and_objects_url());
-    
+
     $context->addSymbolGroup(geshi_c_get_standard_symbols(), 'symbol');
-    
+
     $context->useStandardIntegers();
     $context->useStandardDoubles(array('chars_after_number' => array('f','l')));
-    
+
     $context->addObjectSplitter(geshi_c_get_structure_access_symbols(),
       'member', 'symbol');
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
-    
 }
 
 function geshi_c_c_multi_comment (&$context)
@@ -91,42 +95,42 @@ function geshi_c_c_multi_comment (&$context)
 
 function geshi_c_c_single_comment (&$context)
 {
-    $context->addDelimiters('//', 'REGEX#(?<!\\\)\n#');
+    $context->addDelimiters('//', "\n");
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
-    // without this, detection of a following preprocessor directive is
-    // inhibited [due to changes this might no longer apply]
+    // Without this, and when the comment occurs at the end of a preprocessor
+    // directive, any immediately subsequent preprocessor directive is treated
+    // as a continuation of the first one.
     $context->parseDelimiters(GESHI_CHILD_PARSE_LEFT);
 }
 
+// A (wide)string literal may be continued to the next line with a trailing \
+// but otherwise multiline strings are illegal; this code doesn't attempt
+// to mark that error though.  The slash-continuation is handled generically in
+// GeSHiCCodeParser::parseToken().
 function geshi_c_c_string_literal (&$context)
 {
-    /*
-     * A string literal may be continued to the next line with a trailing \ but
-     * otherwise multiline strings are illegal; we don't attempt to mark that
-     * error here though.
-     */
-    $context->addDelimiters('"', '"');
-
-    $context->setEscapeCharacters('\\');
-    /** @todo string literals and character constants may be immediately
-      * preceded by a capital L to indicate a wide-character constant and it
-      * would be nice to include that in the highlighting.
-      */
-    $context->setCharactersToEscape(array("'", '?', 'a', 'b', 'f',
-        'v', 'n', 'r', 't', 'REGEX#[0-7]{1,3}#',
-        'REGEX#x[0-9a-f]{1,}#i', '\\', '"'));
+    geshi_c_base_string($context, '"', '"', false);
+}
+function geshi_c_c_widestring_literal (&$context)
+{
+    geshi_c_base_string($context, 'L"', '"', true);
 }
 
 function geshi_c_c_character_constant (&$context)
 {
-    $context->addDelimiters("'", "'");
+    geshi_c_base_string($context, "'", "'", false);
+}
+function geshi_c_c_widecharacter_constant (&$context)
+{
+    geshi_c_base_string($context, "L'", "'", true);
+}
 
+function geshi_c_base_string (&$context, $delim_start, $delim_end, $delim_cs) {
+    $context->addDelimiters($delim_start, $delim_end, $delim_cs);
     $context->setEscapeCharacters('\\');
-
-    /** @todo same todo as for geshi_c_c_string_literal(). */
-    $context->setCharactersToEscape(array("'", '?', 'a', 'b', 'f',
-        'v', 'n', 'r', 't', 'REGEX#[0-7]{1,3}#',
-        'REGEX#x[0-9a-f]{1,}#i', '\\', '"'));
+    $context->setCharactersToEscape(array("'", '"', '?', '\\', 'a', 'b', 'f',
+        'n', 'r', 't', 'v', 'REGEX#[0-7]{1,3}#', 'REGEX#x[0-9a-f]{1,}#i'));
+    $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
 /**
@@ -143,11 +147,19 @@ function geshi_c_c_preprocessor_single_comment (&$context)
 }
 function geshi_c_c_preprocessor_string_literal (&$context)
 {
-    geshi_c_c_string_literal($context);
+    geshi_c_c_string_literal ($context);
+}
+function geshi_c_c_preprocessor_widestring_literal (&$context)
+{
+    geshi_c_c_widestring_literal ($context);
 }
 function geshi_c_c_preprocessor_character_constant (&$context)
 {
     geshi_c_c_character_constant ($context);
+}
+function geshi_c_c_preprocessor_widecharacter_constant (&$context)
+{
+    geshi_c_c_widecharacter_constant ($context);
 }
 
 function geshi_c_c_preprocessor (&$context)
@@ -155,58 +167,40 @@ function geshi_c_c_preprocessor (&$context)
     /**
      * A preprocessing directive beginning with a # must occur at the start
      * of a line, but may optionally be preceded by whitespace.  The hash may
-     * optionally be followed by whitespace in the same manner, after which
-     * the actual directive keyword is specified.  Finally though, a hash
-     * without a following directive is allowed as a 'null directive'.
+     * optionally be followed by whitespace, after which the actual directive
+     * keyword is specified.  Finally though, a hash without a following
+     * directive is allowed as a 'null directive'.
      *
      * There is also a single preprocessing directive (_Pragma) that follows
-     * the same rules but is not preceded by a hash
+     * the same rules but that is not preceded by a hash
      *
      * The list of non-newline whitespace characters recognised by C and
      * used in the r.e. below is: [ \t\f\v]
-     *
-     * The rule that lines may be continued by appending a trailing \ character
-     * is no longer handled here because it added too much of a performance
-     * penalty and because after disabling child preprocessor contexts (now a
-     * permanent change) if we assume well-formed code it's unnecessary to
-     * detect here.  The handling of line-continuation by trailing \ was in any
-     * case incomplete - it didn't deal with e.g. a preprocessor directive
-     * split in the middle.  The parseToken() member function of
-     * GeSHiCCodeParser would need adjustment to handle that properly but
-     * before implementing it specifically for C highlighting there may be some
-     * generic functionality that we can implement to deal with it - see
-     * bug #81.
-     *
-     * Currently the main problem with highlighting due to line-continuation by
-     * backslash that can occur in well-formed code is when _Pragma is split -
-     * the regex below will then miss it.  We could deal with that by
-     * complicating the regex below but the performance implications would need
-     * testing first.
-     *
-     * The lesser problem is that individual directives are not detected
-     * within the parser when they have been split, meaning that the special-
-     * case handling for the directive is not initiated.  As written above, that
-     * could be handled by some logic in parseToken, but it may be preferable
-     * for GeSHi's core to implement the generic preprocessing handling of
-     * bug #81 instead.
      */
-    $context->addDelimiters(array(
-        'REGEX#((^|\n)([ \t\f\v]*)(?=(\#|_Pragma(\b))))#',
-    ), 'REGEX#(?<!\\\)\n#',  true);
+    $context->addDelimiters('REGEX#((^|\n)([ \t\f\v]*)(?=(\#|_Pragma(\b))))#',
+      "\n", true);
 
     $context->addChild('c/c/preprocessor/multi_comment');
     $context->addChild('c/c/preprocessor/single_comment');
     /**
-     * @todo string literal escaping should be disabled in the parser for
-     * double-quote quoted text that is interpreted directly as a filename,
-     * namely <code>#include "filename.h"</code> and
-     * <code>#line 123 "filename.c"</code>
+     * String literal escaping is disabled by GeSHiCCodeParser::parseToken()
+     * for double-quote quoted text that is interpreted directly as a filename,
+     * namely <code>#include "filename.h"</code>.  Escape sequences and comment-
+     * like sequences within those double quotes cause behaviour undefined by
+     * standard C so perhaps they should even be highlighted as warnings.
      * It's tolerable that as a minor glitch escape-highlighting of such text
      * occurs when the parser is disabled.
      */
     $context->addChild('c/c/preprocessor/string_literal', 'string');
-    $context->addChild('c/c/preprocessor/character_constant', 'singlechar');
+    $context->addChild('c/c/preprocessor/widestring_literal', 'string');
+    $context->addChild('c/c/preprocessor/character_constant', 'string');
+    $context->addChild('c/c/preprocessor/widecharacter_constant', 'string');
 
+    /**
+     * GeSHiCCodeParser::parseToken() ensures that this highlighting doesn't
+     * occur within #line and #include directives when macros are used to
+     * specify either directive's "arguments".
+     */
     $context->addKeywordGroup(geshi_c_get_ctlflow_keywords(),
       'c/c/preprocessor/ctlflow-keyword', true,
       geshi_c_get_ctlflow_keywords_url());
@@ -228,16 +222,16 @@ function geshi_c_c_preprocessor (&$context)
      * It's also debatable whether such tokens should be highlighted within
      * #error and #pragma directives - it seems most appropriate that they are
      * not, since within those directives their occurrence can be likened to
-     * their appearance within a comment.  This glitch can be resolved in the
-     * parser; it's tolerable for it to appear when the parser is disabled.
-     * @todo implement in the parser what's described in the above paragraph.
+     * their appearance within a comment.  GeSHiCCodeParser::parseToken()
+     * therefore adjusts those contexts; their highlighting when the parser is
+     * disabled is tolerable as a minor glitch.
      *
      * It's less debatable that within a #include filename, these keywords
-     * should not be highlighted.  That can be handled in the parser for <>
-     * includes - quoted includes will already be protected by the
-     * string_literal context.  It's borderline tolerable that this incorrect
-     * highlighting will appear when the parser is disabled.
-     * @todo implement in the parser what's described in the above paragraph.
+     * should not be highlighted.  That's handled in GeSHiCCodeParser::
+     * parseToken() for <> includes - quoted includes are already protected by
+     * the string_literal context (which parseToken() reclassifies).  It's
+     * borderline tolerable that this incorrect highlighting will appear when
+     * the parser is disabled.
      *
      * Within a #include where the filename is specified by a macro, the only
      * keywords that should be highlighted out of the list at the top of this
@@ -250,19 +244,16 @@ function geshi_c_c_preprocessor (&$context)
      * macro" from the rest of the standard functions is a longer-term future
      * task to complete alongside comprehensively filling out what's missing
      * from the keyword lists.  Separating qualifiers from types is another task
-     * to consider.  To start with, the parser should be used to disable
-     * highlighting for the context 'declarator-keyword' within #include's
+     * to consider.  To start with, GeSHiCCodeParser::parseToken() disables
+     * highlighting for the context 'declarator-keyword' within #include:s
      * where the filename is specified by a macro, and /all/ highlighting
-     * should be disabled for the macro name itself (with the possible
-     * exception of any standard macros that resolve to a quoted string
-     * constant - if any such macros even exist) - i.e. highlighting should
-     * only apply to macro arguments.
-     * @todo implement in the parser what's described in the above paragraph.
+     * is disabled for the macro name itself - i.e. highlighting applies only
+     * to macro arguments.
      *
-     * The same reasoning of the above paragraph can be applied to the filename
-     * of a #line.
-     * @todo implement in the parser what's described in the above paragraph for
-     * a #line directive.
+     * The same reasoning of the above paragraph can be applied to the #line
+     * directive where its "arguments" are specified by a macro:
+     * GeSHiCCodeParser::parseToken() similarly disables highlighting in that
+     * situation.
      */
     $context->addKeywordGroup(geshi_c_get_declarator_keywords(),
       'c/c/preprocessor/declarator-keyword', true,
@@ -307,10 +298,10 @@ function geshi_c_c_preprocessor (&$context)
      * by proxy for comments and line continuation slashes.
      *
      * Likewise for #error and #pragma except that any symbol could occur as
-     * part of the following (unquoted) freeform text.  Really, these should
-     * not be highlighted, and when the parser is enabled we should remove this
-     * highlighting; the minor glitch is tolerable when the parser is disabled.
-     * @todo implement in the parser what's described in the above paragraph.
+     * part of the subsequent (unquoted) freeform text.  These should not be
+     * highlighted, and thus GeSHiCCodeParser::parseToken() recontextualises
+     * them so that they aren't highlighted.  Their highlighting when the
+     * parser is disabled is tolerable as a minor glitch.
      */
     $context->addSymbolGroup(geshi_c_get_standard_symbols(),
       'c/c/preprocessor/symbol');
