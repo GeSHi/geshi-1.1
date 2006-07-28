@@ -374,7 +374,8 @@ class GeSHiCCodeParser extends GeSHiCodeParser
                     $result[] = array(substr($eachtoken[0], $sublocation, $pos),
                         $eachtoken[1], $eachtoken[2]);
                     // Store the occurrence
-                    $result[] = array("\\\n", $this->_language, array());
+                    $result[] = array("\\\n", $this->_language.
+                      '/symbol/line-continuation', array());
                     // Do some fancy math:
                     //   - the base location ($location) has increased
                     //   - the location inside the token ($sublocation) has
