@@ -194,6 +194,7 @@ function geshi_get_position ($haystack, $needle, $offset = 0,
     $regex = substr($needle, 5);
     $haystack_offset = substr($haystack, $offset);
     $table = array();
+    $length = 0;
     $flags = PREG_SPLIT_OFFSET_CAPTURE;
     if ($need_table) $flags |= PREG_SPLIT_DELIM_CAPTURE;
     $splits = preg_split($regex, $haystack_offset, 2, $flags);
