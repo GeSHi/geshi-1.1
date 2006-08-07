@@ -6,10 +6,10 @@
  *   Author: Nigel McNie
  *   E-mail: nigel@geshi.org
  * </pre>
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  * This program is part of GeSHi.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
@@ -32,7 +32,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Nigel McNie
  * @version    $Id$
- * 
+ *
  */
 
 $GLOBALS['geshi_dbg'] = false;
@@ -52,7 +52,7 @@ function geshi_dbg_off () {
 /**
  * Handles debugging by printing a message according to current debug level,
  * mask of context and other things.
- * 
+ *
  * @param string The message to print out
  * @param int The context in which this message is to be printed out in - see
  *            the GESHI_DBG_* constants
@@ -78,15 +78,15 @@ function geshi_dbg ($message, $add_nl = true)
             case '@b':
                 $start = '<span style="font-weight:bold;">';
                 break;
-            
+
             case '@i':
                 $start = '<span style="font-style:italic;">';
                 break;
-                
+
             case '@o':
                 $start = '<span style="color:green;background-color:#efe;border:1px solid #393;">';
                 break;
-            
+
             case '@w':
                 $start = '<span style="color:#660;background-color:#ffe;border:1px solid #993;">';
                 break;
@@ -94,22 +94,22 @@ function geshi_dbg ($message, $add_nl = true)
             case '@e':
                 $start = '<span style="color:red;background-color:#fee;border:1px solid #933;">';
                 break;
-                
+
             default:
                 $end = '';
         }
-        
+
         if (preg_match('#(.*?)::(.*?)\((.*?)\)#si', $message)) {
             $start = '<span style="font-weight:bold;">';
             $end   = '</span>';
         }
-        
+
         if (preg_match('#^@[a-z]#', $message)) {
             $message = substr($message, 2);
         }
         echo $start . htmlspecialchars(str_replace("\n", '', $message)) . $end;
         if ($add_nl) echo "\n";
-    } 
+    }
 }
 
 /**
@@ -157,53 +157,136 @@ function geshi_can_include ($file_name)
 }
 
 /**
- * Drop-in replacement for strpos and stripos. Also can handle regular expression
+ * A replacement for strpos and stripos that can also handle regular expression
  * string positions.
- * 
+ *
  * @param string The string in which to search for the $needle
- * @param string The string to search for. If this string starts with "REGEX" then
- *               a regular expression search is performed.
- * @param int    The offset in the string in which to start searching
+ * @param string The string to search for. If this string starts with "REGEX"
+ *               then a regular expression search is performed.
+ * @param int    The offset in the string in which to start searching.  Look-
+ *               behind assertions in a regex that refer to characters prior to
+ *               this point will not match.
  * @param boolean Whether the search is case sensitive or not
- * @param boolean Whether the match table is needed (almost never, and it makes things slower)
+ * @param boolean Whether the match table is needed (almost never, and it makes
+ *                things slower, but probably not noticeably).
  * @return array An array of data:
  * <pre> 'pos' => position in string of needle,
  * 'len' => length of match
- * 'tab' => a table of the stuff matched in brackets for a regular expression</pre>
+ * 'tab' => a tabular array containing the parenthesised sub-matches of a
+ *   regular expression.  [0] is the complete match, [1] the first parenthesized
+ *   sub-match, and so on.
+ * </pre>
  * @access private
  */
-function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = false, $need_table = false)
+function geshi_get_position ($haystack, $needle, $offset = 0,
+  $case_sensitive = false, $need_table = false)
 {
     if ('REGEX' != substr($needle, 0, 5)) {
         if (!$case_sensitive) {
-            return array('pos' => stripos($haystack, $needle, $offset), 'len' => strlen($needle));
+            return array('pos' => stripos($haystack, $needle, $offset),
+              'len' => strlen($needle));
         } else {
-            return array('pos' => strpos($haystack, $needle, $offset), 'len' => strlen($needle));
+            return array('pos' => strpos($haystack, $needle, $offset),
+              'len' => strlen($needle));
         }
     }
-    
+
     $regex = substr($needle, 5);
-
-    // Get the location of the first match of the regular expression    
-    $foo = microtime();
-    $foo_len = strlen($foo);
-    $len = strlen($haystack);
-    $str = preg_replace($regex, $foo, $haystack, 1);
-    $length = $len - (strlen($str) - $foo_len);
-
-    // Return match table if requested 
-    if ($need_table) {
-        $matches = array();
-        preg_match_all($regex, $haystack, $matches);
-        $i = 0;
-        $table = array();
-        foreach ( $matches as $match ) {
-            $table[$i++] = (isset($match[0])) ? $match[0] : null;
+    $haystack_offset = substr($haystack, $offset);
+    $table = array();
+    $flags = PREG_SPLIT_OFFSET_CAPTURE;
+    if ($need_table) $flags |= PREG_SPLIT_DELIM_CAPTURE;
+    $splits = preg_split($regex, $haystack_offset, 2, $flags);
+    if (count($splits) > 1) {
+        $first = array_shift($splits);
+        $last = array_pop($splits);
+        $pos = strlen($first[0]);
+        $length = $last[1] - $pos;
+        $pos += $offset;
+        if ($need_table) {
+            $table[] = substr($haystack_offset, $pos, $length);
+            foreach ($splits as $match) $table[] = $match[0];
         }
-    } else {
-        $table = array();
+    } else $pos = false;
+    return array('pos' => $pos, 'len' => $length, 'tab' => $table);
+}
+
+/**
+ * Which, if any, of the strings in the array $substrs occurs at offset $offset
+ * in the string $str?
+ * If $flags contains GESHI_WHICHSS_MAXIMAL, then the largest of multiple
+ * matches will be returned, otherwise and by default: the first encountered.
+ * If $flags contains GESHI_WHICHSS_CASEINSENSITIVE then the comparison will be
+ * case-insensitive; otherwise and by default it will be case-sensitive.
+ * If $flags contains GESHI_WHICHSS_TRYREGEX then the remaining portion of any
+ * string in $substrs that starts with 'REGEX' will be treated as a (Perl-
+ * compatible) regular expression to match, anchored to the start of the string
+ * at $offset.  Look-behind assertions that refer to parts of the string prior
+ * to $offset will not work.  If $flags contains GESHI_WHICHSS_SKIPANCHORINSERT
+ * then the anchor insertion on each regex in $substr will not be performed -
+ * it will be assumed to have already been performed but in any case only
+ * matches at the start of the string will ever be returned.
+ * @return Null if no match is found, otherwise the matching substring, with
+ * case as in the $substrs element rather than the matching portion of $str.
+ */
+define('GESHI_WHICHSS_MAXIMAL', 1);
+define('GESHI_WHICHSS_CASEINSENSITIVE', 2);
+define('GESHI_WHICHSS_TRYREGEX', 4);
+define('GESHI_WHICHSS_SKIPANCHORINSERT', 8);
+function geshi_whichsubstr($str, $substrs, $offset = 0, $flags = 0) {
+    /* Constants */
+    static $re_starter_c = 'REGEX';
+    static $re_starter_len_c = 5/*strlen($re_starter_c)*/;
+
+    $ret = null;
+    $max_len = -1;
+    foreach ($substrs as $substr) {
+        if (($flags & GESHI_WHICHSS_TRYREGEX) &&
+          strncmp($substr,$re_starter_c,$re_starter_len_c)==0) {
+            $re = substr($substr, $re_starter_len_c);
+            if (!($flags & GESHI_WHICHSS_SKIPANCHORINSERT)) {
+                $re = geshi_anchor_re($re);
+            }
+            $haystack = $offset > 0 ? substr($str, $offset) : $str;
+            $match = preg_match($re, $haystack, $matches, PREG_OFFSET_CAPTURE) ?
+              $matches[0][0] : null;
+            $len = strlen($match);
+            /* This code is reached only if GESHI_WHICHSS_SKIPANCHORINSERT was
+             * specified without a pre-existing anchor and with a match that
+             * started beyond $offset.
+             */
+            if ($match !== null && $matches[0][1]) $len = $match = null;
+        } else {
+            $len = strlen($substr);
+            if (!($flags & GESHI_WHICHSS_CASEINSENSITIVE)) {
+                $match = substr($str,$offset,$len) == $substr ? $substr : null;
+            } else if (strcasecmp(substr($str, $offset, $len), $substr) == 0) {
+                $match = $substr;
+            } else $match = null;
+        }
+        if ($match !== null) {
+            if (!($flags & GESHI_WHICHSS_MAXIMAL)) {
+                $ret = $match;
+                break;
+            } else if ($len > $max_len) {
+                $ret = $match;
+                $max_len = $len;
+            }
+        }
     }
-    return array('pos' => strpos($str, $foo), 'len' => $length, 'tab' => $table);
+    return $ret;
+}
+
+/**
+ * Safely inserts an anchor into the regex $regex so that it only matches at the
+ * start of the searched string.
+ * @return string The regex with anchor inserted.
+ */
+function geshi_anchor_re($regex) {
+    $delim = $regex{0};
+    $endPos = strrpos($regex, $delim);
+    $endChars = substr($regex, $endPos);
+    return "$delim^(".substr($regex, 1, $endPos - 1).')'.$endChars;
 }
 
 /**
@@ -236,9 +319,9 @@ function geshi_is_whitespace ($token)
 //
 /**
  * Replace stripos()
- * 
+ *
  * This function lifted from the PHP_Compat PEAR package, and optimised
- * 
+ *
  * @author      Aidan Lister <aidan@php.net>, Nigel McNie <nigel@geshi.org>
  * @version     $Revision$
  * @access private
@@ -267,7 +350,7 @@ if (!function_exists('stripos')) {
 
 /**
  * Returns the GeSHi_Styler object used to help with parsing
- * 
+ *
  * @param boolean $force_new If true, forces the creation of
  *                           a new GeSHi_Parser object
  * @return GeSHi_Styler
