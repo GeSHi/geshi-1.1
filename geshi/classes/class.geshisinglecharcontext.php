@@ -29,7 +29,7 @@
  * @package    geshi
  * @subpackage core
  * @author     Nigel McNie <nigel@geshi.org>;
- *             http://clc-wiki.net/wiki/Users:Netocrat
+ *             http://clc-wiki.net/wiki/User:Netocrat
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Nigel McNie
  * @version    $Id$
@@ -41,10 +41,11 @@
  * "single character" strings - strings that are only one character long, like
  * in java.
  *
- * Note that this functionality assumes that the end delimiter for single
- * character contexts is just one character long (a sensible assumption made for
- * speed reasons). If required in the future this class could support longer end
- * delimiters.
+ * Escape sequences need not be limited to one character and may be REGEX-
+ * specified, to allow for situations such as C's octal and hexadecimal escapes,
+ * e.g. '\xFF'.  Likewise for the start and end delimiter, and the escape
+ * "character".  This is handy for situations such as C's widestring
+ * characters, which are prefixed by an L.
  *
  * @package    geshi
  * @subpackage core
@@ -61,23 +62,30 @@ class GeSHiSingleCharContext extends GeSHiContext
     /**#@-
      * @access private
      */
-    // The parsed data when getContextStartData() is successful
+    /** The parsed data when getContextStartData() is successful. */
     var $_characterLen;
     var $_endDelimiterLen;
     var $_isEscapeSeq;
 
     var $_disallowEmpty;
 
+    /** Characters that start an escape sequence... */
     var $_escapeCharacters;
-
-    // Characters that should be escaped
+    /** ...and the valid escape sequences that can follow. */
     var $_charsToEscape;
 
     /**#@-*/
 
     // }}}
     // {{{ setEscapeCharacters()
-
+    /**
+     * Specifies each "character" that should be interpreted as the start of an
+     * escape sequence when it occurs immediately subsequent to a start
+     * delimiter.  Each "character" may be greater than one actual character in
+     * length, and may optionally be specified by a REGEX-string - look-behind
+     * assertions on such regexes are not supported.
+     * @param Mixed Array of strings or single string.
+     */
     function setEscapeCharacters ($chars)
     {
         $this->_escapeCharacters = (array) $chars;
@@ -85,7 +93,13 @@ class GeSHiSingleCharContext extends GeSHiContext
 
     // }}}
     // {{{ setCharactersToEscape()
-
+    /**
+     * Specifies all escape sequences that are valid following any of the
+     * escape characters.  Each escape sequence may be greater than one
+     * character in length and may be specified by a REGEX-string - look-behind
+     * assertions on such regexes are not supported.
+     * @param Mixed Array of strings or single string.
+     */
     function setCharactersToEscape ($chars)
     {
         static $re_starter_c = 'REGEX';
@@ -125,8 +139,8 @@ class GeSHiSingleCharContext extends GeSHiContext
      * Overrides the parent method to check whether this context should even
      * start.  Checks for a complete character including start and end
      * delimiters and valid contained character, which might be an escape
-     * sequence.  Stores all data found for use by _getContextEndData() and
-     * _addParseData(), to avoid reparsing.
+     * sequence.  Stores all data found so that it may be used by
+     * _getContextEndData() and _addParseData(), to avoid reparsing.
      *
      * @param string $code
      * @param string $start_of_context
@@ -176,8 +190,8 @@ class GeSHiSingleCharContext extends GeSHiContext
             $esc_len = strlen($esc_start);
             if ($esc_start !== null) {
                 /* Check for a valid full escape sequence; allow regexes
-                /* that match sequences of length > 1.  Match the most
-                /* inclusive char/regex. */
+                 * that match sequences of length > 1.  Match the most
+                 * inclusive char/regex. */
                 $start = $data['pos'] + $data['len'] + $esc_len;
                 $esc_seq = geshi_whichsubstr($code, $this->_charsToEscape,
                   $start, GESHI_WHICHSS_MAXIMAL|GESHI_WHICHSS_TRYREGEX|
