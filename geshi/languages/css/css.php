@@ -60,6 +60,7 @@ function geshi_css_css_rule (&$context)
     $context->addDelimiters('{', '}');
     $context->addChild('css/css/string', 'string');
     $context->addChild('css/css/comment');
+    $context->addChild('css/css/ruleval');
 
     // Attributes
     $context->addKeywordGroup(array(
@@ -155,9 +156,9 @@ function geshi_css_css_string (&$context)
     $context->addDelimiters('"', '"');
     $context->addDelimiters("'", "'");
 
-    $context->setEscapeCharacters('\\');
-    // @todo possible bug where " will be escapable in ' strings etc (need two string contexts for this)
-    $context->setCharactersToEscape(array('\\', 'A', '"', '"'));
+    $context->addEscapeGroup('\\', array('\\', 'A', '"'));
+    // @todo [blocking 1.1.9] possible bug where " will be escapable in
+    // ' strings etc (need two string contexts for this)
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
 }
 
@@ -175,6 +176,14 @@ function geshi_css_css_at_rule (&$context)
     $context->addSymbolGroup(array(
         ':', ';', '(', ')'
     ), 'symbol');
+}
+
+function geshi_css_css_ruleval (&$context)
+{
+    $context->addDelimiters('(', ')');
+    $context->parseDelimiters(GESHI_CHILD_PARSE_NONE);
+    $context->addChild('css/css/string', 'string');
+    $context->addChild('css/css/comment');
 }
 
 /**#@-*/
