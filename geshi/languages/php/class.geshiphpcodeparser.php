@@ -122,6 +122,7 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
             $this->_detectClassNames($token, $context_name, $data);
             $this->_detectConstants($token, $context_name, $data);
             $this->_detectFunctionNames($token, $context_name, $data);
+            $this->_fixHeredoc($token, $context_name, $data);
         }
 
         // This method needs to know about whitespace tokens so it can find the end of
@@ -329,6 +330,38 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
         }
     }
     
+    // }}}
+    // {{{ _fixHeredoc()
+
+    /**
+     * Makes symbols in heredoc tokens appear as symbols.
+     *
+     * @param  string $token        The source token 
+     * @param  string $context_name The context of the source token
+     * @param  array  $data         Additional data
+     */
+    function _fixHeredoc (&$token, &$context_name, &$data)
+    {
+        if ($this->_language . '/heredoc/start' == $context_name) {
+            if ('<<<' == substr($token, 0, 3)) {
+                // This works because the '<<<' token will be pushed onto the
+                // stack before the return result of this function.
+                $token = substr($token, 3);
+                $this->push('<<<', $this->_language . '/symbol', $data);
+            }
+        }
+        if ($this->_language . '/heredoc/end' == $context_name) {
+            // As per the regex for heredoc enders, the last character will
+            // be a newline, which makes the second to last character the
+            // optional semi-colon.
+            if (substr($token, -2, 1) == ';') {
+                $this->push(substr($token, 0, -2), $this->_language . '/heredoc/end', $data);
+                $token = ";\n";
+                $context_name = $this->_language . '/symbol';
+            }
+        }
+    }
+
     // }}}
     // {{{ _handleStackParsing()
     
