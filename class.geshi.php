@@ -42,7 +42,7 @@
 $geshi_old_reporting_level = error_reporting(E_ALL);
 
 /** GeSHi Version */
-define('GESHI_VERSION', '1.1.2alpha2');
+define('GESHI_VERSION', '1.1.2alpha3dev');
 
 /** Set the correct directory separator */
 define('GESHI_DIR_SEP', ('WIN' != substr(PHP_OS, 0, 3)) ? '/' : '\\');
@@ -318,7 +318,7 @@ class GeSHi
      *   language. If caching of the root context is enabled, then this time will likely
      *   be close to zero if you are calling this method after second and subsequent calls
      *   to {@link GeSHi::parseCode()}.</li>
-     *   <li>If youpass <b>'parse'</b>, you will get the time it took to parse the last
+     *   <li>If you pass <b>'parse'</b>, you will get the time it took to parse the last
      *   time {@link GeSHi::parseCode()} was called.
      * </ul>
      *
@@ -382,6 +382,43 @@ class GeSHi
     }
     
     // }}}
+    // {{{ getSupportedLanguages()
+
+    /**
+     * @todo document this function
+     * @todo This and other methods share a lot of directory traversal
+     * functionality, which could be split out somehow.
+     * @todo actually, this should be implemented using a registry
+     */
+    function getSupportedLanguages ($return_human = false)
+    {
+        $languages = array();
+
+        $ignore = array('.', '..', 'CVS');
+        $dh = opendir(GESHI_LANGUAGES_ROOT);
+        while (false !== ($dir = readdir($dh))) {
+            if (in_array($dir, $ignore) || is_file(GESHI_LANGUAGES_ROOT . $dir)) continue;
+            // Check the directory for the dialect files
+            $ldh = opendir(GESHI_LANGUAGES_ROOT . $dir);
+            while (false !== ($file = readdir($ldh))) {
+                if (in_array($file, $ignore) || is_dir(GESHI_LANGUAGES_ROOT . "$dir/$file") || substr($file, -4) != '.php') continue;
+                
+                // Found a language file
+                $file = substr($file, 0, -4);
+                if ('common' == $file || 'class' == substr($file, 0, 5)) continue;
+
+                if ($return_human) {
+                    $languages["$dir/$file"] = GeSHi::getHumanLanguageName("$dir/$file");
+                } else {
+                    $languages[] = "$dir/$file";
+                }
+            }
+        }
+
+        return $languages;
+    }
+
+    // }}}  
     // {{{ getSupportedThemes()
     
     /**
@@ -501,6 +538,26 @@ class GeSHi
             return $languages;
         }
         return array();
+    }
+    
+    // }}}
+    // {{{ getHumanLanguageName()
+    
+    /**
+     * Given a language name, return a human version of it
+     * 
+     * @param  string $language The language name to get the human version of
+     * @return string The human language name, or <kbd>false</kbd> if the
+     *                language does not exist
+     * @static
+     * @todo actually implement this function
+     * @since 1.1.2
+     */
+    function getHumanLanguageName ($language)
+    {
+        $human_name = '';
+        $language = GeSHi::_clean($language);
+        return $language;
     }
     
     // }}}
