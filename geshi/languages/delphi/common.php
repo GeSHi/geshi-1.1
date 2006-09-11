@@ -115,8 +115,9 @@ function geshi_delphi_multi_comment (&$context)
 function geshi_delphi_single_string (&$context)
 {
     $context->addDelimiters("'", array("'", "\n"));
-    $context->setEscapeCharacters(array("'"));
-    $context->setCharactersToEscape(array("'"));
+    //$context->setEscapeCharacters(array("'"));
+    //$context->setCharactersToEscape(array("'"));
+    $context->addEscapeGroup("'", 'REGEX#hello#');
 }
 
 function geshi_delphi_preprocessor (&$context)

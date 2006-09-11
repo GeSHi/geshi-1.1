@@ -121,16 +121,23 @@ function geshi_c_c_widestring_literal (&$context)
 }
 function geshi_c_c_character_constant (&$context)
 {
-    geshi_c_base_string($context, "'", "'", false);
+    geshi_c_base_singlechar($context, "'", "'", false);
     $context->setDisallowEmptyChars();
 }
 function geshi_c_c_widecharacter_constant (&$context)
 {
-    geshi_c_base_string($context, "L'", "'", true);
+    geshi_c_base_singlechar($context, "L'", "'", true);
     $context->setDisallowEmptyChars();
 }
 
 function geshi_c_base_string (&$context, $delim_start, $delim_end, $delim_cs) {
+    $context->addDelimiters($delim_start, $delim_end, $delim_cs);
+    $context->addEscapeGroup('\\', array("'", '"', '?', '\\', 'a', 'b', 'f',
+        'n', 'r', 't', 'v', 'REGEX#([0-7]{1,3}|x[0-9a-f]{1,})#i'));
+    $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
+}
+
+function geshi_c_base_singlechar (&$context, $delim_start, $delim_end, $delim_cs) {
     $context->addDelimiters($delim_start, $delim_end, $delim_cs);
     $context->setEscapeCharacters('\\');
     $context->setCharactersToEscape(array("'", '"', '?', '\\', 'a', 'b', 'f',

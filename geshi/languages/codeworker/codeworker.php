@@ -114,16 +114,14 @@ function geshi_codeworker_codeworker_single_string (&$context)
 {
     $context->addDelimiters("'", "'");
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
-    $context->setEscapeCharacters('\\');
-    $context->setCharactersToEscape ('\\', "'");
+    $context->addEscapeGroup('\\');
 }
 
 function geshi_codeworker_codeworker_double_string (&$context)
 {
     $context->addDelimiters('"', '"');
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
-    $context->setEscapeCharacters('\\');
-    $context->setCharactersToEscape('n', 'r', 't', '\\', '"');
+    $context->addEscapeGroup('\\', array('n', 'r', 't'));
 }
 
 /**#@-*/
