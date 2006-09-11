@@ -39,6 +39,8 @@
  * @access private
  */
 
+// @todo [blocking 1.1.9] highlight $_GET/$_POST etc as a different context
+// (maybe do this via code parser)
 /** Get the GeSHiPHPDoubleStringContext class */
 require_once GESHI_LANGUAGES_ROOT . 'php' . GESHI_DIR_SEP
     . 'class.geshiphpdoublestringcontext.php';
@@ -291,7 +293,7 @@ function geshi_php_common (&$context)
     // PHP symbols
     $context->addSymbolGroup(array(
         '(', ')', ',', ';', ':', '[', ']',
-        '+', '-', '*', '/', '&', '|', '!', '<', '>',
+        '+', '-', '*', '/', '&', '|', '!', '<', '>', '~',
         '{', '}', '=', '@', '?', '.'
     ), 'symbol');
     
@@ -337,8 +339,7 @@ function geshi_php_common (&$context)
 function geshi_php_single_string (&$context)
 {
     $context->addDelimiters("'", "'");
-    $context->setEscapeCharacters('\\');
-    $context->setCharactersToEscape(array('\\', "'"));
+    $context->addEscapeGroup('\\', array("'"));
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
@@ -346,8 +347,8 @@ function geshi_php_single_string (&$context)
 function geshi_php_double_string (&$context)
 {
     $context->addDelimiters('"', '"');
-    $context->setEscapeCharacters('\\');
-    $context->setCharactersToEscape(array('n', 'r', 't', 'REGEX#[0-7]{1,3}#', 'REGEX#x[0-9a-f]{1,2}#i', '\\', '"', '$'));
+    $context->addEscapeGroup('\\', array('n', 'r', 't', 'REGEX#[0-7]{1,3}#',
+        'REGEX#x[0-9a-f]{1,2}#i', '"','$'));
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
@@ -355,8 +356,8 @@ function geshi_php_double_string (&$context)
 function geshi_php_heredoc (&$context)
 {
     $context->addDelimiters("REGEX#<<<\s*([a-z][a-z0-9]*)\n#i", "REGEX#\n!!!1;?\n#i");
-    $context->setEscapeCharacters('\\');
-    $context->setCharactersToEscape(array('n', 'r', 't', 'REGEX#[0-7]{1,3}#', 'REGEX#x[0-9a-f]{1,2}#i', '\\', '"', '$'));
+    $context->addEscapeGroup('\\', array('n', 'r', 't', 'REGEX#[0-7]{1,3}#',
+        'REGEX#x[0-9a-f]{1,2}#i', '"', '$'));
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
