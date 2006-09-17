@@ -183,6 +183,10 @@ function geshi_get_position ($haystack, $needle, $offset = 0,
 {
     if ('REGEX' != substr($needle, 0, 5)) {
         if (!$case_sensitive) {
+            // @todo [blocking 1.1.4] This line is marked by BenBE as
+            // one of the slowest. If you don't have PHP5 then this is
+            // done manually, the function for it should probably be
+            // cleaned up a bit.
             return array('pos' => stripos($haystack, $needle, $offset),
               'len' => strlen($needle));
         } else {
@@ -197,6 +201,10 @@ function geshi_get_position ($haystack, $needle, $offset = 0,
     $length = 0;
     $flags = PREG_SPLIT_OFFSET_CAPTURE;
     if ($need_table) $flags |= PREG_SPLIT_DELIM_CAPTURE;
+    // @todo [blocking 1.1.4]  This line is marked by BenBE as one of the
+    // slowest. There's not too much that can be done to speed up the line
+    // per se, but possibly something similar to the "here's a character
+    // you can check to see if this is ever going to pass" might be useful.
     $splits = preg_split($regex, $haystack_offset, 2, $flags);
     if (count($splits) > 1) {
         $first = array_shift($splits);
