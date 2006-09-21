@@ -839,7 +839,7 @@ class GeSHiContext
             $balance_closer = $this->_contextDelimiters[$context_open_key][3][1];
 
             // We get the first push for free
-            // @todo [blocking 1.1.2] if what we are balancing against is not related
+            // @todo [blocking 1.1.4] if what we are balancing against is not related
             // to the starter of the context then we have a problem... check $context_opener
             // for starter stuff instead of assuming
             $balance_count = 1;
@@ -861,7 +861,7 @@ class GeSHiContext
                             geshi_dbg('  opener is closer so inc. to ' . $balance_count);
                             // Start searching from new pos just past where we found the opener
                             $offset = $opener_pos['pos'] + 1;
-                            // @todo [blocking 1.1.2] could cache closer pos at this point?
+                            // @todo [blocking 1.1.4] could cache closer pos at this point?
                         } else {
                             // closer is closer (bad english heh)
                             --$balance_count;
