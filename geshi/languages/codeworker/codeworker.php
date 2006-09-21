@@ -42,8 +42,6 @@
  * @access private
  */
 
-// @todo [blocking 1.1.2] noticed wierd error when no children: script<".cws">
-// the < wasn't being highlighted as a symbol
 function geshi_codeworker_codeworker (&$context)
 {
     $context->addChild('single_comment');
@@ -84,7 +82,7 @@ function geshi_codeworker_codeworker (&$context)
         'parseAsBNF', 'parseStringAsBNF', 'translate', 'translateString'
     ), 'sfunction');
     
-    $context->addKeywordGroup(array(
+    $context->addSymbolGroup(array(
         '|', '=', '!', ':', '(', ')', ',', '<', '>', '&', '$', '+', '-', '*', '/',
         '{', '}', ';', '[', ']', '~', '?'
     ), 'symbol');
