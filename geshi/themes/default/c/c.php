@@ -102,7 +102,7 @@ $this->setStyle('preprocessor/declarator-keyword',
 $this->setStyle('preprocessor/typeorqualifier',
   'font-style:italic; color:#a1a100;');
 $this->setStyle('preprocessor/stdfunction',
-  'font-style:italic; color:#006; font-style:italic;');
+  'font-style:italic; color:#b06cc8; font-style:italic;');
 $this->setStyle('preprocessor/stdmacroorobject',
   'font-style:italic; color:purple;');
 $this->setStyle('preprocessor/multi_comment', 'color:#888; font-style:italic;');
