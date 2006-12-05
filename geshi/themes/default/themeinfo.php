@@ -48,7 +48,8 @@ $languages  = array(
     'java'    => array('java'),
     'javascript' => array('javascript'),
     'php'     => array('php', 'php4', 'php5'),
-    'vhdl'    => array('vhdl')
+    'vhdl'    => array('vhdl'),
+    'eiffel'  => array('eiffel')
 );
 
 ?>
