@@ -278,11 +278,29 @@ class GeSHiStyler
         if (is_subclass_of($codeparser, 'GeSHiCodeParser')) {
             $this->_codeParser =& $codeparser;
         } else {
-            trigger_error('GeSHiStyler::setCodeParser(): code parser must be a subclass '
-                . 'of GeSHiCodeParser', E_USER_ERROR);
+            trigger_error('GeSHiStyler::setCodeParser(): code parser must be a '
+                . 'subclass of GeSHiCodeParser', E_USER_ERROR);
         }
     }
     
+    // }}}
+    // {{{ setRenderer()
+
+    /**
+     * Sets the renderer that will be used.
+     *
+     * @param GeSHiRenderer $renderer The renderer to use
+     */
+    function setRenderer (&$renderer)
+    {
+        if (is_subclass_of($renderer, 'GeSHiRenderer')) {
+            $this->_renderer =& $renderer;
+        } else {
+            trigger_error('GeSHiStyler::setRenderer(): renderer must be a '
+                . 'subclass of GeSHiRenderer', E_USER_ERROR);
+        }
+    }
+
     // }}}
     // {{{ useThemes()
     

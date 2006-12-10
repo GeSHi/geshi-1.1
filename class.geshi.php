@@ -382,6 +382,18 @@ class GeSHi
     }
     
     // }}}
+    // {{{
+
+    /**
+     * Sets the renderer to use
+     *
+     * @param GeSHiRenderer $renderer The renderer to use
+     */
+    function setRenderer (&$renderer) {
+        $this->_styler->setRenderer($renderer);
+    }
+
+    // }}}
     // {{{ getSupportedLanguages()
 
     /**
