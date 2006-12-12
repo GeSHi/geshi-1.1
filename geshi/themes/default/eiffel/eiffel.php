@@ -46,6 +46,7 @@ $this->setStyle('keyword', 'font-weight: bold;color:#0600FF;');
 $this->setStyle('symbol', 'font-weight: normal;color:#FF0000;');
 $this->setStyle('special', 'font-weight: normal;color:#8000FF;');
 
+$this->setStyle('tagname', 'font-weight: normal; font-style: italic; color: #444444;');
 $this->setStyle('classname', 'font-weight: normal; color:#0600FF;');
 $this->setStyle('featurename', 'font-weight: normal; color:#000000;');
 $this->setStyle('featurecall', 'font-weight: normal; color:#006000;');

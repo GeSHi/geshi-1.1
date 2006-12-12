@@ -39,7 +39,7 @@
  * @access private
  */
 
-/** Get common functions for PHP */
+/** Get common functions for Eiffel */
 require_once GESHI_LANGUAGES_ROOT . 'eiffel' . GESHI_DIR_SEP . 'common.php';
 
 function geshi_eiffel_eiffel (&$context)

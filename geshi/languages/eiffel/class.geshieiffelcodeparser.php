@@ -35,6 +35,12 @@
  * 
  */
 
+define('GESHI_EIFFEL_UNKNOWN', 0);
+// context where strings before a colon denote a tag name (note, indexing, require, ensure, invariant, check)
+define('GESHI_EIFFEL_TAG_BEFORE_COLON', 1);
+// context where strings before a colon denote a feature name (feature-clauses)
+define('GESHI_EIFFEL_FEATURE_BEFORE_COLON', 2);
+
 /**
  * The GeSHiEiffelCodeParser class.
  * 
@@ -53,6 +59,16 @@ class GeSHiEiffelCodeParser extends GeSHiCodeParser
     /**#@+
      * @access private
      */
+
+     /**
+      * The current parse context which helps categorize tokens
+      */
+     var $_parse_context = GESHI_EIFFEL_UNKNOWN;
+     
+     /**
+      * The content of the last token. The last token is always token 0 on the stack.
+      */
+     var $_last_token = NULL;
     
     /**#@-*/
     
@@ -81,36 +97,91 @@ class GeSHiEiffelCodeParser extends GeSHiCodeParser
     
     function parseToken ($token, $context_name, $data)
     {
-        // todo: implement a parser with a state to improve output
-        
         if (geshi_is_whitespace ($token)) {
-            return array ($token, $context_name, $data);
-        }
-        
-        if ($context_name=='eiffel/eiffel') {
-            // token has no specific context. we need to figure out one
-            if (preg_match('#^[A-Z_]+$#', $token)) {
-                // maybe its a class name
-                // this works as long as the highlighted code follows standard naming conventions
-                // but it could also be a generic parameter which would be nice
-                // to format differently (this needs a stateful parser)
-                $context_name = $context_name.'/classname';
+            if ($this->_last_token) {
+                $this->push ($token, $context_name, $data);
+                return false;
             } else {
-                // the possibilitys that we have here are:
-                // attribute name
-                // feature name
-                // tagname of note/indexing clause
-                // tagname of contract (pre, post, invariant)
-                
-                // just use featurename as a default
-                // needs a stateful parser to distinguish better
-                $context_name = $context_name.'/featurename';
+                return array ($token, $context_name, $data);
             }
-        } elseif ($context_name=='eiffel/eiffel/comment/classname') {
-            // we have a classname in a comment. maybe we can provide a link
-            // todo: check against default class names and add link data
         }
-        return array ($token, $context_name, $data);
+
+        $result = false;
+
+        if ($this->_last_token) {
+            // we have a previous token which we couldnt figure out. maybe now we have enough information
+            if ($token==':') {
+                // after a token we look at the parse context to see if we are in a 'tag' section
+                $result = $this->flush();
+                switch($this->_parse_context) {
+                    case GESHI_EIFFEL_TAG_BEFORE_COLON:
+                        $result[0][1] .='/tagname';
+                        break;
+                    case GESHI_EIFFEL_FEATURE_BEFORE_COLON:
+                    case GESHI_EIFFEL_UNKNOWN:
+                        $result[0][1] .='/featurename';
+                        break;
+                }
+                $result[] = array($token, $context_name, $data);
+            } else {
+                // here we can still have an attribute name, feature name or a feature call.
+                // we default to feature name
+                $result = $this->flush();
+                $result[0][1] .='/featurename';
+                $result[] = array($token, $context_name, $data);
+            }
+            $this->_last_token = NULL;
+        } else {
+            // no token on the stack. check if current token is properly categorized
+            if ($context_name=='eiffel/eiffel') {
+                // token has no specific context. we need to figure out one
+                if (preg_match('#^[A-Z_]+$#', $token)) {
+                    // maybe its a class name
+                    // this works as long as the highlighted code follows standard naming conventions
+                    // but it could also be a generic parameter which would be nice
+                    // to format differently (this needs a stateful parser)
+                    $context_name = $context_name.'/classname';
+                    $result = array ($token, $context_name, $data);
+                } else {
+                    // we save the token and see if we can decide better when we see the next token
+                    $this->push($token, $context_name, $data);
+                    $this->_last_token = $token;
+                    $result = false;
+                }
+            } elseif ($context_name=='eiffel/eiffel/comment/classname') {
+                // we have a classname in a comment. maybe we can provide a link
+                // todo: check against default class names and add link data
+                $result = array ($token, $context_name, $data);
+            } elseif ($context_name=='eiffel/eiffel/keyword') {
+                // we check if the parse context changes because of the keyword
+                switch ($token) {
+                    case 'indexing':
+                    case 'note':
+                    case 'require':
+                    case 'ensure':
+                    case 'invariant':
+                    case 'check':
+                        $this->_parse_context = GESHI_EIFFEL_TAG_BEFORE_COLON;
+                        break;
+                    case 'local':
+                    case 'agent':
+                    case 'create':
+                    case 'feature':
+                        $this->_parse_context = GESHI_EIFFEL_FEATURE_BEFORE_COLON;
+                        break;
+                    case 'end':
+                    case 'do':
+                    case 'once':
+                        $this->_parse_context = GESHI_EIFFEL_UNKNOWN;
+                        break;
+                }
+                $result = array ($token, $context_name, $data);
+            } else {
+                // normal token
+                $result = array ($token, $context_name, $data);
+            }
+        }
+        return $result;
     }
     
     // }}}
@@ -118,7 +189,6 @@ class GeSHiEiffelCodeParser extends GeSHiCodeParser
     /**#@+
      * @access private
      */
-    
     
     /**#@-*/
     
