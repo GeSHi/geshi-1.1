@@ -41,15 +41,16 @@
 $human_name = 'Default';
 $languages  = array(
     'codeworker' => array('codeworker'),
-    'css'     => array('css'),
-    'delphi'  => array('delphi'),
-    'doxygen' => array('doxygen'),
-    'html'    => array('html'),
-    'java'    => array('java'),
+	'csharp'     => array('csharp', 'unmanaged'),
+    'css'        => array('css'),
+    'delphi'     => array('delphi'),
+    'doxygen'    => array('doxygen'),
+    'html'       => array('html'),
+    'java'       => array('java'),
     'javascript' => array('javascript'),
-    'php'     => array('php', 'php4', 'php5'),
-    'vhdl'    => array('vhdl'),
-    'eiffel'  => array('eiffel')
+    'php'        => array('php', 'php4', 'php5'),
+    'vhdl'       => array('vhdl'),
+    'eiffel'     => array('eiffel')
 );
 
 ?>
