@@ -45,7 +45,7 @@ function geshi_csharp_common (&$context)
 {
 	
 	// Add children like comments
-	$context->addChild('doc_comment', 'single_comment'); // Doc  comment before single, so that it is recognized separately.
+	$context->addChild('doc_comment'); // Doc  comment before single, so that it is recognized separately.
 	$context->addChild('single_comment');
 	$context->addChild('multi_comment');
 	
@@ -55,7 +55,7 @@ function geshi_csharp_common (&$context)
 		'double', 'enum', 'float', 'int',
 		'long', 'sbyte', 'short', 'struct',
 		'uint', 'ulong', 'ushort'
-	), 'type', true, 'geshi_csharp_get_url($fname)' /*'http://msdn.microsoft.com/library/default.asp?url=/library/en-us/csref/html/vcrefreferencetypes.asp'*/);
+	), 'type', true, 'geshi_csharp_get_url()' /*'http://msdn.microsoft.com/library/default.asp?url=/library/en-us/csref/html/vcrefreferencetypes.asp'*/);
 	
 	// Full types (System.*) (commented out until later)
 	$context->addKeywordGroup(array(
@@ -63,13 +63,13 @@ function geshi_csharp_common (&$context)
 		'System.Decimal', 'System.Double', 'System.Single', 'System.Int32',
 		'System.UInt32', 'System.Int64', 'System.UInt64', 'System.Object',
 		'System.Int16', 'System.UInt16', 'System.String'
-	), 'type', true, 'geshi_csharp_get_url($fname)');
+	), 'type', true, 'geshi_csharp_get_url()');
 	
 	// Reference types (OOP types)
 	$context->addKeywordGroup(array(
 		'class', 'interface', 'delegate',
 		'object', 'string'
-	), 'type', true, 'geshi_csharp_get_url($fname)';
+	), 'type', true, 'geshi_csharp_get_url()');
 	
 	// TODO: Pointer types
 	// I am working out this by studying the C file :D
@@ -210,7 +210,8 @@ function geshi_csharp_get_url ($fname = '{FNAME}')
 			'decimal', 'double', 'float', 'int',
 			'uint', 'long', 'ulong', 'object',
 			'short', 'ushort', 'string'
-		)
+        ),
+        $fname
 	);
 	
 	// Switch on fname; return the URL needed
