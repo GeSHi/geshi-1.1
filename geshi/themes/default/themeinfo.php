@@ -41,7 +41,7 @@
 $human_name = 'Default';
 $languages  = array(
     'codeworker' => array('codeworker'),
-	'csharp'     => array('csharp', 'unmanaged'),
+    'csharp'     => array('csharp', 'unmanaged'),
     'css'        => array('css'),
     'delphi'     => array('delphi'),
     'doxygen'    => array('doxygen'),
