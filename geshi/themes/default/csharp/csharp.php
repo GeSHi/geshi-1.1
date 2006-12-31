@@ -34,4 +34,30 @@
  * @version    $Id$
  *
  */
+ 
+// Comments...
+$this->setStyle('single_comment',        '#008000; font-style: italic;'        );
+$this->setStyle('multi_comment',         '#008000; font-style: italic;'        );
+$this->setStyle('doc_comment/start',     '#808080; font-style: italic;'        );
+// Doc comments contain XML
+//$this->setStyle('xml/xml',               '#808080; font-style: bold'           );
+$this->setStyle('doc_comment',           '#008000; font-style: italic;'        );
+
+// Types
+$this->setStyle('type',                  '#2b91af',                            );
+
+// Modifiers
+$this->setStyle('modifier',              '',                                   );
+
+// General keywords
+$this->setStyle('keyword',               '#0000ff',                            );
+
+// Strings...
+$this->setStyle('single_string',         '#a31515',                            );
+$this->setStyle('double_string',         '#a31515',                            );
+
+// Using directives...
+$this->setStyle('using/start',           '',                                   );
+$this->setStyle('using',                 '',                                   );
+$this->setStyle('using/end',             '',                                   );
 ?>

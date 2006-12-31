@@ -34,4 +34,10 @@
  * @version    $Id$
  *
  */
+ 
+/** Just load the default C# theme file. The styles are excactly the same. */
+require_once GESHI_THEMES_ROOT . 'default/csharp/csharp.php';
+
+// Add styles for static oo
+$this->setStyle('oostatic', 'color: #000000;');
 ?>

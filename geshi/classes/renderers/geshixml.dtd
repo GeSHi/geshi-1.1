@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <!-- GeSHi XML renderer DOCTYPE declaration.-->
 <!--
   This DTD, as well as the XML format, is Copyright (C) 2006 Knut A. Wikström <knut@wikstrom.dk>,
@@ -36,7 +37,7 @@
 
 <!-- $Id$ -->
 
-<!DOCTYPE GESHIXML [
+<!-- <!DOCTYPE GESHIXML [ -->
 
 <!-- Elements -->
 <!ELEMENT geshi (token, css?)>
@@ -62,4 +63,4 @@
 
 <!-- That's it...-->
 
-]>
+<!-- ]> -->

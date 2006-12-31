@@ -48,6 +48,9 @@ function geshi_csharp_common (&$context)
 	$context->addChild('doc_comment'); // Doc  comment before single, so that it is recognized separately.
 	$context->addChild('single_comment');
 	$context->addChild('multi_comment');
+	$context->addChild('single_string');
+	$context->addChild('double_string');
+	$context->addChild('using');
 	
 	// Types
 	$context->addKeywordGroup(array(
@@ -120,33 +123,33 @@ function geshi_csharp_common (&$context)
 	// Method parameter keywords
 	$context->addKeywordGroup(array(
 		'params', 'ref', 'out'
-	), 'statement', true);
+	), 'keyword', true);
 	
 	// Namespace-oriented keywords
 	$context->addKeywordGroup(array(
-		'namespace', 'using'
+		'namespace'/*, 'using'*/ // I add this as a child - as I don't want them to be parsed as dynamic objects.
 	), 'keyword', true);
 	
 	// Operators (literal)
 	$context->addKeywordGroup(array(
 		'as', 'is', 'new', 'sizeof', 
 		'typeof', 'true', 'false', 'stackalloc'
-	), 'keyword');
+	), 'keyword', true);
 	
 	// Conversion keywords
 	$context->addKeywordGroup(array(
 		'explicit', 'implicit', 'operator'
-	), 'modifier'); // Added as modifier, that's where I think they fit in
+	), 'modifier', true); // Added as modifier, that's where I think they fit in
 	
 	// Access keywords
 	$context->addKeywordGroup(array(
 		'base', 'this'
-	), 'access');
+	), 'access', true);
 	
 	// Literal keywords (or keyword :D)
 	$context->addKeywordGroup(array(
 		'null'
-	), 'keyword');
+	), 'keyword', true);
 	
 	// Symbols
 	$context->addSymbolGroup(array(
@@ -186,6 +189,31 @@ function geshi_csharp_doc_comment (&$context)
     $context->addDelimiters('///', "\n");
     //$context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
+	
+	// Add XML
+	$context->addChildLanguage('xml/xml');
+}
+
+function geshi_csharp_single_string (&$context)
+{
+    $context->addDelimiters("'", "'");
+	
+	// Add escape groups
+	$context->addEscapeGroup('\\', array('n', 'r', 't', '\\', '0'));
+}
+
+function geshi_csharp_double_string (&$context)
+{
+    $context->addDelimiters(array('"', '@"'), '"');
+	
+	// Add escape groups
+	$context->addEscapeGroup('\\', array('n', 'r', 't', '\\', '0', "\n"));
+}
+
+function geshi_csharp_using (&$context)
+{
+    // Add standard delimiters
+    $context->addDelimiters('using ', ';');
 }
 
 /**
@@ -210,8 +238,7 @@ function geshi_csharp_get_url ($fname = '{FNAME}')
 			'decimal', 'double', 'float', 'int',
 			'uint', 'long', 'ulong', 'object',
 			'short', 'ushort', 'string'
-        ),
-        $fname
+        ), $fname
 	);
 	
 	// Switch on fname; return the URL needed

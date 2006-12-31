@@ -56,7 +56,7 @@ class GeSHiRendererXML extends GeSHiRenderer
 	 * @access private
 	 * @var bool
 	 */
-	var $_addCSS = false;
+	var $_addCSS = true;
 	
 	// }}}
     // {{{ parseToken()
@@ -93,7 +93,7 @@ class GeSHiRendererXML extends GeSHiRenderer
 		}
 		
 		// Are we gonna add in CSS?
-		if (false)
+		if ($this->_addCSS)
 		{
 			// Heh...
 			$result .= ' css="' . $this->_styler->getStyle($context_name) . '"';
