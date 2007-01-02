@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
+?xml version="1.0" encoding="utf-8"?>
 <!-- GeSHi XML renderer DOCTYPE declaration.-->
 <!--
-  This DTD, as well as the XML format, is Copyright (C) 2006 Knut A. WikstrÃ¶m <knut@wikstrom.dk>,
+  This DTD, as well as the XML format, is Copyright (C) 2006 Knut A. Wikström <knut@wikstrom.dk>,
   for GeSHi, copyright (C) 2004-2006 Nigel McNie.
   
   This DTD is released under the GPL.
@@ -9,7 +9,7 @@
   GeSHi - Generic Syntax Highlighter
   <pre>
      File:   geshi/classes/renderers/geshixml.dtd
-     Author: Knut A. WikstrÃ¶m
+     Author: Knut A. Wikström
      E-mail: knut@wikstrom.dk
    </pre>
    
