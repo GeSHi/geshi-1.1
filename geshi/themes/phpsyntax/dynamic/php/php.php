@@ -35,14 +35,13 @@
 
 /*
  * PHP styles for phpsyntax dynamic theme
- * @todo [blocking 1.1.2] add semi-colons to style definitions
  */
-$string  = ini_get('highlight.string');
-$comment = ini_get('highlight.comment');
-$keyword = ini_get('highlight.keyword');
-$bg      = ini_get('highlight.bg');
-$default = ini_get('highlight.default');
-$html    = ini_get('highlight.html');
+$string  = ini_get('highlight.string') . ';';
+$comment = ini_get('highlight.comment') . ';';
+$keyword = ini_get('highlight.keyword' . ';');
+$bg      = ini_get('highlight.bg') . ';';
+$default = ini_get('highlight.default') . ';';
+$html    = ini_get('highlight.html') . ';';
 
 $this->setRawStyle('php/php/*', 'color:' . $default);
 

@@ -36,7 +36,7 @@
 /*
  * PHP styles for phpsyntax theme
  */
-$this->setRawStyle('php/php/*', 'color:#00b');
+$this->setRawStyle('php/php/*', 'color:#00b;');
 
 $this->setStyle('keyword', 'color:#070;');
 $this->setStyle('type', 'color:#070;');
@@ -59,6 +59,5 @@ $this->setStyle('phpdoc_comment/*', 'color:#ff8000;');
 $this->setRawStyle('html/html/*', 'color:#000;');
 $this->setRawStyle('javascript/javascript/*', 'color:#000;');
 $this->setRawStyle('css/css/*', 'color:#000;');
-//$this->setRawStyle('doxygen/doxygen/*', 'color:#ff8000');
 
 ?>
