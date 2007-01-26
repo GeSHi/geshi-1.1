@@ -42,7 +42,7 @@
 /** Get the GeSHiSingleCharContext class */
 require_once GESHI_CLASSES_ROOT . 'class.geshisinglecharcontext.php';
 
-function geshi_java_java (&$context)
+function geshi_java_java4 (&$context)
 {
     // Children of java context
     $context->addChild('double_string', 'string');
@@ -78,7 +78,7 @@ function geshi_java_java (&$context)
 			'Applet', 'AppletContext', 'AppletStub', 
 			'AudioClip'),
 
-		 'java/java/java/applet',
+		 'java/java4/java/applet',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/applet/{FNAME}.html'
 
@@ -124,7 +124,7 @@ function geshi_java_java (&$context)
 			'TexturePaint', 'Toolkit', 'Transparency', 
 			'Window'),
 
-		 'java/java/java/awt',
+		 'java/java4/java/awt',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/{FNAME}.html'
 
@@ -136,7 +136,7 @@ function geshi_java_java (&$context)
 			'ICC_Profile', 'ICC_ProfileGray', 'ICC_ProfileRGB', 
 			'ProfileDataException'),
 
-		 'java/java/java/awt/color',
+		 'java/java4/java/awt/color',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/color/{FNAME}.html'
 
@@ -149,7 +149,7 @@ function geshi_java_java (&$context)
 			'StringSelection', 'SystemFlavorMap', 'Transferable', 
 			'UnsupportedFlavorException'),
 
-		 'java/java/java/awt/datatransfer',
+		 'java/java4/java/awt/datatransfer',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/datatransfer/{FNAME}.html'
 
@@ -166,7 +166,7 @@ function geshi_java_java (&$context)
 			'DropTargetDropEvent', 'DropTargetEvent', 'DropTargetListener', 
 			'InvalidDnDOperationException', 'MouseDragGestureRecognizer'),
 
-		 'java/java/java/awt/dnd',
+		 'java/java4/java/awt/dnd',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/dnd/{FNAME}.html'
 
@@ -190,7 +190,7 @@ function geshi_java_java (&$context)
 			'WindowEvent', 'WindowFocusListener', 'WindowListener', 
 			'WindowStateListener'),
 
-		 'java/java/java/awt/event',
+		 'java/java4/java/awt/event',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/event/{FNAME}.html'
 
@@ -205,7 +205,7 @@ function geshi_java_java (&$context)
 			'TextAttribute', 'TextHitInfo', 'TextLayout', 
 			'TextLayout.CaretPolicy', 'TextMeasurer', 'TransformAttribute'),
 
-		 'java/java/java/awt/font',
+		 'java/java4/java/awt/font',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/font/{FNAME}.html'
 
@@ -225,7 +225,7 @@ function geshi_java_java (&$context)
 			'Rectangle2D.Double', 'Rectangle2D.Float', 'RectangularShape', 
 			'RoundRectangle2D', 'RoundRectangle2D.Double', 'RoundRectangle2D.Float'),
 
-		 'java/java/java/awt/geom',
+		 'java/java4/java/awt/geom',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/geom/{FNAME}.html'
 
@@ -236,7 +236,7 @@ function geshi_java_java (&$context)
 			'InputContext', 'InputMethodHighlight', 'InputMethodRequests', 
 			'InputSubset'),
 
-		 'java/java/java/awt/im',
+		 'java/java4/java/awt/im',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/im/{FNAME}.html'
 
@@ -246,7 +246,7 @@ function geshi_java_java (&$context)
 	//java.awt.im.spi
 			'InputMethod', 'InputMethodContext', 'InputMethodDescriptor'),
 
-		 'java/java/java/awt/im/spi',
+		 'java/java4/java/awt/im/spi',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/im/spi/{FNAME}.html'
 
@@ -273,7 +273,7 @@ function geshi_java_java (&$context)
 			'TileObserver', 'VolatileImage', 'WritableRaster', 
 			'WritableRenderedImage'),
 
-		 'java/java/java/awt/image',
+		 'java/java4/java/awt/image',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/image/{FNAME}.html'
 
@@ -285,7 +285,7 @@ function geshi_java_java (&$context)
 			'RenderableImage', 'RenderableImageOp', 'RenderableImageProducer', 
 			'RenderedImageFactory'),
 
-		 'java/java/java/awt/image/renderable',
+		 'java/java4/java/awt/image/renderable',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/image/renderable/{FNAME}.html'
 
@@ -298,7 +298,7 @@ function geshi_java_java (&$context)
 			'PrinterException', 'PrinterGraphics', 'PrinterIOException', 
 			'PrinterJob'),
 
-		 'java/java/java/awt/print',
+		 'java/java4/java/awt/print',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/print/{FNAME}.html'
 
@@ -319,7 +319,7 @@ function geshi_java_java (&$context)
 			'VetoableChangeListener', 'VetoableChangeListenerProxy', 'VetoableChangeSupport', 
 			'Visibility', 'XMLDecoder', 'XMLEncoder'),
 
-		 'java/java/java/beans',
+		 'java/java4/java/beans',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/beans/{FNAME}.html'
 
@@ -335,7 +335,7 @@ function geshi_java_java (&$context)
 			'BeanContextServicesListener', 'BeanContextServicesSupport', 'BeanContextServicesSupport.BCSSServiceProvider', 
 			'BeanContextSupport', 'BeanContextSupport.BCSIterator'),
 
-		 'java/java/java/beans/beancontext',
+		 'java/java4/java/beans/beancontext',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/beans/beancontext/{FNAME}.html'
 
@@ -370,7 +370,7 @@ function geshi_java_java (&$context)
 			'UTFDataFormatException', 'UnsupportedEncodingException', 'WriteAbortedException', 
 			'Writer'),
 
-		 'java/java/java/io',
+		 'java/java4/java/io',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/io/{FNAME}.html'
 
@@ -406,7 +406,7 @@ function geshi_java_java (&$context)
 			'UnsatisfiedLinkError', 'UnsupportedClassVersionError', 'UnsupportedOperationException', 
 			'VerifyError', 'VirtualMachineError', 'Void'),
 
-		 'java/java/java/lang',
+		 'java/java4/java/lang',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/lang/{FNAME}.html'
 
@@ -417,7 +417,7 @@ function geshi_java_java (&$context)
 			'PhantomReference', 'Reference', 'ReferenceQueue', 
 			'SoftReference', 'WeakReference'),
 
-		 'java/java/java/lang/ref',
+		 'java/java4/java/lang/ref',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/lang/ref/{FNAME}.html'
 
@@ -430,7 +430,7 @@ function geshi_java_java (&$context)
 			'Member', 'Method', 'Modifier', 
 			'Proxy', 'ReflectPermission', 'UndeclaredThrowableException'),
 
-		 'java/java/java/lang/reflect',
+		 'java/java4/java/lang/reflect',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/lang/reflect/{FNAME}.html'
 
@@ -440,7 +440,7 @@ function geshi_java_java (&$context)
 	//java.math
 			'BigDecimal', 'BigInteger'),
 
-		 'java/java/java/math',
+		 'java/java4/java/math',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/math/{FNAME}.html'
 
@@ -464,7 +464,7 @@ function geshi_java_java (&$context)
 			'URLEncoder', 'URLStreamHandler', 'URLStreamHandlerFactory', 
 			'UnknownHostException', 'UnknownServiceException'),
 
-		 'java/java/java/net',
+		 'java/java4/java/net',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/net/{FNAME}.html'
 
@@ -478,7 +478,7 @@ function geshi_java_java (&$context)
 			'InvalidMarkException', 'LongBuffer', 'MappedByteBuffer', 
 			'ReadOnlyBufferException', 'ShortBuffer'),
 
-		 'java/java/java/nio',
+		 'java/java4/java/nio',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/nio/{FNAME}.html'
 
@@ -500,7 +500,7 @@ function geshi_java_java (&$context)
 			'ServerSocketChannel', 'SocketChannel', 'UnresolvedAddressException', 
 			'UnsupportedAddressTypeException', 'WritableByteChannel'),
 
-		 'java/java/java/nio/channels',
+		 'java/java4/java/nio/channels',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/nio/channels/{FNAME}.html'
 
@@ -511,7 +511,7 @@ function geshi_java_java (&$context)
 			'AbstractInterruptibleChannel', 'AbstractSelectableChannel', 'AbstractSelectionKey', 
 			'AbstractSelector', 'SelectorProvider'),
 
-		 'java/java/java/nio/channels/spi',
+		 'java/java4/java/nio/channels/spi',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/nio/channels/spi/{FNAME}.html'
 
@@ -524,7 +524,7 @@ function geshi_java_java (&$context)
 			'CodingErrorAction', 'IllegalCharsetNameException', 'MalformedInputException', 
 			'UnmappableCharacterException', 'UnsupportedCharsetException'),
 
-		 'java/java/java/nio/charset',
+		 'java/java4/java/nio/charset',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/nio/charset/{FNAME}.html'
 
@@ -534,7 +534,7 @@ function geshi_java_java (&$context)
 	//java.nio.charset.spi
 			'CharsetProvider'),
 
-		 'java/java/java/nio/charset/spi',
+		 'java/java4/java/nio/charset/spi',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/nio/charset/spi/{FNAME}.html'
 
@@ -550,7 +550,7 @@ function geshi_java_java (&$context)
 			'ServerRuntimeException', 'StubNotFoundException', 'UnexpectedException', 
 			'UnknownHostException', 'UnmarshalException'),
 
-		 'java/java/java/rmi',
+		 'java/java4/java/rmi',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/rmi/{FNAME}.html'
 
@@ -565,7 +565,7 @@ function geshi_java_java (&$context)
 			'ActivationSystem', 'Activator', 'UnknownGroupException', 
 			'UnknownObjectException'),
 
-		 'java/java/java/rmi/activation',
+		 'java/java4/java/rmi/activation',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/rmi/activation/{FNAME}.html'
 
@@ -575,7 +575,7 @@ function geshi_java_java (&$context)
 	//java.rmi.dgc
 			'DGC', 'Lease', 'VMID'),
 
-		 'java/java/java/rmi/dgc',
+		 'java/java4/java/rmi/dgc',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/rmi/dgc/{FNAME}.html'
 
@@ -585,7 +585,7 @@ function geshi_java_java (&$context)
 	//java.rmi.registry
 			'LocateRegistry', 'Registry', 'RegistryHandler'),
 
-		 'java/java/java/rmi/registry',
+		 'java/java4/java/rmi/registry',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/rmi/registry/{FNAME}.html'
 
@@ -603,7 +603,7 @@ function geshi_java_java (&$context)
 			'SkeletonNotFoundException', 'SocketSecurityException', 'UID', 
 			'UnicastRemoteObject', 'Unreferenced'),
 
-		 'java/java/java/rmi/server',
+		 'java/java4/java/rmi/server',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/rmi/server/{FNAME}.html'
 
@@ -633,7 +633,7 @@ function geshi_java_java (&$context)
 			'SignatureException', 'SignatureSpi', 'SignedObject', 
 			'Signer', 'UnrecoverableKeyException', 'UnresolvedPermission'),
 
-		 'java/java/java/security',
+		 'java/java4/java/security',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/security/{FNAME}.html'
 
@@ -645,7 +645,7 @@ function geshi_java_java (&$context)
 			'Group', 'LastOwnerException', 'NotOwnerException', 
 			'Owner', 'Permission'),
 
-		 'java/java/java/security/acl',
+		 'java/java4/java/security/acl',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/security/acl/{FNAME}.html'
 
@@ -669,7 +669,7 @@ function geshi_java_java (&$context)
 			'X509CRLEntry', 'X509CRLSelector', 'X509CertSelector', 
 			'X509Certificate', 'X509Extension'),
 
-		 'java/java/java/security/cert',
+		 'java/java4/java/security/cert',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/security/cert/{FNAME}.html'
 
@@ -682,7 +682,7 @@ function geshi_java_java (&$context)
 			'RSAMultiPrimePrivateCrtKey', 'RSAPrivateCrtKey', 'RSAPrivateKey', 
 			'RSAPublicKey'),
 
-		 'java/java/java/security/interfaces',
+		 'java/java4/java/security/interfaces',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/security/interfaces/{FNAME}.html'
 
@@ -697,7 +697,7 @@ function geshi_java_java (&$context)
 			'RSAOtherPrimeInfo', 'RSAPrivateCrtKeySpec', 'RSAPrivateKeySpec', 
 			'RSAPublicKeySpec', 'X509EncodedKeySpec'),
 
-		 'java/java/java/security/spec',
+		 'java/java4/java/security/spec',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/security/spec/{FNAME}.html'
 
@@ -716,7 +716,7 @@ function geshi_java_java (&$context)
 			'Statement', 'Struct', 'Time', 
 			'Timestamp', 'Types'),
 
-		 'java/java/java/sql',
+		 'java/java4/java/sql',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/sql/{FNAME}.html'
 
@@ -735,7 +735,7 @@ function geshi_java_java (&$context)
 			'ParsePosition', 'RuleBasedCollator', 'SimpleDateFormat', 
 			'StringCharacterIterator'),
 
-		 'java/java/java/text',
+		 'java/java4/java/text',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/text/{FNAME}.html'
 
@@ -764,7 +764,7 @@ function geshi_java_java (&$context)
 			'TimerTask', 'TooManyListenersException', 'TreeMap', 
 			'TreeSet', 'Vector', 'WeakHashMap'),
 
-		 'java/java/java/util',
+		 'java/java4/java/util',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/util/{FNAME}.html'
 
@@ -776,7 +776,7 @@ function geshi_java_java (&$context)
 			'JarException', 'JarFile', 'JarInputStream', 
 			'JarOutputStream', 'Manifest'),
 
-		 'java/java/java/util/jar',
+		 'java/java4/java/util/jar',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/util/jar/{FNAME}.html'
 
@@ -791,7 +791,7 @@ function geshi_java_java (&$context)
 			'SimpleFormatter', 'SocketHandler', 'StreamHandler', 
 			'XMLFormatter'),
 
-		 'java/java/java/util/logging',
+		 'java/java4/java/util/logging',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/util/logging/{FNAME}.html'
 
@@ -803,7 +803,7 @@ function geshi_java_java (&$context)
 			'NodeChangeEvent', 'NodeChangeListener', 'PreferenceChangeEvent', 
 			'PreferenceChangeListener', 'Preferences', 'PreferencesFactory'),
 
-		 'java/java/java/util/prefs',
+		 'java/java4/java/util/prefs',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/util/prefs/{FNAME}.html'
 
@@ -813,7 +813,7 @@ function geshi_java_java (&$context)
 	//java.util.regex
 			'Matcher', 'Pattern', 'PatternSyntaxException'),
 
-		 'java/java/java/util/regex',
+		 'java/java4/java/util/regex',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/util/regex/{FNAME}.html'
 
@@ -828,7 +828,7 @@ function geshi_java_java (&$context)
 			'ZipEntry', 'ZipException', 'ZipFile', 
 			'ZipInputStream', 'ZipOutputStream'),
 
-		 'java/java/java/util/zip',
+		 'java/java4/java/util/zip',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/java/util/zip/{FNAME}.html'
 
@@ -845,7 +845,7 @@ function geshi_java_java (&$context)
 			'AccessibleStateSet', 'AccessibleTable', 'AccessibleTableModelChange', 
 			'AccessibleText', 'AccessibleValue'),
 
-		 'java/java/javax/accessibility',
+		 'java/java4/javax/accessibility',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/accessibility/{FNAME}.html'
 
@@ -862,7 +862,7 @@ function geshi_java_java (&$context)
 			'SealedObject', 'SecretKey', 'SecretKeyFactory', 
 			'SecretKeyFactorySpi', 'ShortBufferException'),
 
-		 'java/java/javax/crypto',
+		 'java/java4/javax/crypto',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/crypto/{FNAME}.html'
 
@@ -873,7 +873,7 @@ function geshi_java_java (&$context)
 			'DHKey', 'DHPrivateKey', 'DHPublicKey', 
 			'PBEKey'),
 
-		 'java/java/javax/crypto/interfaces',
+		 'java/java4/javax/crypto/interfaces',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/crypto/interfaces/{FNAME}.html'
 
@@ -886,7 +886,7 @@ function geshi_java_java (&$context)
 			'IvParameterSpec', 'PBEKeySpec', 'PBEParameterSpec', 
 			'RC2ParameterSpec', 'RC5ParameterSpec', 'SecretKeySpec'),
 
-		 'java/java/javax/crypto/spec',
+		 'java/java4/javax/crypto/spec',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/crypto/spec/{FNAME}.html'
 
@@ -899,7 +899,7 @@ function geshi_java_java (&$context)
 			'ImageReader', 'ImageTranscoder', 'ImageTypeSpecifier', 
 			'ImageWriteParam', 'ImageWriter'),
 
-		 'java/java/javax/imageio',
+		 'java/java4/javax/imageio',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/{FNAME}.html'
 
@@ -910,7 +910,7 @@ function geshi_java_java (&$context)
 			'IIOReadProgressListener', 'IIOReadUpdateListener', 'IIOReadWarningListener', 
 			'IIOWriteProgressListener', 'IIOWriteWarningListener'),
 
-		 'java/java/javax/imageio/event',
+		 'java/java4/javax/imageio/event',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/event/{FNAME}.html'
 
@@ -921,7 +921,7 @@ function geshi_java_java (&$context)
 			'IIOInvalidTreeException', 'IIOMetadata', 'IIOMetadataController', 
 			'IIOMetadataFormat', 'IIOMetadataFormatImpl', 'IIOMetadataNode'),
 
-		 'java/java/javax/imageio/metadata',
+		 'java/java4/javax/imageio/metadata',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/metadata/{FNAME}.html'
 
@@ -932,7 +932,7 @@ function geshi_java_java (&$context)
 			'JPEGHuffmanTable', 'JPEGImageReadParam', 'JPEGImageWriteParam', 
 			'JPEGQTable'),
 
-		 'java/java/javax/imageio/plugins/jpeg',
+		 'java/java4/javax/imageio/plugins/jpeg',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/plugins/jpeg/{FNAME}.html'
 
@@ -945,7 +945,7 @@ function geshi_java_java (&$context)
 			'ImageTranscoderSpi', 'ImageWriterSpi', 'RegisterableService', 
 			'ServiceRegistry', 'ServiceRegistry.Filter'),
 
-		 'java/java/javax/imageio/spi',
+		 'java/java4/javax/imageio/spi',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/spi/{FNAME}.html'
 
@@ -958,7 +958,7 @@ function geshi_java_java (&$context)
 			'ImageInputStreamImpl', 'ImageOutputStream', 'ImageOutputStreamImpl', 
 			'MemoryCacheImageInputStream', 'MemoryCacheImageOutputStream'),
 
-		 'java/java/javax/imageio/stream',
+		 'java/java4/javax/imageio/stream',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/stream/{FNAME}.html'
 
@@ -981,7 +981,7 @@ function geshi_java_java (&$context)
 			'ReferralException', 'ServiceUnavailableException', 'SizeLimitExceededException', 
 			'StringRefAddr', 'TimeLimitExceededException'),
 
-		 'java/java/javax/naming',
+		 'java/java4/javax/naming',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/naming/{FNAME}.html'
 
@@ -996,7 +996,7 @@ function geshi_java_java (&$context)
 			'InvalidSearchFilterException', 'ModificationItem', 'NoSuchAttributeException', 
 			'SchemaViolationException', 'SearchControls', 'SearchResult'),
 
-		 'java/java/javax/naming/directory',
+		 'java/java4/javax/naming/directory',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/naming/directory/{FNAME}.html'
 
@@ -1008,7 +1008,7 @@ function geshi_java_java (&$context)
 			'NamingEvent', 'NamingExceptionEvent', 'NamingListener', 
 			'ObjectChangeListener'),
 
-		 'java/java/javax/naming/event',
+		 'java/java4/javax/naming/event',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/naming/event/{FNAME}.html'
 
@@ -1022,7 +1022,7 @@ function geshi_java_java (&$context)
 			'StartTlsResponse', 'UnsolicitedNotification', 'UnsolicitedNotificationEvent', 
 			'UnsolicitedNotificationListener'),
 
-		 'java/java/javax/naming/ldap',
+		 'java/java4/javax/naming/ldap',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/naming/ldap/{FNAME}.html'
 
@@ -1035,7 +1035,7 @@ function geshi_java_java (&$context)
 			'NamingManager', 'ObjectFactory', 'ObjectFactoryBuilder', 
 			'ResolveResult', 'Resolver', 'StateFactory'),
 
-		 'java/java/javax/naming/spi',
+		 'java/java4/javax/naming/spi',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/naming/spi/{FNAME}.html'
 
@@ -1045,7 +1045,7 @@ function geshi_java_java (&$context)
 	//javax.net
 			'ServerSocketFactory', 'SocketFactory'),
 
-		 'java/java/javax/net',
+		 'java/java4/javax/net',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/net/{FNAME}.html'
 
@@ -1064,7 +1064,7 @@ function geshi_java_java (&$context)
 			'TrustManager', 'TrustManagerFactory', 'TrustManagerFactorySpi', 
 			'X509KeyManager', 'X509TrustManager'),
 
-		 'java/java/javax/net/ssl',
+		 'java/java4/javax/net/ssl',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/net/ssl/{FNAME}.html'
 
@@ -1082,7 +1082,7 @@ function geshi_java_java (&$context)
 			'SimpleDoc', 'StreamPrintService', 'StreamPrintServiceFactory', 
 			'URIException'),
 
-		 'java/java/javax/print',
+		 'java/java4/javax/print',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/print/{FNAME}.html'
 
@@ -1100,7 +1100,7 @@ function geshi_java_java (&$context)
 			'Size2DSyntax', 'SupportedValuesAttribute', 'TextSyntax', 
 			'URISyntax', 'UnmodifiableSetException'),
 
-		 'java/java/javax/print/attribute',
+		 'java/java4/javax/print/attribute',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/print/attribute/{FNAME}.html'
 
@@ -1134,7 +1134,7 @@ function geshi_java_java (&$context)
 			'ReferenceUriSchemesSupported', 'RequestingUserName', 'Severity', 
 			'SheetCollate', 'Sides'),
 
-		 'java/java/javax/print/attribute/standard',
+		 'java/java4/javax/print/attribute/standard',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/print/attribute/standard/{FNAME}.html'
 
@@ -1146,7 +1146,7 @@ function geshi_java_java (&$context)
 			'PrintJobAttributeListener', 'PrintJobEvent', 'PrintJobListener', 
 			'PrintServiceAttributeEvent', 'PrintServiceAttributeListener'),
 
-		 'java/java/javax/print/event',
+		 'java/java4/javax/print/event',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/print/event/{FNAME}.html'
 
@@ -1156,7 +1156,7 @@ function geshi_java_java (&$context)
 	//javax.rmi
 			'PortableRemoteObject'),
 
-		 'java/java/javax/rmi',
+		 'java/java4/javax/rmi',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/rmi/{FNAME}.html'
 
@@ -1168,7 +1168,7 @@ function geshi_java_java (&$context)
 			'StubDelegate', 'Tie', 'Util', 
 			'UtilDelegate', 'ValueHandler'),
 
-		 'java/java/javax/rmi/CORBA',
+		 'java/java4/javax/rmi/CORBA',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/rmi/CORBA/{FNAME}.html'
 
@@ -1180,7 +1180,7 @@ function geshi_java_java (&$context)
 			'Policy', 'PrivateCredentialPermission', 'RefreshFailedException', 
 			'Refreshable', 'Subject', 'SubjectDomainCombiner'),
 
-		 'java/java/javax/security/auth',
+		 'java/java4/javax/security/auth',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/auth/{FNAME}.html'
 
@@ -1193,7 +1193,7 @@ function geshi_java_java (&$context)
 			'PasswordCallback', 'TextInputCallback', 'TextOutputCallback', 
 			'UnsupportedCallbackException'),
 
-		 'java/java/javax/security/auth/callback',
+		 'java/java4/javax/security/auth/callback',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/auth/callback/{FNAME}.html'
 
@@ -1204,7 +1204,7 @@ function geshi_java_java (&$context)
 			'DelegationPermission', 'KerberosKey', 'KerberosPrincipal', 
 			'KerberosTicket', 'ServicePermission'),
 
-		 'java/java/javax/security/auth/kerberos',
+		 'java/java4/javax/security/auth/kerberos',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/auth/kerberos/{FNAME}.html'
 
@@ -1216,7 +1216,7 @@ function geshi_java_java (&$context)
 			'Configuration', 'CredentialExpiredException', 'FailedLoginException', 
 			'LoginContext', 'LoginException'),
 
-		 'java/java/javax/security/auth/login',
+		 'java/java4/javax/security/auth/login',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/auth/login/{FNAME}.html'
 
@@ -1226,7 +1226,7 @@ function geshi_java_java (&$context)
 	//javax.security.auth.spi
 			'LoginModule'),
 
-		 'java/java/javax/security/auth/spi',
+		 'java/java4/javax/security/auth/spi',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/auth/spi/{FNAME}.html'
 
@@ -1236,7 +1236,7 @@ function geshi_java_java (&$context)
 	//javax.security.auth.x500
 			'X500Principal', 'X500PrivateCredential'),
 
-		 'java/java/javax/security/auth/x500',
+		 'java/java4/javax/security/auth/x500',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/auth/x500/{FNAME}.html'
 
@@ -1248,7 +1248,7 @@ function geshi_java_java (&$context)
 			'CertificateExpiredException', 'CertificateNotYetValidException', 'CertificateParsingException', 
 			'X509Certificate'),
 
-		 'java/java/javax/security/cert',
+		 'java/java4/javax/security/cert',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/cert/{FNAME}.html'
 
@@ -1266,7 +1266,7 @@ function geshi_java_java (&$context)
 			'Synthesizer', 'SysexMessage', 'Track', 
 			'Transmitter', 'VoiceStatus'),
 
-		 'java/java/javax/sound/midi',
+		 'java/java4/javax/sound/midi',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/sound/midi/{FNAME}.html'
 
@@ -1277,7 +1277,7 @@ function geshi_java_java (&$context)
 			'MidiDeviceProvider', 'MidiFileReader', 'MidiFileWriter', 
 			'SoundbankReader'),
 
-		 'java/java/javax/sound/midi/spi',
+		 'java/java4/javax/sound/midi/spi',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/sound/midi/spi/{FNAME}.html'
 
@@ -1298,7 +1298,7 @@ function geshi_java_java (&$context)
 			'ReverbType', 'SourceDataLine', 'TargetDataLine', 
 			'UnsupportedAudioFileException'),
 
-		 'java/java/javax/sound/sampled',
+		 'java/java4/javax/sound/sampled',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/sound/sampled/{FNAME}.html'
 
@@ -1309,7 +1309,7 @@ function geshi_java_java (&$context)
 			'AudioFileReader', 'AudioFileWriter', 'FormatConversionProvider', 
 			'MixerProvider'),
 
-		 'java/java/javax/sound/sampled/spi',
+		 'java/java4/javax/sound/sampled/spi',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/sound/sampled/spi/{FNAME}.html'
 
@@ -1323,7 +1323,7 @@ function geshi_java_java (&$context)
 			'RowSetMetaData', 'RowSetReader', 'RowSetWriter', 
 			'XAConnection', 'XADataSource'),
 
-		 'java/java/javax/sql',
+		 'java/java4/javax/sql',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/sql/{FNAME}.html'
 
@@ -1380,7 +1380,7 @@ function geshi_java_java (&$context)
 			'UIDefaults.ProxyLazyValue', 'UIManager', 'UIManager.LookAndFeelInfo', 
 			'UnsupportedLookAndFeelException', 'ViewportLayout', 'WindowConstants'),
 
-		 'java/java/javax/swing',
+		 'java/java4/javax/swing',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/{FNAME}.html'
 
@@ -1393,7 +1393,7 @@ function geshi_java_java (&$context)
 			'LineBorder', 'MatteBorder', 'SoftBevelBorder', 
 			'TitledBorder'),
 
-		 'java/java/javax/swing/border',
+		 'java/java4/javax/swing/border',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/border/{FNAME}.html'
 
@@ -1404,7 +1404,7 @@ function geshi_java_java (&$context)
 			'AbstractColorChooserPanel', 'ColorChooserComponentFactory', 'ColorSelectionModel', 
 			'DefaultColorSelectionModel'),
 
-		 'java/java/javax/swing/colorchooser',
+		 'java/java4/javax/swing/colorchooser',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/colorchooser/{FNAME}.html'
 
@@ -1429,7 +1429,7 @@ function geshi_java_java (&$context)
 			'TreeSelectionListener', 'TreeWillExpandListener', 'UndoableEditEvent', 
 			'UndoableEditListener'),
 
-		 'java/java/javax/swing/event',
+		 'java/java4/javax/swing/event',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/event/{FNAME}.html'
 
@@ -1439,7 +1439,7 @@ function geshi_java_java (&$context)
 	//javax.swing.filechooser
 			'FileFilter', 'FileSystemView', 'FileView'),
 
-		 'java/java/javax/swing/filechooser',
+		 'java/java4/javax/swing/filechooser',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/filechooser/{FNAME}.html'
 
@@ -1464,7 +1464,7 @@ function geshi_java_java (&$context)
 			'TextUI', 'ToolBarUI', 'ToolTipUI', 
 			'TreeUI', 'UIResource', 'ViewportUI'),
 
-		 'java/java/javax/swing/plaf',
+		 'java/java4/javax/swing/plaf',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/plaf/{FNAME}.html'
 
@@ -1497,7 +1497,7 @@ function geshi_java_java (&$context)
 			'BasicToolBarUI', 'BasicToolTipUI', 'BasicTreeUI', 
 			'BasicViewportUI', 'ComboPopup', 'DefaultMenuLayout'),
 
-		 'java/java/javax/swing/plaf/basic',
+		 'java/java4/javax/swing/plaf/basic',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/plaf/basic/{FNAME}.html'
 
@@ -1524,7 +1524,7 @@ function geshi_java_java (&$context)
 			'MetalTextFieldUI', 'MetalTheme', 'MetalToggleButtonUI', 
 			'MetalToolBarUI', 'MetalToolTipUI', 'MetalTreeUI'),
 
-		 'java/java/javax/swing/plaf/metal',
+		 'java/java4/javax/swing/plaf/metal',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/plaf/metal/{FNAME}.html'
 
@@ -1544,7 +1544,7 @@ function geshi_java_java (&$context)
 			'MultiToolBarUI', 'MultiToolTipUI', 'MultiTreeUI', 
 			'MultiViewportUI'),
 
-		 'java/java/javax/swing/plaf/multi',
+		 'java/java4/javax/swing/plaf/multi',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/plaf/multi/{FNAME}.html'
 
@@ -1557,7 +1557,7 @@ function geshi_java_java (&$context)
 			'TableCellEditor', 'TableCellRenderer', 'TableColumn', 
 			'TableColumnModel', 'TableModel'),
 
-		 'java/java/javax/swing/table',
+		 'java/java4/javax/swing/table',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/table/{FNAME}.html'
 
@@ -1600,7 +1600,7 @@ function geshi_java_java (&$context)
 			'TextAction', 'Utilities', 'View', 
 			'ViewFactory', 'WrappedPlainView', 'ZoneView'),
 
-		 'java/java/javax/swing/text',
+		 'java/java4/javax/swing/text',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/text/{FNAME}.html'
 
@@ -1619,7 +1619,7 @@ function geshi_java_java (&$context)
 			'Option', 'ParagraphView', 'StyleSheet', 
 			'StyleSheet.BoxPainter', 'StyleSheet.ListPainter'),
 
-		 'java/java/javax/swing/text/html',
+		 'java/java4/javax/swing/text/html',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/text/html/{FNAME}.html'
 
@@ -1632,7 +1632,7 @@ function geshi_java_java (&$context)
 			'Entity', 'Parser', 'ParserDelegator', 
 			'TagElement'),
 
-		 'java/java/javax/swing/text/html/parser',
+		 'java/java4/javax/swing/text/html/parser',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/text/html/parser/{FNAME}.html'
 
@@ -1642,7 +1642,7 @@ function geshi_java_java (&$context)
 	//javax.swing.text.rtf
 			'RTFEditorKit'),
 
-		 'java/java/javax/swing/text/rtf',
+		 'java/java4/javax/swing/text/rtf',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/text/rtf/{FNAME}.html'
 
@@ -1657,7 +1657,7 @@ function geshi_java_java (&$context)
 			'TreeCellRenderer', 'TreeModel', 'TreeNode', 
 			'TreePath', 'TreeSelectionModel', 'VariableHeightLayoutCache'),
 
-		 'java/java/javax/swing/tree',
+		 'java/java4/javax/swing/tree',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/tree/{FNAME}.html'
 
@@ -1669,7 +1669,7 @@ function geshi_java_java (&$context)
 			'CompoundEdit', 'StateEdit', 'StateEditable', 
 			'UndoManager', 'UndoableEdit', 'UndoableEditSupport'),
 
-		 'java/java/javax/swing/undo',
+		 'java/java4/javax/swing/undo',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/undo/{FNAME}.html'
 
@@ -1679,7 +1679,7 @@ function geshi_java_java (&$context)
 	//javax.transaction
 			'InvalidTransactionException', 'TransactionRequiredException', 'TransactionRolledbackException'),
 
-		 'java/java/javax/transaction',
+		 'java/java4/javax/transaction',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/transaction/{FNAME}.html'
 
@@ -1689,7 +1689,7 @@ function geshi_java_java (&$context)
 	//javax.transaction.xa
 			'XAException', 'XAResource', 'Xid'),
 
-		 'java/java/javax/transaction/xa',
+		 'java/java4/javax/transaction/xa',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/transaction/xa/{FNAME}.html'
 
@@ -1700,7 +1700,7 @@ function geshi_java_java (&$context)
 			'DocumentBuilder', 'DocumentBuilderFactory', 'FactoryConfigurationError', 
 			'ParserConfigurationException', 'SAXParser', 'SAXParserFactory'),
 
-		 'java/java/javax/xml/parsers',
+		 'java/java4/javax/xml/parsers',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/parsers/{FNAME}.html'
 
@@ -1713,7 +1713,7 @@ function geshi_java_java (&$context)
 			'Transformer', 'TransformerConfigurationException', 'TransformerException', 
 			'TransformerFactory', 'TransformerFactoryConfigurationError', 'URIResolver'),
 
-		 'java/java/javax/xml/transform',
+		 'java/java4/javax/xml/transform',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/transform/{FNAME}.html'
 
@@ -1723,7 +1723,7 @@ function geshi_java_java (&$context)
 	//javax.xml.transform.dom
 			'DOMLocator', 'DOMResult', 'DOMSource'),
 
-		 'java/java/javax/xml/transform/dom',
+		 'java/java4/javax/xml/transform/dom',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/transform/dom/{FNAME}.html'
 
@@ -1734,7 +1734,7 @@ function geshi_java_java (&$context)
 			'SAXResult', 'SAXSource', 'SAXTransformerFactory', 
 			'TemplatesHandler', 'TransformerHandler'),
 
-		 'java/java/javax/xml/transform/sax',
+		 'java/java4/javax/xml/transform/sax',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/transform/sax/{FNAME}.html'
 
@@ -1744,7 +1744,7 @@ function geshi_java_java (&$context)
 	//javax.xml.transform.stream
 			'StreamResult', 'StreamSource'),
 
-		 'java/java/javax/xml/transform/stream',
+		 'java/java4/javax/xml/transform/stream',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/transform/stream/{FNAME}.html'
 
@@ -1756,7 +1756,7 @@ function geshi_java_java (&$context)
 			'GSSException', 'GSSManager', 'GSSName', 
 			'MessageProp', 'Oid'),
 
-		 'java/java/org/ietf/jgss',
+		 'java/java4/org/ietf/jgss',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/ietf/jgss/{FNAME}.html'
 
@@ -1826,7 +1826,7 @@ function geshi_java_java (&$context)
 			'WrongTransaction', 'WrongTransactionHelper', 'WrongTransactionHolder', 
 			'_IDLTypeStub', '_PolicyStub'),
 
-		 'java/java/org/omg/CORBA',
+		 'java/java4/org/omg/CORBA',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA/{FNAME}.html'
 
@@ -1836,7 +1836,7 @@ function geshi_java_java (&$context)
 	//org.omg.CORBA_2_3
 			'ORB'),
 
-		 'java/java/org/omg/CORBA_2_3',
+		 'java/java4/org/omg/CORBA_2_3',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA_2_3/{FNAME}.html'
 
@@ -1847,7 +1847,7 @@ function geshi_java_java (&$context)
 			'Delegate', 'InputStream', 'ObjectImpl', 
 			'OutputStream'),
 
-		 'java/java/org/omg/CORBA_2_3/portable',
+		 'java/java4/org/omg/CORBA_2_3/portable',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA_2_3/portable/{FNAME}.html'
 
@@ -1858,7 +1858,7 @@ function geshi_java_java (&$context)
 			'Invalid', 'InvalidSeq', 'InvalidValue', 
 			'TypeMismatch'),
 
-		 'java/java/org/omg/CORBA/DynAnyPackage',
+		 'java/java4/org/omg/CORBA/DynAnyPackage',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA/DynAnyPackage/{FNAME}.html'
 
@@ -1868,7 +1868,7 @@ function geshi_java_java (&$context)
 	//org.omg.CORBA.ORBPackage
 			'InconsistentTypeCode', 'InvalidName'),
 
-		 'java/java/org/omg/CORBA/ORBPackage',
+		 'java/java4/org/omg/CORBA/ORBPackage',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA/ORBPackage/{FNAME}.html'
 
@@ -1883,7 +1883,7 @@ function geshi_java_java (&$context)
 			'ServantObject', 'Streamable', 'StreamableValue', 
 			'UnknownException', 'ValueBase', 'ValueFactory'),
 
-		 'java/java/org/omg/CORBA/portable',
+		 'java/java4/org/omg/CORBA/portable',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA/portable/{FNAME}.html'
 
@@ -1893,7 +1893,7 @@ function geshi_java_java (&$context)
 	//org.omg.CORBA.TypeCodePackage
 			'BadKind', 'Bounds'),
 
-		 'java/java/org/omg/CORBA/TypeCodePackage',
+		 'java/java4/org/omg/CORBA/TypeCodePackage',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA/TypeCodePackage/{FNAME}.html'
 
@@ -1914,7 +1914,7 @@ function geshi_java_java (&$context)
 			'_BindingIteratorStub', '_NamingContextExtStub', '_NamingContextImplBase', 
 			'_NamingContextStub'),
 
-		 'java/java/org/omg/CosNaming',
+		 'java/java4/org/omg/CosNaming',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CosNaming/{FNAME}.html'
 
@@ -1925,7 +1925,7 @@ function geshi_java_java (&$context)
 			'AddressHelper', 'InvalidAddress', 'InvalidAddressHelper', 
 			'InvalidAddressHolder', 'StringNameHelper', 'URLStringHelper'),
 
-		 'java/java/org/omg/CosNaming/NamingContextExtPackage',
+		 'java/java4/org/omg/CosNaming/NamingContextExtPackage',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CosNaming/NamingContextExtPackage/{FNAME}.html'
 
@@ -1940,7 +1940,7 @@ function geshi_java_java (&$context)
 			'NotFound', 'NotFoundHelper', 'NotFoundHolder', 
 			'NotFoundReason', 'NotFoundReasonHelper', 'NotFoundReasonHolder'),
 
-		 'java/java/org/omg/CosNaming/NamingContextPackage',
+		 'java/java4/org/omg/CosNaming/NamingContextPackage',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CosNaming/NamingContextPackage/{FNAME}.html'
 
@@ -1950,7 +1950,7 @@ function geshi_java_java (&$context)
 	//org.omg.Dynamic
 			'Parameter'),
 
-		 'java/java/org/omg/Dynamic',
+		 'java/java4/org/omg/Dynamic',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/Dynamic/{FNAME}.html'
 
@@ -1976,7 +1976,7 @@ function geshi_java_java (&$context)
 			'_DynSequenceStub', '_DynStructStub', '_DynUnionStub', 
 			'_DynValueStub'),
 
-		 'java/java/org/omg/DynamicAny',
+		 'java/java4/org/omg/DynamicAny',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/DynamicAny/{FNAME}.html'
 
@@ -1986,7 +1986,7 @@ function geshi_java_java (&$context)
 	//org.omg.DynamicAny.DynAnyFactoryPackage
 			'InconsistentTypeCode', 'InconsistentTypeCodeHelper'),
 
-		 'java/java/org/omg/DynamicAny/DynAnyFactoryPackage',
+		 'java/java4/org/omg/DynamicAny/DynAnyFactoryPackage',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/DynamicAny/DynAnyFactoryPackage/{FNAME}.html'
 
@@ -1997,7 +1997,7 @@ function geshi_java_java (&$context)
 			'InvalidValue', 'InvalidValueHelper', 'TypeMismatch', 
 			'TypeMismatchHelper'),
 
-		 'java/java/org/omg/DynamicAny/DynAnyPackage',
+		 'java/java4/org/omg/DynamicAny/DynAnyPackage',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/DynamicAny/DynAnyPackage/{FNAME}.html'
 
@@ -2018,7 +2018,7 @@ function geshi_java_java (&$context)
 			'TaggedComponentHolder', 'TaggedProfile', 'TaggedProfileHelper', 
 			'TaggedProfileHolder', 'TransactionService'),
 
-		 'java/java/org/omg/IOP',
+		 'java/java4/org/omg/IOP',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/IOP/{FNAME}.html'
 
@@ -2028,7 +2028,7 @@ function geshi_java_java (&$context)
 	//org.omg.IOP.CodecFactoryPackage
 			'UnknownEncoding', 'UnknownEncodingHelper'),
 
-		 'java/java/org/omg/IOP/CodecFactoryPackage',
+		 'java/java4/org/omg/IOP/CodecFactoryPackage',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/IOP/CodecFactoryPackage/{FNAME}.html'
 
@@ -2039,7 +2039,7 @@ function geshi_java_java (&$context)
 			'FormatMismatch', 'FormatMismatchHelper', 'InvalidTypeForEncoding', 
 			'InvalidTypeForEncodingHelper', 'TypeMismatch', 'TypeMismatchHelper'),
 
-		 'java/java/org/omg/IOP/CodecPackage',
+		 'java/java4/org/omg/IOP/CodecPackage',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/IOP/CodecPackage/{FNAME}.html'
 
@@ -2049,7 +2049,7 @@ function geshi_java_java (&$context)
 	//org.omg.Messaging
 			'SYNC_WITH_TRANSPORT', 'SyncScopeHelper'),
 
-		 'java/java/org/omg/Messaging',
+		 'java/java4/org/omg/Messaging',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/Messaging/{FNAME}.html'
 
@@ -2070,7 +2070,7 @@ function geshi_java_java (&$context)
 			'ServerRequestInterceptor', 'ServerRequestInterceptorOperations', 'TRANSPORT_RETRY', 
 			'USER_EXCEPTION'),
 
-		 'java/java/org/omg/PortableInterceptor',
+		 'java/java4/org/omg/PortableInterceptor',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableInterceptor/{FNAME}.html'
 
@@ -2081,7 +2081,7 @@ function geshi_java_java (&$context)
 			'DuplicateName', 'DuplicateNameHelper', 'InvalidName', 
 			'InvalidNameHelper', 'ObjectIdHelper'),
 
-		 'java/java/org/omg/PortableInterceptor/ORBInitInfoPackage',
+		 'java/java4/org/omg/PortableInterceptor/ORBInitInfoPackage',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableInterceptor/ORBInitInfoPackage/{FNAME}.html'
 
@@ -2108,7 +2108,7 @@ function geshi_java_java (&$context)
 			'THREAD_POLICY_ID', 'ThreadPolicy', 'ThreadPolicyOperations', 
 			'ThreadPolicyValue', '_ServantActivatorStub', '_ServantLocatorStub'),
 
-		 'java/java/org/omg/PortableServer',
+		 'java/java4/org/omg/PortableServer',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableServer/{FNAME}.html'
 
@@ -2118,7 +2118,7 @@ function geshi_java_java (&$context)
 	//org.omg.PortableServer.CurrentPackage
 			'NoContext', 'NoContextHelper'),
 
-		 'java/java/org/omg/PortableServer/CurrentPackage',
+		 'java/java4/org/omg/PortableServer/CurrentPackage',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableServer/CurrentPackage/{FNAME}.html'
 
@@ -2128,7 +2128,7 @@ function geshi_java_java (&$context)
 	//org.omg.PortableServer.POAManagerPackage
 			'AdapterInactive', 'AdapterInactiveHelper', 'State'),
 
-		 'java/java/org/omg/PortableServer/POAManagerPackage',
+		 'java/java4/org/omg/PortableServer/POAManagerPackage',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableServer/POAManagerPackage/{FNAME}.html'
 
@@ -2144,7 +2144,7 @@ function geshi_java_java (&$context)
 			'ServantNotActiveHelper', 'WrongAdapter', 'WrongAdapterHelper', 
 			'WrongPolicy', 'WrongPolicyHelper'),
 
-		 'java/java/org/omg/PortableServer/POAPackage',
+		 'java/java4/org/omg/PortableServer/POAPackage',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableServer/POAPackage/{FNAME}.html'
 
@@ -2154,7 +2154,7 @@ function geshi_java_java (&$context)
 	//org.omg.PortableServer.portable
 			'Delegate'),
 
-		 'java/java/org/omg/PortableServer/portable',
+		 'java/java4/org/omg/PortableServer/portable',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableServer/portable/{FNAME}.html'
 
@@ -2164,7 +2164,7 @@ function geshi_java_java (&$context)
 	//org.omg.PortableServer.ServantLocatorPackage
 			'CookieHolder'),
 
-		 'java/java/org/omg/PortableServer/ServantLocatorPackage',
+		 'java/java4/org/omg/PortableServer/ServantLocatorPackage',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableServer/ServantLocatorPackage/{FNAME}.html'
 
@@ -2174,7 +2174,7 @@ function geshi_java_java (&$context)
 	//org.omg.SendingContext
 			'RunTime', 'RunTimeOperations'),
 
-		 'java/java/org/omg/SendingContext',
+		 'java/java4/org/omg/SendingContext',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/SendingContext/{FNAME}.html'
 
@@ -2184,7 +2184,7 @@ function geshi_java_java (&$context)
 	//org.omg.stub.java.rmi
 			'_Remote_Stub'),
 
-		 'java/java/org/omg/stub/java/rmi',
+		 'java/java4/org/omg/stub/java/rmi',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/stub/java/rmi/{FNAME}.html'
 
@@ -2199,7 +2199,7 @@ function geshi_java_java (&$context)
 			'NamedNodeMap', 'Node', 'NodeList', 
 			'Notation', 'ProcessingInstruction', 'Text'),
 
-		 'java/java/org/w3c/dom',
+		 'java/java4/org/w3c/dom',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/w3c/dom/{FNAME}.html'
 
@@ -2214,7 +2214,7 @@ function geshi_java_java (&$context)
 			'SAXNotRecognizedException', 'SAXNotSupportedException', 'SAXParseException', 
 			'XMLFilter', 'XMLReader'),
 
-		 'java/java/org/xml/sax',
+		 'java/java4/org/xml/sax',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/xml/sax/{FNAME}.html'
 
@@ -2224,7 +2224,7 @@ function geshi_java_java (&$context)
 	//org.xml.sax.ext
 			'DeclHandler', 'LexicalHandler'),
 
-		 'java/java/org/xml/sax/ext',
+		 'java/java4/org/xml/sax/ext',
 		 true,
 		 'http://java.sun.com/j2se/1.5.0/docs/api/org/xml/sax/ext/{FNAME}.html'
 
@@ -2256,7 +2256,7 @@ function geshi_java_java (&$context)
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);    
 }
 
-function geshi_java_java_single_string (&$context)
+function geshi_java_java4_single_string (&$context)
 {
     $context->addDelimiters("'", "'");
     $context->setEscapeCharacters('\\');
@@ -2265,7 +2265,7 @@ function geshi_java_java_single_string (&$context)
     //$context->_contextStyleType = GESHI_STYLE_STRINGS;
 }
 
-function geshi_java_java_double_string (&$context)
+function geshi_java_java4_double_string (&$context)
 {
     $context->addDelimiters('"', array('"', "\n"));
     //$context->setEscapeCharacters('\\');
@@ -2277,14 +2277,14 @@ function geshi_java_java_double_string (&$context)
     //$context->_contextStyleType = GESHI_STYLE_STRINGS;
 }
 
-function geshi_java_java_single_comment (&$context)
+function geshi_java_java4_single_comment (&$context)
 {
     $context->addDelimiters('//', "\n");
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
 }
 
-function geshi_java_java_multi_comment (&$context)
+function geshi_java_java4_multi_comment (&$context)
 {
     $context->addDelimiters('/*', '*/');
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
