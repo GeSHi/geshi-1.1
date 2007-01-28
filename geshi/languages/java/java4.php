@@ -80,7 +80,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/applet',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/applet/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/applet/{FNAME}.html'
 
 	);
 
@@ -126,7 +126,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/awt',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/awt/{FNAME}.html'
 
 	);
 
@@ -138,7 +138,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/awt/color',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/color/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/awt/color/{FNAME}.html'
 
 	);
 
@@ -151,7 +151,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/awt/datatransfer',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/datatransfer/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/awt/datatransfer/{FNAME}.html'
 
 	);
 
@@ -168,7 +168,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/awt/dnd',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/dnd/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/awt/dnd/{FNAME}.html'
 
 	);
 
@@ -192,7 +192,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/awt/event',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/event/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/awt/event/{FNAME}.html'
 
 	);
 
@@ -207,7 +207,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/awt/font',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/font/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/awt/font/{FNAME}.html'
 
 	);
 
@@ -227,7 +227,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/awt/geom',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/geom/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/awt/geom/{FNAME}.html'
 
 	);
 
@@ -238,7 +238,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/awt/im',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/im/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/awt/im/{FNAME}.html'
 
 	);
 
@@ -248,7 +248,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/awt/im/spi',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/im/spi/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/awt/im/spi/{FNAME}.html'
 
 	);
 
@@ -275,7 +275,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/awt/image',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/image/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/awt/image/{FNAME}.html'
 
 	);
 
@@ -287,7 +287,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/awt/image/renderable',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/image/renderable/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/awt/image/renderable/{FNAME}.html'
 
 	);
 
@@ -300,7 +300,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/awt/print',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/awt/print/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/awt/print/{FNAME}.html'
 
 	);
 
@@ -321,7 +321,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/beans',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/beans/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/beans/{FNAME}.html'
 
 	);
 
@@ -337,7 +337,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/beans/beancontext',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/beans/beancontext/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/beans/beancontext/{FNAME}.html'
 
 	);
 
@@ -372,7 +372,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/io',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/io/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/io/{FNAME}.html'
 
 	);
 
@@ -408,7 +408,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/lang',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/lang/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/lang/{FNAME}.html'
 
 	);
 
@@ -419,7 +419,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/lang/ref',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/lang/ref/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/lang/ref/{FNAME}.html'
 
 	);
 
@@ -432,7 +432,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/lang/reflect',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/lang/reflect/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/lang/reflect/{FNAME}.html'
 
 	);
 
@@ -442,7 +442,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/math',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/math/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/math/{FNAME}.html'
 
 	);
 
@@ -466,7 +466,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/net',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/net/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/net/{FNAME}.html'
 
 	);
 
@@ -480,7 +480,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/nio',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/nio/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/nio/{FNAME}.html'
 
 	);
 
@@ -502,7 +502,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/nio/channels',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/nio/channels/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/nio/channels/{FNAME}.html'
 
 	);
 
@@ -513,7 +513,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/nio/channels/spi',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/nio/channels/spi/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/nio/channels/spi/{FNAME}.html'
 
 	);
 
@@ -526,7 +526,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/nio/charset',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/nio/charset/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/nio/charset/{FNAME}.html'
 
 	);
 
@@ -536,7 +536,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/nio/charset/spi',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/nio/charset/spi/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/nio/charset/spi/{FNAME}.html'
 
 	);
 
@@ -552,7 +552,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/rmi',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/rmi/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/rmi/{FNAME}.html'
 
 	);
 
@@ -567,7 +567,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/rmi/activation',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/rmi/activation/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/rmi/activation/{FNAME}.html'
 
 	);
 
@@ -577,7 +577,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/rmi/dgc',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/rmi/dgc/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/rmi/dgc/{FNAME}.html'
 
 	);
 
@@ -587,7 +587,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/rmi/registry',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/rmi/registry/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/rmi/registry/{FNAME}.html'
 
 	);
 
@@ -605,7 +605,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/rmi/server',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/rmi/server/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/rmi/server/{FNAME}.html'
 
 	);
 
@@ -635,7 +635,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/security',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/security/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/security/{FNAME}.html'
 
 	);
 
@@ -647,7 +647,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/security/acl',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/security/acl/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/security/acl/{FNAME}.html'
 
 	);
 
@@ -671,7 +671,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/security/cert',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/security/cert/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/security/cert/{FNAME}.html'
 
 	);
 
@@ -684,7 +684,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/security/interfaces',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/security/interfaces/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/security/interfaces/{FNAME}.html'
 
 	);
 
@@ -699,7 +699,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/security/spec',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/security/spec/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/security/spec/{FNAME}.html'
 
 	);
 
@@ -718,7 +718,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/sql',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/sql/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/sql/{FNAME}.html'
 
 	);
 
@@ -737,7 +737,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/text',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/text/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/text/{FNAME}.html'
 
 	);
 
@@ -766,7 +766,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/util',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/util/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/util/{FNAME}.html'
 
 	);
 
@@ -778,7 +778,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/util/jar',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/util/jar/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/util/jar/{FNAME}.html'
 
 	);
 
@@ -793,7 +793,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/util/logging',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/util/logging/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/util/logging/{FNAME}.html'
 
 	);
 
@@ -805,7 +805,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/util/prefs',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/util/prefs/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/util/prefs/{FNAME}.html'
 
 	);
 
@@ -815,7 +815,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/util/regex',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/util/regex/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/util/regex/{FNAME}.html'
 
 	);
 
@@ -830,7 +830,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/java/util/zip',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/java/util/zip/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/java/util/zip/{FNAME}.html'
 
 	);
 
@@ -847,7 +847,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/accessibility',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/accessibility/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/accessibility/{FNAME}.html'
 
 	);
 
@@ -864,7 +864,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/crypto',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/crypto/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/crypto/{FNAME}.html'
 
 	);
 
@@ -875,7 +875,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/crypto/interfaces',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/crypto/interfaces/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/crypto/interfaces/{FNAME}.html'
 
 	);
 
@@ -888,7 +888,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/crypto/spec',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/crypto/spec/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/crypto/spec/{FNAME}.html'
 
 	);
 
@@ -901,7 +901,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/imageio',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/imageio/{FNAME}.html'
 
 	);
 
@@ -912,7 +912,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/imageio/event',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/event/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/imageio/event/{FNAME}.html'
 
 	);
 
@@ -923,7 +923,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/imageio/metadata',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/metadata/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/imageio/metadata/{FNAME}.html'
 
 	);
 
@@ -934,7 +934,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/imageio/plugins/jpeg',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/plugins/jpeg/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/imageio/plugins/jpeg/{FNAME}.html'
 
 	);
 
@@ -947,7 +947,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/imageio/spi',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/spi/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/imageio/spi/{FNAME}.html'
 
 	);
 
@@ -960,7 +960,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/imageio/stream',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/imageio/stream/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/imageio/stream/{FNAME}.html'
 
 	);
 
@@ -983,7 +983,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/naming',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/naming/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/naming/{FNAME}.html'
 
 	);
 
@@ -998,7 +998,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/naming/directory',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/naming/directory/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/naming/directory/{FNAME}.html'
 
 	);
 
@@ -1010,7 +1010,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/naming/event',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/naming/event/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/naming/event/{FNAME}.html'
 
 	);
 
@@ -1024,7 +1024,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/naming/ldap',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/naming/ldap/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/naming/ldap/{FNAME}.html'
 
 	);
 
@@ -1037,7 +1037,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/naming/spi',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/naming/spi/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/naming/spi/{FNAME}.html'
 
 	);
 
@@ -1047,7 +1047,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/net',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/net/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/net/{FNAME}.html'
 
 	);
 
@@ -1066,7 +1066,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/net/ssl',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/net/ssl/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/net/ssl/{FNAME}.html'
 
 	);
 
@@ -1084,7 +1084,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/print',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/print/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/print/{FNAME}.html'
 
 	);
 
@@ -1102,7 +1102,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/print/attribute',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/print/attribute/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/print/attribute/{FNAME}.html'
 
 	);
 
@@ -1136,7 +1136,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/print/attribute/standard',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/print/attribute/standard/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/print/attribute/standard/{FNAME}.html'
 
 	);
 
@@ -1148,7 +1148,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/print/event',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/print/event/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/print/event/{FNAME}.html'
 
 	);
 
@@ -1158,7 +1158,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/rmi',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/rmi/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/rmi/{FNAME}.html'
 
 	);
 
@@ -1170,7 +1170,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/rmi/CORBA',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/rmi/CORBA/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/rmi/CORBA/{FNAME}.html'
 
 	);
 
@@ -1182,7 +1182,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/security/auth',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/auth/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/security/auth/{FNAME}.html'
 
 	);
 
@@ -1195,7 +1195,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/security/auth/callback',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/auth/callback/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/security/auth/callback/{FNAME}.html'
 
 	);
 
@@ -1206,7 +1206,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/security/auth/kerberos',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/auth/kerberos/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/security/auth/kerberos/{FNAME}.html'
 
 	);
 
@@ -1218,7 +1218,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/security/auth/login',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/auth/login/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/security/auth/login/{FNAME}.html'
 
 	);
 
@@ -1228,7 +1228,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/security/auth/spi',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/auth/spi/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/security/auth/spi/{FNAME}.html'
 
 	);
 
@@ -1238,7 +1238,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/security/auth/x500',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/auth/x500/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/security/auth/x500/{FNAME}.html'
 
 	);
 
@@ -1250,7 +1250,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/security/cert',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/security/cert/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/security/cert/{FNAME}.html'
 
 	);
 
@@ -1268,7 +1268,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/sound/midi',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/sound/midi/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/sound/midi/{FNAME}.html'
 
 	);
 
@@ -1279,7 +1279,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/sound/midi/spi',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/sound/midi/spi/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/sound/midi/spi/{FNAME}.html'
 
 	);
 
@@ -1300,7 +1300,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/sound/sampled',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/sound/sampled/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/sound/sampled/{FNAME}.html'
 
 	);
 
@@ -1311,7 +1311,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/sound/sampled/spi',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/sound/sampled/spi/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/sound/sampled/spi/{FNAME}.html'
 
 	);
 
@@ -1325,7 +1325,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/sql',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/sql/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/sql/{FNAME}.html'
 
 	);
 
@@ -1382,7 +1382,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/swing',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/{FNAME}.html'
 
 	);
 
@@ -1395,7 +1395,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/swing/border',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/border/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/border/{FNAME}.html'
 
 	);
 
@@ -1406,7 +1406,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/swing/colorchooser',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/colorchooser/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/colorchooser/{FNAME}.html'
 
 	);
 
@@ -1431,7 +1431,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/swing/event',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/event/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/event/{FNAME}.html'
 
 	);
 
@@ -1441,7 +1441,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/swing/filechooser',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/filechooser/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/filechooser/{FNAME}.html'
 
 	);
 
@@ -1466,7 +1466,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/swing/plaf',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/plaf/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/plaf/{FNAME}.html'
 
 	);
 
@@ -1499,7 +1499,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/swing/plaf/basic',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/plaf/basic/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/plaf/basic/{FNAME}.html'
 
 	);
 
@@ -1526,7 +1526,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/swing/plaf/metal',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/plaf/metal/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/plaf/metal/{FNAME}.html'
 
 	);
 
@@ -1546,7 +1546,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/swing/plaf/multi',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/plaf/multi/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/plaf/multi/{FNAME}.html'
 
 	);
 
@@ -1559,7 +1559,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/swing/table',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/table/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/table/{FNAME}.html'
 
 	);
 
@@ -1602,7 +1602,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/swing/text',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/text/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/text/{FNAME}.html'
 
 	);
 
@@ -1621,7 +1621,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/swing/text/html',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/text/html/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/text/html/{FNAME}.html'
 
 	);
 
@@ -1634,7 +1634,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/swing/text/html/parser',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/text/html/parser/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/text/html/parser/{FNAME}.html'
 
 	);
 
@@ -1644,7 +1644,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/swing/text/rtf',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/text/rtf/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/text/rtf/{FNAME}.html'
 
 	);
 
@@ -1659,7 +1659,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/swing/tree',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/tree/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/tree/{FNAME}.html'
 
 	);
 
@@ -1671,7 +1671,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/swing/undo',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/swing/undo/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/swing/undo/{FNAME}.html'
 
 	);
 
@@ -1681,7 +1681,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/transaction',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/transaction/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/transaction/{FNAME}.html'
 
 	);
 
@@ -1691,7 +1691,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/transaction/xa',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/transaction/xa/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/transaction/xa/{FNAME}.html'
 
 	);
 
@@ -1702,7 +1702,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/xml/parsers',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/parsers/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/xml/parsers/{FNAME}.html'
 
 	);
 
@@ -1715,7 +1715,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/xml/transform',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/transform/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/xml/transform/{FNAME}.html'
 
 	);
 
@@ -1725,7 +1725,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/xml/transform/dom',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/transform/dom/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/xml/transform/dom/{FNAME}.html'
 
 	);
 
@@ -1736,7 +1736,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/xml/transform/sax',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/transform/sax/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/xml/transform/sax/{FNAME}.html'
 
 	);
 
@@ -1746,7 +1746,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/javax/xml/transform/stream',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/javax/xml/transform/stream/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/javax/xml/transform/stream/{FNAME}.html'
 
 	);
 
@@ -1758,7 +1758,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/ietf/jgss',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/ietf/jgss/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/ietf/jgss/{FNAME}.html'
 
 	);
 
@@ -1828,7 +1828,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/CORBA',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/CORBA/{FNAME}.html'
 
 	);
 
@@ -1838,7 +1838,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/CORBA_2_3',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA_2_3/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/CORBA_2_3/{FNAME}.html'
 
 	);
 
@@ -1849,7 +1849,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/CORBA_2_3/portable',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA_2_3/portable/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/CORBA_2_3/portable/{FNAME}.html'
 
 	);
 
@@ -1860,7 +1860,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/CORBA/DynAnyPackage',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA/DynAnyPackage/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/CORBA/DynAnyPackage/{FNAME}.html'
 
 	);
 
@@ -1870,7 +1870,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/CORBA/ORBPackage',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA/ORBPackage/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/CORBA/ORBPackage/{FNAME}.html'
 
 	);
 
@@ -1885,7 +1885,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/CORBA/portable',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA/portable/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/CORBA/portable/{FNAME}.html'
 
 	);
 
@@ -1895,7 +1895,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/CORBA/TypeCodePackage',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CORBA/TypeCodePackage/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/CORBA/TypeCodePackage/{FNAME}.html'
 
 	);
 
@@ -1916,7 +1916,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/CosNaming',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CosNaming/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/CosNaming/{FNAME}.html'
 
 	);
 
@@ -1927,7 +1927,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/CosNaming/NamingContextExtPackage',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CosNaming/NamingContextExtPackage/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/CosNaming/NamingContextExtPackage/{FNAME}.html'
 
 	);
 
@@ -1942,7 +1942,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/CosNaming/NamingContextPackage',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/CosNaming/NamingContextPackage/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/CosNaming/NamingContextPackage/{FNAME}.html'
 
 	);
 
@@ -1952,7 +1952,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/Dynamic',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/Dynamic/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/Dynamic/{FNAME}.html'
 
 	);
 
@@ -1978,7 +1978,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/DynamicAny',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/DynamicAny/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/DynamicAny/{FNAME}.html'
 
 	);
 
@@ -1988,7 +1988,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/DynamicAny/DynAnyFactoryPackage',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/DynamicAny/DynAnyFactoryPackage/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/DynamicAny/DynAnyFactoryPackage/{FNAME}.html'
 
 	);
 
@@ -1999,7 +1999,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/DynamicAny/DynAnyPackage',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/DynamicAny/DynAnyPackage/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/DynamicAny/DynAnyPackage/{FNAME}.html'
 
 	);
 
@@ -2020,7 +2020,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/IOP',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/IOP/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/IOP/{FNAME}.html'
 
 	);
 
@@ -2030,7 +2030,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/IOP/CodecFactoryPackage',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/IOP/CodecFactoryPackage/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/IOP/CodecFactoryPackage/{FNAME}.html'
 
 	);
 
@@ -2041,7 +2041,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/IOP/CodecPackage',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/IOP/CodecPackage/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/IOP/CodecPackage/{FNAME}.html'
 
 	);
 
@@ -2051,7 +2051,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/Messaging',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/Messaging/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/Messaging/{FNAME}.html'
 
 	);
 
@@ -2072,7 +2072,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/PortableInterceptor',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableInterceptor/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/PortableInterceptor/{FNAME}.html'
 
 	);
 
@@ -2083,7 +2083,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/PortableInterceptor/ORBInitInfoPackage',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableInterceptor/ORBInitInfoPackage/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/PortableInterceptor/ORBInitInfoPackage/{FNAME}.html'
 
 	);
 
@@ -2110,7 +2110,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/PortableServer',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableServer/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/PortableServer/{FNAME}.html'
 
 	);
 
@@ -2120,7 +2120,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/PortableServer/CurrentPackage',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableServer/CurrentPackage/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/PortableServer/CurrentPackage/{FNAME}.html'
 
 	);
 
@@ -2130,7 +2130,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/PortableServer/POAManagerPackage',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableServer/POAManagerPackage/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/PortableServer/POAManagerPackage/{FNAME}.html'
 
 	);
 
@@ -2146,7 +2146,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/PortableServer/POAPackage',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableServer/POAPackage/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/PortableServer/POAPackage/{FNAME}.html'
 
 	);
 
@@ -2156,7 +2156,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/PortableServer/portable',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableServer/portable/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/PortableServer/portable/{FNAME}.html'
 
 	);
 
@@ -2166,7 +2166,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/PortableServer/ServantLocatorPackage',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/PortableServer/ServantLocatorPackage/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/PortableServer/ServantLocatorPackage/{FNAME}.html'
 
 	);
 
@@ -2176,7 +2176,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/SendingContext',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/SendingContext/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/SendingContext/{FNAME}.html'
 
 	);
 
@@ -2186,7 +2186,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/omg/stub/java/rmi',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/omg/stub/java/rmi/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/omg/stub/java/rmi/{FNAME}.html'
 
 	);
 
@@ -2201,7 +2201,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/w3c/dom',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/w3c/dom/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/w3c/dom/{FNAME}.html'
 
 	);
 
@@ -2216,7 +2216,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/xml/sax',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/xml/sax/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/xml/sax/{FNAME}.html'
 
 	);
 
@@ -2226,7 +2226,7 @@ function geshi_java_java4 (&$context)
 
 		 'java/java4/org/xml/sax/ext',
 		 true,
-		 'http://java.sun.com/j2se/1.5.0/docs/api/org/xml/sax/ext/{FNAME}.html'
+		 'http://java.sun.com/j2se/1.4.2/docs/api/org/xml/sax/ext/{FNAME}.html'
 
 	);
 
