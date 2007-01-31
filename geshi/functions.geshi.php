@@ -35,34 +35,25 @@
  *
  */
 
-$GLOBALS['geshi_dbg'] = false;
-/**
- * @access private
- */
-function geshi_dbg_on () {
-    $GLOBALS['geshi_dbg'] = true;
-}
-/**
- * @access private
- */
-function geshi_dbg_off () {
-    $GLOBALS['geshi_dbg'] = false;
+//Ensure debugging is set to of if not explicitly told to be enabled before!
+if(!defined('GESHI_DBG_ENABLE')) {
+	define('GESHI_DBG_ENABLE', false);
 }
 
-/**
- * Handles debugging by printing a message according to current debug level,
- * mask of context and other things.
- *
- * @param string The message to print out
- * @param int The context in which this message is to be printed out in - see
- *            the GESHI_DBG_* constants
- * @param boolean Whether to add a newline to the message
- * @param boolean Whether to return the count of errors or not
- * @access private
- */
-function geshi_dbg ($message, $add_nl = true)
-{
-    if ($GLOBALS['geshi_dbg']) {
+if(true === GESHI_DBG_ENABLE) {
+    /**
+     * Handles debugging by printing a message according to current debug level,
+     * mask of context and other things.
+     *
+     * @param string The message to print out
+     * @param int The context in which this message is to be printed out in - see
+     *            the GESHI_DBG_* constants
+     * @param boolean Whether to add a newline to the message
+     * @param boolean Whether to return the count of errors or not
+     * @access private
+     */
+    function geshi_dbg ($message, $add_nl = true)
+    {
         //
         // Message can have the following symbols at start
         //
@@ -109,6 +100,10 @@ function geshi_dbg ($message, $add_nl = true)
         }
         echo $start . htmlspecialchars(str_replace("\n", '', $message)) . $end;
         if ($add_nl) echo "\n";
+    }
+} else {
+    function geshi_dbg ($message, $add_nl = true)
+    {
     }
 }
 
