@@ -335,7 +335,7 @@ function geshi_is_whitespace ($token)
  * @version     $Revision$
  * @access private
  */
-if (!function_exists('stripos')) {
+/*if (!function_exists('stripos')) {
 	function stripos ( $haystack, $needle, $offset = null )
 	{
 		// Manipulate the string if there is an offset
@@ -355,6 +355,11 @@ if (!function_exists('stripos')) {
 
 		return strlen($segments[0]) + $fix;
 	}
+}*/
+if (!function_exists('stripos')) {
+    function stripos ($haystack, $needle, $offset=null) {
+        return strpos(strtolower($haystack), strtolower($needle), $offset);
+    }
 }
 
 /**
