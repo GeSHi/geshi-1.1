@@ -30,7 +30,7 @@
  * @subpackage renderer
  * @author     Knut A. Wikström <knut@wikstrom.dk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright  (C) 2006 Knut A. Wikström
+ * @copyright  (C) 2006 Knut A. Wikstr&ouml;m
  * @version    $Id$
  * 
  */
@@ -41,7 +41,6 @@
  * 
  * @package    geshi
  * @subpackage renderer
- * @author     Knut A. Wikström <knut@wikstrom.dk>
  * @since      1.1.1
  * @version    $Revision$
  * @see        GeSHiRenderer

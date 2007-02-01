@@ -41,6 +41,12 @@
  * @access private
  */
 
+/// Require the {@see GeSHiSinglecharContext} class.
+require_once GESHI_CLASSES_ROOT . 'class.geshisinglecharcontext.php';
+
+/// Require the {@see GeSHiStringContext} class.
+require_once GESHI_CLASSES_ROOT . 'class.geshistringcontext.php';
+ 
 function geshi_csharp_common (&$context)
 {
 	
@@ -48,24 +54,33 @@ function geshi_csharp_common (&$context)
 	$context->addChild('doc_comment'); // Doc  comment before single, so that it is recognized separately.
 	$context->addChild('single_comment');
 	$context->addChild('multi_comment');
-	$context->addChild('single_string');
-	$context->addChild('double_string');
-	$context->addChild('using');
+	$context->addChild('single_string', 'singlechar');
+	$context->addChild('double_string', 'string');
+    $context->addChild('double_string_verbatim', 'string');
+	$context->addChild('using'); // Temporary solution, implementing in code parser. That'll be better.
 	
 	// Types
 	$context->addKeywordGroup(array(
 		'bool', 'byte', 'char', 'decimal',
 		'double', 'enum', 'float', 'int',
 		'long', 'sbyte', 'short', 'struct',
-		'uint', 'ulong', 'ushort'
+		'uint', 'ulong', 'ushort', 'void'
 	), 'type', true, 'geshi_csharp_get_url()' /*'http://msdn.microsoft.com/library/default.asp?url=/library/en-us/csref/html/vcrefreferencetypes.asp'*/);
 	
-	// Full types (System.*) (commented out until later)
+	// Full types (System.*)
 	$context->addKeywordGroup(array(
 		'System.Boolean', 'System.Byte', 'System.SByte', 'System.Char',
 		'System.Decimal', 'System.Double', 'System.Single', 'System.Int32',
 		'System.UInt32', 'System.Int64', 'System.UInt64', 'System.Object',
 		'System.Int16', 'System.UInt16', 'System.String'
+	), 'type', true, 'geshi_csharp_get_url()');
+    
+    // Full types without prefix.
+	$context->addKeywordGroup(array(
+		'Boolean', 'Byte', 'SByte', 'Char',
+		'Decimal', 'Double', 'Single', 'Int32',
+		'UInt32', 'Int64', 'UInt64', 'Object',
+		'Int16', 'UInt16', 'String'
 	), 'type', true, 'geshi_csharp_get_url()');
 	
 	// Reference types (OOP types)
@@ -82,10 +97,10 @@ function geshi_csharp_common (&$context)
 	// Modifiers
 	$context->addKeywordGroup(array(
 		'public', 'private', 'internal', 'protected', // Access modifiers
-		'abstract', 'const', 'event', 'extern', 
+		'abstract', 'const', 'event', 'extern', 'friend',
 		'override', 'readonly', 'sealed', 'static', 
 		'unsafe', 'virtual', 'volatile'
-	). 'modifier', true);
+	), 'modifier', true);
 	
 	// Selection statements
 	$context->addKeywordGroup(array(
@@ -191,7 +206,7 @@ function geshi_csharp_doc_comment (&$context)
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
 	
 	// Add XML
-	$context->addChildLanguage('xml/xml');
+	//$context->addChildLanguage('xml/xml');
 }
 
 function geshi_csharp_single_string (&$context)
@@ -199,15 +214,25 @@ function geshi_csharp_single_string (&$context)
     $context->addDelimiters("'", "'");
 	
 	// Add escape groups
-	$context->addEscapeGroup('\\', array('n', 'r', 't', '\\', '0'));
+	//$context->addEscapeGroup('\\', array('\'', 'n', 'r', 't', '\\', '0'));
+    $context->setEscapeCharacters('\\');
+    $context->setCharactersToEscape(array('\'', '\\', '\n', '\t', '\0'));
 }
 
 function geshi_csharp_double_string (&$context)
 {
-    $context->addDelimiters(array('"', '@"'), '"');
+    $context->addDelimiters('"', '"');
 	
 	// Add escape groups
-	$context->addEscapeGroup('\\', array('n', 'r', 't', '\\', '0', "\n"));
+	$context->addEscapeGroup('\\', array('"', 'n', 'r', 't', '\\', '0', "\n"));
+}
+
+function geshi_csharp_double_string_verbatim (&$context) // I can't remember the name... Too tired...
+{
+    $context->addDelimiters('@"', '"');
+	
+	// Add escape groups
+	$context->addEscapeGroup('"', '"');
 }
 
 function geshi_csharp_using (&$context)

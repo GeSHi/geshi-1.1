@@ -29,6 +29,7 @@
  * @package    geshi
  * @subpackage core
  * @author     Nigel McNie <nigel@geshi.org>
+ * @author     Knut A. Wikström <knut@wikstrom.dk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Nigel McNie
  * @version    $Id$
@@ -44,30 +45,35 @@ $geshi_old_reporting_level = error_reporting(E_ALL);
 /** GeSHi Version */
 define('GESHI_VERSION', '1.1.2alpha4dev');
 
-/** Set the correct directory separator */
-define('GESHI_DIR_SEP', ('WIN' != substr(PHP_OS, 0, 3)) ? '/' : '\\');
+/** 
+ * Set the correct directory separator.
+ * From version 1.1.2, this is deprecated. Use ordinary forward slash instead.
+ * @deprecated Use forward slash (/) instead.
+ */
+//define('GESHI_DIR_SEP', '/');
+define('GESHI_DIR_SEP', ('WIN' != substr(PHP_OS, 0, 3)) ? '/' : '\\'); // Keeping this a little more, double check it will not cause fuck-ups.
 
 // Define the root directory for the GeSHi code tree
 if (!defined('GESHI_ROOT')) {
     /** The root directory for GeSHi (where class.geshi.php is located) */
-    define('GESHI_ROOT', dirname(__FILE__) . GESHI_DIR_SEP);
+    define('GESHI_ROOT', dirname(__FILE__) . '/');
 }
 
 /**#@+
  * @access private
  */
 /** The data directory for GeSHi */
-define('GESHI_DATA_ROOT', GESHI_ROOT . 'geshi' . GESHI_DIR_SEP);
+define('GESHI_DATA_ROOT', GESHI_ROOT . 'geshi' . '/');
 /** The classes directory for GeSHi */
-define('GESHI_CLASSES_ROOT', GESHI_DATA_ROOT . 'classes' . GESHI_DIR_SEP);
+define('GESHI_CLASSES_ROOT', GESHI_DATA_ROOT . 'classes' . '/');
 /** The languages directory for GeSHi */
-define('GESHI_LANGUAGES_ROOT', GESHI_DATA_ROOT . 'languages' . GESHI_DIR_SEP);
+define('GESHI_LANGUAGES_ROOT', GESHI_DATA_ROOT . 'languages' . '/');
 /** The context files directory for GeSHi */
-define('GESHI_CONTEXTS_ROOT', GESHI_DATA_ROOT . 'contexts' . GESHI_DIR_SEP);
+define('GESHI_CONTEXTS_ROOT', GESHI_DATA_ROOT . 'contexts' . '/');
 /** The theme files directory for GeSHi */
-define('GESHI_THEMES_ROOT', GESHI_DATA_ROOT . 'themes' . GESHI_DIR_SEP);
+define('GESHI_THEMES_ROOT', GESHI_DATA_ROOT . 'themes' . '/');
 /** The renderers directory for GeSHi */
-define('GESHI_RENDERERS_ROOT', GESHI_CLASSES_ROOT . 'renderers' . GESHI_DIR_SEP);
+define('GESHI_RENDERERS_ROOT', GESHI_CLASSES_ROOT . 'renderers' . '/');
 /**#@-*/
 
 /** Get required functions */
@@ -245,7 +251,7 @@ class GeSHi
      * @param string The source code to highlight
      * @param string The language to highlight the source with
      * @param string The path to the GeSHi data files. <b>This is no longer used!</b> The path is detected
-     *               automatically by GeSHi, this paramters is only included for backward compatibility. If
+     *               automatically by GeSHi, this paramter is only included for backward compatibility. If
      *               you want to set the path to the GeSHi data directories yourself, you should define the
      *               GESHI_ROOT constant before including class.geshi.php.
      * @since 1.0.0
@@ -494,7 +500,7 @@ class GeSHi
         while (false !== ($theme_folder = readdir($dh))) {
             if ('.' == $theme_folder || '..' == $theme_folder) continue;
             if (is_readable(GESHI_THEMES_ROOT . $theme_folder
-                . GESHI_DIR_SEP . $language . '.php')) {
+                . '/' . $language . '.php')) {
                 if ($return_human) {
                     $themes[$theme_folder] = GeSHi::getHumanThemeName($theme_folder);
                 } else {
@@ -505,9 +511,9 @@ class GeSHi
                 $dh2 = opendir(GESHI_THEMES_ROOT . $theme_folder);
                 while (false !== ($subtheme_folder = readdir($dh2))) {
                     if ('.' == $subtheme_folder || '..' == $subtheme_folder
-                        || !is_dir(GESHI_THEMES_ROOT . $theme_folder . GESHI_DIR_SEP . $subtheme_folder)) continue;
-                    if (is_readable(GESHI_THEMES_ROOT . $theme_folder . GESHI_DIR_SEP . $subtheme_folder
-                        . GESHI_DIR_SEP . $language . '.php')) {
+                        || !is_dir(GESHI_THEMES_ROOT . $theme_folder . '/' . $subtheme_folder)) continue;
+                    if (is_readable(GESHI_THEMES_ROOT . $theme_folder . '/' . $subtheme_folder
+                        . '/' . $language . '.php')) {
                         $subtheme_name = "$theme_folder/$subtheme_folder";
                         if ($return_human) {
                             $themes[$subtheme_name] = GeSHi::getHumanThemeName($subtheme_name);
@@ -544,7 +550,7 @@ class GeSHi
         $languages = array();
         $theme = GeSHi::_clean($theme);
         //geshi_dbg('  theme now ' . $theme, GESHI_DBG_API);
-        $theme_file = GESHI_THEMES_ROOT . $theme . GESHI_DIR_SEP . 'themeinfo.php';
+        $theme_file = GESHI_THEMES_ROOT . $theme . '/' . 'themeinfo.php';
         if (is_readable($theme_file)) {
             require $theme_file;
             return $languages;
@@ -588,7 +594,7 @@ class GeSHi
     {
         $human_name = '';
         $theme = GeSHi::_clean($theme);
-        $theme_file = GESHI_THEMES_ROOT . $theme . GESHI_DIR_SEP . 'themeinfo.php';
+        $theme_file = GESHI_THEMES_ROOT . $theme . '/' . 'themeinfo.php';
         if (is_readable($theme_file)) {
             require $theme_file;
             return $human_name;
@@ -612,7 +618,7 @@ class GeSHi
     function themeSupportsLanguage ($theme, $language)
     {
         $language = GeSHi::_cleanLanguageName($language);
-        return geshi_can_include(GESHI_THEMES_ROOT . $theme . GESHI_DIR_SEP . $language . '.php');
+        return geshi_can_include(GESHI_THEMES_ROOT . $theme . '/' . $language . '.php');
     }
     
     // }}}
@@ -719,7 +725,7 @@ class GeSHi
         $language_name   = substr($this->_language, 0, strpos($this->_language, '/'));
         $codeparser_name = 'geshi' . $language_name . 'codeparser';
         if (!class_exists($codeparser_name)) {
-            $codeparser_file = GESHI_LANGUAGES_ROOT . $language_name . GESHI_DIR_SEP
+            $codeparser_file = GESHI_LANGUAGES_ROOT . $language_name . '/'
                 . "class.{$codeparser_name}.php";
             if (geshi_can_include($codeparser_file)) {
                 /** Get the GeSHiCodeParser class */
@@ -784,11 +790,11 @@ class GeSHi
      */
     function _getLanguageDataFile ()
     {
-        if ('/' == GESHI_DIR_SEP) {
+        if ('/' == '/') {
             $language_file = $this->_language . '.php';
         } else {
             $language_file = explode('/', $this->_language);
-            $language_file = implode(GESHI_DIR_SEP, $language_file) . '.php';
+            $language_file = implode('/', $language_file) . '.php';
         }
         return GESHI_LANGUAGES_ROOT . $language_file;
     }
