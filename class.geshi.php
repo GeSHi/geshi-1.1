@@ -45,13 +45,8 @@ $geshi_old_reporting_level = error_reporting(E_ALL);
 /** GeSHi Version */
 define('GESHI_VERSION', '1.1.2alpha4dev');
 
-/** 
- * Set the correct directory separator.
- * From version 1.1.2, this is deprecated. Use ordinary forward slash instead.
- * @deprecated Use forward slash (/) instead.
- */
-//define('GESHI_DIR_SEP', '/');
-define('GESHI_DIR_SEP', ('WIN' != substr(PHP_OS, 0, 3)) ? '/' : '\\'); // Keeping this a little more, double check it will not cause fuck-ups.
+/** Set the correct directory separator */
+define('GESHI_DIR_SEP', DIRECTORY_SEPARATOR);
 
 // Define the root directory for the GeSHi code tree
 if (!defined('GESHI_ROOT')) {
