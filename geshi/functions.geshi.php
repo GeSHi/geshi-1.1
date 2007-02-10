@@ -304,53 +304,9 @@ function geshi_is_whitespace ($token)
     return !preg_match('/[^\s]/', $token);
 }
 
-// @todo [blocking 1.1.9] fix this up
-// +----------------------------------------------------------------------+
-// | PHP Version 4                                                        |
-// +----------------------------------------------------------------------+
-// | Copyright (c) 1997-2004 The PHP Group                                |
-// +----------------------------------------------------------------------+
-// | This source file is subject to version 3.0 of the PHP license,       |
-// | that is bundled with this package in the file LICENSE, and is        |
-// | available at through the world-wide-web at                           |
-// | http://www.php.net/license/3_0.txt.                                  |
-// | If you did not receive a copy of the PHP license and are unable to   |
-// | obtain it through the world-wide-web, please send a note to          |
-// | license@php.net so we can mail you a copy immediately.               |
-// +----------------------------------------------------------------------+
-// | Authors: Aidan Lister <aidan@php.net>                                |
-// +----------------------------------------------------------------------+
-//
 /**
- * Replace stripos()
- *
- * This function lifted from the PHP_Compat PEAR package, and optimised
- *
- * @author      Aidan Lister <aidan@php.net>, Nigel McNie <nigel@geshi.org>
- * @version     $Revision$
- * @access private
+ * Replacement for stripos for php4 users
  */
-/*if (!function_exists('stripos')) {
-	function stripos ( $haystack, $needle, $offset = null )
-	{
-		// Manipulate the string if there is an offset
-		$fix = 0;
-		if (!is_null($offset)) {
-			if ($offset > 0) {
-				$haystack = substr($haystack, $offset);
-				$fix = $offset;
-			}
-		}
-		$segments = explode(strtolower($needle), strtolower($haystack), 2);
-
-		// Check there was a match
-		if (count($segments) == 1) {
-			return false;
-		}
-
-		return strlen($segments[0]) + $fix;
-	}
-}*/
 if (!function_exists('stripos')) {
     function stripos ($haystack, $needle, $offset=null) {
         return strpos(strtolower($haystack), strtolower($needle), $offset);
