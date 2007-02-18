@@ -163,7 +163,7 @@ function geshi_sql_sql (&$context)
     // ACTION, MODULE and SECTION are reserved in SQL92 and 99 but not in
     // postgres
     // TIME is reserved in SQL92 and 99 and especially restricted in postgres
-    // @todo [blocking 1.1.2] codeparser for SQL should perhaps be smarter
+    // @todo [blocking 1.2.0] codeparser for SQL should perhaps be smarter
     // where keywords/fieldnames are concerned...
     // e.g. detect CREATE TABLE rule, then make first stuff field names unless
     // it's ones like CONSTRAINT, PRIMARY etc...
@@ -231,14 +231,14 @@ function geshi_sql_sql_string (&$context)
 
 function geshi_sql_sql_bitstring (&$context)
 {
-    // @todo [blocking 1.1.2] use parser to detect that only 0 and 1 are in
+    // @todo [blocking 1.2.0] use parser to detect that only 0 and 1 are in
     // the string
     $context->addDelimiters("B'", "'");
 }
 
 function geshi_sql_sql_hexstring (&$context)
 {
-    // @todo [blocking 1.1.2] use parser to detect that only 0 - F are in
+    // @todo [blocking 1.2.0] use parser to detect that only 0 - F are in
     // the string
     $context->addDelimiters("X'", "'");
 }
