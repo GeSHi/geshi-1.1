@@ -362,9 +362,7 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
         } elseif ('throws' == $this->_state && $this->_isBase($context_name, -5)) {
            	$context_name .= '/exception';
             $this->_exceptionNames[] = $token;
-        // @todo [blocking 1.1.2] should only need the { check because symbols are passed
-        // in one-by-one now
-        } elseif ('throws' == $this->_state && ($token == '{' || $token == '{}')) {
+        } elseif ('throws' == $this->_state && $token == '{') {
         	$this->_state = '';	
         }
     }
@@ -395,9 +393,8 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
             // Last token (the possible variable) is a bareword?
             ($this->_language == $this->_prev_context) &&
             // This token is one of these symbols that typically appear after a variable
-            // @todo [blocking 1.1.2] shouldn't need the substr() here 
             ($token == '=' || $token == ';' || $token == ':' ||
-            $token == ',' || substr($token, 0, 1) == ')') &&
+            $token == ',' || $token == ')') &&
             // The token before the supposed variable wasn't a keyword (e.g. package foo;)
             $this->_prev_prev_context != "$this->_language/keyword") {
             	 
@@ -457,8 +454,7 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
         }
         
         // Handle array parameters such as d, e in this example: foo(dtype1 d[], dtype2 e[]){
-        // @todo [blocking 1.1.2] should only need == '[' because symbols are passed one at a time     
-        if (($token == '[]' || $token == '[' || $token == '[],' || $token == '[])' || $token == '[]){') && $this->_prev_context == $this->_language) {
+        if ($token == '[' && $this->_prev_context == $this->_language) {
 			$this->_variableNames[] = $this->_prev_token;
             $this->_prev_context = $this->_language . '/variable';
            	$flush = true;
@@ -471,9 +467,7 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
      */
 	function methodCheck (&$token, &$context_name) {
 		if ((($this->_language == $this->_prev_context) || (substr($this->_prev_context, -8) == '/ootoken'))
-        // @todo [blocking 1.1.2] should only need )
-       	&& ($token == '()' || $token == '(' || $token == '();' || $token == '())')
-       	|| $token == '());') {
+       	&& $token == '(') {
             $this->_prev_context = $this->_language . '/method';
     	} 
 	}

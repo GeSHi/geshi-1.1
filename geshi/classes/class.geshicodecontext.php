@@ -489,12 +489,7 @@ class GeSHiCodeContext extends GeSHiContext
         foreach ($this->_contextSymbols as $symbol_data) {
             if (in_array($possible_symbol, $symbol_data[0])) {
                 // we've matched the symbol in $symbol_group
-                // start the current symbols string
-                //if ($result[$result_pointer][1] == $symbol_data[1]) {
-                //    $result[$result_pointer][0] .= $possible_symbol;
-                //} else {
-                    $result[++$result_pointer] = array($possible_symbol, $symbol_data[1]);
-                //}
+                $result[++$result_pointer] = array($possible_symbol, $symbol_data[1]);
                 $skip = true;
                 break;
             }
@@ -506,7 +501,7 @@ class GeSHiCodeContext extends GeSHiContext
             } else {
                 $result[++$result_pointer] = array($possible_symbol, $this->_contextName);
             }
-        }   
+        }
     }        
 
     /// THIS FUNCTION NEEDS TO DIE!!!
