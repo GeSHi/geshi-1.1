@@ -98,7 +98,7 @@ if(true === GESHI_DBG_ENABLE) {
         if (preg_match('#^@[a-z]#', $message)) {
             $message = substr($message, 2);
         }
-        echo $start . htmlspecialchars(str_replace("\n", '', $message)) . $end;
+        echo $start . GeSHi::hsc(str_replace("\n", '', $message)) . $end;
         if ($add_nl) echo "\n";
     }
 } else {

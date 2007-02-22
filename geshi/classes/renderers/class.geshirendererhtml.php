@@ -6,10 +6,10 @@
  *   Author: Nigel McNie
  *   E-mail: nigel@geshi.org
  * </pre>
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  * This program is part of GeSHi.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
@@ -32,12 +32,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Nigel McNie
  * @version    $Id$
- * 
+ *
  */
 
 /**
  * The GeSHiRendererHTML class
- * 
+ *
  * @package    geshi
  * @subpackage renderer
  * @author     Nigel McNie <nigel@geshi.org>
@@ -49,10 +49,10 @@ class GeSHiRendererHTML extends GeSHiRenderer
 {
 
     // {{{ parseToken()
-        
+
     /**
      * Implements parseToken to put HTML tags around the tokens
-     * 
+     *
      * @param string $token         The token to put tags around
      * @param string $context_name  The name of the context that the tag is in
      * @param array  $data          Miscellaneous data about the context
@@ -68,45 +68,45 @@ class GeSHiRendererHTML extends GeSHiRenderer
         $result = '';
         if (isset($data['url'])) {
             // There's a URL associated with this token
-            $result .= '<a href="' . htmlspecialchars($data['url']) . '">';
+            $result .= '<a href="' . GeSHi::hsc($data['url']) . '">';
         }
         $result .= '<span style="' . $this->_styler->getStyle($context_name) . '" ';
-        $result .= 'title="' . $context_name . '">' . htmlspecialchars($token) . '</span>';
+        $result .= 'title="' . $context_name . '">' . GeSHi::hsc($token) . '</span>';
         if (isset($data['url'])) {
             // Finish the link
             $result .= '</a>';
         }
         return $result;
     }
-    
+
     // }}}
     // {{{ getHeader()
-    
+
     /**
      * Returns the header for the code. Currently just a boring preset.
-     * 
+     *
      * @return string
      */
     function getHeader ()
     {
         return '<pre style="background-color:#ffc;border:1px solid #cc9;">';
     }
-    
+
     // }}}
     // {{{ getFooter()
-    
+
     /**
      * Returns the footer for the code. Currently just a boring preset.
-     * 
+     *
      * @return string
      */
     function getFooter ()
     {
         return '</pre>';
     }
-    
+
     // }}}
-    
+
 }
 
 ?>

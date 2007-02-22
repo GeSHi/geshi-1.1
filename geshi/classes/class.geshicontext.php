@@ -6,10 +6,10 @@
  *   Author: Nigel McNie
  *   E-mail: nigel@geshi.org
  * </pre>
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  * This program is part of GeSHi.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
@@ -32,12 +32,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Nigel McNie
  * @version    $Id$
- * 
+ *
  */
 
 /**
  * The GeSHiContext class
- * 
+ *
  * @package    geshi
  * @subpackage core
  * @author     Nigel McNie <nigel@geshi.org>
@@ -47,13 +47,13 @@
  */
 class GeSHiContext
 {
-    
+
     // {{{ properties
-    
+
     /**#@-
      * @access private
      */
-    
+
     /**
      * The context name.
      *
@@ -63,90 +63,90 @@ class GeSHiContext
 
     /**
      * The language that this context is in
-     * 
+     *
      * @var string
      */
     var $_languageName = '';
 
     /**
      * The styler helper object
-     * 
+     *
      * @var GeSHiStyler
      */
     var $_styler;
-    
+
     /**
      * The context delimiters
-     * 
+     *
      * @var array
      */
     var $_contextDelimiters = array();
-    
+
     /**
      * The child contexts
-     * 
+     *
      * @var array
      */
     var $_childContexts = array();
-    
+
     /**
      * The style type of this context, used for backward compatibility
      * with GeSHi 1.0.X
-     * 
+     *
      * @var int
      */
     var $_contextStyleType = GESHI_STYLE_NONE;
-    
+
     /**
      * Delimiter parse data. Controls which context - the parent or child -
      * should parse the delimiters for a context
-     * 
+     *
      * @var int
      */
     var $_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
-    
+
     /**
      * The matching regex table for regex starters
-     * 
+     *
      * @var array
      */
      var $_startRegexTable = array();
-        
+
     /**
      * The name for stuff detected in the start of a context
-     * 
-     * @var string 
+     *
+     * @var string
      */
     var $_startName = 'start';
-    
+
     /**
      * The name for stuff detected in the end of a context
-     * 
-     * @var string 
+     *
+     * @var string
      */
     var $_endName = 'end';
 
     /**
      * Whether this context is an alias context
-     * 
+     *
      * @var boolean
      */
     var $_isAlias = false;
-    
+
     /**
      * The name of the context if not aliased
      * @var string
      */
     //var $_aliasForContext = '';
-    
+
     var $_aliasName = '';
-    
+
     /**
      * Whether this context should never be trimmed
      * @var boolean
      */
     //var $_neverTrim = false;
-    
+
     /**
      * Whether this context should be broken up by whitespace
      * for the code parser (GESHI_COMPLEX_* constants)
@@ -156,7 +156,7 @@ class GeSHiContext
 
     /**
      * Whether this context is a child context
-     * 
+     *
      * @var boolean
      */
     var $_isChildLanguage = false;
@@ -165,10 +165,10 @@ class GeSHiContext
 
     // }}}
     // {{{ GeSHiContext()
-    
+
     /**
      * Creates a new GeSHiContext.
-     * 
+     *
      * @param string The name of the language this context represents
      * @param string An initialisation function
      * @todo [blocking 1.1.9] Better comment
@@ -179,7 +179,7 @@ class GeSHiContext
         $this->_languageName = substr($context_name, 0,
             strpos($context_name, '/'));
         $this->_styler =& geshi_styler();
-       
+
         // Try a list of functions that should be used to populate this context.
         $tried_functions = array();
         // First function to try is the user-defined one
@@ -192,7 +192,7 @@ class GeSHiContext
             }
             $tried_functions[] = $function;
         }
-        
+
         // Next choice is the full context name function
         $function = 'geshi_' . str_replace('/', '_', $context_name);
         if (function_exists($function)) {
@@ -226,7 +226,7 @@ class GeSHiContext
             }
             $tried_functions[] = $function;
         }
-        
+
         // If we are still inside this constructor then none of the functions
         // we have tried have been available to call. Time to raise an error.
         // This will in general only ever happen to developers building new
@@ -249,7 +249,7 @@ class GeSHiContext
                 $bt['class'] = (isset($bt['class']) ? $bt['class'] : '');
                 $bt['type']  = (isset($bt['type']) ? $bt['type'] : '');
                 $bt['args']  = (isset($bt['args']) ? $bt['args'] : array());
-    
+
                 $args = '';
                 foreach ($bt['args'] as $arg) {
                     if (!empty($args)) {
@@ -285,11 +285,11 @@ class GeSHiContext
                 }
 
                 // Build a new entry for the output.
-                $backtrace_output .= '<li>' . htmlspecialchars($bt['class'])
-                    . '' . htmlspecialchars($bt['type']) . ''
-                    . '' . htmlspecialchars($bt['function']) . ''
-                    . '(' . htmlspecialchars($args)
-                    . ') at ' . htmlspecialchars($bt['file'])
+                $backtrace_output .= '<li>' . GeSHi::hsc($bt['class'])
+                    . '' . GeSHi::hsc($bt['type']) . ''
+                    . '' . GeSHi::hsc($bt['function']) . ''
+                    . '(' . GeSHi::hsc($args)
+                    . ') at ' . GeSHi::hsc($bt['file'])
                     . ':' . $bt['line'] . "</li>";
             }
             $backtrace_output .= '</ul></pre>';
@@ -301,73 +301,73 @@ class GeSHiContext
             . 'looked for ' . implode(', ', $tried_functions) . "\n"
             . $backtrace_output, E_USER_ERROR);
     }
-    
+
     // }}}
     // {{{ name()
     /**
      * Returns the name of this context
-     * 
+     *
      * @return string The full name of this context (language, dialect and context)
      */
     function name ()
     {
         return $this->_contextName;
     }
-    
+
     // }}}
     // {{{ getStartName()
-    
+
     /**
      * Returns the name given to the part of this context that is
      * matched by the starting context delimiter. Typically this is
      * used by aliased contexts to lie about what they really start
      * with.
-     * 
+     *
      * @return string
      */
     function getStartName ()
     {
         return $this->_startName;
     }
-    
+
     // }}}
     // {{{ getEndName()
-    
+
     /**
      * Returns the name given to the part of this context that is
      * matched by the ending context delimiter. Typically this is
      * used by aliased contexts to lie about what they really end
      * with.
-     * 
+     *
      * @return string
      */
     function getEndName ()
     {
         return $this->_endName;
     }
-    
+
     // }}}
     // {{{ isAlias()
-    
+
     /**
      * Returns whether this context is an aliased context
-     * 
+     *
      * @return boolean
      */
-    
+
     function isAlias ()
     {
         return $this->_isAlias;
     }
-    
+
     // }}}
     // {{{ embedInside()
-    
+
     /**
      * Embeds this context inside the named context.
-     * 
+     *
      * This is used to embed "sublanguages" - for example, PHP inside HTML
-     * 
+     *
      * @param  string $name The name of the context to embed this context inside
      * @return GeSHiContext The context that this context was embedded inside
      */
@@ -376,7 +376,7 @@ class GeSHiContext
         // Perform any post processing now because we are about to override
         // ourselves.
         $this->_initPostProcess();
-        
+
         // @todo note this is also GeSHi::_getLanguageDataFile
         if ('/' == GESHI_DIR_SEP) {
             $language_file = $name . '.php';
@@ -384,23 +384,23 @@ class GeSHiContext
             $language_file = explode('/', $name);
             $language_file = implode(GESHI_DIR_SEP, $language_file) . '.php';
         }
-        
+
         /** Get the appropriate functions for the language we are embedding inside */
         require_once GESHI_LANGUAGES_ROOT . $language_file;
-        
+
         $context =& new GeSHiCodeContext($name);
-        
+
         // @todo I don't like this... it assumes we are not passing an object
         // by reference (if we do things break horribly), and so therefore
         // may not be PHP5 compliant
         $context->addEmbeddedChild($this);
-        
+
         return $context;
     }
 
     // }}}
     // {{{ addEmbeddedChild()
-    
+
     /**
      * @todo this isn't really "public" - language file developers should not care about
      * this method
@@ -412,13 +412,13 @@ class GeSHiContext
         }
         $this->_childContexts[] = $context;
     }
-    
+
     // }}}
     // {{{ addChild()
-    
+
     /**
      * Adds a child context to this context.
-     * 
+     *
      * @param string $name The name of the child context to add. The function geshi_[lang]_[dialect]_$name must
      *                     be defined to populate the context with information. Alternatively, if $name starts
      *                     with the language name the function geshi_$name will be used instead.
@@ -432,13 +432,13 @@ class GeSHiContext
         $classname = 'geshi' . $type . 'context';
         $this->_childContexts[] =& new $classname($this->_makeContextName($name), $init_function);
     }
-    
+
     // }}}
     // {{{ addChildLanguage()
-    
+
     /**
      * Adds a child to this context that is actually a language
-     * 
+     *
      * e.g. doxygen within PHP
      */
     function addChildLanguage ($name, $start_delimiters, $end_delimiters, $case_sensitive = false,
@@ -456,18 +456,18 @@ class GeSHiContext
 
     // }}}
     // {{{ addDelimiters()
-    
+
     /**
      * Sets the delimiters for this context
      */
     function addDelimiters ($start, $end, $case_sensitive = false)
     {
         $this->_contextDelimiters[] = array((array) $start, (array) $end, $case_sensitive);
-    } 
-    
+    }
+
     // }}}
     // {{{ setComplexFlag()
-    
+
     function setComplexFlag ($flag)
     {
         $this->_complexFlag = $flag;
@@ -475,27 +475,27 @@ class GeSHiContext
 
     // }}}
     // {{{ parseDelimiters()
-        
+
     function parseDelimiters ($flag)
     {
         $this->_delimiterParseData = $flag;
     }
-    
+
     // }}}
     // {{{ alias()
-    
+
     function alias ($name)
     {
         $this->_contextName = ('' == $name) ? "$this->_languageName/$name" : $name;
         $this->_isAlias = true;
     }
 
-    // }}}    
+    // }}}
     // {{{ trimUselessChildren()
-    
+
     /**
      * Checks each child to see if it's useful. If not, then remove it
-     * 
+     *
      * @param string The code that can be used to check if a context
      *               is needed.
      */
@@ -520,16 +520,16 @@ class GeSHiContext
                 unset($this->_childContexts[$key]);
             }
         }
-        
+
         // Recurse into the remaining children, checking them
         foreach (array_keys($this->_childContexts) as $key) {
             $this->_childContexts[$key]->trimUselessChildren($source);
         }
     }
-    
+
     // }}}
-    // {{{ parseCode()        
-    
+    // {{{ parseCode()
+
     /**
      * Parses the given code
      */
@@ -544,7 +544,7 @@ class GeSHiContext
             $this->_addParseData($code);
             return;
         }
-                
+
         // Add the start of this context to the parse data if it is already known
         // NOTE: related to bug 75: if remove childLanguage check, then the
         // start delimiter is marked as lang/dialect/start instead of whatever the
@@ -563,9 +563,9 @@ class GeSHiContext
             $this->_addParseDataStart($context_start_delimiter);
             $code = substr($code, strlen($context_start_delimiter));
         }
-        
+
         $original_length = strlen($code);
-        
+
         while ('' != $code) {
             if (strlen($code) != $original_length) {
                 geshi_dbg('CODE: ' . str_replace("\n", "\r", substr($code, 0, 100)) . "<<<<<\n");
@@ -579,21 +579,21 @@ class GeSHiContext
             geshi_dbg('@bEarliest context data: pos=' . $earliest_context_data['pos'] . ', len=' .
                 $earliest_context_data['len']);
             geshi_dbg('@bFinish data: pos=' . $finish_data['pos'] . ', len=' . $finish_data['len']);
-            
+
             // If there is earliest context data we parse up to it then hand control to that context
             if ($earliest_context_data) {
                 if ($finish_data) {
                     // Merge to work out who wins
                     if ($finish_data['pos'] <= $earliest_context_data['pos']) {
                         geshi_dbg('Earliest context and Finish data: finish is closer');
-                        
+
                         if ($this->shouldParseEnder() && $this->_isChildLanguage) {
                             $finish_data['pos'] += $finish_data['len'];
                         }
-                        
+
                         // Add the parse data
                         $this->_addParseData(substr($code, 0, $finish_data['pos']), substr($code, $finish_data['pos'], 1));
-                        
+
                         // If we should pass the ender, add the parse data
                         if ($this->shouldParseEnder() && !$this->_isChildLanguage) {
                         	$this->_addParseDataEnd(substr($code, $finish_data['pos'], $finish_data['len']));
@@ -616,7 +616,7 @@ class GeSHiContext
                      //BUGFIX: null out dlm so it doesn't squash the actual rest of context
                      $earliest_context_data['dlm'] = '';
                 }
-                                
+
                 // We should parseCode() the substring.
                 // BUT we have to remember that we should ignore the child context we've matched,
                 // else we'll have a wee recursion problem on our hands...
@@ -642,7 +642,7 @@ class GeSHiContext
                     }
                     // second param = first char of next context
                     $this->_addParseData(substr($code, 0, $finish_data['pos']), substr($code, $finish_data['pos'], 1));
-                    
+
                     if ($this->shouldParseEnder() && !$this->_isChildLanguage) {
                        	$this->_addParseDataEnd(substr($code, $finish_data['pos'], $finish_data['len']));
                        	$finish_data['pos'] += $finish_data['len'];
@@ -660,21 +660,21 @@ class GeSHiContext
             }
         }
     }
-    
+
     // }}}
     // {{{ shouldParseStarter()
 
     /**
      * @return true if this context wants to parse its start delimiters
-     */    
+     */
     function shouldParseStarter()
     {
         return $this->_delimiterParseData & GESHI_CHILD_PARSE_LEFT;
     }
-    
+
     // }}}
     // {{{ shouldParseEnder()
-    
+
     /**
      * @return true if this context wants to parse its end delimiters
      */
@@ -682,13 +682,13 @@ class GeSHiContext
     {
         return $this->_delimiterParseData & GESHI_CHILD_PARSE_RIGHT;
     }
-    
+
     // }}}
     // {{{ contextCanStart()
 
     /**
      * Return true if it is possible for this context to parse this code at all
-     */    
+     */
     function contextCanStart ($code)
     {
         //if ($this->_neverTrim) {
@@ -698,7 +698,7 @@ class GeSHiContext
             foreach ($delim_array[0] as $delimiter) {
                 //geshi_dbg('    Checking delimiter ' . $delimiter . '... ', GESHI_DBG_INFO + GESHI_DBG_LOADING, false);
                 $data     = geshi_get_position($code, $delimiter, 0, $delim_array[2]);
-                
+
                 if (false !== $data['pos']) {
                     return true;
                 }
@@ -706,13 +706,13 @@ class GeSHiContext
         }
         return false;
     }
-    
+
     // }}}
     // {{{ _getEarliestContextData()
 
     /**
      * Works out the closest child context
-     * 
+     *
      * @param $ignore_context The context to ignore (if there is one)
      */
     function _getEarliestContextData ($code, $start_of_context, $ignore_context)
@@ -723,7 +723,7 @@ class GeSHiContext
         $earliest_con = null;
         $earliest_key = -1;
         $earliest_dlm = '';
-        
+
         foreach ($this->_childContexts as $context) {
             if ($ignore_context == $context->/*getName*/name()) {
                 // whups, ignore you...
@@ -731,7 +731,7 @@ class GeSHiContext
             }
             $data = $context->getContextStartData($code, $start_of_context);
             geshi_dbg('  ' . $context->_contextName . ' says it can start from ' . $data['pos'], false);
-            
+
             if (-1 != $data['pos']) {
                 if ((false === $earliest_pos) || $earliest_pos > $data['pos'] ||
                    ($earliest_pos == $data['pos'] && $earliest_len < $data['len'])) {
@@ -751,17 +751,17 @@ class GeSHiContext
         // What do we need to know?
         //   Well, assume that one of the child contexts can parse
         //   Then, parseCode() is going to call parseCode() recursively on that object
-        //   
+        //
         if (false !== $earliest_pos) {
             return array('pos' => $earliest_pos, 'len' => $earliest_len, 'con' => $earliest_con, 'key' => $earliest_key, 'dlm' => $earliest_dlm);
         } else {
             return false;
         }
     }
-    
+
     // }}}
     // {{{ getContextStartData()
-    
+
     /**
      * Checks the context delimiters for this context against the passed
      * code to see if this context can help parse the code
@@ -776,7 +776,7 @@ class GeSHiContext
         $first_length   = -1;
         $first_key      = -1;
         $first_dlm      = '';
-        
+
         foreach ($this->_contextDelimiters as $key => $delim_array) {
             foreach ($delim_array[0] as $delimiter) {
                 geshi_dbg('    Checking delimiter ' . $delimiter . '... ', false);
@@ -787,7 +787,7 @@ class GeSHiContext
                 if (isset($data['tab'])) {
                     geshi_dbg('Table: ' . print_r($data['tab'], true));
                 }
-                
+
                 if (false !== $position) {
                     geshi_dbg('found at position ' . $position . ', checking... ', false);
                     if ((-1 == $first_position) || ($first_position > $position) ||
@@ -807,14 +807,14 @@ class GeSHiContext
                 }
             }
         }
-        
+
         return array('pos' => $first_position, 'len' => $first_length,
                      'key' => $first_key, 'dlm' => $first_dlm);
     }
-    
+
     // }}}
     // {{{ _getContextEndData()
-    
+
     /**
      * GetContextEndData
      */
@@ -826,7 +826,7 @@ class GeSHiContext
         $context_end_len = -1;
         $context_end_dlm = '';
         $offset = 0;
-        
+
         // Bail out if context open key tells us that there is no ender for this context
         if (-1 == $context_open_key) {
         	geshi_dbg('  no opener so no ender');
@@ -844,13 +844,13 @@ class GeSHiContext
             // for starter stuff instead of assuming
             $balance_count = 1;
             geshi_dbg('@w  Begun balancing');
-            
+
             while ($balance_count > 0) {
                 // Look for opener/closers.
                 $opener_pos = geshi_get_position($code, $balance_opener, $offset);
                 $closer_pos = geshi_get_position($code, $balance_closer, $offset);
                 geshi_dbg('  opener pos = ' . print_r($opener_pos,true) . ', closer pos = ' . print_r($closer_pos,true));
-                
+
                 // Check what we found
                 if (false !== $opener_pos['pos']) {
                     if (false !== $closer_pos['pos']) {
@@ -892,25 +892,25 @@ class GeSHiContext
             // because we've found where balancing ends, but the end of the balancing
             // is likely to be the same as the end of the context
             --$offset;
-        }        
-        
+        }
+
         foreach ($this->_contextDelimiters[$context_open_key][1] as $ender) {
             geshi_dbg('  Checking ender: ' . str_replace("\n", '\n', $ender), false);
             $ender = $this->_substitutePlaceholders($ender);
             geshi_dbg(' converted to ' . $ender);
-            
+
             // Use the offset we may have found when handling balancing of contexts (will
             // be zero if balancing not done).
             $position = geshi_get_position($code, $ender, $offset);
             geshi_dbg('    Ender ' . $ender . ': ' . print_r($position, true));
             $length   = $position['len'];
             $position = $position['pos'];
-            
+
             // BUGFIX:skip around crap starters
             if (false === $position) {
                 continue;
             }
-            
+
             if ((false === $context_end_pos) || ($position < $context_end_pos)
                 || ($position == $context_end_pos && strlen($ender) > $context_end_len)) {
                 $context_end_pos = $position;
@@ -919,24 +919,24 @@ class GeSHiContext
             }
         }
         geshi_dbg('Context ' . $this->_contextName . ' can finish at position ' . $context_end_pos);
-        
+
         if (false !== $context_end_pos) {
             return array('pos' => $context_end_pos, 'len' => $context_end_len, 'dlm' => $context_end_dlm);
         } else {
             return false;
         }
     }
-    
+
     // }}}
     // {{{ _addParseData()
-    
+
     /**
      * Adds parse data to the overall result
-     * 
+     *
      * This method is mainly designed so that subclasses of GeSHiContext can
      * override it to break the context up further - for example, GeSHiStringContext
      * uses it to add escape characters
-     * 
+     *
      * @param string The code to add
      * @param string The first character of the next context (used by GeSHiCodeContext)
      */
@@ -944,10 +944,10 @@ class GeSHiContext
     {
        $this->_styler->addParseData($code, $this->_contextName, $this->_getExtraParseData(), $this->_complexFlag);
     }
-    
+
     // }}}
     // {{{ _addParseDataStart()
-    
+
     /**
      * Adds parse data for the start of a context to the overallresult
      */
@@ -955,7 +955,7 @@ class GeSHiContext
     {
         $this->_styler->addParseDataStart($code, $this->_contextName, $this->_startName, $this->_complexFlag);
     }
-    
+
     // }}}
     // {{{ _addParseDataEnd()
 
@@ -966,10 +966,10 @@ class GeSHiContext
     {
         $this->_styler->addParseDataEnd($code, $this->_contextName, $this->_endName, $this->_complexFlag);
     }
-    
+
     // }}}
     // {{{ _getExtraParseData()
-    
+
     // This may not be needed any more, since the context name can be changed immediately
     // because of one stage loading. This is used by the delphi code parser though, so be careful
     // that we don't lose required functionality this way.
@@ -980,14 +980,14 @@ class GeSHiContext
         $return = ($this->_aliasName ? array('alias_name' => $this->_aliasName) : array());
         return array_merge($return, $data);
     }
-    
+
     // {{{ _substitutePlaceholders()
-    
+
     /**
      * Substitutes placeholders for values matched in opening regular expressions
      * for contexts with their actual values
-     * 
-     * 
+     *
+     *
      */
     function _substitutePlaceholders ($ender)
     {
@@ -998,19 +998,19 @@ class GeSHiContext
         }
         return $ender;
     }
-    
+
     // }}}
     // {{{ _makeContextName()
-    
+
     function _makeContextName ($name)
     {
         return (substr($name, 0, strlen($this->_languageName) + 1) == "{$this->_languageName}/")
             ? $name : "$this->_contextName/$name";
     }
-    
+
     // }}}
     // {{{ _initPostProcess()
-    
+
     /**
      * Called after the init function has had its fun to
      * do any cleanup required
@@ -1018,9 +1018,9 @@ class GeSHiContext
     function _initPostProcess ()
     {
     }
-    
+
     // }}}
-    
+
 }
 
 ?>
