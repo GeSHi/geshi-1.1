@@ -2,9 +2,11 @@
 /**
  * GeSHi - Generic Syntax Highlighter
  * <pre>
- *   File:   geshi/themes/default/csharp/csharp.php
+ *   File:   geshi/themes/boride/d10/csharp/csharp.php
  *   Author: Knut A. Wikström
  *   E-mail: knut@wikstrom.dk
+ *   Author: Benny Baumann
+ *   E-mail: BenBE@omorphia.de
  * </pre>
  *
  * For information on how to use GeSHi, please consult the documentation
@@ -29,36 +31,37 @@
  * @package    geshi
  * @subpackage lang
  * @author     Knut A. Wikström <knut@wikstrom.dk>
+ * @author     Benny Baumann <BenBE@omorphia.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright  (C) 2006 Knut A. Wikström
+ * @copyright  (C) 2006-2007 Knut A. Wikström, Benny Baumann
  * @version    $Id$
  *
  */
 
 // Comments...
-$this->setStyle('single_comment',        'color: #008000; font-style: italic;'        );
-$this->setStyle('multi_comment',         'color: #008000; font-style: italic;'        );
-$this->setStyle('doc_comment/start',     'color: #808080; font-style: italic;'        );
+$this->setStyle('single_comment',        '#008000; font-style: italic;'        );
+$this->setStyle('multi_comment',         '#008000; font-style: italic;'        );
+$this->setStyle('doc_comment/start',     '#808080; font-style: italic;'        );
 // Doc comments contain XML
 //$this->setStyle('xml/xml',               '#808080; font-style: bold'           );
-$this->setStyle('doc_comment',           'color: #008000; font-style: italic;'        );
+$this->setStyle('doc_comment',           '#008000; font-style: italic;'        );
 
 // Types
-$this->setStyle('type',                  'color: #2b91af;'                             );
+$this->setStyle('type',                  '#2b91af'                             );
 
 // Modifiers
-$this->setStyle('modifier',              'color: #0000ff;'                                    );
+$this->setStyle('modifier',              ''                                    );
 
 // General keywords
-$this->setStyle('keyword',               'color: #0000ff;'                             );
+$this->setStyle('keyword',               '#0000ff'                             );
 
 // Strings...
-$this->setStyle('single_string',         'color: #a31515;'                             );
-$this->setStyle('double_string',         'color: #a31515;'                             );
-$this->setStyle('double_string_verbatim',         'color: #a31515;'                             );
+$this->setStyle('single_string',         '#a31515'                             );
+$this->setStyle('double_string',         '#a31515'                             );
 
 // Using directives...
-$this->setStyle('using/start',           'color: #0000ff;'                                    );
+$this->setStyle('using/start',           ''                                    );
 $this->setStyle('using',                 ''                                    );
 $this->setStyle('using/end',             ''                                    );
+
 ?>

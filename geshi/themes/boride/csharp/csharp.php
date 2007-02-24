@@ -36,29 +36,29 @@
  */
 
 // Comments...
-$this->setStyle('single_comment',        'color: #008000; font-style: italic;'        );
-$this->setStyle('multi_comment',         'color: #008000; font-style: italic;'        );
-$this->setStyle('doc_comment/start',     'color: #808080; font-style: italic;'        );
+$this->setStyle('single_comment',        'color:#008000;font-style:italic;'    );
+$this->setStyle('multi_comment',         'color:#008000;font-style:italic;'    );
+$this->setStyle('doc_comment/start',     'color:#008000;font-style:italic;'    );
+$this->setStyle('doc_comment/end',       'color:#008000;font-style:italic;'    );
 // Doc comments contain XML
 //$this->setStyle('xml/xml',               '#808080; font-style: bold'           );
-$this->setStyle('doc_comment',           'color: #008000; font-style: italic;'        );
+$this->setStyle('doc_comment',           'color:#008000;font-style:italic;'    );
 
 // Types
-$this->setStyle('type',                  'color: #2b91af;'                             );
+$this->setStyle('type',                  'color:#000000;'                      );
 
 // Modifiers
-$this->setStyle('modifier',              'color: #0000ff;'                                    );
+$this->setStyle('modifier',              'color:#000080;font-weight:bold;'     );
 
 // General keywords
-$this->setStyle('keyword',               'color: #0000ff;'                             );
+$this->setStyle('keyword',               'color:#000080;font-weight:bold;'     );
 
 // Strings...
-$this->setStyle('single_string',         'color: #a31515;'                             );
-$this->setStyle('double_string',         'color: #a31515;'                             );
-$this->setStyle('double_string_verbatim',         'color: #a31515;'                             );
+$this->setStyle('single_string',         'color:#0000FF;'                      );
+$this->setStyle('double_string',         'color:#0000FF;'                      );
 
 // Using directives...
-$this->setStyle('using/start',           'color: #0000ff;'                                    );
+$this->setStyle('using/start',           'color:#000080;font-weight:bold;'     );
 $this->setStyle('using',                 ''                                    );
 $this->setStyle('using/end',             ''                                    );
 ?>
