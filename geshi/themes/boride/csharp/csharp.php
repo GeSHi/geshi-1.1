@@ -2,9 +2,11 @@
 /**
  * GeSHi - Generic Syntax Highlighter
  * <pre>
- *   File:   geshi/themes/default/csharp/csharp.php
+ *  File:   geshi/themes/boride/csharp/csharp.php
  *   Author: Knut A. Wikström
  *   E-mail: knut@wikstrom.dk
+ *   Author: Benny Baumann
+ *   E-mail: BenBE@omorphia.de
  * </pre>
  *
  * For information on how to use GeSHi, please consult the documentation
@@ -27,10 +29,11 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  *
  * @package    geshi
- * @subpackage lang
+ * @subpackage theme
+ * @author     Benny Baumann <BenBE@omorphia.de>
  * @author     Knut A. Wikström <knut@wikstrom.dk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright  (C) 2006 Knut A. Wikström
+ * @copyright  (C) 2006-2007 Knut A. Wikström, Benny Baumann
  * @version    $Id$
  *
  */

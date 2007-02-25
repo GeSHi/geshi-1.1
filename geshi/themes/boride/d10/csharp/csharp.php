@@ -29,9 +29,9 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  *
  * @package    geshi
- * @subpackage lang
- * @author     Knut A. Wikström <knut@wikstrom.dk>
+ * @subpackage theme
  * @author     Benny Baumann <BenBE@omorphia.de>
+ * @author     Knut A. Wikström <knut@wikstrom.dk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2006-2007 Knut A. Wikström, Benny Baumann
  * @version    $Id$
