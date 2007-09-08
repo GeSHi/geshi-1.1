@@ -592,7 +592,8 @@ class GeSHiCodeContext extends GeSHiContext
         if ($this->_useStandardIntegers) {
             $context_name = (isset($this->_integerOptions['context_name'])) ?
                 $this->_integerOptions['context_name'] : 'num/int';
-            $this->addRegexGroup('#([^a-zA-Z_0-9\.]|^)([0-9]+)(?=[^a-zA-Z_0-9\.]|$)#', '', array(
+            // NOTE: changed from having a \. in the last banned group, so that in perl -5..-1 would work for the 5
+            $this->addRegexGroup('#([^a-zA-Z_0-9\.]|^)([0-9]+)(?=[^a-zA-Z_0-9]|$)#', '', array(
                     1 => true, // catch banned stuff for highlighting by the code context that it is in
                     2 => array($context_name, false),
                     3 => true
