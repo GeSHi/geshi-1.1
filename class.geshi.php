@@ -58,17 +58,17 @@ if (!defined('GESHI_ROOT')) {
  * @access private
  */
 /** The data directory for GeSHi */
-define('GESHI_DATA_ROOT', GESHI_ROOT . 'geshi' . '/');
+define('GESHI_DATA_ROOT', GESHI_ROOT . 'geshi' . DIRECTORY_SEPARATOR);
 /** The classes directory for GeSHi */
-define('GESHI_CLASSES_ROOT', GESHI_DATA_ROOT . 'classes' . '/');
+define('GESHI_CLASSES_ROOT', GESHI_DATA_ROOT . 'classes' . DIRECTORY_SEPARATOR);
 /** The languages directory for GeSHi */
-define('GESHI_LANGUAGES_ROOT', GESHI_DATA_ROOT . 'languages' . '/');
+define('GESHI_LANGUAGES_ROOT', GESHI_DATA_ROOT . 'languages' . DIRECTORY_SEPARATOR);
 /** The context files directory for GeSHi */
-define('GESHI_CONTEXTS_ROOT', GESHI_DATA_ROOT . 'contexts' . '/');
+define('GESHI_CONTEXTS_ROOT', GESHI_DATA_ROOT . 'contexts' . DIRECTORY_SEPARATOR);
 /** The theme files directory for GeSHi */
-define('GESHI_THEMES_ROOT', GESHI_DATA_ROOT . 'themes' . '/');
+define('GESHI_THEMES_ROOT', GESHI_DATA_ROOT . 'themes' . DIRECTORY_SEPARATOR);
 /** The renderers directory for GeSHi */
-define('GESHI_RENDERERS_ROOT', GESHI_CLASSES_ROOT . 'renderers' . '/');
+define('GESHI_RENDERERS_ROOT', GESHI_CLASSES_ROOT . 'renderers' . DIRECTORY_SEPARATOR);
 /**#@-*/
 
 /** Get required functions */
