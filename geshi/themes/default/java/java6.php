@@ -29,7 +29,7 @@
  * @author     Nigel McNie <nigel@geshi.org>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Nigel McNie
- * @version    $Id: java.php 738 2006-06-02 09:43:47Z oracleshinoda $
+ * @version    $Id$
  *
  */
 

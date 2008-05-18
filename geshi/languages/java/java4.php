@@ -31,7 +31,7 @@
  * @author     Tim Wright <wrighttimo@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2005 - 2007 Tim Wright, Nigel McNie
- * @version    $Id: java.php 882 2007-01-11 10:39:27Z oracleshinoda $
+ * @version    $Id$
  *
  */
  
