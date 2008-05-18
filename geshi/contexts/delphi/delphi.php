@@ -59,7 +59,8 @@ $this->_contextKeywords = array(
             'Protected', 'Public', 'Published', 'Raise', 'Record', 'Repeat',
             'Requires', 'Resourcestring', 'Set', 'Shl', 'Shr', 'Then', 'ThreadVar',
             'To', 'Try', 'Type', 'Unit', 'Until', 'Uses', 'Var', 'Virtual', 'While',
-            'With', 'Xor', 'assembler', 'cdecl', 'far', 'near', 'pascal', 'register',
+            'With', 'Xor', 'assembler', 'cdecl', 'far', 'near', 'pascal',
+            //'register', // requires special handling
             'safecall', 'stdcall', 'varargs'
         ),
         1 => $CONTEXT . '/keywords',
@@ -69,12 +70,15 @@ $this->_contextKeywords = array(
     ),
     1 => array(
         0 => array(
-            'AnsiChar', 'AnsiString', 'Bool', 'Boolean', 'Byte', 'ByteBool',
-            'Cardinal', 'Char', 'Comp', 'Currency', 'DWORD', 'Double', 'Extended',
-            'Int64', 'Integer', 'LongBool', 'LongInt', 'PAnsiChar', 'PChar',
-            'PWideChar', 'Pointer', 'Real', 'Real48', 'ShortInt', 'Single',
-            'SmallInt', 'String', 'THandle', 'WideChar', 'WideString', 'Word',
-            'WordBool'
+            'AnsiChar', 'AnsiString', 'Bool', 'Boolean', 'Byte', 'ByteBool', 'Cardinal', 'Char',
+            'Comp', 'Currency', 'DWORD', 'Double', 'Extended', 'Int64', 'Integer', 'IUnknown',
+            'LongBool', 'LongInt', 'LongWord', 'PAnsiChar', 'PAnsiString', 'PBool', 'PBoolean', 'PByte',
+            'PByteArray', 'PCardinal', 'PChar', 'PComp', 'PCurrency', 'PDWORD', 'PDate', 'PDateTime',
+            'PDouble', 'PExtended', 'PInt64', 'PInteger', 'PLongInt', 'PLongWord', 'Pointer', 'PPointer',
+            'PShortInt', 'PShortString', 'PSingle', 'PSmallInt', 'PString', 'PHandle', 'PVariant', 'PWord',
+            'PWordArray', 'PWordBool', 'PWideChar', 'PWideString', 'Real', 'Real48', 'ShortInt', 'ShortString',
+            'Single', 'SmallInt', 'String', 'TClass', 'TDate', 'TDateTime', 'TextFile', 'THandle',
+            'TObject', 'TTime', 'Variant', 'WideChar', 'WideString', 'Word', 'WordBool'
         ),
         1 => $CONTEXT . '/keytypes',
         2 => 'color:#000; font-weight:bold;',
@@ -84,7 +88,7 @@ $this->_contextKeywords = array(
 
     2 => array(
         0 => array(
-            'false', 'nil', 'true'
+            'false', 'nil', 'self', 'true'
         ),
         1 => $CONTEXT . '/keyidents',
         2 => 'color:#000; font-weight:bold;',
@@ -249,7 +253,7 @@ $this->_contextKeywords = array(
         2 => 'color:#444;',
         3 => false,
         4 => ''
-    ),
+    )
 );
 
 $this->_contextSymbols  = array(

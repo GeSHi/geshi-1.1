@@ -25,29 +25,20 @@
  * with GeSHi, in the docs/ directory.
  *
  * @package   core
- * @author    Nigel McNie <nigel@geshi.org>
+ * @author    Tim Wright <tim.w@clear.net.nz>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
  * 
  */
-
+ 
 /** Get the GeSHiCodeParser class */
 require_once GESHI_CLASSES_ROOT . 'class.geshicodeparser.php';
-
-/**
- * The GeSHiPHPCodeParser class
- * 
- * @package core
- * @author  Nigel McNie <nigel@geshi.org>
- * @since   1.1.1
- * @version $Revision$
- */
-class GeSHiPHPCodeParser extends GeSHiCodeParser
-{
-    // {{{ properties
-    
-    /**
+ 
+class GeSHiJavaCodeParser extends GeSHiCodeParser
+{ 
+ 
+  /**
      * A flag that can be used for the "state" of parsing
      * 
      * @var string
@@ -61,25 +52,20 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
      * @var array
      * @access private
      */
-    var $_classNames = array();
-    
-    // }}}
-    // {{{ GeSHiPHPCodeParser()
-    
+    var $_classNames = array(); 
+ 
+   
     /**
      * This will probably disappear from here as theming support
      * arrives
      */
-    function GeSHiPHPCodeParser (&$styler, $language)
+    function GeSHiJavaCodeParser (&$styler, $language)
     {
         $this->GeSHiCodeParser($styler, $language);
-        $this->_styler->setStyle($language . '/class_name', 'color:#933;');
+        $this->_styler->setStyle($language . '/class_name', 'color:#233;');
     }
-    
-    // }}}
-    // {{{ parseToken()
-    
-    /**
+ 
+   /**
      * This method can either return an array like
      * this one is doing, or nothing (false), or an
      * array of arrays. This way, it can hold onto
@@ -96,7 +82,7 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
      * - the name and dialect of the language currently being used (may
      *   have to alter GeSHiStyler for this
      * - the & symbol that might be before the function
-     * - the function token is actually in the right context (e.g. php/$DIALECT)
+     * - the function token is actually in the right context (e.g. java/$DIALECT)
      * - the function isn't actually a method (can highlight those too, of course)
      */
     function parseToken ($token, $context_name, $data)
@@ -116,8 +102,7 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
         
         return array($token, $context_name, $data);
     }
-    
-    // }}}
+ 
 }
 
 ?>

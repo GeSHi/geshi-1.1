@@ -49,7 +49,8 @@ function geshi_dbg_level ($level) {
  */
 function geshi_dbg ($message, $context, $add_nl = true, $return_counts = false)
 {
-    if ((GESHI_DBG & $context) || ($GLOBALS['geshi_dbg_level'] & $context)) {
+    //echo "DBG: " . (GESHI_DBG & $context) . "  " . $context . "  " . "<br />";
+    if (((GESHI_DBG & $context)) || ($GLOBALS['geshi_dbg_level'] & $context)) {
         //
         // Message can have the following symbols at start
         //
@@ -231,6 +232,10 @@ function geshi_use_doubles ($prefix, $require_leading_number = false)
     );
 }
 
+function geshi_is_whitespace ($token)
+{
+    return !preg_match('/[^\s]/', $token);
+}
 
 // @todo [blocking 1.1.9] fix this up
 // +----------------------------------------------------------------------+

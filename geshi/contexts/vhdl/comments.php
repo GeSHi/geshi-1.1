@@ -1,4 +1,4 @@
-<?php
+ <?php
 /**
  * GeSHi - Generic Syntax Highlighter
  * 
@@ -33,20 +33,14 @@
  */
 
 $this->_contextDelimiters = array(
-    0 => array(
-        0 => array('REGEX#^return#', 'REGEX#^javascript:#'),
-        1 => array('"'),
-        2 => false
-    )
+	0 => array(
+		0 => array('--'),
+		1 => array("\n"),
+		2 => false
+	)
 );
 
-// Here is mentioned flag:
-$this->_neverTrim = true;
-
-// If this is set to parse any of the delimiters, the OCC swallows it up - setStartStyle and
-// setEndStyle have no meaning in a context with an OCC (actually, nor does setStyle)
-$this->_delimiterParseData = GESHI_CHILD_PARSE_LEFT;
-
-$this->_overridingChildContext = new GeSHiCodeContext('javascript');
+$this->_styler->setStyle($CONTEXT, 'color:#888;font-style:italic;');
+$this->_contextStyleType = GESHI_STYLE_COMMENTS;
 
 ?>

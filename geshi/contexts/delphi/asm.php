@@ -29,24 +29,30 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
- * @todo [blocking 1.1.1] is the instr_i386 and instr_i387 sets supposed to be named instr/i38[6|7]?
  *
  */
 
 $this->_contextDelimiters = array(
     0 => array(
-        0 => array('asm'),
-        1 => array('end'),
+        0 => array(
+            'REGEX#(^|(?=\b))asm((?=\b)|$)#im'
+        ),
+        1 => array(
+             'REGEX#(^|(?=\b))end((?=\b)|$)#im'
+        ),
+
         2 => false
     )
 );
 
+
 $this->_childContexts = array(
     new GeSHiContext('delphi', $DIALECT, 'preprocessor'),
-    new GeSHiContext('delphi', $DIALECT, 'common/single_comment')
+    new GeSHiContext('delphi', $DIALECT, 'common/single_comment'),
+    new GeSHiContext('delphi', $DIALECT, 'multi_comment')
 );
 
-$this->_styler->setStyle($CONTEXT, 'color:#00f;');
+$this->_styler->setStyle($CONTEXT, 'color:#000;');
 $this->_styler->setStyle($CONTEXT_START, 'color:#f00;font-weight:bold;');
 $this->_styler->setStyle($CONTEXT_END, 'color:#f00;font-weight:bold;');
 
@@ -64,8 +70,19 @@ $this->_contextKeywords = array(
 
     1 => array(
         0 => array(
+            'high', 'low', 'mod'
+            //@todo: Make ASM detect 'and', 'not', 'or', 'shl', 'shr', 'xor' if not used as instructions
+        ),
+        1 => $CONTEXT . '/keyops',
+        2 => 'color:#f00; font-weight:bold;',
+        3 => false,
+        4 => ''
+    ),
+
+    2 => array(
+        0 => array(
             'byte', 'dmtindex', 'dword', 'large', 'offset', 'ptr', 'qword', 'small',
-            'tbyte', 'vmtoffset', 'word'
+            'tbyte', 'type', 'vmtoffset', 'word'
         ),
         1 => $CONTEXT . '/control',
         2 => 'color:#00f; font-weight: bold;',
@@ -73,31 +90,33 @@ $this->_contextKeywords = array(
         4 => ''
     ),
 
-    //CPU i386 instructions
-    2 => array(
+    3 => array(
         0 => array(
-/*
-            // @todo order the i386 instruction set
+            'ah', 'al', 'bh', 'bl', 'ch', 'cl', 'dh', 'dl',
+            'ax', 'bx', 'cx', 'dx', 'sp', 'bp', 'di', 'si',
 
-            'aaa','aad','aam','aas','adc','add','and','call','cbw','clc','cld','cli','cmc','cmp',
-            'cmps','cmpsb','cmpsw','cwd','daa','das','dec','div','esc','hlt','idiv','imul','in','inc',
-            'int','into','iret','ja','jae','jb','jbe','jc','jcxz','je','jg','jge','jl','jle','jmp',
-            'jna','jnae','jnb','jnbe','jnc','jne','jng','jnge','jnl','jnle','jno','jnp','jns','jnz',
-            'jo','jp','jpe','jpo','js','jz','lahf','lds','lea','les','lods','lodsb','lodsw','loop',
-            'loope','loopew','loopne','loopnew','loopnz','loopnzw','loopw','loopz','loopzw','mov',
-            'movs','movsb','movsw','mul','neg','nop','not','or','out','pop','popf','push','pushf',
-            'rcl','rcr','ret','retf','retn','rol','ror','sahf','sal','sar','sbb','scas','scasb','scasw',
-            'shl','shr','stc','std','sti','stos','stosb','stosw','sub','test','wait','xchg','xlat',
-            'xlatb','xor','bound','enter','ins','insb','insw','leave','outs','outsb','outsw','popa','pusha','pushw',
-            'arpl','lar','lsl','sgdt','sidt','sldt','smsw','str','verr','verw','clts','lgdt','lidt','lldt','lmsw','ltr',
-            'bsf','bsr','bt','btc','btr','bts','cdq','cmpsd','cwde','insd','iretd','iretdf','iretf',
-            'jecxz','lfs','lgs','lodsd','loopd','looped','loopned','loopnzd','loopzd','lss','movsd',
-            'movsx','movzx','outsd','popad','popfd','pushad','pushd','pushfd','scasd','seta','setae',
-            'setb','setbe','setc','sete','setg','setge','setl','setle','setna','setnae','setnb','setnbe',
-            'setnc','setne','setng','setnge','setnl','setnle','setno','setnp','setns','setnz','seto','setp',
-            'setpe','setpo','sets','setz','shld','shrd','stosd','bswap','cmpxchg','invd','invlpg',
-            'wbinvd','xadd','lock','rep','repe','repne','repnz','repz'
-*/
+            'eax', 'ebx', 'ecx', 'edx', 'esp', 'ebp', 'edi', 'esi',
+
+            'mm0', 'mm1', 'mm2', 'mm3', 'mm4', 'mm5', 'mm6', 'mm7',
+            'xmm0', 'xmm1', 'xmm2', 'xmm3', 'xmm4', 'xmm5', 'xmm6', 'xmm7',
+
+            'st0', 'st1', 'st2', 'st3', 'st4', 'st5', 'st6', 'st7',
+
+            'cs', 'ds', 'es', 'fs', 'gs', 'ss',
+            'cr0', 'cr1', 'cr2', 'cr3', 'cr4',
+            'dr0', 'dr1', 'dr2', 'dr3', 'dr4', 'dr5', 'dr6', 'dr7'
+        ),
+        1 => $CONTEXT . '/register',
+        2 => 'color:#00f;',
+        3 => false,
+        4 => ''
+    ),
+
+    //CPU i386 instructions
+    4 => array(
+        0 => array(
+             // @todo order the i386 instruction set
+             // @todo divide the i386 instruction set into i386\i486\i586\i686 instructions
             'AAA', 'AAD', 'AAM', 'AAS', 'ADC', 'ADD', 'AND', 'ARPL', 'BOUND', 'BSF',
             'BSR', 'BSWAP', 'BT', 'BTC', 'BTR', 'BTS', 'CALL', 'CBW', 'CDQ', 'CLC',
             'CLD', 'CLI', 'CLTS', 'CMC', 'cmova', 'cmovae', 'cmovb', 'cmovbe',
@@ -133,28 +152,16 @@ $this->_contextKeywords = array(
             'VERW', 'WAIT', 'WBINVD', 'WRMSR', 'WRSHR', 'XADD', 'XBTS', 'XCHG',
             'XLAT', 'XLATB', 'XOR'
         ),
-        1 => $CONTEXT . '/instr_i386',
+        1 => $CONTEXT . '/instr/i386',
         2 => 'color:#00f; font-weight:bold;',
         3 => false,
         4 => ''
     ),
 
     //FPU i387 instructions
-    3 => array(
+    5 => array(
         0 => array(
-        /*
              // @todo order the i387 instruction set
-            'f2xm1','fabs','fadd','faddp','fbld','fbstp','fchs','fclex','fcom','fcomp','fcompp','fdecstp',
-            'fdisi','fdiv','fdivp','fdivr','fdivrp','feni','ffree','fiadd','ficom','ficomp','fidiv',
-            'fidivr','fild','fimul','fincstp','finit','fist','fistp','fisub','fisubr','fld','fld1',
-            'fldcw','fldenv','fldenvw','fldl2e','fldl2t','fldlg2','fldln2','fldpi','fldz','fmul',
-            'fmulp','fnclex','fndisi','fneni','fninit','fnop','fnsave','fnsavew','fnstcw','fnstenv',
-            'fnstenvw','fnstsw','fpatan','fprem','fptan','frndint','frstor','frstorw','fsave',
-            'fsavew','fscale','fsqrt','fst','fstcw','fstenv','fstenvw','fstp','fstsw','fsub','fsubp',
-            'fsubr','fsubrp','ftst','fwait','fxam','fxch','fxtract','fyl2x','fyl2xp1',
-            'fsetpm','fcos','fldenvd','fnsaved','fnstenvd','fprem1','frstord','fsaved','fsin','fsincos',
-            'fstenvd','fucom','fucomp','fucompp'
-        */
             'F2XM1', 'FABS', 'FADD', 'FADDP', 'FBLD', 'FBSTP', 'FCHS', 'FCLEX',
             'FCMOVB', 'FCMOVBE', 'FCMOVE', 'FCMOVNB', 'FCMOVNBE', 'FCMOVNE',
             'FCMOVNU', 'FCMOVU', 'FCOM', 'FCOMI', 'FCOMIP', 'FCOMP', 'FCOMPP', 'FCOS',
@@ -170,15 +177,17 @@ $this->_contextKeywords = array(
             'FUCOMP', 'FUCOMPP', 'FWAIT', 'FXAM', 'FXCH', 'FXTRACT', 'FYL2X',
             'FYL2XP1'
         ),
-        1 => $CONTEXT . '/instr_i387',
+        1 => $CONTEXT . '/instr/i387',
         2 => 'color:#00f; font-weight:bold;',
+        3 => false,
         4 => ''
     ),
 
     //MMX instruction set
-    4 => array(
+    6 => array(
         0 => array(
             // @todo order the mmx instruction set
+            // @todo divide into MMX and XMM instruction sets
             'FFREEP', 'FXRSTOR', 'FXSAVE', 'MASKMOVQ', 'MOVNTQ', 'PACKSSDW',
             'PACKSSWB', 'PACKUSWB', 'PADDB', 'PADDD', 'PADDSB', 'PADDSIW', 'PADDSW',
             'PADDUSB', 'PADDUSW', 'PADDW', 'PAND', 'PANDN', 'PAVEB', 'PAVGB', 'PAVGW',
@@ -199,9 +208,10 @@ $this->_contextKeywords = array(
     ),
 
     //SSE instruction set
-    5 => array(
+    7 => array(
         0 => array(
             // @todo order the SSE instruction set
+            // @todo divide between SSE\SSE2\SSE3 instruction sets
             'ADDPS', 'ADDSS', 'ANDNPS', 'ANDPS', 'CMPEQPS', 'CMPEQSS', 'CMPLEPS',
             'CMPLESS', 'CMPLTPS', 'CMPLTSS', 'CMPNEQPS', 'CMPNEQSS', 'CMPNLEPS',
             'CMPNLESS', 'CMPNLTPS', 'CMPNLTSS', 'CMPORDPS', 'CMPORDSS', 'CMPPS',
@@ -220,7 +230,7 @@ $this->_contextKeywords = array(
     ),
 
     //3DNow instruction set
-    6 => array(
+    8 => array(
         0 => array(
             // @todo order the 3Dnow! instruction set
             'PAVGUSB', 'PF2ID', 'PFACC', 'PFADD', 'PFMAX', 'PFMIN', 'PFMUL', 'PFRCP',
@@ -235,7 +245,7 @@ $this->_contextKeywords = array(
     ),
 
     //3DNowExt instruction set
-    7 => array(
+    9 => array(
         0 => array(
             // @todo order the 3Dnow! Ext instruction set
             'PF2IW', 'PFNACC', 'PFPNACC', 'PI2FW', 'PSWAPD'
@@ -250,7 +260,7 @@ $this->_contextKeywords = array(
 $this->_contextSymbols  = array(
     0 => array(
         0 => array(
-            ',', ';', '[', ']', '.'
+            ',', ';', '[', ']', '(', ')', '.', '&', '+', '-', '/', '*'
             ),
         1 => $CONTEXT . '/sym',
         2 => 'color:#008000;'
@@ -259,7 +269,7 @@ $this->_contextSymbols  = array(
 
 $this->_contextRegexps  = array(
     0 => array(
-        0 => array('#([a-zA-Z_]+:)#'),
+        0 => array('#([@a-zA-Z_][@a-zA-Z0-9_]+:)#'),
         1 => ':',
         2 => array(
             1 => array($CONTEXT . '/label', 'color:#933;', false)
@@ -274,7 +284,16 @@ $this->_contextRegexps  = array(
             1 => array($CONTEXT . '/hex', 'color: #2bf;', false)
         )
     ),
-    2 => geshi_use_integers($CONTEXT)
+    2 => array(
+        0 => array(
+            '/(?=\b)(st\([0-7]\))/im'
+        ),
+        1 => '',
+        2 => array(
+            1 => array($CONTEXT . '/register', 'color: #00f;', false)
+        )
+    ),
+    3 => geshi_use_integers($CONTEXT)
 );
 
 $this->_objectSplitters = array(

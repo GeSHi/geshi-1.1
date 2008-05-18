@@ -73,7 +73,7 @@ class GeSHiRenderer
      * 
      * @abstract
      */
-    function parseToken ($token, $context_name, $url) {}
+    function parseToken ($token, $context_name, $data) {}
     
     // }}}
     // {{{ getHeader()
