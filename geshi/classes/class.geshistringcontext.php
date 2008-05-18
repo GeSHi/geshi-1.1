@@ -102,7 +102,7 @@ class GeSHiStringContext extends GeSHiContext
                     // substr($code, $pos, 1) == $ender
                     $endpos = geshi_get_position($code, $ender, $pos);
                     geshi_dbg('  position of ender: ' . $endpos['pos'], GESHI_DBG_PARSE);
-                    $pos = ($pos && $endpos['pos'] === $pos) ? $pos : strlen($code);
+                    $pos = (false !== $pos && $endpos['pos'] === $pos) ? $pos : strlen($code);
                     return array('pos' => $pos, 'len' => $len, 'dlm' => $ender);
                 }
                 // else, start further up

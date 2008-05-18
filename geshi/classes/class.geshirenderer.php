@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -25,32 +24,78 @@
  * You can view a copy of the GNU GPL in the COPYING file that comes
  * with GeSHi, in the docs/ directory.
  *
- * @package   lang
+ * @package   core
  * @author    Nigel McNie <nigel@geshi.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
- *
- */
-
-/*
- * PHP4 language file for GeSHi
- * 
- * [notes about language]
- * 
- * [notes about this implementation of the language]
  * 
  */
 
-/** Get the GeSHiCodeContext class */ 
-require_once GESHI_CLASSES_ROOT . 'class.geshicodecontext.php';
-/** Get the GeSHiPHPCodeParser class */
-require_once GESHI_CLASSES_ROOT . 'php' . GESHI_DIR_SEPARATOR . 'class.geshiphpcodeparser.php';
+/**
+ * The GeSHiRenderer class
+ * 
+ * @package core
+ * @author  Nigel McNie <nigel@geshi.org>
+ * @since   1.1.1
+ * @version $Revision$
+ * @abstract
+ */
+class GeSHiRenderer
+{
+    // {{{ properties
+    
+    /**
+     * The styler object being used
+     * 
+     * @var GeSHiStyler
+     * @access private
+     */
+    var $_styler;
+    
+    // }}}
+    // {{{ GeSHiRenderer()
+    
+    /**
+     * Constructor.
+     */
+    function GeSHiRenderer(&$styler)
+    {
+        $this->_styler =& $styler;
+    }
+    
+    // }}}
+    // {{{ parseToken()
+    
+    /**
+     * Abstract. Renderers should implement this method to
+     * get access to parse tokens
+     * 
+     * @abstract
+     */
+    function parseToken ($token, $context_name, $url) {}
+    
+    // }}}
+    // {{{ getHeader()
+    
+    /**
+     * Should return any header data for the renderer
+     * 
+     * @abstract
+     */
+    function getHeader () {}
+    
+    // }}}
+    // {{{ getFooter()
+    
+    /**
+     * Should return any footer data for the renderer
+     * 
+     * @abstract
+     */
+    function getFooter () {}
+    
+    // }}}
+}
 
-$this->_humanLanguageName = 'PHP4';
-
-$this->_rootContext =& new GeSHiCodeContext('html');
-$this->_rootContext->infectWith(new GeSHiCodeContext('php', 'php4'));
-
-$this->_styler->setCodeParser(new GeSHiPHPCodeParser($this->_styler, $this->_language));
 ?>

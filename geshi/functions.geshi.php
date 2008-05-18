@@ -140,22 +140,19 @@ function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = 
         }
     }
     
-    // geshi_preg_match_pos
-
     $regex = substr($needle, 5);
-    $string = $haystack;
-    
+
+    // Get the location of the first match of the regular expression    
     $foo = microtime();
     $foo_len = strlen($foo);
-    $len = strlen($string);
-    $str = preg_replace($regex, $foo, $string, 1);
+    $len = strlen($haystack);
+    $str = preg_replace($regex, $foo, $haystack, 1);
     $length = $len - (strlen($str) - $foo_len);
 
-    // ADD SOME MORE: Return matching table (?)
+    // Return match table if requested 
     if ($need_table) {
         $matches = array();
-        preg_match_all($regex, $string, $matches);
-        //$table = $matches;
+        preg_match_all($regex, $haystack, $matches);
         $i = 0;
         $table = array();
         foreach ( $matches as $match ) {

@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -25,32 +24,36 @@
  * You can view a copy of the GNU GPL in the COPYING file that comes
  * with GeSHi, in the docs/ directory.
  *
- * @package   lang
+ * @package   core
  * @author    Nigel McNie <nigel@geshi.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
- *
- */
-
-/*
- * PHP4 language file for GeSHi
- * 
- * [notes about language]
- * 
- * [notes about this implementation of the language]
  * 
  */
 
-/** Get the GeSHiCodeContext class */ 
-require_once GESHI_CLASSES_ROOT . 'class.geshicodecontext.php';
-/** Get the GeSHiPHPCodeParser class */
-require_once GESHI_CLASSES_ROOT . 'php' . GESHI_DIR_SEPARATOR . 'class.geshiphpcodeparser.php';
+/** Get the GeSHiCodeParser class */
+require_once GESHI_CLASSES_ROOT . 'class.geshicodeparser.php';
 
-$this->_humanLanguageName = 'PHP4';
+/**
+ * The GeSHiDefaultCodeParser class. Implements GeSHiCodeParser
+ * to provide for the default method of code parsing - do nothing
+ * 
+ * @package core
+ * @author  Nigel McNie <nigel@geshi.org>
+ * @since   1.1.1
+ * @version $Revision$
+ */
+class GeSHiDefaultCodeParser extends GeSHiCodeParser {
+    // {{{ parseToken()
+    
+    /**
+     * Overrides {@link GeSHiCodeParser::parseToken()}
+     */
+    function parseToken($token, $context_name, $url) {
+        return array($token, $context_name, $url);
+    }
+    // }}}
+}
 
-$this->_rootContext =& new GeSHiCodeContext('html');
-$this->_rootContext->infectWith(new GeSHiCodeContext('php', 'php4'));
-
-$this->_styler->setCodeParser(new GeSHiPHPCodeParser($this->_styler, $this->_language));
 ?>

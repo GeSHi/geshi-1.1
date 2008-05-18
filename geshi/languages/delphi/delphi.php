@@ -45,10 +45,14 @@
 
 /** Get the GeSHiCodeContext class */ 
 require_once GESHI_CLASSES_ROOT . 'class.geshicodecontext.php';
+/** Get the GeSHiDelphiCodeParser class */
+require_once GESHI_CLASSES_ROOT . 'delphi' . GESHI_DIR_SEP . 'class.geshidelphicodeparser.php';
 
 
 $this->_humanLanguageName = 'Delphi';
 
 $this->_rootContext =& new GeSHiCodeContext('delphi');
+
+$this->_styler->setCodeParser(new GeSHiDelphiCodeParser($this->_styler, $this->_language));
 
 ?>

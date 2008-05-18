@@ -105,28 +105,14 @@ $this->_contextKeywords = array(
 );
 
 $this->_contextSymbols  = array(
-/*    0 => array(
-        0 => array(
-            // @todo [blocking 1.1.1] are the [ and ] needed? They're handled by starter and ender, do they ever actually
-            // occur *inside* this context? (deferred to 1.1.1)
-
-            // BenBE: [] might just well occure as part of a function declaration. But it's thus unlikly that there's no
-            // absolut requirement to handle them. I actually would have to check if the Delphi compiler actually compiles
-            // such source (I doubt it will compile).
-            // @todo Test if exports ABC(A: Array[13..37] of Integer) name 'ABC'; actually compiles.
-            '(', ']'
-            ),
-        1 => $CONTEXT . '/brksym',
-        2 => 'color:#008000;'
-    ),*/
-    1 => array(
+    0 => array(
         0 => array(
             ':', ';', ',', '='
             ),
         1 => $CONTEXT . '/ctrlsym',
         2 => 'color:#008000;'
     ),
-    2 => array(
+    1 => array(
         0 => array(
             '.'
             ),

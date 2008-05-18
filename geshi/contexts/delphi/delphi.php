@@ -33,8 +33,6 @@
  */
 
 // @todo [blocking 1.1.1] Rename OCCs with parent's name in front for theming
-// BenBE: What do you mean?
-// My todo for theming support, not relevant to delphi
 // @todo [blocking 1.1.1] make keywords not keywords if they don't have a ( after
 // them (e.g. a variable named "sum" will be highlighted as a keyword even if it isn't)
 $this->_childContexts = array(
@@ -325,8 +323,6 @@ $this->_contextSymbols  = array(
         1 => $CONTEXT . '/oopsym',
         2 => 'color:#008000;'
         )
-//                        '|', '=', '!', ':', '(', ')', ',', '<', '>', '&', '$', '+', '-', '*', '/',
-//                '{', '}', ';', '[', ']', '~', '?'
 );
 
 $this->_contextRegexps  = array(

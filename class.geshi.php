@@ -41,10 +41,12 @@
  */
 
 /** GeSHi Version */
-define('GESHI_VERSION', '1.1.0');
+define('GESHI_VERSION', '1.1.1alpha1');
 
 /** Set the correct directory separator */
 define('GESHI_DIR_SEPARATOR', ('WIN' != substr(PHP_OS, 0, 3)) ? '/' : '\\');
+// @todo [blocking 1.1.5] change name of constant GESHI_DIR_SEPARATOR to GESHI_DIR_SEP
+define('GESHI_DIR_SEP', GESHI_DIR_SEPARATOR);
 
 // Define the root directory for the GeSHi code tree
 if (!defined('GESHI_ROOT')) {
@@ -56,15 +58,17 @@ if (!defined('GESHI_ROOT')) {
  * @access private
  */
 /** The data directory for GeSHi */
-define('GESHI_DATA_ROOT', GESHI_ROOT . 'geshi' . GESHI_DIR_SEPARATOR);
+define('GESHI_DATA_ROOT', GESHI_ROOT . 'geshi' . GESHI_DIR_SEP);
 /** The classes directory for GeSHi */
-define('GESHI_CLASSES_ROOT', GESHI_DATA_ROOT . 'classes' . GESHI_DIR_SEPARATOR);
+define('GESHI_CLASSES_ROOT', GESHI_DATA_ROOT . 'classes' . GESHI_DIR_SEP);
 /** The languages directory for GeSHi */
-define('GESHI_LANGUAGES_ROOT', GESHI_DATA_ROOT . 'languages' . GESHI_DIR_SEPARATOR);
+define('GESHI_LANGUAGES_ROOT', GESHI_DATA_ROOT . 'languages' . GESHI_DIR_SEP);
 /** The context files directory for GeSHi */
-define('GESHI_CONTEXTS_ROOT', GESHI_DATA_ROOT . 'contexts' . GESHI_DIR_SEPARATOR);
+define('GESHI_CONTEXTS_ROOT', GESHI_DATA_ROOT . 'contexts' . GESHI_DIR_SEP);
 /** The theme files directory for GeSHi */
-define('GESHI_THEMES_ROOT', GESHI_DATA_ROOT . 'themes' . GESHI_DIR_SEPARATOR);
+define('GESHI_THEMES_ROOT', GESHI_DATA_ROOT . 'themes' . GESHI_DIR_SEP);
+/** The renderers directory for GeSHi */
+define('GESHI_RENDERERS_ROOT', GESHI_CLASSES_ROOT . 'renderers' . GESHI_DIR_SEP);
 /**#@-*/
 
 /** Get required functions */
@@ -175,6 +179,8 @@ define('GESHI_DEFAULT_FILE_EXTENSION', '.php');
  */
 class GeSHi
 {
+    // {{{ properties
+    
     /**#@+
      * @access private
      * @var string
@@ -188,22 +194,24 @@ class GeSHi
     /**
      * The name of the language to use when parsing the source
      */
-    var $language;
+    var $_language;
 
     /**
      * The humanised version of the language name
      */
-    var $humanLanguageName;
-
-    /**
-     * The error code of any error that has occured
-     */
-    var $_error;
+    var $_humanLanguageName;
 
     /**#@-*/
     /**#@+
      * @access private
      */
+
+    /**
+     * The error code of any error that has occured
+     * 
+     * @var int
+     */
+    var $_error;
 
     /**
      * The root context to use for parsing the source
@@ -213,28 +221,17 @@ class GeSHi
     var $_rootContext;
     
     /**
-     * Whether this object should be prepared as if it will be used
-     * many times
-     * 
-     * @var boolean
-     */
-    var $_cacheRootContext;
-    
-    /**
-     * The cached root context, if caching of context trees is enabled
-     * 
-     * @var GeSHiContext
-     */
-    var $_cachedRootContext;
-    
-    /**
      * The GeSHiStyler object used by this class and all contexts for
      * assisting parsing.
      * 
      * @var GeSHiStyler
      */
+    var $_styler;
 
     /**#@-*/
+    
+    // }}}
+    // {{{ GeSHi()
     
     /**
      * Sets the source and language name of the source to parse
@@ -243,7 +240,7 @@ class GeSHi
      * 
      * <b>USAGE:</b>
      * 
-     * <pre>$geshi =& new GeSHi($source, $language);
+     * <pre> $geshi =& new GeSHi($source, $language);
      * if (false !== ($msg = $geshi->error())) {
      *     // Handle error here: error message in $msg
      * }
@@ -262,6 +259,8 @@ class GeSHi
         geshi_dbg('GeSHi::GeSHi (language='.$language_name.')', GESHI_DBG_API);
 
         // Initialise timing
+        // @todo [blocking 1.1.5] have to re-initialise timing if this object used many times
+        // use a _initialiseTiming method or similar
         $initial_times = array(0 => '0 0', 1 => '0 0');
         $this->_times = array(
             'pre'   => $initial_times,
@@ -271,7 +270,7 @@ class GeSHi
         
         $this->_styler =& new GeSHiStyler;
 
-        // @todo [blocking 1.1.5] Make third parameter an option array thing        
+        // @todo [blocking 1.1.5] Make third parameter an option array thing (maybe)
         
         $this->setFileExtension(GESHI_DEFAULT_FILE_EXTENSION);
         //$this->setOutputFormat(GESHI_OUTPUT_HTML);
@@ -282,12 +281,16 @@ class GeSHi
         $this->setLanguage($language_name);
     }
 
+    // }}}
+    // {{{ error()
+    
     /**
      * Returns an error message if there has been an error. Useful for debugging,
      * but not recommended for use on a live site.
      * 
      * The last error that occured is returned by this method
      * @todo [blocking 1.1.9] Documentation: has this changed from 1.0.X?
+     * @todo [blocking 1.2.0] Create geshi.org/developers/error-codes
      *
      * @return false|string A message if there is an error, else false
      * @since  1.0.0
@@ -308,6 +311,9 @@ class GeSHi
         return false;
     }
 
+    // }}}
+    // {{{ setSource()
+    
     /**
      * Sets the source code to highlight
      *
@@ -318,11 +324,14 @@ class GeSHi
     {
         geshi_dbg('GeSHi::setSource(' . substr($source, 0, 15) . '...)', GESHI_DBG_API);
         $this->_source = $source;
-        if (!$this->_sourceValid()) {
+        if (!$this->_checkSource()) {
             geshi_dbg('@e  Source code is not valid!', GESHI_DBG_API | GESHI_DBG_ERR);
         }
     }
 
+    // }}}
+    // {{{ set_source()
+    
     /**
      * Sets the source code to highlight. This method is deprecated, and will be
      * removed in 1.4/2.0.
@@ -336,6 +345,9 @@ class GeSHi
         $this->setSource($source);
     }
 
+    // }}}
+    // {{{ setLanguage()
+    
     /**
      * Sets the language to use for highlighting
      *
@@ -354,18 +366,21 @@ class GeSHi
             geshi_dbg('  Language name converted to '.$this->_language, GESHI_DBG_API);
         }
 
-        if ($this->_languageNameValid()) {
+        if ($this->_checkLanguageName()) {
             // load language now
             geshi_dbg('@o  Language name fine, loading data', GESHI_DBG_API);
             $this->_parsePreProcess();
         } else {
-            geshi_dbg('@e  Language name not OK! (code '.$this->_error.')', GESHI_DBG_API | GESHI_DBG_ERR);
+            geshi_dbg('@e  Language name not OK! (code ' . $this->_error . ')', GESHI_DBG_API | GESHI_DBG_ERR);
         }
 
         $this->_times['pre'][1] = microtime();
         geshi_dbg('  Language data loaded in ' . number_format($this->getTime('pre'), 3) . ' seconds', GESHI_DBG_API);
     }
 
+    // }}}
+    // {{{ set_language()
+    
     /**
      * Sets the language to use for highlighting. This method is deprecated, and
      * will be removed in 1.4/2.0.
@@ -379,25 +394,14 @@ class GeSHi
         $this->setLanguage($language_name);
     }
     
-    /**
-     * Sets whether this object should cache the root context as loaded. Use
-     * this if you're going to use the same language in this object to parse
-     * multiple source codes.
-     *
-     * @param boolean true if caching of context data should be used 
-     */
-    function cacheRootContext ($flag = true)
-    {
-        geshi_dbg('GeSHi::cacheRootContext(' . $flag . ')', GESHI_DBG_API);
-        $this->_cacheRootContext = ($flag) ? true : false;
-        $this->_cachedRootContext = ($this->_cacheRootContext) ? $this->_rootContext : null;
-        geshi_dbg('  Set caching to ' . $flag . ', cached root context size = ' . count($this->_cachedRootContext), GESHI_DBG_API);
-    }
+    // }}}
+    // {{{ setFileExtension()
     
     /**
      * Sets the file extension to use when getting external php files
      * 
      * @param string The file extension for PHP files. Can be specified with or without the leading "."
+     * @since 1.1.0
      */
     function setFileExtension ($extension)
     {
@@ -405,6 +409,9 @@ class GeSHi
         geshi_dbg('GeSHi::setFileExtension(' . $this->_styler->fileExtension . ')', GESHI_DBG_API);
     }
 
+    // }}}
+    // {{{ getTime()
+    
     /**
      * Returns various timings related to this object.
      *
@@ -443,41 +450,52 @@ class GeSHi
         return false;
     }
     
+    // }}}
+    // {{{ setStyles()
+    
     /**
      * Sets styles of contexts in the source code
      * 
      * @param string The selector to use, this is the style name of a context. Example: php/php
      * @param string The CSS styles to apply to the context
      */
-     function setStyles ($selector, $styles)
-     {
-        geshi_dbg('GeSHi::setStyles(' . $selector . ', ' . $styles . ')', GESHI_DBG_API);
-        $this->_styler->setStyle($selector, $styles);
-     }
-     
-     /**
-      * Returns the version of this GeSHi
-      * 
-      * @return string The version of this GeSHi
-      * @static
-      */
-     function getVersion ()
-     {
-     	geshi_dbg('GeSHi::getVersion()', GESHI_DBG_API);
-     	return GESHI_VERSION;
-     }
-     
-     /**
-      * Returns the version of this GeSHi
-      * 
-      * @return string The version of this GeSHi
-      * @deprecated in favour of {@link GeSHi::getVersion()}
-      */
-     function get_version ()
-     {
-     	return GeSHi::getVersion();
-     }
+    function setStyles ($selector, $styles)
+    {
+       geshi_dbg('GeSHi::setStyles(' . $selector . ', ' . $styles . ')', GESHI_DBG_API);
+       $this->_styler->setStyle($selector, $styles);
+    }
+    
+    // }}}
+    // {{{ getVersion()
+    /**
+     * Returns the version of this GeSHi
+     * 
+     * @return string The version of this GeSHi
+     * @static
+     */
+    function getVersion ()
+    {
+    	geshi_dbg('GeSHi::getVersion()', GESHI_DBG_API);
+    	return GESHI_VERSION;
+    }
+    
+    // }}}
+    // {{{ get_version()
+    
+    /**
+     * Returns the version of this GeSHi
+     * 
+     * @return string The version of this GeSHi
+     * @deprecated in favour of {@link GeSHi::getVersion()}
+     */
+    function get_version ()
+    {
+    	return GeSHi::getVersion();
+    }
 
+    // }}}
+    // {{{ parseCode()
+    
     /**
      * Syntax-highlights the source code
      * 
@@ -497,22 +515,15 @@ class GeSHi
             return $result;
         }
 
-        // Kill the cached root context, replacing with
-        // the new root context if needed
-        if ($this->_cacheRootContext) {
-            $this->_rootContext = $this->_cachedRootContext;
-        }
-        
         //@todo [blocking 1.1.5] does this space still need to be added?
-        $code = ' ' . $this->_source;
+        //$code = ' ' . $this->_source;
         // Runtime setup of context tree/styler info
-        // Reset the parse data to nothing 
-        $this->_styler->resetParseData();
+        // Prepare the styler for parsing 
+        $this->_styler->resetParseData($this->_language);
         // Remove contexts from the parse tree that aren't interesting
-        $this->_rootContext->trimUselessChildren($code);
+        $this->_rootContext->trimUselessChildren($this->_source);
         // The important bit - parse the code
-        $this->_rootContext->parseCode($code);
-
+        $this->_rootContext->parseCode($this->_source);
 
         $this->_times['parse'][1] = $this->_times['post'][0] = microtime();
         $result = $this->_parsePostProcess();
@@ -521,6 +532,8 @@ class GeSHi
         return $result;
     }
 
+    // }}}
+    
     //
     // Private Methods
     //
@@ -528,6 +541,9 @@ class GeSHi
     /**#@+
      * @access private
      */
+    
+    //  {{{ _getErrorMessage()
+    
     /**
      * Get the error message relating to the current error code
      * 
@@ -566,14 +582,17 @@ class GeSHi
         return '';
     }
 
+    // }}}
+    // {{{ _checkLanguageName()
+    
     /**
      * Check that the language name to be used is valid
      * 
      * @return boolean true if the language name is valid, else false
      */
-    function _languageNameValid ()
+    function _checkLanguageName ()
     {
-        geshi_dbg('GeSHi::_languageNameValid('.$this->_language.')', GESHI_DBG_API);
+        geshi_dbg('GeSHi::_checkLanguageName('.$this->_language.')', GESHI_DBG_API);
 
         // Check if the language contains illegal characters. If language names do
         // not match this regular expression, they are not valid. This is a useful
@@ -599,6 +618,9 @@ class GeSHi
         return true;
     }
 
+    // }}}
+    // {{{ _checkSource()
+    
     /**
      * Checks to make sure that the source code inputted is valid
      * 
@@ -610,9 +632,9 @@ class GeSHi
      * 
      * @return true if the source code is valid, else false
      */
-    function _sourceValid ()
+    function _checkSource ()
     {
-        geshi_dbg('GeSHi::_sourceValid()', GESHI_DBG_API);
+        geshi_dbg('GeSHi::_checkSource()', GESHI_DBG_API);
         // Is source empty?
         if ('' == trim($this->_source)) {
             geshi_dbg('@e  No source code inputted', GESHI_DBG_API | GESHI_DBG_ERR);
@@ -624,6 +646,9 @@ class GeSHi
         // @todo [blocking 1.1.9] Other things can go in here - checks against max and min length etc
     }
 
+    // }}}
+    // {{{ _parsePreProcess ()
+    
     /**
      * Prepare the source code for parsing
      */
@@ -634,6 +659,11 @@ class GeSHi
         // Strip newlines to common form
         $this->_source = str_replace("\r\n", "\n", $this->_source);
         $this->_source = str_replace("\r", "\n", $this->_source);
+        
+        // Don't do anything else if we are in an error state
+        if ($this->_error) {
+            return;
+        }
 
         // Load all the data needed for parsing this language
         $language_file = $this->_getLanguageDataFile();
@@ -641,41 +671,44 @@ class GeSHi
         require $language_file;
 
         if ($error_data = $this->_rootContext->load($this->_styler)) {
-            geshi_dbg('@e  Could not load the context data tree: code(' . $error_data['code'] . ') in context ' . $error_data['name'], GESHI_DBG_API | GESHI_DBG_ERR);
+            geshi_dbg('@e  Could not load the context data tree: code(' . $error_data['code'] . ') in context '
+                . $error_data['name'], GESHI_DBG_API | GESHI_DBG_ERR);
             $this->_error = $error_data['code'];
         }
-
+        
         // Inform the context tree that all contexts have been loaded, so it is OK to search through
         // the tree for default styles as needed.        
         $this->_rootContext->loadStyleData(); 
         
         // Save a copy of the root context if we are caching 
-        $this->_cachedRootContext = ($this->_cacheRootContext) ? $this->_rootContext : null;
+        //$this->_cachedRootContext = ($this->_cacheRootContext) ? $this->_rootContext : null;
         
         geshi_dbg('Finished preprocessing', GESHI_DBG_API);       
     }
 
+    // }}}
+    // {{{ _parsePostProcess()
+    
     /**
-     * Builds the result string to return, by looking at the context data array
+     * Recieves the result string from GeSHiStyler. The result string will
+     * have gone through the renderer and so be ready to use.
      * 
-     * This is to be moved into a new class: GeSHi_Highlighter, which will extend GeSHi to
-     * do this job. The GeSHi class will still be able to highlight source code, but this
-     * behaviour is deprecated and will be removed in the next major release.
-     * 
+     * This method makes sure error cases are handled, and frees any memory
+     * used by the parse run
+     *  
      * @return The code, post-processed.
      */
     function _parsePostProcess ()
     {
         if ($this->_error) {
             // If there was an error, the source will be in string form
-            return '<pre style="background-color:#fcc;border:1px solid #c99;">' . htmlspecialchars($this->_source) .'</pre>';
+            // @todo [blocking 1.1.5] what to do when there is an error? Must take renderer into account
+            return '<pre style="background-color:#fcc;border:1px solid #c99;">'
+                . htmlspecialchars($this->_source) .'</pre>';
         }
         
-        // $this->_data should hold an array(
-        //   0 => array(0=>string of code, 1=> context name identifier
-        $result = '';
-        $data = $this->_styler->getParseData();
         // TO BE REMOVED from stable release
+        /*
         if (GESHI_DBG & GESHI_DBG_PARSE) {
             $result .= '<pre style="background-color:#ffc;border:1px solid #cc9;">';
 	        foreach ($data as $token) {
@@ -688,33 +721,19 @@ class GeSHi
 	        unset($check);
 	        $result .= '</pre>';
         }
-
-        $result .= '<pre style="background-color:#ffc;border:1px solid #cc9;">';
-        foreach ($data as $token) {
-        	if (!isset($check)) {
-        		$token[0] = substr($token[0], 1); // remove padding (slow?)
-        		$check = 0;
-        	}
-            if ($token[2]) {
-                $result .= '<a href="' . $token[2] . '">';
-            }
-            $result .= '<span style="' . $this->_styler->getStyle($token[1]) . '" ';
-//            $result .= 'class="' . str_replace(array('/', '_'), '-', $token[1]) . '" ';
-            $result .= 'title="' . $token[1] . '">' . htmlspecialchars($token[0]) . '</span>';
-            if ($token[2]) {
-                // there's a URL associated with this token
-                $result .= '</a>';
-            }
-        }
-        $result .= '</pre>';
+        */
         
         // @todo [blocking 1.1.1] (bug 12) Evaluate feasability and get working if possible the functionality below...
         //$result = preg_replace('#([^"])(((https?)|(ftp))://[a-z0-9\-]+\.([a-z0-9\-\.]+)+/?([a-zA-Z0-9\.\-_%]+/?)*\??([a-zA-Z0-9=&\[\];%]+)?(\#[a-zA-Z0-9\-_]+)?)#', '\\1<a href="\\2">\\2</a>', $result);
         //$result = preg_replace('#([a-z0-9\._\-]+@[[a-z0-9\-\.]+[a-z]+)#si', '<a href="mailto:\\1">\\1</a>', $result);
-                
-        return $result;        
+        // Destroy root context, we don't need it anymore
+        $this->_rootContext = null;
+        // Perhaps this should be done as well: $this->_styler =& new GeSHiStyler;
+        return $this->_styler->getParsedCode();        
     }
     
+    // }}}
+    // {{{ _getLanguageDataFile()
     
     /**
      * Helper function to convert a language name to the file name where its data will reside
@@ -733,7 +752,9 @@ class GeSHi
         geshi_dbg('Language file is ' . $language_file, GESHI_DBG_API);
         return GESHI_LANGUAGES_ROOT . $language_file;
     }
+    
+    // }}}
     /**#@-*/    
 }
-?>
 
+?>
