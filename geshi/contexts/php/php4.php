@@ -313,7 +313,6 @@ $this->_contextRegexps  = array(
             '#(\$\$?[a-zA-Z_][a-zA-Z0-9_]*)#', // This is a variable in PHP
             ),
         // index 1 is a string that strpos can use
-        // @todo maybe later let this string be a regex or something
         1 => '$',
         // This is the special bit ;)
         // For each bracket pair in the regex above, you can specify a name and style for it

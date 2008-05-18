@@ -11,7 +11,7 @@
  * with GeSHi, in the docs/ directory.
  *
  * @package   lang
- * @author    Nigel McNie <oracle.shinoda@gmail.com>
+ * @author    Nigel McNie <nigel@geshi.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
@@ -30,5 +30,5 @@ $this->_childContexts = array();
 $this->_contextStyleType = GESHI_STYLE_NONE;
 $this->_delimiterParseData = GESHI_CHILD_PARSE_NONE;
 
-$this->_overridingChildContext = new GeSHiContext('css', $this->_styleName . '/css');
+$this->_overridingChildContext = new GeSHiCodeContext('css', $this->_styleName . '/css');
 ?>

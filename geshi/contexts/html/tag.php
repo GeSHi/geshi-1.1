@@ -11,7 +11,7 @@
  * with GeSHi, in the docs/ directory.
  *
  * @package   lang
- * @author    Nigel McNie <oracle.shinoda@gmail.com>
+ * @author    Nigel McNie <nigel@geshi.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
@@ -20,7 +20,7 @@
 
 $this->_contextDelimiters = array(
     0 => array(
-        0 => array('REGEX#<[/a-z_]+#i'),
+        0 => array('REGEX#<[/a-z_0-6]+#i'),
         1 => array('>'),
         2 => false
     )
@@ -42,7 +42,10 @@ $this->_contextKeywords = array(
     0 => array(
         // keywords
         0 => array(
-            'lang', 'cellspacing', 'cellpadding', 'http-equiv', 'content', 'type'
+            'lang', 'cellspacing', 'cellpadding', 'http-equiv', 'content', 'type', 'border',
+            'class', 'id', 'href', 'width', 'align', 'height', 'colspan', 'nowrap', 'alt',
+            'valign', 'name', 'size', 'value', 'maxlength', 'clear', 'rowspan', 'src', 'method',
+            'action'
             ),
         // name
         1 => $this->_styleName . '/attrs',

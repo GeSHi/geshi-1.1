@@ -11,7 +11,7 @@
  * with GeSHi, in the docs/ directory.
  *
  * @package   core
- * @author    Nigel McNie <oracle.shinoda@gmail.com>
+ * @author    Nigel McNie <nigel@geshi.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
@@ -50,7 +50,7 @@ class GeSHiStringContext extends GeSHiContext
             $ender = $this->_substitutePlaceholders($ender);
 
             
-            $pos = 1;
+            $pos = 0;
             while (true) {
                 $pos = geshi_get_position($code, $ender, $pos);
                 if (false === $pos) {

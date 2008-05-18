@@ -80,7 +80,7 @@ class GeSHiContext
      * Whether this context is an overriding child context
      */
     var $_isOCC;
-    
+        
     /**#@-*/
     
     /**
@@ -114,11 +114,11 @@ class GeSHiContext
      */
     function load (&$styler)
     {
-        geshi_dbg('Loading context: ' . $this->_styleName, GESHI_DBG_PARSE);
+        //geshi_dbg('Loading context: ' . $this->_styleName, GESHI_DBG_PARSE);
         $this->_styler =& $styler;
         
         if (!geshi_can_include(GESHI_CONTEXTS_ROOT . $this->_contextName . $this->_styler->fileExtension)) {
-            geshi_dbg('@e  Cannot get context information for ' . $this->_contextName . ' from file ' . GESHI_CONTEXTS_ROOT . $this->_contextName . $this->_styler->fileExtension, GESHI_DBG_ERR);
+            //geshi_dbg('@e  Cannot get context information for ' . $this->_contextName . ' from file ' . GESHI_CONTEXTS_ROOT . $this->_contextName . $this->_styler->fileExtension, GESHI_DBG_ERR);
             return array('code' => GESHI_ERROR_FILE_UNAVAILABLE, 'name' => $this->_contextName);
         }
         
@@ -133,12 +133,12 @@ class GeSHiContext
         $cached_data = $this->_styler->getCacheData($language_file_name);
         if (null == $cached_data) {
             // Data not loaded for this context yet
-            geshi_dbg('@wLoading data for context ' . $this->_contextName, GESHI_DBG_PARSE);
+            //geshi_dbg('@wLoading data for context ' . $this->_contextName, GESHI_DBG_PARSE);
             // Get the data, stripping the start/end PHP code markers which aren't allowed in eval()
             $cached_data = substr(implode('', file($language_file_name)), 5, -3);
             $this->_styler->setCacheData($language_file_name, $cached_data);
         } else {
-            geshi_dbg('@oRetrieving data from cache for context ' . $this->_contextName, GESHI_DBG_PARSE);
+            //geshi_dbg('@oRetrieving data from cache for context ' . $this->_contextName, GESHI_DBG_PARSE);
         }
         eval($cached_data);
         //require GESHI_CONTEXTS_ROOT . $this->_contextName . $this->_styler->fileExtension;
@@ -156,7 +156,7 @@ class GeSHiContext
             }
             // And add the infectious context to this context itself
             $this->_childContexts[] = $this->_infectiousContext;
-            geshi_dbg('  Added infectious context ' . $this->_infectiousContext->getName() . ' to ' . $this->getName(), GESHI_DBG_PARSE);
+            //geshi_dbg('  Added infectious context ' . $this->_infectiousContext->getName() . ' to ' . $this->getName(), GESHI_DBG_PARSE);
         }
 
         $keys = array_keys($this->_childContexts);
@@ -206,7 +206,7 @@ class GeSHiContext
         // Infectious context not needed anymore, so it can be removed to save memory
         $this->_infectiousContext = null;
         
-        geshi_dbg('@o  Finished loading context ' . $this->_styleName . ' successfully', GESHI_DBG_PARSE);
+        //geshi_dbg('@o  Finished loading context ' . $this->_styleName . ' successfully', GESHI_DBG_PARSE);
     }
     
     /**
@@ -234,12 +234,26 @@ class GeSHiContext
      function loadStyleData ()
      {
         // Set styles for keywords
-        geshi_dbg('Loading style data for context ' . $this->getName(), GESHI_DBG_PARSE);
-        
+        //geshi_dbg('Loading style data for context ' . $this->getName(), GESHI_DBG_PARSE);
+        /*$context_name = $this->getName();
+        $start_style = $this->_styler->getStyleStart($context_name);
+        $end_style = $this->_styler->getStyleEnd($context_name);
+        if ('' == $start_style) {
+            $style = $this->_styler->getStyle($context_name);
+            // @todo careful with this line! Needs documenting
+            if ('' == $style) $style = 'color:#000;';
+            $this->_styler->setStartStyle($context_name, $style);
+        }
+        if ('' == $end_style) {
+            $style = $this->_styler->getStyle($context_name);
+            if ('' == $style) $style =
+        */
+        // Recursively load the child contexts
         $keys = array_keys($this->_childContexts);
         foreach ($keys as $key) {
             $this->_childContexts[$key]->loadStyleData();
         }
+        
         // Load the style data for the overriding child context, if any
         if ($this->_overridingChildContext) {
             $this->_overridingChildContext->loadStyleData();
@@ -251,19 +265,19 @@ class GeSHiContext
      */
     function trimUselessChildren ($code)
     {
-        geshi_dbg('GeSHiContext::trimUselessChildren()', GESHI_DBG_API | GESHI_DBG_PARSE);
+        //geshi_dbg('GeSHiContext::trimUselessChildren()', GESHI_DBG_API | GESHI_DBG_PARSE);
         $new_children = array();
         $keys = array_keys($this->_childContexts);
         
         foreach ($keys as $key) {
-            geshi_dbg('  Checking child: ' . $this->_childContexts[$key]->getName() . ': ', GESHI_DBG_PARSE, false);
+            //geshi_dbg('  Checking child: ' . $this->_childContexts[$key]->getName() . ': ', GESHI_DBG_PARSE, false);
             if (!$this->_childContexts[$key]->contextCanStart($code)) {
                 // This context will _never_ be useful - and nor will its children
-                geshi_dbg('@buseless, removed', GESHI_DBG_PARSE);
+                //geshi_dbg('@buseless, removed', GESHI_DBG_PARSE);
                 // RAM saving technique
                 $this->_styler->removeStyleData($this->_childContexts[$key]->getName());
             } else {
-                geshi_dbg('ok, left alone', GESHI_DBG_PARSE);
+                //geshi_dbg('ok, left alone', GESHI_DBG_PARSE);
                 $new_children[] = $this->_childContexts[$key];
             }
         }
@@ -326,17 +340,45 @@ class GeSHiContext
         
         // Highlight the starter (?)
         // if (conditions under which we want to have the starter highlighted separately)...
+        // @todo blocking 1.1.0beta2 Should this be || true? Have to test and
+        // analyse why this is done only if $context_start_delimiter is set, perhaps I
+        // can put something in context files that says this should be done if it doesn't
+        // always work?
+        //$override = ($this->getName() == 'css/inline_media');
+        
+        /*$start_of_context_removed = false;
         if ($context_start_delimiter) {
             $pos = geshi_get_position($code, $context_start_delimiter, 0);
             $pos = $pos['pos'];
             if (0 === $pos) {
                 // NOT equals, not "equals" ;)
+                // This may be where the problem is - this check should not be done if
+                // strict openers is on
                 if ($this->_styler->startIsUnique($this->_styleName)) {
             	   $this->_styler->addParseDataStart($context_start_delimiter, $this->_styleName);
             	   $code = substr($code, strlen($context_start_delimiter));
+                   $start_of_context_removed = true;
                 }
             }
         }
+        
+        // If we are using strict delimiters, whack the start of this context into
+        // the data array straight away, so child contexts can't start from within
+        // it.
+        // @todo What about the end of strict contexts - can children start/end from
+        // within them? Is it even relevant?
+        if ($this->_strictDelimiters && !$start_of_context_removed) {
+            $this->_styler->addParseDataStart($context_start_delimiter, $this->_styleName);
+            $code = substr($code, strlen($context_start_delimiter));
+        }*/
+        // Add the start of this context to the parse data if it is already known
+        // @todo blocking 1.1.0beta1 Fixes bug #2
+        // @todo Make a method in this class to add start parse data so it can be overridden
+        if ($context_start_delimiter) {
+            $this->_styler->addParseDataStart($context_start_delimiter, $this->_styleName);
+            $code = substr($code, strlen($context_start_delimiter));
+        }
+        
         $original_length = strlen($code);
         
         while ('' != $code) {
@@ -362,16 +404,19 @@ class GeSHiContext
                             $finish_data['pos'] += $finish_data['len'];
                         }*/
                         
-                        $styles_are_same = !$this->_styler->endIsUnique($this->_styleName);
+                        //$styles_are_same = !$this->_styler->endIsUnique($this->_styleName);
                         // If:
                         //  1) we should parse the ender, AND
-                        //  2) the ender styles are the same as ours, then...
-                        if ($this->shouldParseEnder() && $styles_are_same) {
+                        //  2) the ender styles are the same as ours, AND
+                        //  3) We're not in strict delimiters mode then...
+                        /*if ($this->shouldParseEnder() && $styles_are_same && !$this->_strictDelimiters) {
                             $finish_data['pos'] += $finish_data['len'];
-                        }
+                        }*/
                         $this->_addParseData(substr($code, 0, $finish_data['pos']), substr($code, $finish_data['pos'], 1));
                         
-                        if ($this->shouldParseEnder() && !$styles_are_same) {
+                        // If we should pass the ender, and: 1) styles are different, or 2) We are using strict
+                        // delimiters...
+                        if ($this->shouldParseEnder()/* && (!$styles_are_same || $this->_strictDelimiters)*/) {
                         	$this->_styler->addParseDataEnd(substr($code, $finish_data['pos'], $finish_data['len']), $this->_styleName);
                         	$finish_data['pos'] += $finish_data['len'];
                         }
@@ -386,7 +431,9 @@ class GeSHiContext
                 if (isset($foo)) geshi_dbg('Earliest data but not finish data', GESHI_DBG_PARSE);
                 // Highlight up to delimiter
                 ///The "+ len" can be manipulated to do starter and ender data
-                if (!$earliest_context_data['con']->shouldParseStarter()) {
+                //$override = ($this->getName() == 'css/inline_media');
+                //if ($override) echo 'OVERRIDE';
+                if (!$earliest_context_data['con']->shouldParseStarter()/* || $override*/) {
                      $earliest_context_data['pos'] += $earliest_context_data['len'];
                 }
                 
@@ -416,17 +463,18 @@ class GeSHiContext
                         $finish_data['pos'] += $finish_data['len'];
                     }*/
 
-                    $styles_are_same = !$this->_styler->endIsUnique($this->_styleName);
+                    //$styles_are_same = !$this->_styler->endIsUnique($this->_styleName);
                     // If:
                     //  1) we should parse the ender, AND
-                    //  2) the ender styles are the same as ours, then...
-                    if ($this->shouldParseEnder() && $styles_are_same) {
+                    //  2) the ender styles are the same as ours, AND
+                    //  3) We're not in strict delimiters mode then...
+                    /*if ($this->shouldParseEnder() && $styles_are_same && !$this->_strictDelimiters) {
                         $finish_data['pos'] += $finish_data['len'];
-                    }
+                    }*/
                     // second param = first char of next context
                     $this->_addParseData(substr($code, 0, $finish_data['pos']), substr($code, $finish_data['pos'], 1));
                     
-                    if ($this->shouldParseEnder() && !$styles_are_same) {
+                    if ($this->shouldParseEnder()/* && (!$styles_are_same || $this->_strictDelimiters)*/) {
                         // @todo Make methods in this class to handle this so they can be overridden also?
                        	$this->_styler->addParseDataEnd(substr($code, $finish_data['pos'], $finish_data['len']), $this->_styleName);
                        	$finish_data['pos'] += $finish_data['len'];
@@ -555,10 +603,11 @@ class GeSHiContext
             foreach ($delim_array[0] as $delimiter) {
                 geshi_dbg('    Checking delimiter ' . $delimiter . '... ', GESHI_DBG_PARSE, false);
                 $offset = 0;
-                if ($start_of_context == $delimiter && substr($code, 0, strlen($delimiter)) == $delimiter) {
+                /*if ($start_of_context == $delimiter && substr($code, 0, strlen($delimiter)) == $delimiter) {
                     $offset = strlen($delimiter);
-                }
+                }*/
                 $data     = geshi_get_position($code, $delimiter, $offset, $delim_array[2]);
+                geshi_dbg(print_r($data, true), GESHI_DBG_PARSE, false);
                 $position = $data['pos'];
                 $length   = $data['len'];
                 if (isset($data['tab'])) {
@@ -616,10 +665,12 @@ class GeSHiContext
             //geshi_dbg(' geshi_get_pos: ' . print_r($p, true), GESHI_DBG_PARSE);
             //if ($p) {
             //    $l = $p['pos'];
-                if ($context_opener == $ender && substr($code, 0, strlen($ender)) == $ender && $beginning_of_context) {
+                //@todo For the same reason that we don't need to change the starter offset we might
+                // not need to change the ender here...
+                /*if ($context_opener == $ender && substr($code, 0, strlen($ender)) == $ender && $beginning_of_context) {
                     $offset = strlen($ender);
                     //$offset = $p['len'];
-                }
+                }*/
             //}
             $position = geshi_get_position($code, $ender, $offset, false);
             //geshi_dbg('    Ender ' . $ender . ': ' . print_r($position, true), GESHI_DBG_PARSE);

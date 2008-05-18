@@ -28,7 +28,7 @@ $this->_childContexts = array(
     new GeSHiContext('html/javascript', 'js', array(), null, true) // is going to be used as an OCC
 );
 
-$this->_styler->setStyle($this->_styleName, '');
+$this->_styler->setStyle($this->_styleName, 'color:#000;');
 $this->_contextStyleType = GESHI_STYLE_NONE;
 $this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
 

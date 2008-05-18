@@ -28,7 +28,8 @@ $this->_contextDelimiters = array(
 
 $this->_childContexts = array(
     // HTML strings have no escape characters, so the don't need to be GeSHiStringContexts
-    new GeSHiContext('common/single_string', 'single_string')
+    new GeSHiContext('common/single_string', 'single_string'),
+    new GeSHiContext('common/multi_comment', 'multi_comment')
 );
 
 $this->_styler->setStyle($this->_styleName, '');
@@ -42,7 +43,133 @@ $this->_contextKeywords = array(
     0 => array(
         // keywords
         0 => array(
-            'font', 'font-weight', 'font-style', 'border', 'margin', 'padding', 'background'
+            'azimuth', 'background', 'background-attachment', 'background-color', 'background-image',
+            'background-position', 'background-repeat', 'border', 'border-bottom', 'border-bottom-color',
+            'border-bottom-style', 'border-bottom-width', 'border-collapse', 'border-color', 'border-left',
+            'border-left-color', 'border-left-style', 'border-left-width', 'border-right', 'border-right-color',
+            'border-right-style', 'border-right-width', 'border-spacing', 'border-style', 'border-top',
+            'border-top-color', 'border-top-style', 'border-top-width',
+            'border-width',
+            'bottom',
+            'caption-side',
+            'clear',
+            'clip',
+            'color',
+            'content',
+            'counter-increment',
+            'counter-reset',
+            'cue',
+            'cue-after',
+            'cue-before',
+            'cursor',
+            'direction',
+            'display',
+            'elevation',
+            'empty-cells',
+            'float',
+            'font',
+            'font-family',
+            'font-size',
+            'font-size-adjust',
+            'font-stretch',
+            'font-style',
+            'font-variant',
+            'font-weight',
+            'height',
+            'left',
+            'letter-spacing',
+            'line-height',
+            'list-style',
+            'list-style-image',
+            'list-style-keyword',
+            'list-style-position',
+            'list-style-type',
+            'margin',
+            'margin-bottom',
+            'margin-left',
+            'margin-right',
+            'margin-top',
+            'marker-offset',
+            'max-height',
+            'max-width',
+            'min-height',
+            'min-width',
+            'orphans',
+            'outline',
+            'outline-color',
+            'outline-style',
+            'outline-width',
+            'overflow',
+            'padding',
+            'padding-bottom',
+            'padding-left',
+            'padding-right',
+            'padding-top',
+            'page',
+            'page-break-after',
+            'page-break-before',
+            'page-break-inside',
+            'pause',
+            'pause-after',
+            'pause-before',
+            'pitch',
+            'pitch-range',
+            'play-during',
+            'position',
+            'quotes',
+            'richness',
+            'right',
+            'size',
+            'speak',
+            'speak-header',
+            'speak-numeral',
+            'speak-punctuation',
+            'speech-rate',
+            'stress',
+            'table-layout',
+            'text-align',
+            'text-decoration',
+            'text-decoration-color',
+            'text-indent',
+            'text-shadow',
+            'text-transform',
+            'top',
+            'unicode-bidi',
+            'vertical-align',
+            'visibility',
+            'voice-family',
+            'volume',
+            'white-space',
+            'widows',
+            'width',
+            'word-spacing',
+            'z-index',
+            'konq_bgpos_x',
+            'konq_bgpos_y',
+            'font-family',
+            'font-size',
+            'font-stretch',
+            'font-style',
+            'font-variant',
+            'font-weight',
+            'unicode-range',
+            'units-per-em',
+            'src',
+            'panose-1',
+            'stemv',
+            'stemh',
+            'slope',
+            'cap-height',
+            'x-height',
+            'ascent',
+            'descent',
+            'widths',
+            'bbox',
+            'definition-src',
+            'baseline',
+            'centerline',
+            'mathline',
+            'topline'
             ),
         // name
         1 => $this->_styleName . '/attrs',
@@ -68,7 +195,7 @@ $this->_contextCharactersDisallowedAfterKeywords  = array();
 $this->_contextSymbols  = array(
     0 => array(
         0 => array(
-            ':', ';', '(', ')'
+            ':', ';', '(', ')', '%'
             ),
         // name (should names have / in them like normal contexts? YES
         1 => $this->_styleName . '/sym',
@@ -78,14 +205,24 @@ $this->_contextSymbols  = array(
 );
 
 $this->_contextRegexps  = array(
+    /*0 => array(
+        0 => array(
+            '/(#[0-9a-fA-F]{3,6})/'
+        ),
+        1 => '#',
+        2 => array(
+            1 => array($this->_styleName . '/color', 'color:#933;')
+        )
+    ),*/
     0 => array(
         0 => array(
-            '#(0)#',
-            '#([-+]?[0-9]((em)|(ex)|(px)|(in)|(cm)|(mm)|(pt)|(pc)))#'
+            '#([-+]?[0-9]((em)|(ex)|(px)|(in)|(cm)|(mm)|(pt)|(pc)))#',
+            '/(#[0-9a-fA-F]{3,6})/',
+            '/([0-9]+)/'
         ),
         1 => '',
         2 => array(
-            1 => array($this->_styleName . '/measurement', 'color: #933;')
+            1 => array($this->_styleName . '/value', 'color: #933;')
         )
     )
 );
