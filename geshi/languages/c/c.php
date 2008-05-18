@@ -86,6 +86,7 @@ function geshi_c_c (&$context)
 function geshi_c_c_multi_comment (&$context)
 {
     $context->addDelimiters('/*', '*/');
+    $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
 function geshi_c_c_single_comment (&$context)

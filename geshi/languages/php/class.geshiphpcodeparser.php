@@ -91,8 +91,8 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
      * content - e.g. static and some others}}
      */
     var $_validPHPDocTags = array(
-        'access', 'author', 'copyright', 'license', 'package', 'param', 'return', 'revision',
-        'since', 'subpackage', 'var', 'version'
+        'access', 'author', 'copyright', 'license', 'link', 'package', 'param',
+        'return', 'revision', 'since', 'subpackage', 'var', 'version'
     );
     
     /**
@@ -278,6 +278,7 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
                             }
                             break;
                         case 'license':
+                        case 'link':
                             if ('http://' == substr($token, 0, 7)) {
                                 $data['url'] = $token;
                             }
@@ -313,9 +314,13 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
     function _detectFunctionNames (&$token, &$context_name, &$data)
     {
         if ('function' == $this->_state) {
-            // We just read the keyword "function", so this token is a function name
+            // We just read the keyword "function", so this token is a function
+            // name, unless it is a "&" followed by a function name.
+            if ($context_name == $this->_language . '/symbol') {
+                // Ignore the symbol
+                return;
+            }
             $context_name = $this->_language . '/functionname';
-            //$this->_functionNames[] = $token;
             $this->_state = '';
         } elseif (('function' == $token)
             && $this->_language . '/keyword' == $context_name) {
