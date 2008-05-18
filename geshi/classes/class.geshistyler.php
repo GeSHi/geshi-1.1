@@ -1,0 +1,172 @@
+<?php
+/**
+ * GeSHi - Generic Syntax Highlighter
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * You can view a copy of the GNU GPL in the LICENSE file that comes
+ * with GeSHi, in the docs/ directory.
+ *
+ * @package   core
+ * @author    Nigel McNie <oracle.shinoda@gmail.com>
+ * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * @copyright (C) 2005 Nigel McNie
+ * @version   $Id$
+ * 
+ */
+
+/**
+ * The GeSHiStyler class
+ * 
+ * @package core
+ */
+class GeSHiStyler
+{
+    
+    /**
+     * @var string
+     */
+    var $charset;
+
+    /**
+     * @var string
+     */    
+    var $fileExtension;
+    
+    /**
+     * @var array
+     */
+    var $_styleData;
+    
+    /**
+     * @var array
+     */
+    var $_parseData;
+           
+    /**
+     * @var int
+     */
+    var $_parseDataPointer = 0;
+    
+    /**
+     * @var array
+     */
+    var $_contextCacheData = array();
+    
+    /**
+     * Whether to use namespaces or not
+     * 
+     * @var boolean
+     */
+    var $_useNamespaces;
+    
+    function setStyle ($context_name, $style)
+    {
+        $this->_styleData[$context_name] = $style;
+    }
+    
+    function setStartStyle ($context_name, $style)
+    {
+        $this->setStyle($context_name . '/start', $style);
+    }
+    
+    function removeStyleData ($context_name)
+    {
+        unset($this->_styleData[$context_name]);
+        unset($this->_styleData[$context_name . '/start']);
+        unset($this->_styleData[$context_name . '/end']);
+        //geshi_dbg('  removed style data for ' . $context_name, GESHI_DBG_PARSE);
+    }
+    
+    function setEndStyle ($context_name, $style)
+    {
+        $this->setStyle($context_name . '/end', $style);
+    }
+    
+    function getStyle ($context_name)
+    {
+        return $this->_styleData[$context_name];
+    }
+    
+    function getStyleStart ($context_name)
+    {
+        return $this->_styleData[$context_name . '/start'];
+    }
+    
+    function getStyleEnd ($context_name) 
+    {
+        return $this->_styleData[$context_name . '/end'];
+    }
+    
+    function startIsUnique ($context_name)
+    {
+        return (isset($this->_styleData[$context_name . '/start']) && '' != $this->_styleData[$context_name . '/start']
+            && $this->_styleData[$context_name . '/start'] != $this->_styleData[$context_name]);
+    } 
+
+    function endIsUnique ($context_name)
+    {
+        $r = (isset($this->_styleData[$context_name . '/end']) && '' != $this->_styleData[$context_name . '/end']
+            && $this->_styleData[$context_name . '/end'] != $this->_styleData[$context_name]);
+        geshi_dbg('GeSHiStyler::endIsUnique(' . $context_name . ') = ' . $r, GESHI_DBG_PARSE);
+        return $r;
+    } 
+    
+    function resetParseData ()
+    {
+        $this->_parseData        = null;
+        $this->_parseDataPointer = 0;
+    }
+
+    /**
+     * This method adds parse data. It tries to merge it also if two
+     * consecutive contexts with the same name add parse data (which is
+     * very possible).
+     */    
+    function addParseData ($code, $context_name, $url = '')
+    {
+        if ($context_name == $this->_parseData[$this->_parseDataPointer][1]) {
+            // same context, same URL
+            $this->_parseData[$this->_parseDataPointer][0] .= $code;
+        } else {
+            $this->_parseData[++$this->_parseDataPointer] = array($code, $context_name, $url);
+        }
+    }
+    
+    function addParseDataStart ($code, $context_name)
+    {
+    	$this->addParseData($code, $context_name . '/start');
+    }
+    
+    function addParseDataEnd ($code, $context_name)
+    {
+    	$this->addParseData($code, $context_name . '/end');
+    }
+    
+    function getParseData ()
+    {
+        return $this->_parseData;
+    }
+    
+    /**
+     * Sets cache data
+     */
+    function setCacheData ($cached_file_name, $cache_str)
+    {
+        $this->_contextCacheData[$cached_file_name] = $cache_str;
+    }
+    
+    /**
+     * Gets cache data
+     */
+    function getCacheData ($cached_file_name)
+    {
+        return isset($this->_contextCacheData[$cached_file_name]) ?
+            $this->_contextCacheData[$cached_file_name] : null;
+    }
+}
+
+?>
