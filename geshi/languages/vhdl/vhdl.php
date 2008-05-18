@@ -92,8 +92,7 @@ function geshi_vhdl_vhdl_double_string (&$context)
 {
     $context->addDelimiters('"', '"');
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
-    $context->setEscapeCharacters('\\');
-    $context->setCharactersToEscape('n', 'r', 't', '\\', '"');
+    $context->addEscapeGroup('\\', array('n', 'r', 't', '\\', '"'));
 }
     
 function geshi_vhdl_vhdl_comment (&$context)

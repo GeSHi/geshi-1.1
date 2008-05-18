@@ -296,8 +296,8 @@ function geshi_delphi_delphi_exports_brackets (&$context)
 
 function geshi_delphi_delphi_property (&$context)
 {
-    $context->addDelimiters('property', ';');
-    
+    $context->addDelimiters('REGEX#(^|(?=\b))property((?=\b)|$)#im', ';');
+
     $context->addChild('delphi/delphi/preprocessor', 'code');
     $context->addChild('delphi/delphi/single_comment');
     $context->addChild('delphi/delphi/multi_comment');
@@ -371,5 +371,8 @@ function geshi_delphi_delphi_property_property_index(&$context)
 }
 
 /**#@-*/
+
+//$this->_styler->setCodeParser(new GeSHiDelphiCodeParser($this->_styler, $this->_language));
+//$this->_styler->useThemes('boride/delphi', 'boride');
 
 ?>

@@ -47,6 +47,11 @@
 //
 //  Keywords and identifiers have the same lexical structure!
 //
+// TODO:
+//   Merge all keywords back into one array. The code parser will instead
+//   be written to be much smarter about how it tells between an identifier
+//   and a keyword.
+//
 function geshi_sql_sql (&$context)
 {
     $context->addChild('quoted_identifier', 'string');
@@ -203,19 +208,25 @@ function geshi_sql_sql (&$context)
 function geshi_sql_sql_quoted_identifier (&$context)
 {
     $context->addDelimiters('"', '"');
-    $context->setEscapeCharacters('"');
-    $context->setCharactersToEscape('"');
+    $context->addEscapeGroup('"');
 }
 
 function geshi_sql_sql_string (&$context)
 {
-    // @todo [blocking 1.1.5] a sort of bug here is that all escape characters
-    // must apply to all character to escape. It's not that simple for SQL -
-    // a ' can escape a ' and in dialects like postgres a \ can be used to
-    // escape b, f, n, r, t etc.
-    $context->addDelimiters("'", "'");
-    $context->setEscapeCharacters("'", '\\'); // backslash is not SQL standard
-    $context->setCharactersToEscape("'", '\\');
+    // This context starts with a ' and ends with one too
+    $context->addDelimiters(array("'", '"'), array("'", '"'));
+
+    // If a ' occurs it can escape. There's nothing else listed as escape
+    // characters so it only escapes itself.
+    $context->addEscapeGroup("'");
+
+    // The backslash escape is not SQL standard but is used in many databases
+    // regardless (e.g. mysql, postgresql)
+    // This rule means that the backslash escapes the array given (inc. the regex)
+    // As such, the definitions given here are perfectly in line with the new feature
+    // The only other feature is that the escape char could actually be an array of them
+    $context->addEscapeGroup('\\', array('b', 'f', 'n', 'r', 't', "'",
+        'REGEX#[0-7]{3}#')); 
 }
 
 function geshi_sql_sql_bitstring (&$context)

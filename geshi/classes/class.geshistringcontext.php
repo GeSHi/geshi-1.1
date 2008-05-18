@@ -54,115 +54,237 @@ class GeSHiStringContext extends GeSHiContext
     /**#@-
      * @access private
      */
-    var $_escapeCharacters = array();
     
-    // Characters that should be escaped
-    var $_charsToEscape = array();
+    /**
+     * Escape character groups.
+     * 
+     * @var array
+     */
+    var $_escapeGroups = array();
     
     /**#@-*/
     
     // }}}
-    // {{{ setEscapeCharacters()
+    // {{{ addEscapeGroup()
     
     /**
-     * Sets the characters that are used to escape other characters in a string
+     * Adds an escape group to this string context.
+     * 
+     * An escape group consists of a group of characters that are escape
+     * characters, and another group of characters or regexes that are
+     * the characters to escape. You can also specify a context name for
+     * the escaped characters.
+     *
+     * The escape characters MUST be one character in length, and are
+     * automatically assumed to escape themselves.
+     * 
+     * @param mixed  $escape_characters    The characters that escape others
+     * @param mixed  $characters_to_escape The characters/regexes that are
+     *                                     escaped
+     * @param string $context_name         A name for the escaped characters
      */
-    function setEscapeCharacters ($chars)
+    function addEscapeGroup ($escape_characters,
+        $characters_to_escape = array(), $context_name = 'esc')
     {
-        $this->_escapeCharacters = (array) $chars;
+        // Sanity checking
+        $escape_characters = (array) $escape_characters;
+        $characters_to_escape = (array) $characters_to_escape;
+        foreach ($escape_characters as $char) {
+            if (strlen($char) != 1) {
+                trigger_error('GeSHiStringContext::addEscapeGroup(): malformed'
+                    . ' language file: cannot have escape characters that are'
+                    . ' longer than one character in length');
+            }
+            if (!in_array($char, $characters_to_escape)) {
+                $characters_to_escape[] = $char;
+            }
+        }
+
+        $this->_escapeGroups[] = array(
+            $escape_characters,
+            $characters_to_escape,
+            $context_name
+        );
     }
     
     // }}}
-    // {{{ setCharactersToEscape()
-    
-    function setCharactersToEscape ($chars)
-    {
-        $this->_charsToEscape = (array) $chars;
-    }
-    
-    // }}}
+    // {{{ _getContextEndData()
     
     /**
-     * GetContextEndData
+     * Finds the end of a string context, taking the escape characters into
+     * account.
+     * 
+     * @param string $code             The code to look for the end of the
+     *                                 context in
+     * @param int    $context_open_key The key in the array of delimiters
+     *                                 which corresponds to the opener
+     * @param string $context_opener   The actual opener for the string
      */
     function _getContextEndData ($code, $context_open_key, $context_opener)
     {
-        geshi_dbg('GeSHiStringContext::_getContextEndData(' . $this->_contextName . ', ' . $context_open_key . ', ' . $context_opener . ')');
+        geshi_dbg('GeSHiStringContext::_getContextEndData('
+            . $this->_contextName . ')');
         $this->_lastOpener = $context_opener;
         $ender_data = array();
         
         foreach ($this->_contextDelimiters[$context_open_key][1] as $ender) {
-            geshi_dbg('  Checking ender: ' . $ender);
-
             // Prepare ender regexes if needed
             $ender = $this->_substitutePlaceholders($ender);
-            geshi_dbg('  ender after substitution: ' . $ender);
+            geshi_dbg('  Checking ender: ' . str_replace("\n", '\n', $ender));
 
-            $pos = 0;
+            $tmp_str = $code;
+            $current_pos = 0;
+
             while (true) {
-                $pos = geshi_get_position($code, $ender, $pos);
-                if (false === $pos) {
+                geshi_dbg("@btop of loop; current_pos = $current_pos; str="
+                    . substr($tmp_str, 0, 10));
+                $pos_data = geshi_get_position($tmp_str, $ender);
+                if (false === $pos_data['pos']) {
+                    geshi_dbg("could not find ender $ender in string "
+                        . substr($tmp_str, 0, 10));
                     break;
                 }
-                $len = $pos['len']; 
-                $pos = $pos['pos'];
-                
-                $possible_string = substr($code, 0, $pos);            
-                geshi_dbg('  String might be: ' . $possible_string);
-                
-                $not_escaped = true;
-                if ($this->_escapeCharacters) {
-                    foreach ($this->_escapeCharacters as $escape_char) {
-                        // remove escaped escape characters
-                        $possible_string = str_replace($escape_char . $escape_char, '', $possible_string);
+                geshi_dbg("found ender $ender at position " . $pos_data['pos']);
+
+                // While we may have found an ender, it might be escaped.
+                // Finding out for sure whether it is escaped is harder than
+                // it may initially seem - we have to check each previous
+                // character to see if it escapes the one after it, and flip
+                // a flag which detects whether the initial character is
+                // escaped, or whether the character before the initial
+                // character is escaped (and thus the ender we found is the
+                // real thing).
+                $i = $pos_data['pos'] - 1;
+                if ($i >= 0) {
+                    $current_char = substr($tmp_str, $i, 1);
+                    $after_char   = substr($tmp_str, $i + 1, 1);
+                    geshi_dbg("checking char $current_char to see if it"
+                       . " escapes the char $after_char");
+                    if ($this->_charEscapesChar($current_char, $after_char)) {
+                        geshi_dbg("  it does! Might not have found the ender");
+                        $found_ender = true;
+                        geshi_dbg('checking whether ' . substr($tmp_str, $i, 1)
+                            . ' escapes ' . substr($tmp_str, $i + 1, 1));
+                        while (($i == 0 && $this->_isEscapeChar(substr($tmp_str, $i, 1))) ||
+                            $i > 0
+                            && $this->_charEscapesChar(substr($tmp_str, $i, 1),
+                                substr($tmp_str, $i + 1, 1))) {
+                            $found_ender = !$found_ender;
+                            if (0 == $i) {
+                                geshi_dbg('reached start of string and char is escape');
+                            } else {
+                                geshi_dbg(substr($tmp_str, $i, 1) . ' escapes '
+                                . substr($tmp_str, $i + 1, 1) . ': found_ender='
+                                . $found_ender);
+                            }
+                            --$i;
+                        }
+                        geshi_dbg('finished: found_ender=' . $found_ender);
+                        if (!$found_ender) {
+                            geshi_dbg('we did NOT find ender, it was escaped');
+                            $current_pos += $pos_data['pos'] + 1;
+                            $tmp_str = substr($tmp_str, $pos_data['pos'] + 1);
+                            continue;
+                        }
+                        geshi_dbg('Found ender since the last char is escaped');
+                    }
+                    else {
+                        geshi_dbg(" does  not seem to escape the next char");
+                    }
+                }
+
+                if ($pos_data['pos'] != strlen($tmp_str)
+                    && $this->_charEscapesChar($ender,
+                        substr($tmp_str, $pos_data['pos'] + 1, 1))) {
+                    // We did not find the ender
+                    geshi_dbg('ender is escaping the next char - '
+                        . substr($tmp_str, $pos_data['pos'] + 1, 1));
+                    $current_pos += $pos_data['pos'] + 1 + $pos_data['len'];
+                    $tmp_str = substr($tmp_str, $pos_data['pos'] + 1
+                        + $pos_data['len']);
+                    continue;
+                }
+                else {
+                    geshi_dbg("Not escaped or escaping: Found at position "
+                        . $pos_data['pos']);
+                    if (!$ender_data || $pos_data['pos'] < $ender_data['pos']) {
+                        geshi_dbg('earliest');
+                        $ender_data['pos'] = $pos_data['pos'] + $current_pos;
+                        $ender_data['dlm'] = $ender;
+                        $ender_data['len'] = $pos_data['len'];
                     }
                     
-                    geshi_dbg('  String with double escapes removed: ' . $possible_string);
-
-                    foreach ($this->_escapeCharacters as $escape_char) {
-                        if (substr($possible_string, -1) == $escape_char) {
-                            $not_escaped = false;
-                            break;
-                        }
-                        
-                        if ($escape_char == $ender
-                            && substr($code, $pos + 1, 1) == $escape_char) {
-                            // We have encountered the case where a string
-                            // has its own ender as a delimiter and as an
-                            // escape character
-                            $not_escaped = false;
-                            break;
-                        }
-                    }
-                }
-                
-                if ($not_escaped) {
-                    // We may have found the correct ender. If we haven't, then this string
-                    // never ends and we will set the end position to the length of the code
-                    // substr($code, $pos, 1) == $ender
-                    $endpos = geshi_get_position($code, $ender, $pos);
-                    geshi_dbg('  position of ender: ' . $endpos['pos']);
-                    $pos = (false !== $pos && $endpos['pos'] === $pos) ? $pos : strlen($code);
-                    if (!$ender_data || $ender_data['pos'] > $pos) {
-                        $ender_data = array('pos' => $pos, 'len' => $len, 'dlm' => $ender);
-                    }
                     break;
                 }
-                
-                // else, start further up
-                ++$pos;
             }
         }
         geshi_dbg('Ender data: ' . print_r($ender_data, true));
         return ($ender_data) ? $ender_data : false;
     }
     
+    // }}}
+    // {{{ _charEscapesChar()
+
     /**
-     * Overrides addParseData to add escape characters also
+     * Returns true if $escape_char escapes $char_to_escape.
+     *
+     * @param string $escape_char    The escape character
+     * @param string $char_to_escape The character being escaped
+     * @return boolean
+     */
+    function _charEscapesChar ($escape_char, $char_to_escape)
+    {
+        static $result_table = array();
+        if (isset($result_table[$escape_char][$char_to_escape])) {
+            return $result_table[$escape_char][$char_to_escape];
+        }
+
+        foreach ($this->_escapeGroups as $group) {
+            if (in_array($escape_char, $group[0])) {
+                return $result_table[$escape_char][$char_to_escape]
+                    = in_array($char_to_escape, $group[1]);
+            }
+        }
+
+        return $result_table[$escape_char][$char_to_escape] = false;
+    }
+
+    // }}}
+    // {{{ _isEscapeChar()
+
+    /**
+     * Returns true if $escape_char is an escape character in any group.
+     *
+     * @param string $escape_char The escape character
+     * @return boolean
+     */
+    function _isEscapeChar ($escape_char)
+    {
+        static $result_table = array();
+        if (isset($result_table[$escape_char])) {
+            return $result_table[$escape_char];
+        }
+
+        foreach ($this->_escapeGroups as $group) {
+            if (in_array($escape_char, $group[0])) {
+                return $result_table[$escape_char] = true;
+            }
+        }
+        return $result_table[$escape_char] = false;
+    }
+
+    // }}}
+    // {{{ _addParseData()
+    
+    /**
+     * Overrides addParseData to add escape characters also.
+     * 
+     * @param string $code
+     * @param string $first_char_of_next_context
      */
      function _addParseData ($code, $first_char_of_next_context = '')
      {
-        geshi_dbg('GeSHiStringContext::_addParseData(' . substr($code, 0, 15) . '...)');
+        geshi_dbg('GeSHiStringContext::_addParseData(' . substr($code, 0, 15));
         
         $length = strlen($code);
         $string = '';
@@ -171,22 +293,30 @@ class GeSHiStringContext extends GeSHiContext
             geshi_dbg('Char: ' . $char);
             $skip = false;
             
-            foreach ($this->_escapeCharacters as $escape_char) {
-                $len = 1;
-                if ($char == $escape_char && (false !== ($len = $this->_shouldBeEscaped(substr($code, $i + 1))))) {
-                    geshi_dbg('Match: len = ' . $len);
-                    if ($string) {
-                        $this->_styler->addParseData($string, $this->_contextName,
-                            $this->_getExtraParseData(), $this->_complexFlag);
-                        $string = '';
+            foreach ($this->_escapeGroups as $group) {
+                foreach ($group[0] as $escape_char) {
+                    $len = 1;
+                    if ($char == $escape_char 
+                        && (false !== ($len = $this->_shouldBeEscaped(
+                            substr($code, $i + 1), $group[1])))) {
+                        geshi_dbg('Match: len = ' . $len);
+                        if ($string) {
+                            $this->_styler->addParseData($string,
+                                $this->_contextName,
+                                $this->_getExtraParseData(),
+                                $this->_complexFlag);
+                            $string = '';
+                        }
+
+                        $this->_styler->addParseData($escape_char
+                            . substr($code, $i + 1, $len),
+                             "$this->_contextName/$group[2]",
+                             $this->_getExtraParseData(),
+                             $this->_complexFlag);
+                        $i += $len;
+                        $skip = true;
+                        break;
                     }
-                    // Needs a better name than /esc
-                    $this->_styler->addParseData($escape_char . substr($code, $i + 1, $len), $this->_contextName . '/esc',
-                        $this->_getExtraParseData(), $this->_complexFlag);
-                    // FastForward
-                    $i += $len;
-                    $skip = true;
-                    break;
                 }
             }
             
@@ -195,10 +325,14 @@ class GeSHiStringContext extends GeSHiContext
             }
         }
         if ($string) {
-            $this->_styler->addParseData($string, $this->_contextName, $this->_getExtraParseData(),
+            $this->_styler->addParseData($string, $this->_contextName,
+                $this->_getExtraParseData(),
                 $this->_complexFlag);
         }
-     }
+    }
+    
+    // }}}
+    // {{{ _shouldBeEscaped()
      
     /**
      * Checks whether the character(s) at the start of the parameter string are
@@ -207,16 +341,17 @@ class GeSHiStringContext extends GeSHiContext
      * @param string The string to check the beginning of for escape characters
      * @return int|false The length of the escape character sequence, else false
      */
-    function _shouldBeEscaped ($code)
+    function _shouldBeEscaped ($code, $chars_to_escape)
     {
         geshi_dbg('Checking: ' . substr($code, 0, 15));
-        foreach ($this->_charsToEscape as $match) {
+        foreach ($chars_to_escape as $match) {
             if ('REGEX' != substr($match, 0, 5)) {
                 geshi_dbg('Test: ' . $match);
                 if (substr($code, 0, 1) == $match) {
                     return 1;
                 }
-            } else {
+            }
+            else {
                 geshi_dbg('  Testing via regex: ' . $match . '... ', false);
                 $data = geshi_get_position($code, $match, 0);
                 if (0 === $data['pos']) {
@@ -229,6 +364,9 @@ class GeSHiStringContext extends GeSHiContext
         // No matches...
         return false;
     }
+    
+    // }}}
+    
 }
 
 ?>

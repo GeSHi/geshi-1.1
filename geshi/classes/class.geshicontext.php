@@ -786,8 +786,6 @@ class GeSHiContext
                 $length   = $data['len'];
                 if (isset($data['tab'])) {
                     geshi_dbg('Table: ' . print_r($data['tab'], true));
-                    $this->_startRegexTable = $data['tab'];
-                    $delimiter = $data['tab'][0];
                 }
                 
                 if (false !== $position) {
@@ -798,6 +796,10 @@ class GeSHiContext
                         $first_position = $position;
                         $first_length   = $length;
                         $first_key      = $key;
+                        if (isset($data['tab'])) {
+                            $this->_startRegexTable = $data['tab'];
+                            $delimiter = $data['tab'][0];
+                        }
                         $first_dlm      = $delimiter;
                     }
                 } else {

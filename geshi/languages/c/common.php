@@ -132,9 +132,9 @@ function geshi_c_get_standard_functions()
         'strcpy', 'strcspn', 'strerror', 'strftime', 'strlen', 'strncat',
         'strncmp', 'strncpy', 'strpbrk', 'strrchr', 'strspn', 'strstr',
         'strtod', 'strtok', 'strtol', 'strtoul', 'strxfrm', 'system',
-        'tan', 'tanh', 'time', 'tmpfile', 'tmpname', 'tolower', 'toupper',
-        'ungetc', 'va_arg', 'va_end', 'va_start', 'vfprintf', 'vprintf',
-        'vsprintf'
+        'tan', 'tanh', 'time', 'tmpfile', 'tmpnam', 'tolower', 'toupper',
+        'ungetc', 'va_arg', 'va_end', 'va_start', 'vfprintf', 'vfscanf',
+        'vprintf', 'vscanf', 'vsnprintf', 'vsprintf', 'vsscanf'
     );
 }
 function geshi_c_get_standard_functions_url()

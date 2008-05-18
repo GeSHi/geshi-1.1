@@ -44,8 +44,6 @@ require_once GESHI_CLASSES_ROOT . 'class.geshisinglecharcontext.php';
 
 function geshi_java_java (&$context)
 {
-    //$name = $context->name();
-    
     // Children of java context
     $context->addChild('double_string', 'string');
     $context->addChild('single_string', 'singlechar');
@@ -2735,6 +2733,9 @@ function geshi_java_java (&$context)
 function geshi_java_java_single_string (&$context)
 {
     $context->addDelimiters("'", "'");
+    // @todo [blocking 1.1.2] need to think whether this is necessary for
+    // single char context
+    //$context->addEscapeGroup('\\', "'");
     $context->setEscapeCharacters('\\');
     $context->setCharactersToEscape(array('\\', "'"));
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
@@ -2744,8 +2745,9 @@ function geshi_java_java_single_string (&$context)
 function geshi_java_java_double_string (&$context)
 {
     $context->addDelimiters('"', array('"', "\n"));
-    $context->setEscapeCharacters('\\');
-    $context->setCharactersToEscape(array('n', 'r', 't', '\\', '"', "\n"));
+    //$context->setEscapeCharacters('\\');
+    //$context->setCharactersToEscape(array('n', 'r', 't', '\\', '"', "\n"));
+    $context->addEscapeGroup('\\', array('n', 'r', 't'/*, '"'*/, "\n"));
     // @todo may be able to do this a better way (not using constants), and not so many calls?
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
     // @todo dunno about this one yet    
