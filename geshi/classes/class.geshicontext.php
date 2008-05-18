@@ -130,7 +130,7 @@ class GeSHiContext
      * @param string The name of the language this context represents
      * @param string The dialect of the language this context represents
      * @param string The name of the context
-     * @todo  Better comment
+     * @todo [blocking 1.1.9] Better comment
      */
     function GeSHiContext ($language_name, $dialect_name = '', $context_name = '')
     {
@@ -190,7 +190,7 @@ class GeSHiContext
         // Load the data for this context
         $CONTEXT = $this->_contextName;
         $DIALECT = $this->_dialectName;
-        // @todo This needs testing to see if it is faster
+        // @todo [blocking 1.1.5] This needs testing to see if it is faster
         if (false) {
             $language_file_name = GESHI_CONTEXTS_ROOT . $this->_contextName . $this->_styler->fileExtension;
             $cached_data = $this->_styler->getCacheData($language_file_name);
@@ -543,7 +543,7 @@ class GeSHiContext
         foreach ($this->_contextDelimiters as $key => $delim_array) {
             foreach ($delim_array[0] as $delimiter) {
                 geshi_dbg('    Checking delimiter ' . $delimiter . '... ', GESHI_DBG_PARSE, false);
-                $data     = geshi_get_position($code, $delimiter, 0, $delim_array[2]);
+                $data     = geshi_get_position($code, $delimiter, 0, $delim_array[2], true);
                 geshi_dbg(print_r($data, true), GESHI_DBG_PARSE, false);
                 $position = $data['pos'];
                 $length   = $data['len'];

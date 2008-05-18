@@ -33,7 +33,7 @@
  * 
  */
 
-//@todo Why does using a ^ before the starters not work?
+//@todo [blocking 1.1.1] Why does using a ^ before the starters not work?
 $this->_contextDelimiters = array(
     0 => array(
         0 => array('REGEX#return#', 'REGEX#javascript:#'),

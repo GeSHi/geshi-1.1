@@ -32,24 +32,36 @@
  * 
  */
 
+/**
+ * MAJOR TODOs:
+ * 
+ * @todo [blocking 1.1.1] Support balanced context endings
+ * @todo [blocking 1.1.1] OCCs should be able to modify their parent context
+ * @todo [blocking 1.1.5] Language aliasing should be possible
+ */
 /** Set the correct directory separator */
 define('GESHI_DIR_SEPARATOR', ('WIN' != substr(PHP_OS, 0, 3)) ? '/' : '\\');
 
 // Define the root directory for the GeSHi code tree
 if (!defined('GESHI_ROOT')) {
-    /** The root directory for GeSHi */
+    /** The root directory for GeSHi (where class.geshi.php is located) */
     define('GESHI_ROOT', dirname(__FILE__) . GESHI_DIR_SEPARATOR);
-    /** The data directory for GeSHi */
-    define('GESHI_DATA_ROOT', GESHI_ROOT.'geshi' . GESHI_DIR_SEPARATOR);
-    /** The classes directory for GeSHi */
-    define('GESHI_CLASSES_ROOT', GESHI_DATA_ROOT . 'classes' . GESHI_DIR_SEPARATOR);
-    /** The languages directory for GeSHi */
-    define('GESHI_LANGUAGES_ROOT', GESHI_DATA_ROOT . 'languages' . GESHI_DIR_SEPARATOR);
-    /** The context files directory for GeSHi */
-    define('GESHI_CONTEXTS_ROOT', GESHI_DATA_ROOT . 'contexts' . GESHI_DIR_SEPARATOR);
-    /** The theme files directory for GeSHi */
-    define('GESHI_THEMES_ROOT', GESHI_DATA_ROOT . 'themes' . GESHI_DIR_SEPARATOR);
 }
+
+/**#@+
+ * @access private
+ */
+/** The data directory for GeSHi */
+define('GESHI_DATA_ROOT', GESHI_ROOT . 'geshi' . GESHI_DIR_SEPARATOR);
+/** The classes directory for GeSHi */
+define('GESHI_CLASSES_ROOT', GESHI_DATA_ROOT . 'classes' . GESHI_DIR_SEPARATOR);
+/** The languages directory for GeSHi */
+define('GESHI_LANGUAGES_ROOT', GESHI_DATA_ROOT . 'languages' . GESHI_DIR_SEPARATOR);
+/** The context files directory for GeSHi */
+define('GESHI_CONTEXTS_ROOT', GESHI_DATA_ROOT . 'contexts' . GESHI_DIR_SEPARATOR);
+/** The theme files directory for GeSHi */
+define('GESHI_THEMES_ROOT', GESHI_DATA_ROOT . 'themes' . GESHI_DIR_SEPARATOR);
+/**#@-*/
 
 /** Get required functions */
 require GESHI_DATA_ROOT . 'functions.geshi.php';
@@ -198,11 +210,13 @@ class GeSHi
     /**
      * Whether this object should be prepared as if it will be used
      * many times
+     * @var boolean
      */
     var $_cacheRootContext;
     
     /**
      * The cached root context, if caching of context trees is enabled
+     * @var GeSHiContext
      */
     var $_cachedRootContext;
 
@@ -243,7 +257,7 @@ class GeSHi
         
         $this->_styler =& new GeSHiStyler;
 
-        // @todo Make third parameter an option array thing        
+        // @todo [blocking 1.1.5] Make third parameter an option array thing        
         
         $this->setFileExtension(GESHI_DEFAULT_FILE_EXTENSION);
         //$this->setOutputFormat(GESHI_OUTPUT_HTML);
@@ -259,7 +273,7 @@ class GeSHi
      * but not recommended for use on a live site.
      * 
      * The last error that occured is returned by this method
-     * @todo Documentation: has this changed from 1.0.X?
+     * @todo [blocking 1.1.9] Documentation: has this changed from 1.0.X?
      *
      * @return false|string A message if there is an error, else false
      * @since  1.0.0
@@ -270,9 +284,11 @@ class GeSHi
         if ($this->_error) {
             $msg = $this->_getErrorMessage();
             geshi_dbg('  ERR: ' . $this->_error . ': ' . $msg, GESHI_DBG_API | GESHI_DBG_ERR);
-            return sprintf('<br /><strong>GeSHi Error:</strong> %s (code #%s)<br />"',
-                    '<a href="http://geshi.org/developers/error-codes/">{$this->_error}</a>',
-                    $this->_error);
+            return sprintf('<br /><strong>GeSHi Error:</strong> %s (code %s)<br />',
+                    $msg,
+                    '<a href="http://geshi.org/developers/error-codes/#' . $this->_error
+                    . '">#' . $this->_error . '</a>'
+            );
         }
         geshi_dbg('  No error', GESHI_DBG_ERR | GESHI_DBG_API);
         return false;
@@ -381,7 +397,18 @@ class GeSHi
      * For example, how long it took to load a specific context,
      * or parse the source code.
      *
-     * @todo Better documentation here
+     * You can pass a string to this method, it will return various timings based
+     * on what string you pass:
+     * 
+     * <ul>
+     *   <li>If you pass <b>'total'</b> (default), you will get the time it took to
+     *   load, parse and post-process the last call to {@link GeSHi::parseCode()}.</li>
+     *   <li>If you pass <b>'pre'</b>, you will get the time it took to load the last
+     *   language. If caching of the root context is enabled, then this time will likely
+     *   be close to zero if you are calling this method after second and subsequent calls
+     *   to {@link GeSHi::parseCode()}.</li>
+     *   <li>If youpass <b>'parse'</b>, you will get the time it took to parse the last
+     *   time {@link GeSHi::parseCode()} was called.
      *
      * @param string What time you want to access
      * @return false|double The time if there is a time, else false if there was an error
@@ -439,7 +466,7 @@ class GeSHi
             $this->_rootContext = $this->_cachedRootContext;
         }
         
-        //@todo does this space still need to be added?
+        //@todo [blocking 1.1.5] does this space still need to be added?
         $code = ' ' . $this->_source;
         // Runtime setup of context tree/styler info
         // Reset the parse data to nothing 
@@ -473,7 +500,7 @@ class GeSHi
     {
         if ($this->_error) {
             $messages = array (
-                // @todo Move out of here
+                // @todo [blocking 1.1.5] Move out of here
                 GESHI_ERROR_NO_SUCH_LANG => 'GeSHi could not find the language {LANGUAGE} (using path {LANGPATH})',
                 GESHI_ERROR_NO_INPUT => 'No source code passed to GeSHi to highlight',
                 GESHI_ERROR_LANG_NAME_ILLEGAL_CHARS => 'The language name {LANGUAGE} contains illegal characters',
@@ -557,7 +584,7 @@ class GeSHi
         }
         geshi_dbg('@o  Source code OK', GESHI_DBG_API);
         return true;
-        // @todo Other things can go in here - checks against max and min length etc
+        // @todo [blocking 1.1.9] Other things can go in here - checks against max and min length etc
     }
 
     /**

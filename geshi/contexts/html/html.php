@@ -47,7 +47,7 @@ $this->_contextRegexps = array(
         0 => array('#(&(([a-z0-9]{2,5})|(\#[0-9]{2,4}));)#'),
         1 => '&',
         2 => array(
-            1 => array($CONTEXT . '/entity', 'color: #00c;')
+            1 => array($CONTEXT . '/entity', 'color: #00c;', false)
         )
     )
 );

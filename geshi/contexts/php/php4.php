@@ -97,7 +97,7 @@ $this->_contextKeywords = array(
     ),
     2 => array(
         0 => array(
-            // @todo This list of functions is for php5... should get one for php4 only
+            // @todo [blocking 1.1.9] This list of functions is for php5... should get one for php4 only
             'abs', 'acos', 'acosh', 'addcslashes', 'addslashes',
             'apache_child_terminate', 'apache_lookup_uri', 'apache_note',
             'apache_setenv', 'array', 'array_change_key_case', 'array_chunk',
@@ -827,7 +827,7 @@ $this->_contextRegexps  = array(
             ),
         1 => '$',
         2 => array(
-            1 => array($CONTEXT . '/var', 'color:#33f;'),
+            1 => array($CONTEXT . '/var', 'color:#33f;', false),
         )
     ),
     1 => geshi_use_doubles($CONTEXT),
@@ -837,12 +837,14 @@ $this->_objectSplitters = array(
     0 => array(
         0 => array('->'),
         1 => $CONTEXT . '/oodynamic',
-        2 => 'color:#933;'
+        2 => 'color:#933;',
+        3 => false
     ),
     1 => array(
         0 => array('::'),
         1 => $CONTEXT . '/oostatic',
-        2 => 'color:#933;font-weight:bold;'
+        2 => 'color:#933;font-weight:bold;',
+        3 => false
     )
 );
 

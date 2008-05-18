@@ -77,8 +77,8 @@ class cssKeywordGetterStrategy extends KeywordGetterStrategy
         $xml_parser->setKeywordGroup($keyword_group);
         
         // Set the file to parse to Nigel's local CSS syntax file.
-        // @todo Find online if possible (check kde.org) and link to that
-        // @todo Make configurable the file? Have at least hardcoded ones for me and for the web
+        // @todo [blocking 1.1.9] Find online if possible (check kde.org) and link to that
+        // @todo [blocking 1.1.9] Make configurable the file? Have at least hardcoded ones for me and for the web
         $result =& $xml_parser->setInputFile('/usr/share/apps/katepart/syntax/css.xml');
         if (PEAR::isError($result)) {
             return new KeywordGetterError(FILE_UNAVAILABLE, $this->_language,

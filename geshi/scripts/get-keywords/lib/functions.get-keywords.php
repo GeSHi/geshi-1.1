@@ -75,8 +75,8 @@ function show_version ()
  * @param array The arguments as parsed by Console_Getopt::getopt()
  * @return True if the argument exists, the value of the argument if there is a value, else false
  * @since 0.1.0
- * @todo Move this into console_getopt class
- * @todo Check about what is returned when option does exist
+ * @todo [blocking 1.1.5] Move this into console_getopt class
+ * @todo [blocking 1.1.5] Check about what is returned when option does exist
  */
 function get_option ($options, $args)
 {

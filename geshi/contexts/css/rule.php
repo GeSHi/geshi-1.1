@@ -293,7 +293,7 @@ $this->_contextRegexps  = array(
         ),
         1 => '',
         2 => array(
-            1 => array($CONTEXT . '/value', 'color: #933;')
+            1 => array($CONTEXT . '/value', 'color: #933;', false)
         )
     )
 );

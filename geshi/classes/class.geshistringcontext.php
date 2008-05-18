@@ -91,7 +91,7 @@ class GeSHiStringContext extends GeSHiContext
                 
                 geshi_dbg('  String with double escapes removed: ' . $possible_string, GESHI_DBG_PARSE);
 
-                //@todo possible bug: only last escape character checked here                
+                //@todo [blocking 1.1.1] possible bug: only last escape character checked here                
                 if (substr($possible_string, -1) != $escape_char) {
                     // we've found the correct ender
                     return array('pos' => $pos, 'len' => $len, 'dlm' => $ender);

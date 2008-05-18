@@ -118,12 +118,13 @@ function geshi_can_include ($file_name)
  *               a regular expression search is performed.
  * @param int    The offset in the string in which to start searching
  * @param boolean Whether the search is case sensitive or not
+ * @param boolean Whether the match table is needed (almost never, and it makes things slower)
  * @return array An array of data:
  * <pre> 'pos' => position in string of needle,
  * 'len' => length of match
  * 'tab' => a table of the stuff matched in brackets for a regular expression</pre>
  */
-function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = false)
+function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = false, $need_table = false)
 {
     geshi_dbg('Checking haystack: ' . $haystack . ' against needle ' . $needle . ' (' . $offset . ')',GESHI_DBG_PARSE, false);
     if ('REGEX' != substr($needle, 0, 5)) {
@@ -150,19 +151,17 @@ function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = 
     //if ( DEBUG ) echo "    length of replaced string: $length, pos of replace string: " . strpos($str, $foo) . "\n";
 
     // ADD SOME MORE: Return matching table (?)
-    // @todo Don't generate table if not needed
-    preg_match_all($regex, $string, $matches);
-    //$table = $matches;
-    $i = 0;
-    $table = array();
-    foreach ( $matches as $match ) {
-  /*      if ( 0 == $i ) {
-            ++$i;
-            continue;
+    if ($need_table) {
+        preg_match_all($regex, $string, $matches);
+        //$table = $matches;
+        $i = 0;
+        $table = array();
+        foreach ( $matches as $match ) {
+            $table[$i++] = (isset($match[0])) ? $match[0] : null;
         }
-    commented out to catch the whole thing*/    $table[$i++] = (isset($match[0])) ? $match[0] : null;
+    } else {
+        $table = array();
     }
-
     return array('pos' => strpos($str, $foo), 'len' => $length, 'tab' => $table);
 }
 
@@ -183,10 +182,11 @@ function geshi_use_integers ($prefix)
             1 => true, // catch banned stuff for highlighting by the code context that it is in
             2 => array(
                 0 => $prefix . '/' . GESHI_NUM_INT,
-                1 => 'color:#11e;'
+                1 => 'color:#11e;',
+                2 => false
                 )
             )
-        );
+    );
 }
 
 /**
@@ -202,22 +202,24 @@ function geshi_use_doubles ($prefix)
 
     return array(
         0 => array(
-            "#($banned|^)({$plus_minus}[0-9]*\.[0-9]+)($banned)?#" // double precision (.123 or 34.342 for example)
+            "#(^|$banned)?({$plus_minus}[0-9]*\.[0-9]+)($banned)?#" // double precision (.123 or 34.342 for example)
             ),
         1 => '.', //doubles must have a dot
         2 => array(
             1 => true, // as above, catch for normal stuff
             2 => array(
                 0 => $prefix . '/' . GESHI_NUM_DBL,
-                1 => 'color:#d3d;'
-                )
-            ),
-            3 => true
-        );
+                1 => 'color:#d3d;',
+                2 => false // Don't attempt to highlight numbers as code
+                ),
+            3 => true,
+            //4 => true
+            )
+    );
 }
 
 
-// @todo fix this up
+// @todo [blocking 1.1.9] fix this up
 // +----------------------------------------------------------------------+
 // | PHP Version 4                                                        |
 // +----------------------------------------------------------------------+

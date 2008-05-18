@@ -86,7 +86,7 @@ $this->_contextRegexps  = array(
         ),
         1 => '.',
         2 => array(
-            1 => array($CONTEXT . '/class', 'color:#c9c;')
+            1 => array($CONTEXT . '/class', 'color:#c9c;', false)// Don't check whether the match is actually a keyword
         )
     ),
     1 => array(
@@ -95,7 +95,7 @@ $this->_contextRegexps  = array(
         ),
         1 => '#',
         2 => array(
-            1 => array($CONTEXT . '/id', 'color:#c9c;font-weight:bold;')
+            1 => array($CONTEXT . '/id', 'color:#c9c;font-weight:bold;', false)
         )
     )
 );

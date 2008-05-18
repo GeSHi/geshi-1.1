@@ -114,7 +114,7 @@ class GeSHiCodeContext extends GeSHiContext
     
     /**
      * Whether this code context has finished loading yet
-	 * @todo Do this by static variable?
+	 * @todo [blocking 1.1.1] Do this by static variable?
      */
     var $_codeContextLoaded = false;
      
@@ -141,7 +141,7 @@ class GeSHiCodeContext extends GeSHiContext
             foreach ($data[0] as $splitter) {
                     $splitter_match .= preg_quote($splitter) . '|';
             }
-                    
+            
             $this->_contextRegexps[] = array(
                 0 => array(
                     "#(" . substr($splitter_match, 0, -1) . ")(\s*)([a-zA-Z\*\(_][a-zA-Z0-9_\*]*)#"
@@ -150,7 +150,7 @@ class GeSHiCodeContext extends GeSHiContext
                 2 => array(
                     1 => true,
                     2 => true, // highlight splitter
-                    3 => array($data[1], $data[2])
+                    3 => array($data[1], $data[2], $data[3]) // $data[3] says whether to give code a go at the match first
                 )
             );
         }
@@ -161,11 +161,11 @@ class GeSHiCodeContext extends GeSHiContext
      */
      function loadStyleData ()
      {
-        // @todo Skip if already loaded???
+        // @todo [blocking 1.1.1] Skip if already loaded???
         // Set styles for keywords
         //geshi_dbg('Loading style data for context ' . $this->getName(), GESHI_DBG_PARSE);
-        // @todo Style data for infectious context loaded many times, could be reduced to one?
-        //@todo array_keys loop construct if possible
+        // @todo [blocking 1.1.1] Style data for infectious context loaded many times, could be reduced to one?
+        //@todo [blocking 1.1.1] array_keys loop construct if possible
         foreach ($this->_contextKeywords as $keyword_group_array) {
             $this->_styler->setStyle($keyword_group_array[1], $keyword_group_array[2]);
         }
@@ -249,12 +249,27 @@ class GeSHiCodeContext extends GeSHiContext
                 if ($key) {
                     // If there is a name for this bracket group ($key) in this regex group ($data[1])...
                     if (isset($this->_contextRegexps[$data[1]][2][$key]) && is_array($this->_contextRegexps[$data[1]][2][$key])) {
-                        $regex_replacements[$data[0]][] = array($match, $this->_contextRegexps[$data[1]][2][$key][0]); //name in [0], s in [1]
+                        // If we should be attempting to have a go at code highlighting first... 
+                        if (/*isset($this->_contextRegexps[$data[1]][2][$key][2]) && */
+                            true === $this->_contextRegexps[$data[1]][2][$key][2]) {
+                            // Highlight the match, and put the code into the result
+                            $highlighted_matches = $this->_codeContextHighlight($match);
+                            foreach ($highlighted_matches as $stuff) {
+                                if ($stuff[1] == $this->_contextName) {
+                                    $regex_replacements[$data[0]][] = array($stuff[0], $this->_contextRegexps[$data[1]][2][$key][0]);
+                                } else {
+                                    $regex_replacements[$data[0]][] = $stuff;
+                                } 
+                            }
+                        } else {
+                            $regex_replacements[$data[0]][] = array($match,
+                                $this->_contextRegexps[$data[1]][2][$key][0]); //name in [0], s in [1]
+                        }
                     // Else, perhaps it is simply set. If so, we highlight it as if it were
                     // part of the code context 
                     } elseif (isset($this->_contextRegexps[$data[1]][2][$key])) {
                         // this may end up as array(array(match,name),array(match,name),array..)
-                        //@todo may need to pass the first char of next context here if it's at the end...
+                        //@todo [blocking 1.1.1] may need to pass the first char of next context here if it's at the end...
                         $parse_data = $this->_codeContextHighlight($match);
                         foreach ($parse_data as $pdata) { 
                             $regex_replacements[$data[0]][] = $pdata;
@@ -505,7 +520,7 @@ class GeSHiCodeContext extends GeSHiContext
     /**
      * Turns keywords into <a href="url">>keyword<</a> if needed
      *
-     * @todo This method still needs to listen to set_link_target, set_link_styles etc
+     * @todo [blocking 1.1.5] This method still needs to listen to set_link_target, set_link_styles etc
      */
     function _getURL ($keyword, $earliest_keyword_group)
     {

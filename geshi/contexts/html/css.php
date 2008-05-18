@@ -34,7 +34,7 @@
 
 $this->_contextDelimiters = array(
     0 => array(
-        //@todo The <![CDATA[ was added to stop CSS jumping into attribute selector context
+        //@todo [blocking 1.1.9] The <![CDATA[ was added to stop CSS jumping into attribute selector context
         //the moment it was encountered, but this only really applies to XML
         0 => array('REGEX#<style[^>]+>\s*(<!\[CDATA\[)?#i'),
         1 => array('</style>'),

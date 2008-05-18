@@ -85,7 +85,7 @@ class KeywordGetter
      * @private
      * {@internal Yes, that's right, PRIVATE. Use KeywordGetter::factory
      * to create new KeywordGetters}
-     * @todo @internal format?
+     * @todo [blocking 1.1.9] @internal format?
      */
     function KeywordGetter ($kwstrategy)
     {

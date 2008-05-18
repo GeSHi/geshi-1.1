@@ -63,6 +63,6 @@ $this->_contextRegexps  = array(
     0 => geshi_use_doubles($CONTEXT),
     1 => geshi_use_integers($CONTEXT)
 );
-// @todo languages should be able to set the styles of their numbers
+// @todo [blocking 1.1.5] languages should be able to set the styles of their numbers
 
 ?>

@@ -839,7 +839,7 @@ $this->_contextRegexps  = array(
             '#(\$\$?[a-zA-Z_][a-zA-Z0-9_]*)#', // This is a variable in PHP
             ),
         // index 1 is a string that strpos can use
-        // @todo maybe later let this string be a regex or something
+        // @todo [blocking 1.1.1] maybe later let this string be a regex or something
         1 => '$',
         // This is the special bit ;)
         // For each bracket pair in the regex above, you can specify a name and style for it
@@ -851,7 +851,16 @@ $this->_contextRegexps  = array(
             // in place for the first open bracket), then the
             // name and style for this part would not include
             // the beginning $
-            1 => array($CONTEXT . '/var', 'color:#33f;'),
+            // Note:NEW AFTER 1.1.0a5: if third index of this array is true,
+            // then you are saying: "Try to highlight as code first, if
+            // it isn't code then use the styles in the second index".
+            // This is really aimed at the OO support. For example, this
+            // is some javascript code:
+            //    foo.bar.toLowerCase();
+            // The "bar" will be highlighted as an oo method, while the
+            // "toLowerCase" will be highlighted as a keyword even though
+            // it matches the oo method.
+            1 => array($CONTEXT . '/var', 'color:#33f;', false),
             )
         ),
     // These are prebuild functions that can be called to add number
@@ -863,12 +872,14 @@ $this->_objectSplitters = array(
     0 => array(
         0 => array('->'),
         1 => $CONTEXT . '/oodynamic',
-        2 => 'color:#933;'
+        2 => 'color:#933;',
+        3 => false
     ),
     1 => array(
         0 => array('::'),
         1 => $CONTEXT . '/oostatic',
-        2 => 'color:#933;font-weight:bold;'
+        2 => 'color:#933;font-weight:bold;',
+        3 => false
     )
 );
 
