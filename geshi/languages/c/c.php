@@ -219,7 +219,7 @@ function geshi_c_c_preprocessor (&$context)
     $context->addKeywordGroup(geshi_c_get_types_and_qualifiers(),
       'c/c/preprocessor/typeorqualifier', true,
       geshi_c_get_types_and_qualifiers_url());
-    $context->addKeywordGroup(geshi_c_get_standard_functions_url(),
+    $context->addKeywordGroup(geshi_c_get_standard_functions(),
       'c/c/preprocessor/stdfunction', true,
       geshi_c_get_standard_functions_url());
     $context->addKeywordGroup(geshi_c_get_standard_macros_and_objects(),

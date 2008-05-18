@@ -2733,9 +2733,6 @@ function geshi_java_java (&$context)
 function geshi_java_java_single_string (&$context)
 {
     $context->addDelimiters("'", "'");
-    // @todo [blocking 1.1.2] need to think whether this is necessary for
-    // single char context
-    //$context->addEscapeGroup('\\', "'");
     $context->setEscapeCharacters('\\');
     $context->setCharactersToEscape(array('\\', "'"));
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);

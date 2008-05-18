@@ -108,9 +108,9 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
     // {{{ parseToken()
     
     /**
-     * @todo [blocking 1.1.2] possibly highlight methods differently? may not be worth effort
-     * @todo [blocking 1.1.2] What about php5 public/private methods? Do they work?
-     * @todo [blocking 1.1.2] Highlight phpdoc internal rule, and check for other rules
+     * @todo [blocking 1.2.0] possibly highlight methods differently? may not be worth effort
+     * @todo [blocking 1.2.0] What about php5 public/private methods? Do they work?
+     * @todo [blocking 1.2.0] Highlight phpdoc internal rule, and check for other rules
      */
     function parseToken ($token, $context_name, $data)
     {

@@ -32,8 +32,9 @@
  * @package    geshi
  * @subpackage core
  * @author     Nigel McNie <nigel@geshi.org>
+ * @author     Knut A. Wikström <knut@wikstrom.dk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright  (C) 2004 - 2006 Nigel McNie
+ * @copyright  (C) 2004 - 2006 Nigel McNie, Knut A. Wikstr&ouml;m
  * @version    $Id$
  * 
  */
@@ -47,16 +48,12 @@
  * 
  * @package    geshi
  * @subpackage core
- * @author     Nigel McNie <nigel@geshi.org>
  * @since      1.1.1
  * @version    $Revision$
  * @abstract
  * @todo [blocking 1.1.9] From my nigel@geshi.org email I wrote
  * a useful description of how the parseToken method works, which
  * I should put in here and on the wiki
- * 
- * @todo [blocking 1.1.2] The java stack/reference stuff is useful
- * for C as well, perhaps it could be reparented into here?
  */
 class GeSHiCodeParser
 {
@@ -147,6 +144,17 @@ class GeSHiCodeParser
         $this->_stack[] =  array($token, $context_name, $data);
     }
 
+    // }}}
+    // {{{ pop()
+    
+    /**
+     * This method pops the top element off the stack and returns it.
+     */
+    function pop ()
+    {
+        return array_pop($this->_stack);
+    }
+    
     // }}}
     // {{{ flush()
     
