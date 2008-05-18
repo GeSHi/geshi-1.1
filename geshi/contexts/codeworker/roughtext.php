@@ -33,28 +33,26 @@
  */
 
 $this->_contextDelimiters = array(
-    0 => array(
-        0 => array('REGEX#generate\s*\(\s*\{#'),
-        1 => array('}'),
-        2 => false,
-        3 => array('{', '}')   // number 3 is balancing.
+    array(
+        array('REGEX#generate\s*\(\s*\{#'),
+        array('}'),
+        false,
+        array('{', '}')   // number 3 is balancing.
         // an array opener=>closer
         // what about cases where you have multiple entries for opener/closer??? (just specify as limitation)
     ),
-    1 => array(
-        0 => array('REGEX#generateString\s*\(\s*\{#'),
-        1 => array('}'),
-        2 => false
+    array(
+        array('REGEX#generateString\s*\(\s*\{#'),
+        array('}'),
+        false
     ),
-    2 => array(
-        0 => array('REGEX#expand\s*\(\s*\{#'),
-        1 => array('}'),
-        2 => false
+    array(
+        array('REGEX#expand\s*\(\s*\{#'),
+        array('}'),
+        false
     )
 );
 
-$this->_styler->setStyle($CONTEXT, 'color:#f00;');
-//$this->_contextStyleType = GESHI_STYLE_NONE;
 $this->_delimiterParseData = GESHI_CHILD_PARSE_NONE;
 $this->_overridingChildContext =& new GeSHiCodeContext('codeworker', 'cwt');
 

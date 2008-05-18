@@ -131,12 +131,13 @@ class GeSHiStringContext extends GeSHiContext
                 if ($char == $escape_char && (false !== ($len = $this->_shouldBeEscaped(substr($code, $i + 1))))) {
                     geshi_dbg('Match: len = ' . $len, GESHI_DBG_PARSE);
                     if ($string) {
-                        $this->_styler->addParseData($string, $this->_contextName);
+                        $this->_styler->addParseData($string, $this->_contextName,
+                            $this->_getExtraParseData(), $this->_complexFlag);
                         $string = '';
                     }
                     // Needs a better name than /esc
                     $this->_styler->addParseData($escape_char . substr($code, $i + 1, $len), $this->_contextName . '/esc',
-                        $this->_getExtraParseData());
+                        $this->_getExtraParseData(), $this->_complexFlag);
                     // FastForward
                     $i += $len;
                     $skip = true;
@@ -149,7 +150,8 @@ class GeSHiStringContext extends GeSHiContext
             }
         }
         if ($string) {
-            $this->_styler->addParseData($string, $this->_contextName, $this->_getExtraParseData());
+            $this->_styler->addParseData($string, $this->_contextName, $this->_getExtraParseData(),
+                $this->_complexFlag);
         }
      }
      
@@ -164,6 +166,7 @@ class GeSHiStringContext extends GeSHiContext
     {
         // Feature: If 'DELIM' is one of the "characters" in the _charsToEscape array, then it is
         // replaced by the context opener
+        // @todo [blocking 1.1.5] remove DELIM support
         $chars_to_escape = str_replace('DELIM', $this->_lastOpener, $this->_charsToEscape);
 
         geshi_dbg('Checking: ' . substr($code, 0, 15), GESHI_DBG_PARSE);

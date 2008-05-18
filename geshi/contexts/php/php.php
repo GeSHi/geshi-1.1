@@ -38,53 +38,60 @@ require_once GESHI_CLASSES_ROOT . 'class.geshistringcontext.php';
 require_once GESHI_CLASSES_ROOT . 'php' . GESHI_DIR_SEPARATOR . 'class.geshiphpdoublestringcontext.php';
 
 $this->_contextDelimiters = array(
-	0 => array(
-		0 => array('<?php', '<?'),
-		1 => array('?>'),
-		2 => true
+	array(
+		array('<?php', '<?'),
+		array('?>'),
+		true
 	),
-	1 => array(
-		0 => array('<%'),
-		1 => array('%>'),
-		2 => false
+	array(
+		array('<%'),
+		array('%>'),
+		false
 	)
 );
 
 $this->_childContexts = array(
-    new GeSHiStringContext('php',  $DIALECT, 'common/single_string'),
+    new GeSHiStringContext('php',  $DIALECT, 'single_string'),
     new GeSHiPHPDoubleStringContext('php',  $DIALECT, 'double_string'),
     new GeSHiPHPDoubleStringContext('php',  $DIALECT, 'heredoc'),
-    // PHP single comment, with # starter and end-php-context ender
     new GeSHiContext('php',  $DIALECT, 'single_comment'),
-    // Use common multi comment since it is a PHP comment...
-    new GeSHiContext('php',  $DIALECT, 'common/multi_comment'),
-    // doxygen comments
+    new GeSHiContext('php',  $DIALECT, 'multi_comment'),
     new GeSHiContext('php',  $DIALECT, 'doxygen')
 );
 
-$this->_styler->setStyle($CONTEXT_START, 'font-weight:bold;color:#000;');
-$this->_styler->setStyle($CONTEXT_END, 'font-weight:bold;color:#000;');
-
 $this->_contextKeywords = array(
-    0 => array(
-        // keywords
-        0 => array(
+    // Basic keywords
+    array(
+        array(
             'as', 'break', 'case', 'continue', 'do', 'declare', 'else', 'elseif',
             'endforeach', 'endif', 'endswitch', 'endwhile', 'for', 'foreach', 'if',
             'include', 'include_once', 'require', 'require_once', 'return', 'switch',
-            'while'
+            'while',
+            'abstract', 'catch', 'class', 'default',
+            'extends', 'final', 'function', 'implements', 'interface', 'new',
+            'parent', 'private', 'protected', 'public', 'self', 'static', 'throw',
+            'try', 'var',
+            'real', 'double'
         ),
-        // name
-        1 => $CONTEXT . '/cstructures',
-        // style
-        2 => 'color:#b1b100;',
-        // case sensitive
-        3 => false,
-        // url
-        4 => ''
+        $CONTEXT . '/keyword',
+        false,
+        ''
     ),
-    1 => array(
-        0 => array(
+    
+    // Keywords that have php.net manual entries
+    array(
+        array(
+            'echo', 'print', 'array', 'isset', 'unset', 'int', 'integer',
+            'bool', 'boolean', 'float', 'string'
+        ),
+        $CONTEXT . '/keyword',
+        false,
+        'http://www.php.net/{FNAME}'
+    ),
+    
+    // Constants
+    array(
+        array(
             'DEFAULT_INCLUDE_PATH', 'E_ALL', 'E_COMPILE_ERROR', 'E_COMPILE_WARNING',
             'E_CORE_ERROR', 'E_CORE_WARNING', 'E_ERROR', 'E_NOTICE', 'E_PARSE',
             'E_STRICT', 'E_USER_ERROR', 'E_USER_NOTICE', 'E_USER_WARNING',
@@ -93,21 +100,19 @@ $this->_contextKeywords = array(
             'PHP_LIBDIR', 'PHP_LOCALSTATEDIR', 'PHP_OS', 'PHP_OUTPUT_HANDLER_CONT',
             'PHP_OUTPUT_HANDLER_END', 'PHP_OUTPUT_HANDLER_START', 'PHP_SYSCONFDIR',
             'PHP_VERSION', 'TRUE', '__CLASS__', '__FILE__', '__FUNCTION__',
-            '__LINE__', '__METHOD__', 'abstract', 'catch', 'class', 'default',
-            'extends', 'final', 'function', 'implements', 'interface', 'new',
-            'parent', 'private', 'protected', 'public', 'self', 'static', 'throw',
-            'try', 'var'
+            '__LINE__', '__METHOD__'
         ),
-        1 => $CONTEXT . '/keywords',
-        2 => 'font-weight:bold;color:#000;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/constant',
+        false,
+        ''
     ),
-    2 => array(
-        0 => array(
+    
+    // Functions
+    array(
+        array(
             'abs', 'acos', 'acosh', 'addcslashes', 'addslashes',
             'apache_child_terminate', 'apache_lookup_uri', 'apache_note',
-            'apache_setenv', 'array', 'array_change_key_case', 'array_chunk',
+            'apache_setenv', 'array_change_key_case', 'array_chunk',
             'array_count_values', 'array_diff', 'array_fill', 'array_filter',
             'array_flip', 'array_intersect', 'array_key_exists', 'array_keys',
             'array_map', 'array_merge', 'array_merge_recursive', 'array_multisort',
@@ -198,7 +203,7 @@ $this->_contextKeywords = array(
             'domxml_new_xmldoc', 'domxml_node', 'domxml_node_set_content',
             'domxml_node_unlink_node', 'domxml_root', 'domxml_set_attribute',
             'domxml_version', 'dotnet_load', 'doubleval', 'each', 'easter_date',
-            'easter_days', 'ebcdic2ascii', 'echo', 'empty', 'end', 'ereg',
+            'easter_days', 'ebcdic2ascii', 'empty', 'end', 'ereg',
             'ereg_replace', 'eregi', 'eregi_replace', 'error_log', 'error_reporting',
             'escapeshellarg', 'escapeshellcmd', 'eval', 'exec', 'exif_imagetype',
             'exif_read_data', 'exif_thumbnail', 'exit', 'exp', 'explode', 'expm1',
@@ -363,7 +368,7 @@ $this->_contextKeywords = array(
             'is_int', 'is_integer', 'is_link', 'is_long', 'is_nan', 'is_null',
             'is_numeric', 'is_object', 'is_readable', 'is_real', 'is_resource',
             'is_scalar', 'is_string', 'is_subclass_of', 'is_uploaded_file',
-            'is_writable', 'is_writeable', 'isset', 'java_last_exception_clear',
+            'is_writable', 'is_writeable', 'java_last_exception_clear',
             'java_last_exception_get', 'jddayofweek', 'jdmonthname', 'jdtofrench',
             'jdtogregorian', 'jdtojewish', 'jdtojulian', 'jdtounix', 'jewishtojd',
             'join', 'jpeg2wbmp', 'juliantojd', 'key', 'krsort', 'ksort', 'lcg_value',
@@ -626,7 +631,7 @@ $this->_contextKeywords = array(
             'posix_setsid', 'posix_setuid', 'posix_times', 'posix_ttyname',
             'posix_uname', 'pow', 'preg_grep', 'preg_match', 'preg_match_all',
             'preg_quote', 'preg_replace', 'preg_replace_callback', 'preg_split',
-            'prev', 'print', 'print_r', 'printer_abort', 'printer_close',
+            'prev', 'print_r', 'printer_abort', 'printer_close',
             'printer_create_brush', 'printer_create_dc', 'printer_create_font',
             'printer_create_pen', 'printer_delete_brush', 'printer_delete_dc',
             'printer_delete_font', 'printer_delete_pen', 'printer_draw_bmp',
@@ -759,7 +764,7 @@ $this->_contextKeywords = array(
             'udm_free_res', 'udm_get_doc_count', 'udm_get_res_field',
             'udm_get_res_param', 'udm_load_ispell_data', 'udm_open_stored',
             'udm_set_agent_param', 'uksort', 'umask', 'uniqid', 'unixtojd', 'unlink',
-            'unpack', 'unregister_tick_function', 'unserialize', 'unset', 'urldecode',
+            'unpack', 'unregister_tick_function', 'unserialize', 'urldecode',
             'urlencode', 'user_error', 'usleep', 'usort', 'utf8_decode', 'utf8_encode',
             'var_dump', 'var_export', 'variant', 'version_compare', 'virtual', 'vpo',
             'vpopmail_add_alias_domain', 'vpopmail_add_alias_domain_ex',
@@ -807,43 +812,40 @@ $this->_contextKeywords = array(
             'zip_entry_filesize', 'zip_entry_name', 'zip_entry_open',
             'zip_entry_read', 'zip_open', 'zip_read'
         ),
-        1 => $CONTEXT . '/functions',
-        2 => 'color:#006;',
-        3 => false,
-        // urls (the name of a function, with brackets at the end, or a string with {FNAME} in it like GeSHi 1.0.X)
-        // e.g. geshi_php_convert_url(), or http://www.php.net/{FNAME}
-        4 => 'geshi_php_convert_url()'
+        $CONTEXT . '/function',
+        false,
+        'http://www.php.net/{FNAME}'
     )
 );
 
 $this->_contextCharactersDisallowedBeforeKeywords = array('$', '_');
 $this->_contextCharactersDisallowedAfterKeywords  = array("'", '_');
+
 $this->_contextSymbols  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             '(', ')', ',', ';', ':', '[', ']',
             '+', '-', '*', '/', '&', '|', '!', '<', '>',
-            '{', '}', '=', '@'
-            ),
-        // name
-        1 => $CONTEXT . '/sym0',
-        // style
-        2 => 'color:#008000;'
+            '{', '}', '=', '@', '?'
+        ),
+        $CONTEXT . '/symbol',
     )
 );
+
 $this->_contextRegexps  = array(
-    0 => array(
+    // PHP Variables
+    array(
         // The regexps
         // each regex in this array will be tested and styled the same
-        0 => array(
+        array(
             '#(\$\$?[a-zA-Z_][a-zA-Z0-9_]*)#', // This is a variable in PHP
-            ),
+        ),
         // index 1 is a string that strpos can use
         // @todo [blocking 1.1.1] maybe later let this string be a regex or something
-        1 => '$',
+        '$',
         // This is the special bit ;)
         // For each bracket pair in the regex above, you can specify a name and style for it
-        2 => array(
+        array(
             // index 1 is for the first bracket pair
             // so for PHP it's everything within the (...)
             // of course we could have specified the regex
@@ -851,7 +853,7 @@ $this->_contextRegexps  = array(
             // in place for the first open bracket), then the
             // name and style for this part would not include
             // the beginning $
-            // Note:NEW AFTER 1.1.0a5: if third index of this array is true,
+            // Note:NEW AFTER 1.1.0a5: if second index of this array is true,
             // then you are saying: "Try to highlight as code first, if
             // it isn't code then use the styles in the second index".
             // This is really aimed at the OO support. For example, this
@@ -860,51 +862,28 @@ $this->_contextRegexps  = array(
             // The "bar" will be highlighted as an oo method, while the
             // "toLowerCase" will be highlighted as a keyword even though
             // it matches the oo method.
-            1 => array($CONTEXT . '/var', 'color:#33f;', false),
-            )
-        ),
-    // These are prebuild functions that can be called to add number
-    // support to a context. Call exactly as below
-    1 => geshi_use_doubles($CONTEXT),
-    2 => geshi_use_integers($CONTEXT)
-);
-$this->_objectSplitters = array(
-    0 => array(
-        0 => array('->'),
-        1 => $CONTEXT . '/oodynamic',
-        2 => 'color:#933;',
-        3 => false
+            1 => array($CONTEXT . '/var', false),
+        )
     ),
-    1 => array(
-        0 => array('::'),
-        1 => $CONTEXT . '/oostatic',
-        2 => 'color:#933;font-weight:bold;',
-        3 => false
+    // These are prebuilt functions that can be called to add number
+    // support to a context. Call exactly as below
+    geshi_use_doubles($CONTEXT),
+    geshi_use_integers($CONTEXT)
+);
+
+$this->_objectSplitters = array(
+    array(
+        array('->'),
+        $CONTEXT . '/oodynamic',
+        false
+    ),
+    array(
+        array('::'),
+        $CONTEXT . '/oostatic',
+        false
     )
 );
 
-/**
- * This just demonstrates the concept...
- * You can use a function like this, called
- * by the URL entry of the keywords array,
- * to do whatever you like with the URL.
- * These functions that convert urls take one
- * mandatory parameter - the keyword the URL
- * is being built for.
- * 
- * You can then have some kind of logic in this
- * function to return a URL based on the
- * keyword... saves on those nasty hacks that
- * were used in 1.0.X to do this.
- * 
- * Make sure you do the function_exists check! These
- * context files will be included multiple times
- */
- if (!function_exists('geshi_php_convert_url')) {
-    function geshi_php_convert_url ($keyword)
-    {
-        return 'http://www.php.net/' . $keyword;
-    }
-}
+$this->_complexFlag = GESHI_COMPLEX_TOKENISE;
 
 ?>

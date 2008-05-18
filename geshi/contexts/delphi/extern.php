@@ -33,98 +33,93 @@
  */
 
 $this->_contextDelimiters = array(
-    0 => array(
-        0 => array('exports'),
-        1 => array(';'),
-        2 => false
+    array(
+        array('exports'),
+        array(';'),
+        false
     ),
-    1 => array(
-        0 => array('external'),
-        1 => array(';'),
-        2 => false
+    array(
+        array('external'),
+        array(';'),
+        false
     )
 );
 
 $this->_childContexts = array(
     new GeSHiContext('delphi', $DIALECT, 'preprocessor'),
     new GeSHiContext('delphi', $DIALECT, 'multi_comment'),
-    new GeSHiContext('delphi', $DIALECT, 'common/single_comment'),
-    new GeSHiContext('delphi', $DIALECT, 'common/single_string_eol'),
+    new GeSHiContext('delphi', $DIALECT, 'single_comment'),
+    new GeSHiContext('delphi', $DIALECT, 'single_string'),
     new GeSHiCodeContext('delphi', $DIALECT, 'exports_brackets', 'delphi/' . $DIALECT)
 );
 
-//$this->_styler->setStyle($CONTEXT, 'color:#000;');
-//$this->_styler->setStyle($CONTEXT_START, 'color:#f00;font-weight:bold;');
-//$this->_styler->setStyle($CONTEXT_END, 'color:#00f;');
-$this->_startName = 'keywords';
+$this->_startName = 'keyword';
 $this->_endName   = 'ctrlsym';
 
 $this->_contextKeywords = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             'name','index','resident'
         ),
-        1 => $CONTEXT . '/keywords',
-        2 => 'color:#f00; font-weight:bold;',
-        3 => false,
-        4 => ''
-    ),
+        $CONTEXT . '/keyword',
+        false,
+        ''
+    )
 );
 
 $this->_contextSymbols  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
+            // @todo [blocking 1.1.5] [for ben]  the [ and ] symbols are repeated in both these arrays...
+            // in addition . is already in oopsym, perhaps this array is meant to go?
             ',', '[', ']', '.'
-            ),
-        1 => $CONTEXT . '/sym',
-        2 => 'color:#008000;'
         ),
-    1 => array(
-        0 => array(
+        $CONTEXT . '/symbol'
+    ),
+    array(
+        array(
             '(', ')', '[', ']'
-            ),
-        1 => $CONTEXT . '/brksym',
-        2 => 'color:#008000;'
-        )
+        ),
+        $CONTEXT . '/brksym',
+    )
 );
 
 $this->_contextRegexps  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             '/(#[0-9]+)/'
         ),
-        1 => '#',
-        2 => array(
-            1 => array($CONTEXT . '/char', 'color:#db9;', false)
+        '#',
+        array(
+            1 => array($CONTEXT . '/char', false)
         )
     ),
-    1 => array(
-        0 => array(
+    array(
+        array(
             '/(#\$[0-9a-fA-F]+)/'
         ),
-        1 => '#',
-        2 => array(
-            1 => array($CONTEXT . '/charhex', 'color:#db9;', false)
+        '#',
+        array(
+            1 => array($CONTEXT . '/charhex', false)
         )
     ),
-    2 => array(
-        0 => array(
+    array(
+        array(
             '/(\$[0-9a-fA-F]+)/'
         ),
-        1 => '$',
-        2 => array(
-            1 => array($CONTEXT . '/hex', 'color: #2bf;', false)
+        '$',
+        array(
+            1 => array($CONTEXT . '/hex', false)
         )
     ),
-    3 => geshi_use_integers($CONTEXT)
+    geshi_use_integers($CONTEXT)
 );
 
 $this->_objectSplitters = array(
-    0 => array(
-        0 => array('.'),
-        1 => $CONTEXT . '/oodynamic',
-        2 => 'color:#559;',
-        3 => false // If true, check that matched method isn't a keyword first
+    array(
+        array('.'),
+        $CONTEXT . '/oodynamic',
+        false
     )
 );
 

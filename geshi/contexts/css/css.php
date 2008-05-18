@@ -38,64 +38,59 @@ require_once GESHI_CLASSES_ROOT . 'css' . GESHI_DIR_SEPARATOR . 'class.geshicssi
 $this->_childContexts = array(
     new GeSHiCSSInlineMediaContext('css', $DIALECT, 'inline_media'),
     new GeSHiCodeContext('css',  $DIALECT, 'rule'),
-    new GeSHiContext('css',  $DIALECT, 'common/multi_comment'),
+    new GeSHiContext('css',  $DIALECT, 'comment'),
     new GeSHiContext('css',  $DIALECT, 'attribute_selector'),
     new GeSHiCodeContext('css', $DIALECT, 'at_rule')
 );
 
-$this->_styler->setStyle($CONTEXT, 'color:#000;');
-
 $this->_contextKeywords = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             '@font-face'
         ),
-        1 => $CONTEXT . '/atrules',
-        2 => 'color:#c9c;font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/at_rule/start',
+        false,
+        ''
     ),
-    1 => array(
-        0 => array(
+    
+    // Psuedoclasses
+    array(
+        array(
             'hover', 'link', 'visited', 'active', 'focus', 'first-child', 'first-letter',
             'first-line', 'before', 'after'
          ),
-         1 => $CONTEXT . '/psuedoclasses',
-         2 => 'color:#33f;',
-         3 => false,
-         4 => ''
+         $CONTEXT . '/psuedoclass',
+         false,
+         ''
      )
 );
 
 $this->_contextSymbols  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             ',', '*', '>', '+'
-            ),
-        // name (should names have / in them like normal contexts? YES
-        1 => $CONTEXT . '/sym',
-        // style
-        2 => 'color:#008000;'
-        )
+        ),
+        $CONTEXT . '/symbol',
+    )
 );
 
 $this->_contextRegexps  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             '#(\.[a-zA-Z][a-zA-Z0-9\-_]*)#'
         ),
-        1 => '.',
-        2 => array(
-            1 => array($CONTEXT . '/class', 'color:#c9c;', false)// Don't check whether the match is actually a keyword
+        '.',
+        array(
+            1 => array($CONTEXT . '/class', false)
         )
     ),
-    1 => array(
-        0 => array(
+    array(
+        array(
             '/(#[a-zA-Z][a-zA-Z0-9\-_]*)/'
         ),
-        1 => '#',
-        2 => array(
-            1 => array($CONTEXT . '/id', 'color:#c9c;font-weight:bold;', false)
+        '#',
+        array(
+            1 => array($CONTEXT . '/id', false)
         )
     )
 );

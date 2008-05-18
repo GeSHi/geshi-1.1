@@ -35,9 +35,8 @@
 /**
  * MAJOR TODOs:
  * 
- * @todo [blocking 1.1.1] (bug 5) Support balanced context endings
- * @todo [blocking 1.1.1] (bug 14) OCCs should be able to modify their parent context
- * @todo [blocking 1.1.1] (bug 16, 17) Better Delphi and Codeworker support
+ * @todo [blocking 1.1.1] (bug 7) Theming support
+ * @todo [blocking 1.1.1] (bug 2) Modify context information
  */
 
 // Set error level to E_ALL. This stops warnings about
@@ -46,7 +45,7 @@
 $geshi_old_reporting_level = error_reporting(E_ALL);
 
 /** GeSHi Version */
-define('GESHI_VERSION', '1.1.1alpha3');
+define('GESHI_VERSION', '1.1.1alpha4');
 
 /** Set the correct directory separator */
 define('GESHI_DIR_SEPARATOR', ('WIN' != substr(PHP_OS, 0, 3)) ? '/' : '\\');
@@ -155,6 +154,11 @@ define('GESHI_STYLE_SYMBOLS', 4);
 /** Used to mark a context as being like a method in 1.0.X */
 define('GESHI_STYLE_METHODS', 5);
 
+// Security
+if (!defined('GESHI_ALLOW_SYMLINK_PATHS')) {
+    define('GESHI_ALLOW_SYMLINK_PATHS', false);
+}
+
 /**#@+
  * @access private
  */
@@ -198,6 +202,12 @@ define('GESHI_NUM_DBL', 'num/dbl');
 
 /** Default file extension */
 define('GESHI_DEFAULT_FILE_EXTENSION', '.php');
+
+// Tokenise levels
+define('GESHI_COMPLEX_NO', 0);
+define('GESHI_COMPLEX_PASSALL', 1);
+define('GESHI_COMPLEX_TOKENISE', 2);
+define('GESHI_COMPLEX_TOKENIZE', GESHI_COMPLEX_TOKENISE);
 
 /**#@-*/
 
@@ -351,6 +361,7 @@ class GeSHi
      * Sets the source code to highlight
      *
      * @param string The source code to highlight
+     * @todo [blocking 1.1.1] Do we really care whether the source is "valid" or not?
      * @since 1.0.0
      */
     function setSource ($source)
@@ -391,14 +402,11 @@ class GeSHi
     {
         $this->_times['pre'][0] = microtime();
         geshi_dbg('GeSHi::setLanguage('.$language_name.')', GESHI_DBG_API);
-        $this->_language = strtolower($language_name);
+        $this->_language = $language_name;
         
         // Make a legal language name
-        if (false === strpos($this->_language, '/')) {
-            $this->_language .= '/'.$this->_language;
-            geshi_dbg('  Language name converted to '.$this->_language, GESHI_DBG_API);
-        }
-
+        $this->_language = GeSHi::_cleanLanguageName($this->_language); // strtolower, form/form
+        
         if ($this->_checkLanguageName()) {
             // load language now
             geshi_dbg('@o  Language name fine, loading data', GESHI_DBG_API);
@@ -434,6 +442,7 @@ class GeSHi
      * Sets the file extension to use when getting external php files
      * 
      * @param string The file extension for PHP files. Can be specified with or without the leading "."
+     * @todo Kill this, it can't be used in static methods for one thing
      * @since 1.1.0
      */
     function setFileExtension ($extension)
@@ -495,11 +504,176 @@ class GeSHi
     function setStyles ($selector, $styles)
     {
        geshi_dbg('GeSHi::setStyles(' . $selector . ', ' . $styles . ')', GESHI_DBG_API);
-       $this->_styler->setStyle($selector, $styles);
+       // @todo Make sure to load a theme here if necessary
+       $this->_styler->loadStyles($this->_language, true);
+       //$this->_styler->addUserStyle($selector, $styles);
+       $this->_styler->setRawStyle($selector, $styles);
+    }
+    
+    // }}}
+    // {{{ setTheme()
+    
+    /**
+     * Sets the theme to use
+     * 
+     * This method can take a list of themes as well as an array or just one theme, e.g.:
+     * 
+     * <code> $geshi->setTheme('theme');
+     * $geshi->setTheme(array('theme1', 'theme2'));
+     * $geshi->setTheme('theme1', 'theme2');</code>
+     * 
+     * (note the difference between the second and third calls)
+     * 
+     * @param mixed The theme name(s)
+     * @since 1.1.1
+     */
+    function setTheme ($theme)
+    {
+        geshi_dbg('GeSHi::setTheme(' . $theme . ')', GESHI_DBG_API);
+        $theme = GeSHi::_clean($theme);
+        geshi_dbg('  theme now' . $theme, GESHI_DBG_API);
+        if (func_num_args() > 1) {
+            $theme = func_get_args();
+            $theme = GeSHi::_clean($theme);
+        }
+        $this->_styler->useThemes($theme);
+    }
+    
+    // }}}
+    // {{{ themesSupportedBy()
+    
+    /**
+     * Returns the themes supported by the given language
+     * 
+     * The names returned are in the form that GeSHi reads them, i.e. they
+     * are not nice human strings. If you want the human form, use
+     * {@link GeSHi::getHumanThemeName()} on each name returned. 
+     * 
+     * @param string  $language The language to get supported themes for
+     * @param boolean $return_human If <kbd>true</kbd>, returns an array of
+     *                              theme name => human-readable name. Otherwise,
+     *                              just return an array of theme names.
+     * @return array A list of themes supported by the language. Note that
+     *               they are _not_ in preferred order
+     * @todo Make them in preferred order?
+     * @since 1.1.1
+     * @static
+     */
+    function themesSupportedBy ($language, $return_human = false)
+    {
+        $themes = array();
+        geshi_dbg('GeSHi::themesSupportedBy(' . $language . ')', GESHI_DBG_API);
+        $language = GeSHi::_cleanLanguageName($language);
+        geshi_dbg('  language now ' . $language, GESHI_DBG_API);
+
+        $dh = opendir(GESHI_THEMES_ROOT);
+        while (false !== ($theme_folder = readdir($dh))) {
+            if ('.' == $theme_folder || '..' == $theme_folder) continue;
+            if (is_readable(GESHI_THEMES_ROOT . $theme_folder
+                . GESHI_DIR_SEP . $language . '.php')) {
+                if ($return_human) {
+                    $themes[$theme_folder] = GeSHi::getHumanThemeName($theme_folder);
+                } else {
+                    $themes[] = $theme_folder;
+                }
+                
+                // Check for subthemes
+                $dh2 = opendir(GESHI_THEMES_ROOT . $theme_folder);
+                while (false !== ($subtheme_folder = readdir($dh2))) {
+                    if ('.' == $subtheme_folder || '..' == $subtheme_folder
+                        || !is_dir(GESHI_THEMES_ROOT . $theme_folder . GESHI_DIR_SEP . $subtheme_folder)) continue;
+                    if (is_readable(GESHI_THEMES_ROOT . $theme_folder . GESHI_DIR_SEP . $subtheme_folder
+                        . GESHI_DIR_SEP . $language . '.php')) {
+                        $subtheme_name = "$theme_folder/$subtheme_folder";
+                        if ($return_human) {
+                            $themes[$subtheme_name] = GeSHi::getHumanThemeName($subtheme_name);
+                        } else {
+                            $themes[] = $subtheme_name;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return $themes;
+    }
+    
+    // }}}
+    // {{{ languagesSupportedBy()
+    
+    /**
+     * Returns the languages supported by the given theme
+     * 
+     * @param string $theme The theme to get supported languages for
+     * @return array A list of languages supported by the theme, in the form:
+     * <pre> array(
+     *      'language' => array('dialect', 'dialect', ...),
+     *      'language' => array('dialect', ...)
+     * );</pre>
+     * 
+     * @since 1.1.1
+     * @static
+     */
+    function languagesSupportedBy ($theme)
+    {
+        geshi_dbg('GeSHi::languagesSupportedBy(' . $theme . ')', GESHI_DBG_API);
+        $languages = array();
+        $theme = GeSHi::_clean($theme);
+        geshi_dbg('  theme now ' . $theme, GESHI_DBG_API);
+        $theme_file = GESHI_THEMES_ROOT . $theme . GESHI_DIR_SEP . 'themeinfo.php';
+        if (is_readable($theme_file)) {
+            require $theme_file;
+            return $languages;
+        }
+        return array();
+    }
+    
+    // }}}
+    // {{{ getHumanThemeName()
+    
+    /**
+     * Given a theme name, return a human version of it
+     * 
+     * @param string $theme The theme name to get the human version of
+     * @return string The human theme name, or <kbd>false</kbd> if the
+     *                theme does not exist
+     * @static
+     * @since 1.1.1
+     */
+    function getHumanThemeName ($theme)
+    {
+        $human_name = '';
+        $theme = GeSHi::_clean($theme);
+        $theme_file = GESHI_THEMES_ROOT . $theme . GESHI_DIR_SEP . 'themeinfo.php';
+        if (is_readable($theme_file)) {
+            require $theme_file;
+            return $human_name;
+        }
+        return false;
+    }
+    
+    // }}}
+    // {{{ languageSupportsTheme()
+    
+    /**
+     * Given a theme and language, returns whether the them
+     * supports that language
+     * 
+     * @param string $theme    The name of the theme to check
+     * @param string $language The name of the language to check
+     * @return boolean         Whether the language supports the theme
+     * @static
+     * @since 1.1.1
+     */
+    function themeSupportsLanguage ($theme, $language)
+    {
+        $language = GeSHi::_cleanLanguageName($language);
+        return geshi_can_include(GESHI_THEMES_ROOT . $theme . GESHI_DIR_SEP . $language . '.php');
     }
     
     // }}}
     // {{{ getVersion()
+    
     /**
      * Returns the version of this GeSHi
      * 
@@ -508,8 +682,8 @@ class GeSHi
      */
     function getVersion ()
     {
-    	geshi_dbg('GeSHi::getVersion()', GESHI_DBG_API);
-    	return GESHI_VERSION;
+        geshi_dbg('GeSHi::getVersion()', GESHI_DBG_API);
+        return GESHI_VERSION;
     }
     
     // }}}
@@ -523,7 +697,7 @@ class GeSHi
      */
     function get_version ()
     {
-    	return GeSHi::getVersion();
+        return GeSHi::getVersion();
     }
 
     // }}}
@@ -533,6 +707,7 @@ class GeSHi
      * Syntax-highlights the source code
      * 
      * @return string The source code, highlighted
+     * @since 1.0.0
      */
     function parseCode ()
     {
@@ -548,8 +723,6 @@ class GeSHi
             return $result;
         }
 
-        //@todo [blocking 1.1.5] does this space still need to be added?
-        //$code = ' ' . $this->_source;
         // Runtime setup of context tree/styler info
         // Prepare the styler for parsing 
         $this->_styler->resetParseData($this->_language);
@@ -638,7 +811,7 @@ class GeSHi
         }
 
         // Check that the language file for this language exists
-        $language_file = $this->_getLanguageDataFile();
+        $language_file = GESHI_LANGUAGES_ROOT . $this->_getLanguageDataFile();
         geshi_dbg('  Language file to use: ' . $language_file, GESHI_DBG_API);
         
         if (!geshi_can_include($language_file)) {
@@ -697,24 +870,20 @@ class GeSHi
         if ($this->_error) {
             return;
         }
+        
+        // Tell styler what language we are using
+        $this->_styler->language = $this->_language;
 
         // Load all the data needed for parsing this language
         $language_file = $this->_getLanguageDataFile();
         geshi_dbg('  Loading language data from ' . $language_file, GESHI_DBG_API);
-        require $language_file;
+        require GESHI_LANGUAGES_ROOT . $language_file;
 
         if ($error_data = $this->_rootContext->load($this->_styler)) {
             geshi_dbg('@e  Could not load the context data tree: code(' . $error_data['code'] . ') in context '
                 . $error_data['name'], GESHI_DBG_API | GESHI_DBG_ERR);
             $this->_error = $error_data['code'];
         }
-        
-        // Inform the context tree that all contexts have been loaded, so it is OK to search through
-        // the tree for default styles as needed.        
-        $this->_rootContext->loadStyleData(); 
-        
-        // Save a copy of the root context if we are caching 
-        //$this->_cachedRootContext = ($this->_cacheRootContext) ? $this->_rootContext : null;
         
         geshi_dbg('Finished preprocessing', GESHI_DBG_API);       
     }
@@ -776,14 +945,35 @@ class GeSHi
     function _getLanguageDataFile ()
     {
         geshi_dbg('GeSHi::_getLanguageDataFile()', GESHI_DBG_API);
-        if ('/' == GESHI_DIR_SEPARATOR) {
+        if ('/' == GESHI_DIR_SEP) {
             $language_file = $this->_language . $this->_styler->fileExtension;
         } else {
             $language_file = explode('/', $this->_language);
-            $language_file = implode(GESHI_DIR_SEPARATOR, $language_file) . $this->_styler->fileExtension;
+            $language_file = implode(GESHI_DIR_SEP, $language_file) . $this->_styler->fileExtension;
         }
         geshi_dbg('Language file is ' . $language_file, GESHI_DBG_API);
-        return GESHI_LANGUAGES_ROOT . $language_file;
+        return $language_file;
+    }
+    
+    // }}}
+    // {{{ _clean()
+    
+    function _clean ($data)
+    {
+        return preg_replace('#[^a-z0-9/]#', '', $data);
+    }
+    
+    // }}}
+    // {{{ _cleanLanguageName()
+    
+    function _cleanLanguageName ($language)
+    {
+        $language = strtolower($language);
+        if (false === strpos($language, '/')) {
+            $language .= '/' . $language;
+        }
+        $language = preg_replace('#[^a-z0-9/]#', '', $language);
+        return $language;
     }
     
     // }}}

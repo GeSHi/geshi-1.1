@@ -33,23 +33,21 @@
  */
  
 $this->_contextDelimiters = array(
-    0 => array(
-        0 => array('"'),
-        1 => array('"'),
-        2 => false
+    array(
+        array('"'),
+        array('"'),
+        false
     ),
-    1 => array(
-        0 => array("'"),
-        1 => array("'"),
-        2 => false
+    array(
+        array("'"),
+        array("'"),
+        false
     )
 );
 
-$this->_styler->setStyle($CONTEXT, 'color:#f00;');
 $this->_contextStyleType = GESHI_STYLE_STRINGS;
 
 $this->_escapeCharacters = array('\\');
 $this->_charsToEscape = array('\\', 'A', 'DELIM');
-$this->_styler->setStyle($CONTEXT . '/esc', 'color:#006;font-weight:bold;');
 
 ?>

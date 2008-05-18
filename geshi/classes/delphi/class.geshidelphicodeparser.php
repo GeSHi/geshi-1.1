@@ -97,6 +97,20 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
      */
     var $_semicolonFlag = false;
 
+    /**
+     * Flag for ASM block detection
+     * @var boolean
+     * @access private
+     */
+    var $_inASMBlock = false;
+
+    /**
+     * Flag for instruction detection in ASM
+     * @var boolean
+     * @access private
+     */
+    var $_instrExpected = false;
+
     // }}}
     // {{{ _stackPush()
 
@@ -147,6 +161,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
         //Check for linebraks...
         if (false !== stripos($token, "\n")) {
             $this->_semicolonFlag = false;
+            $this->_instrExpected = true;
         }
 
         //Check if we got a whitespace
@@ -169,7 +184,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
         // a mistake with parsing.
         if (2 == $this->_defaultFlag) {
             if ('default' == $token_l) {
-                $context_name = $this->_language . '/keywords';
+                $context_name = $this->_language . '/keyword';
                 $this->_defaultFlag = 0;
             } elseif ('' != trim($token)) {
                 $this->_defaultFlag = 0;
@@ -200,28 +215,58 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
             }
         }
 
-        if ('begin' == $token_l ||
-            'case' == $token_l ||
-            'class' == $token_l ||
-            'object' == $token_l ||
-            'record' == $token_l ||
-            'try' == $token_l ||
-            'asm' == $token_l) {
-            $this->_openBlockCount++;
-            $this->_openBlockType[] = $token_l;
-            if (2 <= ($obc = $this->_openBlockCount)) {
-                //Check if we have a casxe statement inside a record definition.
-                if ('record' == $this->_openBlockType[$obc-2] && 'case' == $this->_openBlockType[$obc-1]) {
-                    array_pop($this->_openBlockType);
-                    $this->_openBlockCount--;
+        if (!stripos($context_name, 'comment')) {
+            if ('begin' == $token_l ||
+                'case' == $token_l ||
+                'class' == $token_l ||
+                'object' == $token_l ||
+                'record' == $token_l ||
+                'try' == $token_l ||
+                'asm' == $token_l) {
+                geshi_dbg('Detected opening block "'.$token_l.'" on level BC' . $this->_bracketCount . '\OBC' . $this->_openBlockCount . '...' . stripos($context_name, 'comment'), GESHI_DBG_PARSE);
+
+                $this->_openBlockCount++;
+                $this->_openBlockType[] = $token_l;
+                if (2 <= ($obc = $this->_openBlockCount)) {
+                    //Check if we have a casxe statement inside a record definition.
+                    if ('record' == $this->_openBlockType[$obc-2] && 'case' == $this->_openBlockType[$obc-1]) {
+                        array_pop($this->_openBlockType);
+                        $this->_openBlockCount--;
+                    }
+                }
+
+                $this->_instrExpected = true;
+                $this->_inASMBlock = true;
+            }
+            if ('end' == $token_l) {
+                if (--$this->_openBlockCount < 0) {
+                    $this->_openBlockCount = 0;
+                }
+                array_pop($this->_openBlockType);
+                geshi_dbg('Detected closing block "'.$token_l.'" on level BC' . $this->_bracketCount . '\OBC' . $this->_openBlockCount . '...' . stripos($context_name, 'comment'), GESHI_DBG_PARSE);
+
+                if ($this->_inASMBlock) {
+                    $this->_inASMBlock = true;
                 }
             }
         }
-        if ('end' == $token_l) {
-            if (--$this->_openBlockCount < 0) {
-                $this->_openBlockCount = 0;
+
+        if ($this->_inASMBlock) {
+            if ($this->_instrExpected) {
+                $this->_instrExpected = false;
+            } else {
+                if ($token_l == 'and' ||
+                    $token_l == 'not' ||
+                    $token_l == 'or' ||
+                    $token_l == 'shl' ||
+                    $token_l == 'shr' ||
+                    $token_l == 'xor') {
+                    $context_name = $this->_language . '/asm/keyop';
+                }
             }
-            array_pop($this->_openBlockType);
+            if (trim($token) == ';') {
+                $this->_instrExpected = true;
+            }
         }
 
         // If we detect a semicolon we require remembering it, thus we can highlight the register directive correctly.
@@ -241,15 +286,12 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
                     }
                 }
 
-                $context_name .= ($isDirective ? '/keywords' : '');
+                $context_name .= ($isDirective ? '/keyword' : '');
             } elseif ('message' == $token_l) {
                 if (1 == $this->_openBlockCount) {
                     $isDirective &= 'class' == $this->_openBlockType[$this->_openBlockCount-1];
                 }
-                $context_name .= ($isDirective ? '/keywords' : '');
-            } else {
-                //Simply ignore ... no changes have to be done ...
-                //return array($token, $context_name, $data);
+                $context_name .= ($isDirective ? '/keyword' : '');
             }
         }
         // There will be something else than a semicolon, so we finish semicolon detection here
@@ -271,7 +313,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
 
         // If we detected a keyword, instead of passing it back we will make sure it has a bracket
         // after it, so we know for sure that it is a keyword. So we save it to "_store" and return false
-        if (substr($context_name, 0, strlen($this->_language . '/stdprocs')) == $this->_language . '/stdprocs') {
+        if (substr($context_name, 0, strlen($this->_language . '/stdproc')) == $this->_language . '/stdproc') {
             $this->_stackPush($token, $context_name, $data);
             return false;
         }

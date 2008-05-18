@@ -154,6 +154,13 @@ class GeSHiContext
      * @var boolean
      */
     var $_neverTrim = false;
+    
+    /**
+     * Whether this context should be broken up by whitespace
+     * for the code parser (GESHI_COMPLEX_* constants)
+     * @var int
+     */
+    var $_complexFlag = GESHI_COMPLEX_NO;
     /**#@-*/
     
     // }}}
@@ -182,13 +189,9 @@ class GeSHiContext
             $this->_fileName = $this->_contextName = $language_name . '/' . $dialect_name;
             return;
         }
-        if (0 === strpos($context_name, 'common')) {
-            $this->_fileName = $context_name;
-            // Strip "common/" from context name to get the actual name...
-            $context_name = substr($context_name, 7);
-        } else {
-            $this->_fileName = $language_name . '/' . $context_name;
-        }
+        
+        $this->_fileName = $language_name . '/' . $context_name;
+
         if ($alias_name) {
             $this->_contextName = $alias_name;
             $this->_isAlias     = true;
@@ -285,8 +288,6 @@ class GeSHiContext
         
         // Load the data for this context
         $CONTEXT = $this->_contextName;
-        $CONTEXT_START = "$this->_contextName/$this->_startName";
-        $CONTEXT_END   = "$this->_contextName/$this->_endName";
         $DIALECT = $this->_dialectName;
         // @todo [blocking 1.1.5] This needs testing to see if it is faster
         if (false) {
@@ -350,30 +351,6 @@ class GeSHiContext
         $this->_infectiousContext =& $context;
         //geshi_dbg('  Added infectious context ' . $context->getName()
         //    . ' to ' . $this->getName(), GESHI_DBG_NOTICE + GESHI_DBG_LOADING);
-    }
-    
-    // }}}
-    // {{{ loadStyleData()
-    
-    /**
-     * Loads style data for the given context. Not implemented here, but can be overridden
-     * by a child class to get style data from its parent
-     * 
-     * Note to self: This is needed by GeSHiCodeContext, so don't touch it!
-     */
-    function loadStyleData ()
-    {
-        //geshi_dbg('Loading style data for context ' . $this->getName(), GESHI_DBG_INFO + GESHI_DBG_LOADING);
-        // Recursively load the child contexts
-        $keys = array_keys($this->_childContexts);
-        foreach ($keys as $key) {
-            $this->_childContexts[$key]->loadStyleData();
-        }
-        
-        // Load the style data for the overriding child context, if any
-        if ($this->_overridingChildContext) {
-            $this->_overridingChildContext->loadStyleData();
-        }        
     }
     
     // }}}
@@ -858,7 +835,7 @@ class GeSHiContext
      */
     function _addParseData ($code, $first_char_of_next_context = '')
     {
-       $this->_styler->addParseData($code, $this->_contextName, $this->_getExtraParseData());
+       $this->_styler->addParseData($code, $this->_contextName, $this->_getExtraParseData(), $this->_complexFlag);
     }
     
     // }}}
@@ -869,7 +846,7 @@ class GeSHiContext
      */
     function _addParseDataStart ($code)
     {
-        $this->_styler->addParseDataStart($code, $this->_contextName, $this->_startName);
+        $this->_styler->addParseDataStart($code, $this->_contextName, $this->_startName, $this->_complexFlag);
     }
     
     // }}}
@@ -880,7 +857,7 @@ class GeSHiContext
      */
     function _addParseDataEnd ($code)
     {
-        $this->_styler->addParseDataEnd($code, $this->_contextName, $this->_endName);
+        $this->_styler->addParseDataEnd($code, $this->_contextName, $this->_endName, $this->_complexFlag);
     }
     
     // }}}

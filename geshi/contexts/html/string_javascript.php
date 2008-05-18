@@ -33,14 +33,13 @@
  */
 
 $this->_contextDelimiters = array(
-    0 => array(
-        0 => array('REGEX#^return#', 'REGEX#^javascript:#'),
-        1 => array('"'),
-        2 => false
+    array(
+        array('REGEX#^return#', 'REGEX#^javascript:#'),
+        array('"'),
+        false
     )
 );
 
-// Here is mentioned flag:
 $this->_neverTrim = true;
 
 // If this is set to parse any of the delimiters, the OCC swallows it up - setStartStyle and

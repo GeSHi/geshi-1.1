@@ -40,18 +40,11 @@ $this->_contextDelimiters = array(
 	)
 );
 
-$this->_styler->setStyle($this->_contextName, 'color:#f00;');
 $this->_contextStyleType = GESHI_STYLE_STRINGS;
 
 // String only stuff
 $this->_escapeCharacters = array('\\');
 // Escapes can be defined by regular expressions. 
 $this->_charsToEscape = array('n', 'r', 't', 'REGEX#[0-7]{1,3}#', 'REGEX#x[0-9a-f]{1,2}#i', '\\', '"', '$');
-$this->_styler->setStyle($CONTEXT . '/esc', 'color:#006;font-weight:bold;');
-
-// GeSHiPHPDoubleStringContext stuff
-$this->_styler->setStyle($CONTEXT . '/var', 'color:#22f;');
-$this->_styler->setStyle($CONTEXT . '/sym0', 'color:#008000;');
-$this->_styler->setStyle($CONTEXT . '/oodynamic', 'color:#933;');
 
 ?>

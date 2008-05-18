@@ -54,6 +54,26 @@ class GeSHiStyler
      */    
     var $fileExtension;
     
+    /**
+     * Array of themes to attempt to use for highlighting, in
+     * preference order
+     * 
+     * @var array
+     */
+    var $themes = array('default');
+    
+    /**
+     * @var string
+     * Note: only set once language name is determined to be valid
+     * @todo [blocking 1.1.1] Some methods use this by parameter in this class, perhaps they could use this field?
+     */
+    var $language = '';
+    
+    /**
+     * @var boolean
+     */
+    var $reloadThemeData = true;
+    
     /**#@+
      * @access private
      */
@@ -61,6 +81,11 @@ class GeSHiStyler
      * @var array
      */
     var $_styleData = array();
+    
+    /**
+     * @var array
+     */
+    var $_wildcardStyleData = array();
     
     /**
      * @var array
@@ -81,22 +106,41 @@ class GeSHiStyler
      * @var string
      */
     var $_parsedCode = '';
+    
     /**#@-*/
     
     // }}}
     // {{{ setStyle()
     
     /**
-     * Sets the style of a specific context
+     * Sets the style of a specific context. Language name is prefixed,
+     * to make theme files shorter and easier
      */
     function setStyle ($context_name, $style, $start_name = 'start', $end_name = 'end')
     {
-        // @todo [blocking 1.1.1] Why is this called sometimes with blank data?
         geshi_dbg('GeSHiStyler::setStyle(' . $context_name . ', ' . $style . ')', GESHI_DBG_PARSE);
-        $this->_styleData[$context_name] = $style;
+        if ($context_name) {
+            $context_name = "/$context_name";
+        }
+        $this->setRawStyle($this->language . $context_name, $style);
     }
     
     // }}}
+    // {{{ setRawStyle()
+    
+    /**
+     * Sets styles with explicit control over style name
+     */
+    function setRawStyle ($context_name, $style)
+    {
+        if (substr($context_name, -1) != '*') {
+            $this->_styleData[$context_name] = $style;
+        } else {
+            $this->_wildcardStyleData[substr($context_name, 0, -2)] = $style;
+        }
+    }
+    
+    // }}}        
     // {{{ removeStyleData()
     
     /**
@@ -121,17 +165,63 @@ class GeSHiStyler
         }
         // If style for starter/ender requested and we got here, use the default
         if ('/end' == substr($context_name, -4)) {
-            $this->_styleData[$context_name] = $this->_styleData[substr($context_name, 0, -4)];
+            $this->_styleData[$context_name] = $this->getStyle(substr($context_name, 0, -4));
             return $this->_styleData[$context_name]; 
         }
         if ('/start' == substr($context_name, -6)) {
-            $this->_styleData[$context_name] = $this->_styleData[substr($context_name, 0, -6)];
+            $this->_styleData[$context_name] = $this->getStyle(substr($context_name, 0, -6));
             return $this->_styleData[$context_name]; 
         }
-         
+        
+        // Check for a one-level wildcard match
+        $wildcard_idx = substr($context_name, 0, strrpos($context_name, '/'));
+        if (isset($this->_wildcardStyleData[$wildcard_idx])) {
+            $this->_styleData[$context_name] = $this->_wildcardStyleData[$wildcard_idx];
+            return $this->_wildcardStyleData[$wildcard_idx];
+        }
+        
+        // Maybe a deeper match?
+        foreach ($this->_wildcardStyleData as $context => $style) {
+            if (substr($context_name, 0, strlen($context)) == $context) {
+                $this->_styleData[$context_name] = $style;
+                return $style;
+            }
+        }
+        
         //@todo [blocking 1.1.5] Make the default style for otherwise unstyled elements configurable
         $this->_styleData[$context_name] = 'color:#000;';
         return 'color:#000;';
+    }
+    
+    // }}}
+    // {{{ loadStyles()
+    
+    function loadStyles ($language, $load_theme = false) {
+        geshi_dbg('GeSHiStyler::loadStyles(' . $language . ')', GESHI_DBG_PARSE);
+        if ($this->reloadThemeData) {
+            geshi_dbg('  Loading theme data', GESHI_DBG_PARSE);
+            // Trash old data
+            if ($load_theme) {
+                geshi_dbg('  Old data trashed', GESHI_DBG_PARSE);
+                $this->_styleData = array();
+            }
+            
+            // Lie for a short while, to get extra style names to behave
+            $tmp = $this->language;
+            $this->language = $language;
+            foreach ($this->themes as $theme) {
+                $theme_file = GESHI_THEMES_ROOT . $theme . GESHI_DIR_SEP . $language . $this->fileExtension;
+                if (is_readable($theme_file)) {
+                    require $theme_file;
+                    break;
+                }
+            }
+            
+            if ($load_theme) {
+                $this->reloadThemeData = false;
+            }
+            $this->language = $tmp;
+        }
     }
     
     // }}}
@@ -162,6 +252,9 @@ class GeSHiStyler
             require_once GESHI_RENDERERS_ROOT . 'class.geshirendererhtml.php';
             $this->_renderer =& new GeSHiRendererHTML($this);
         }
+        
+        // Load theme data now
+        $this->loadStyles($language, true);
     }
 
     // }}}
@@ -182,6 +275,21 @@ class GeSHiStyler
     }
     
     // }}}
+    // {{{ useThemes()
+    
+    /**
+     * Sets the themes to use
+     */
+    function useThemes ($themes)
+    {
+        $themes = (array) $themes;
+        $this->themes = array_merge($themes, $this->themes);
+        $this->themes = array_unique($this->themes);
+        // Could check here: get first element of orig. $this->themes, if different now then reload
+        $this->reloadThemeData = true;
+    }
+    
+    // }}}
     // {{{ addParseData()
     
     /**
@@ -189,46 +297,58 @@ class GeSHiStyler
      * data on to the code parser, then to the renderer for
      * building the result string
      */    
-    function addParseData ($code, $context_name, $url = '')
+    function addParseData ($code, $context_name, $data = null, $complex = false)
     {
         // @todo [blocking 1.1.5] test this, esp. not passing back anything and passing back multiple
         // can use PHP code parser for this
         // @todo [blocking 1.1.9] since we are only looking for whitespace at start and end this can
         // be optimised
-        $matches = array();
-        preg_match_all('/^(\s*)(.*?)(\s*)$/si', $code, $matches);
-        //echo 'START<br />';
-        //print_r($matches);
-        if ($matches[1][0]) {
-            $this->_addToParsedCode($this->_codeParser->parseToken($matches[1][0], $context_name, $url));
-        }
-        if ('' != $matches[2][0]) {
-            while ('' != $matches[2][0]) {
-                $pos = geshi_get_position($matches[2][0], 'REGEX#(\s+)#');
-                if (false !== $pos['pos']) {
-                    // Parse the token up to the whitespace
-                    //echo 'code: |' . substr($matches[2][0], 0, $pos['pos']) . '|<br />';
-                    $this->_addToParsedCode(
-                        $this->_codeParser->parseToken(substr($matches[2][0], 0, $pos['pos']), $context_name, $url)
-                    );
-                    // Parse the whitespace
-                    //echo 'ws: |' . substr($matches[2][0], $pos['pos'], $pos['len']) . '|<br />';
-                    $this->_addToParsedCode(
-                        $this->_codeParser->parseToken(substr($matches[2][0], $pos['pos'], $pos['len']), $context_name, $url)
-                    );
-                    // Trim what we just parsed
-                    $matches[2][0] = substr($matches[2][0], $pos['pos'] + $pos['len']);
-                } else {
-                    // No more whitespace
-                    //echo 'no more whitespace: |' . $matches[2][0] . '<br />';
-                    $this->_addToParsedCode($this->_codeParser->parseToken($matches[2][0], $context_name, $url));
-                    break;
+        if (GESHI_COMPLEX_NO == $complex) {
+            $this->_addToParsedCode(array($code, $context_name, $data));
+        } elseif (GESHI_COMPLEX_PASSALL == $complex) {
+            // Parse all at once
+            $this->_addToParsedCode($this->_codeParser->parseToken($code, $context_name, $data));
+        } elseif (GESHI_COMPLEX_TOKENISE == $complex) {
+            $matches = array();
+            preg_match_all('/^(\s*)(.*?)(\s*)$/si', $code, $matches);
+            //echo 'START<br />';
+            //print_r($matches);
+            if ($matches[1][0]) {
+                $this->_addToParsedCode($this->_codeParser->parseToken($matches[1][0],
+                    $context_name, $data));
+            }
+            if ('' != $matches[2][0]) {
+                while ('' != $matches[2][0]) {
+                    $pos = geshi_get_position($matches[2][0], 'REGEX#(\s+)#');
+                    if (false !== $pos['pos']) {
+                        // Parse the token up to the whitespace
+                        //echo 'code: |' . substr($matches[2][0], 0, $pos['pos']) . '|<br />';
+                        $this->_addToParsedCode(
+                            $this->_codeParser->parseToken(substr($matches[2][0], 0, $pos['pos']),
+                            $context_name, $data)
+                        );
+                        // Parse the whitespace
+                        //echo 'ws: |' . substr($matches[2][0], $pos['pos'], $pos['len']) . '|<br />';
+                        $this->_addToParsedCode(
+                            $this->_codeParser->parseToken(substr($matches[2][0], $pos['pos'], $pos['len']),
+                            $context_name, $data)
+                        );
+                        // Trim what we just parsed
+                        $matches[2][0] = substr($matches[2][0], $pos['pos'] + $pos['len']);
+                    } else {
+                        // No more whitespace
+                        //echo 'no more whitespace: |' . $matches[2][0] . '<br />';
+                        $this->_addToParsedCode($this->_codeParser->parseToken($matches[2][0],
+                            $context_name, $data));
+                        break;
+                    }
                 }
             }
-        }
-        if ($matches[3][0]) {
-            $this->_addToParsedCode($this->_codeParser->parseToken($matches[3][0], $context_name, $url));
-        }
+            if ($matches[3][0]) {
+                $this->_addToParsedCode($this->_codeParser->parseToken($matches[3][0],
+                    $context_name, $data));
+            }
+        } // else wtf???
     }
     
     // }}}
@@ -253,17 +373,17 @@ class GeSHiStyler
     // }}}
     // {{{ addParseDataStart()
     
-    function addParseDataStart ($code, $context_name, $start_name = 'start')
+    function addParseDataStart ($code, $context_name, $start_name = 'start', $complex = false)
     {
-    	$this->addParseData($code, "$context_name/$start_name");
+    	$this->addParseData($code, "$context_name/$start_name", null, $complex);
     }
     
     // }}}
     // {{{ addParseDataEnd()
     
-    function addParseDataEnd ($code, $context_name, $end_name = 'end')
+    function addParseDataEnd ($code, $context_name, $end_name = 'end', $complex = false)
     {
-    	$this->addParseData($code, "$context_name/$end_name");
+    	$this->addParseData($code, "$context_name/$end_name", null, $complex);
     }
     
     // }}}
@@ -271,6 +391,9 @@ class GeSHiStyler
     
     function getParsedCode ()
     {
+        // Flush the last of the code
+        $this->_addToParsedCode($this->_codeParser->flush());
+        
         $result = $this->_renderer->getHeader() . $this->_parsedCode . $this->_renderer->getFooter();
         $this->_parsedCode = '';
         return $result;

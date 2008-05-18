@@ -33,18 +33,15 @@
  */
 
 $this->_contextDelimiters = array(
-    0 => array(
-        0 => array('<!DOCTYPE '),
-        1 => array('>'),
-        2 => false
+    array(
+        array('<!DOCTYPE '),
+        array('>'),
+        false
     )
 );
 
 $this->_childContexts = array(
-    // HTML strings have no escape characters, so the don't need to be GeSHiStringContexts
     new GeSHiContext('html',  $DIALECT, 'string')
 );
-
-$this->_styler->setStyle($CONTEXT, 'font-weight:bold;color:#933;');
 
 ?>

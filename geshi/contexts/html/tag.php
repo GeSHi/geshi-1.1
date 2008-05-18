@@ -33,26 +33,21 @@
  */
 
 $this->_contextDelimiters = array(
-    0 => array(
-        0 => array('REGEX#<[/a-z_0-6]+#i'),
-        1 => array('>'),
-        2 => false
+    array(
+        array('REGEX#<[/a-z_0-6]+#i'),
+        array('>'),
+        false
     )
 );
 
 $this->_childContexts = array(
-    // HTML strings have no escape characters, so the don't need to be GeSHiStringContexts
     new GeSHiContext('html',  $DIALECT, 'string')
 );
 
-$this->_styler->setStyle($CONTEXT, 'color:#008000;');
-$this->_styler->setStyle($CONTEXT_START, 'font-weight:bold;color:#000;');
-$this->_styler->setStyle($CONTEXT_END, 'font-weight:bold;color:#000;');
-
 $this->_contextKeywords = array(
-    0 => array(
-        // keywords
-        0 => array(
+    // Attributes
+    array(
+        array(
             'abbr', 'accept-charset', 'accept', 'accesskey', 'action', 'align',
             'alink', 'alt', 'archive', 'axis', 'background', 'bgcolor', 'border',
             'cellpadding', 'cellspacing', 'char', 'charoff', 'charset', 'checked',
@@ -72,27 +67,19 @@ $this->_contextKeywords = array(
             'summary', 'tabindex', 'target', 'text', 'title', 'type', 'usemap',
             'valign', 'value', 'valuetype', 'version', 'vlink', 'vspace', 'width'
         ),
-        // name
-        1 => $CONTEXT . '/attrs',
-        // style
-        2 => 'color:#006;',
-        // case sensitive
-        3 => false,
-        // url
-        4 => ''
-        )
+        $CONTEXT . '/attribute',
+        false,
+        ''
+    )
 );
 
 $this->_contextSymbols  = array(
-    0 => array(
-        0 => array(
-            '='
-            ),
-        // name (should names have / in them like normal contexts? YES
-        1 => $CONTEXT . '/sym',
-        // style
-        2 => 'color:#008000;'
-        )
+    array(
+        array(
+            '=', '/'
+        ),
+        $CONTEXT . '/symbol',
+    )
 );
 
 ?>

@@ -37,7 +37,8 @@
  * 
  * [notes about language]
  * 
- * [notes about this implementation of the language]
+ * The @font-face rule is NOT properly covered at this time (however, its general
+ * usage is near nil).
  * 
  */
 

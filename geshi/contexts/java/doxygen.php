@@ -33,13 +33,14 @@
  */
 
 $this->_contextDelimiters = array(
-    0 => array(
-        0 => array('/**'),
-        1 => array('*/'),
-        2 => false
+    array(
+        array('/**'),
+        array('*/'),
+        false
     )
 );
 
-$this->_overridingChildContext = new GeSHiContext('doxygen');
+$this->_overridingChildContext =& new GeSHiContext('doxygen');
+$this->_complexFlag = GESHI_COMPLEX_PASSALL;
 
 ?>

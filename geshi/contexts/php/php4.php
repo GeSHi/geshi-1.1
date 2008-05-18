@@ -38,69 +38,81 @@ require_once GESHI_CLASSES_ROOT . 'class.geshistringcontext.php';
 require_once GESHI_CLASSES_ROOT . 'php' . GESHI_DIR_SEPARATOR . 'class.geshiphpdoublestringcontext.php';
 
 $this->_contextDelimiters = array(
-	0 => array(
-		0 => array('<?php', '<?'),
-		1 => array('?>'),
-		2 => true
+	array(
+		array('<?php', '<?'),
+		array('?>'),
+		true
 	),
-	1 => array(
-		0 => array('<%'),
-		1 => array('%>'),
-		2 => false
+	array(
+		array('<%'),
+		array('%>'),
+		false
 	)
 );
 
 $this->_childContexts = array(
-    new GeSHiStringContext('php',  $DIALECT, 'common/single_string'),
+    new GeSHiStringContext('php',  $DIALECT, 'single_string'),
     new GeSHiPHPDoubleStringContext('php',  $DIALECT, 'double_string'),
     new GeSHiPHPDoubleStringContext('php',  $DIALECT, 'heredoc'),
-    // PHP single comment, with # starter and end-php-context ender
     new GeSHiContext('php',  $DIALECT, 'single_comment'),
-    // Use common multi comment since it is a PHP comment...
-    new GeSHiContext('php',  $DIALECT, 'common/multi_comment'),
+    new GeSHiContext('php',  $DIALECT, 'multi_comment'),
     new GeSHiContext('php',  $DIALECT, 'doxygen')
 );
 
-$this->_styler->setStyle($CONTEXT_START, 'color:#000;font-weight:bold;');
-$this->_styler->setStyle($CONTEXT_END, 'color:#000;font-weight:bold;');
-
 $this->_contextKeywords = array(
-    0 => array(
-        0 => array(
-            'as', 'break', 'case', 'continue', 'declare', 'do', 'else', 'elseif',
+    // Basic keywords
+    array(
+        array(
+            'as', 'break', 'case', 'continue', 'do', 'declare', 'else', 'elseif',
             'endforeach', 'endif', 'endswitch', 'endwhile', 'for', 'foreach', 'if',
             'include', 'include_once', 'require', 'require_once', 'return', 'switch',
-            'while'
+            'while',
+            'class', 'default',
+            'extends', 'function', 'new',
+            'parent', 'var',
+            'real', 'double'
         ),
-        1 => $CONTEXT . '/cstructures',
-        2 => 'color:#b1b100;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/keyword',
+        false,
+        ''
     ),
-    1 => array(
-        0 => array(
+    
+    // Keywords that have php.net manual entries
+    array(
+        array(
+            'echo', 'print', 'array', 'isset', 'unset', 'int', 'integer',
+            'bool', 'boolean', 'float', 'string'
+        ),
+        $CONTEXT . '/keyword',
+        false,
+        'http://www.php.net/{FNAME}'
+    ),
+    
+    // Constants
+    array(
+        array(
             'DEFAULT_INCLUDE_PATH', 'E_ALL', 'E_COMPILE_ERROR', 'E_COMPILE_WARNING',
             'E_CORE_ERROR', 'E_CORE_WARNING', 'E_ERROR', 'E_NOTICE', 'E_PARSE',
-            'E_USER_ERROR', 'E_USER_NOTICE', 'E_USER_WARNING',
+            'E_STRICT', 'E_USER_ERROR', 'E_USER_NOTICE', 'E_USER_WARNING',
             'E_WARNING', 'FALSE', 'NULL', 'PEAR_EXTENSION_DIR', 'PEAR_INSTALL_DIR',
             'PHP_BINDIR', 'PHP_CONFIG_FILE_PATH', 'PHP_DATADIR', 'PHP_EXTENSION_DIR',
             'PHP_LIBDIR', 'PHP_LOCALSTATEDIR', 'PHP_OS', 'PHP_OUTPUT_HANDLER_CONT',
             'PHP_OUTPUT_HANDLER_END', 'PHP_OUTPUT_HANDLER_START', 'PHP_SYSCONFDIR',
             'PHP_VERSION', 'TRUE', '__CLASS__', '__FILE__', '__FUNCTION__',
-            '__LINE__', '__METHOD__', 'class', 'default',
-            'extends', 'function', 'new', 'parent', 'static', 'var'
+            '__LINE__', '__METHOD__'
         ),
-        1 => $CONTEXT . '/keywords',
-        2 => 'color:#000;font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/constant',
+        false,
+        ''
     ),
-    2 => array(
-        0 => array(
+    
+    // Functions
+    array(
+        array(
             // @todo [blocking 1.1.9] This list of functions is for php5... should get one for php4 only
             'abs', 'acos', 'acosh', 'addcslashes', 'addslashes',
             'apache_child_terminate', 'apache_lookup_uri', 'apache_note',
-            'apache_setenv', 'array', 'array_change_key_case', 'array_chunk',
+            'apache_setenv', 'array_change_key_case', 'array_chunk',
             'array_count_values', 'array_diff', 'array_fill', 'array_filter',
             'array_flip', 'array_intersect', 'array_key_exists', 'array_keys',
             'array_map', 'array_merge', 'array_merge_recursive', 'array_multisort',
@@ -356,7 +368,7 @@ $this->_contextKeywords = array(
             'is_int', 'is_integer', 'is_link', 'is_long', 'is_nan', 'is_null',
             'is_numeric', 'is_object', 'is_readable', 'is_real', 'is_resource',
             'is_scalar', 'is_string', 'is_subclass_of', 'is_uploaded_file',
-            'is_writable', 'is_writeable', 'isset', 'java_last_exception_clear',
+            'is_writable', 'is_writeable', 'java_last_exception_clear',
             'java_last_exception_get', 'jddayofweek', 'jdmonthname', 'jdtofrench',
             'jdtogregorian', 'jdtojewish', 'jdtojulian', 'jdtounix', 'jewishtojd',
             'join', 'jpeg2wbmp', 'juliantojd', 'key', 'krsort', 'ksort', 'lcg_value',
@@ -752,7 +764,7 @@ $this->_contextKeywords = array(
             'udm_free_res', 'udm_get_doc_count', 'udm_get_res_field',
             'udm_get_res_param', 'udm_load_ispell_data', 'udm_open_stored',
             'udm_set_agent_param', 'uksort', 'umask', 'uniqid', 'unixtojd', 'unlink',
-            'unpack', 'unregister_tick_function', 'unserialize', 'unset', 'urldecode',
+            'unpack', 'unregister_tick_function', 'unserialize', 'urldecode',
             'urlencode', 'user_error', 'usleep', 'usort', 'utf8_decode', 'utf8_encode',
             'var_dump', 'var_export', 'variant', 'version_compare', 'virtual', 'vpo',
             'vpopmail_add_alias_domain', 'vpopmail_add_alias_domain_ex',
@@ -800,52 +812,54 @@ $this->_contextKeywords = array(
             'zip_entry_filesize', 'zip_entry_name', 'zip_entry_open',
             'zip_entry_read', 'zip_open', 'zip_read'
         ),
-        1 => $CONTEXT . '/functions',
-        2 => 'color:#006;',
-        3 => false,
-        4 => 'http://www.php.net/{FNAME}'
+        $CONTEXT . '/function',
+        false,
+        'http://www.php.net/{FNAME}'
     )
 );
 
-$this->_contextCharactersDisallowedBeforeKeywords = array('$', '_');
-$this->_contextCharactersDisallowedAfterKeywords  = array("'", '_');
+$this->_contextCharactersDisallowedBeforeKeywords = array('$');
+$this->_contextCharactersDisallowedAfterKeywords  = array("'");
+
 $this->_contextSymbols  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             '(', ')', ',', ';', ':', '[', ']',
             '+', '-', '*', '/', '&', '|', '!', '<', '>',
-            '{', '}', '=', '@'
-            ),
-        1 => $CONTEXT . '/sym0',
-        2 => 'color:#008000;'
+            '{', '}', '=', '@', '?'
+        ),
+        $CONTEXT . '/symbol'
     )
 );
+
 $this->_contextRegexps  = array(
-    0 => array(
-        0 => array(
+    // PHP Variable
+    array(
+        array(
             '#(\$\$?[a-zA-Z_][a-zA-Z0-9_]*)#'
-            ),
-        1 => '$',
-        2 => array(
-            1 => array($CONTEXT . '/var', 'color:#33f;', false),
+        ),
+        '$',
+        array(
+            1 => array($CONTEXT . '/var', false),
         )
     ),
-    1 => geshi_use_doubles($CONTEXT),
-    2 => geshi_use_integers($CONTEXT)
+    geshi_use_doubles($CONTEXT),
+    geshi_use_integers($CONTEXT)
 );
+
 $this->_objectSplitters = array(
-    0 => array(
-        0 => array('->'),
-        1 => $CONTEXT . '/oodynamic',
-        2 => 'color:#933;',
-        3 => false
+    array(
+        array('->'),
+        $CONTEXT . '/oodynamic',
+        false
     ),
-    1 => array(
-        0 => array('::'),
-        1 => $CONTEXT . '/oostatic',
-        2 => 'color:#933;font-weight:bold;',
-        3 => false
+    array(
+        array('::'),
+        $CONTEXT . '/oostatic',
+        false
     )
 );
+
+$this->_complexFlag = GESHI_COMPLEX_TOKENISE;
 
 ?>

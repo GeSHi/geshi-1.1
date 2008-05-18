@@ -73,7 +73,6 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
     function GeSHiPHPCodeParser (&$styler, $language)
     {
         $this->GeSHiCodeParser($styler, $language);
-        $this->_styler->setStyle($language . '/class_name', 'color:#933;');
     }
     
     // }}}
@@ -104,14 +103,14 @@ class GeSHiPHPCodeParser extends GeSHiCodeParser
         if ('class' == $this->_state && !geshi_is_whitespace($token)) {
             // We just read the keyword "class", so this token 
             $this->_state = '';
-            $context_name = $this->_language . '/class_name';
+            $context_name = $this->_language . '/classname';
             $this->_classNames[] = $token;
-        } elseif (('class' == $token || 'extends' == $token) && $this->_language . '/keywords' == $context_name) {
+        } elseif (('class' == $token || 'extends' == $token) && $this->_language . '/keyword' == $context_name) {
             // We are about to read a class name
             $this->_state = 'class';
         } elseif (in_array($token, $this->_classNames) && $this->_language == $context_name) {
             // Detected use of class name we have already detected
-            $context_name = $this->_language . '/class_name';
+            $context_name = $this->_language . '/classname';
         }
         
         return array($token, $context_name, $data);

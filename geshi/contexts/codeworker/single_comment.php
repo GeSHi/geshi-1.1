@@ -1,4 +1,4 @@
- <?php
+<?php
 /**
  * GeSHi - Generic Syntax Highlighter
  * 
@@ -33,14 +33,13 @@
  */
 
 $this->_contextDelimiters = array(
-	0 => array(
-		0 => array('--'),
-		1 => array("\n"),
-		2 => false
+	array(
+		array('//'),
+		array("\n"),
+		false
 	)
 );
 
-$this->_styler->setStyle($CONTEXT, 'color:#888;font-style:italic;');
 $this->_contextStyleType = GESHI_STYLE_COMMENTS;
 
 ?>

@@ -33,16 +33,15 @@
  */
 
 $this->_contextDelimiters = array(
-    // Each of ' and " delimiters. In their own group so they only end themselves
-	0 => array(
-		0 => array("'"),
-		1 => array("'"),
-		2 => false
+	array(
+		array("'"),
+		array("'"),
+		false
 	),
-    1 => array(
-        0 => array('"'),
-        1 => array('"'),
-        2 => false
+    array(
+        array('"'),
+        array('"'),
+        false
     )
 );
 
@@ -50,7 +49,6 @@ $this->_childContexts = array(
     new GeSHiContext('html',  $DIALECT, 'string_javascript')
 );
 
-$this->_styler->setStyle($CONTEXT, 'color:#933;');
 $this->_contextStyleType = GESHI_STYLE_STRINGS;
 
 ?>

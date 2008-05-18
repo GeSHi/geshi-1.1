@@ -46,93 +46,86 @@ $this->_contextDelimiters = array(
 $this->_childContexts = array(
     // Normally you'd use $DIALECT for the second parameter, but we want this
     // context to be as much like codeworker/codeworker as possible
-    new GeSHiContext('codeworker',  'codeworker', 'common/multi_comment'),
-    new GeSHiContext('codeworker', 'codeworker', 'common/single_comment'),
-    new GeSHiStringContext('codeworker', 'codeworker', 'common/single_string'),
-    new GeSHiStringContext('codeworker', 'codeworker', 'common/double_string')
+    new GeSHiContext('codeworker',  'codeworker', 'multi_comment'),
+    new GeSHiContext('codeworker', 'codeworker', 'single_comment'),
+    new GeSHiStringContext('codeworker', 'codeworker', 'single_string'),
+    new GeSHiStringContext('codeworker', 'codeworker', 'double_string')
 );
 
-//Don't skip cos it ain't always what you think it is
-$this->_styler->setStyle($CONTEXT, 'color:#000;');
+$this->_startName = 'roughtext';
+$this->_endName   = 'roughtext';
+
 
 $this->_contextKeywords = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             'foreach', 'forfile', 'in', 'if', 'else', 'while', 'do', 'local', 'ref', 'localref',
 			'value', 'node', 'function', 'return', 'insert', 'pushItem', 'break'
         ),
-        // Again, we're faking being like codeworker
-        //1 => 'codeworker/codeworker/keywords',
-        1 => $CONTEXT . '/keywords',
-        2 => 'color:#000;font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/keyword',
+        false,
+        ''
     ),
-    1 => array(
-        0 => array(
+    array(
+        array(
             'traceLine', 'removeElement', 'clearVariable', 'incrementIndentLevel',
 			'decrementIndentLevel', 'setInputLocation', 'readChars', 'getShortFilename',
 			'getInputFilename', 'getOutputFilename', 'replaceString', 'subString', 'rsubString',
 			'findLastString', 'leftString', 'midString', 'startString', 'toLowerString',
 			'toUpperString', 'composeCLikeString', 'composeHTMLLikeString', 'loadFile', 'size',
 			'empty', 'key', 'first', 'last'
-         ),
-         1 => 'codeworker/codeworker/functions',
-         2 => 'color:#006;',
-         3 => false,
-         4 => ''
-     ),
-    2 => array(
-        0 => array(
+        ),
+        $CONTEXT . '/function',
+        false,
+        ''
+    ),
+    array(
+        array(
             'project', 'this', '_ARGS', '_REQUEST', 'true', 'false'
         ),
-        1 => 'codeworker/codeworker/constants',
-        2 => 'color:#900;font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/constant',
+        false,
+        ''
     ),
-    3 => array(
-        0 => array(
+    array(
+        array(
             'parseAsBNF', 'parseStringAsBNF', 'translate', 'translateString'
         ),
-        1 => 'codeworker/codeworker/sfunctions',
-        2 => 'color:#006;font-weight:bold;',
-        3 => false,
-        4 => ''
+        $CONTEXT . '/sfunction',
+        false,
+        ''
     )
 );
 
 $this->_contextSymbols  = array(
-    0 => array(
-        0 => array(
-                '|', '=', '!', ':', '(', ')', ',', '<', '>', '&', '$', '+', '-', '*', '/',
-                '{', '}', ';', '[', ']', '~', '?'
-            ),
-        1 => 'codeworker/codeworker/sym',
-        2 => 'color:#008000;'
-        )
+    array(
+        array(
+            '|', '=', '!', ':', '(', ')', ',', '<', '>', '&', '$', '+', '-', '*', '/',
+            '{', '}', ';', '[', ']', '~', '?'
+        ),
+        $CONTEXT . '/symbol'
+    )
 );
 
 $this->_contextRegexps  = array(
-    0 => array(
-        0 => array(
+    array(
+        array(
             '/(#[a-zA-Z][a-zA-Z0-9\-_]*)/'
         ),
-        1 => '#',
-        2 => array(
-            1 => array('codeworker/codeworker/preprocessor', 'color:#933;', false)
+        '#',
+        array(
+            1 => array($CONTEXT . '/preprocessor', false)
         )
     ),
-    1 => geshi_use_doubles('codeworker/codeworker'),
-    2 => geshi_use_integers('codeworker/codeworker')
+    geshi_use_doubles($CONTEXT),
+    geshi_use_integers($CONTEXT)
 );
 
 $this->_objectSplitters = array(
-    0 => array(
-        0 => array('.'),
-        1 => 'codeworker/codeworker/oodynamic',
-        2 => 'color:#559;',
-        3 => true // Check that matched method isn't a keyword first
+    array(
+        array('.'),
+        $CONTEXT . '/oodynamic',
+        true
     )
 );
 
