@@ -25,7 +25,7 @@
  * with GeSHi, in the docs/ directory.
  *
  * @package   lang
- * @author    Nigel McNie <nigel@geshi.org>
+ * @author    Benny Baumann <BenBE@benbe.omorphia.de>, Nigel McNie <nigel@geshi.org>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
@@ -35,6 +35,8 @@
 // @todo [blocking 1.1.1] Rename OCCs with parent's name in front for theming
 // BenBE: What do you mean?
 // My todo for theming support, not relevant to delphi
+// @todo [blocking 1.1.1] make keywords not keywords if they don't have a ( after
+// them (e.g. a variable named "sum" will be highlighted as a keyword even if it isn't)
 $this->_childContexts = array(
     new GeSHiContext('delphi',  $DIALECT, 'multi_comment'),
     new GeSHiContext('delphi', $DIALECT, 'common/single_comment'),

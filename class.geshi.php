@@ -35,16 +35,13 @@
 /**
  * MAJOR TODOs:
  * 
- * @todo [blocking 1.1.1] Support balanced context endings
- * @todo [blocking 1.1.1] OCCs should be able to modify their parent context
- * [done todo: Language aliasing should be possible]
- * @todo [blocking 1.1.1] Better Delphi and Codeworker support
- * [done todo: who controls the style of an OCC?: Who cares since theming
- * will be coming in soon]
+ * @todo [blocking 1.1.1] (bug 5) Support balanced context endings
+ * @todo [blocking 1.1.1] (bug 14) OCCs should be able to modify their parent context
+ * @todo [blocking 1.1.1] (bug 16, 17) Better Delphi and Codeworker support
  */
 
 /** GeSHi Version */
-define('GESHI_VERSION', '1.1.0beta1');
+define('GESHI_VERSION', '1.1.0');
 
 /** Set the correct directory separator */
 define('GESHI_DIR_SEPARATOR', ('WIN' != substr(PHP_OS, 0, 3)) ? '/' : '\\');
@@ -173,6 +170,7 @@ define('GESHI_DEFAULT_FILE_EXTENSION', '.php');
  *
  * @package core 
  * @author  Nigel McNie <nigel@geshi.org>
+ * @version $Revision$
  * @since   1.0.0
  */
 class GeSHi
@@ -710,7 +708,7 @@ class GeSHi
         }
         $result .= '</pre>';
         
-        // @todo [blocking 1.1.1] Evaluate feasability and get working if possible the functionality below...
+        // @todo [blocking 1.1.1] (bug 12) Evaluate feasability and get working if possible the functionality below...
         //$result = preg_replace('#([^"])(((https?)|(ftp))://[a-z0-9\-]+\.([a-z0-9\-\.]+)+/?([a-zA-Z0-9\.\-_%]+/?)*\??([a-zA-Z0-9=&\[\];%]+)?(\#[a-zA-Z0-9\-_]+)?)#', '\\1<a href="\\2">\\2</a>', $result);
         //$result = preg_replace('#([a-z0-9\._\-]+@[[a-z0-9\-\.]+[a-z]+)#si', '<a href="mailto:\\1">\\1</a>', $result);
                 

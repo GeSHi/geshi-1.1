@@ -33,11 +33,14 @@
  */
 
 /**
- * The GeSHiStringContext class
- * 
+ * The GeSHiStringContext class. This class extends GeSHiContext to handle
+ * the concept of escape characters that strings often use.
+ *  
  * @package core
  * @author  Nigel McNie <nigel@geshi.org>
- * @see GeSHiContet
+ * @since   1.1.0
+ * @version $Revision$
+ * @see     GeSHiContext
  */
 class GeSHiStringContext extends GeSHiContext
 {
@@ -63,7 +66,7 @@ class GeSHiStringContext extends GeSHiContext
      */
     function _getContextEndData ($code, $context_open_key, $context_opener)
     {
-        geshi_dbg('GeSHiContext::_getContextEndData(' . $this->_contextName . ', ' . $context_open_key . ', ' . $context_opener . ')', GESHI_DBG_API | GESHI_DBG_PARSE);
+        geshi_dbg('GeSHiStringContext::_getContextEndData(' . $this->_contextName . ', ' . $context_open_key . ', ' . $context_opener . ')', GESHI_DBG_API | GESHI_DBG_PARSE);
         $this->_lastOpener = $context_opener;
                 
         foreach ($this->_contextDelimiters[$context_open_key][1] as $ender) {
@@ -71,6 +74,7 @@ class GeSHiStringContext extends GeSHiContext
 
             // Prepare ender regexes if needed
             $ender = $this->_substitutePlaceholders($ender);
+            geshi_dbg('  ender after substitution: ' . $ender, GESHI_DBG_PARSE);
 
             $pos = 0;
             while (true) {
@@ -93,7 +97,12 @@ class GeSHiStringContext extends GeSHiContext
 
                 //@todo [blocking 1.1.1] possible bug: only last escape character checked here                
                 if (substr($possible_string, -1) != $escape_char) {
-                    // we've found the correct ender
+                    // We may have found the correct ender. If we haven't, then this string
+                    // never ends and we will set the end position to the length of the code
+                    // substr($code, $pos, 1) == $ender
+                    $endpos = geshi_get_position($code, $ender, $pos);
+                    geshi_dbg('  position of ender: ' . $endpos['pos'], GESHI_DBG_PARSE);
+                    $pos = ($pos && $endpos['pos'] === $pos) ? $pos : strlen($code);
                     return array('pos' => $pos, 'len' => $len, 'dlm' => $ender);
                 }
                 // else, start further up

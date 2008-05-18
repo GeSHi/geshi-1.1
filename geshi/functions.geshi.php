@@ -212,7 +212,9 @@ function geshi_use_doubles ($prefix, $require_leading_number = false)
             // double precision with e and no decimal place, e.g. 5e2
             "#(^|$banned)?({$plus_minus}[0-9]+[eE]{$plus_minus}[0-9]+)($banned|\$)?#",
             // double precision (.123 or 34.342 for example)
-            //@todo fix - sign in double numbers
+            // There are some cases where the - sign will not be highlighted for various reasons,
+            // but I'm happy that it's done where it can be. Maybe it might be worth looking at
+            // later if there are any real problems, else I'll ignore it
             "#(^|$banned)?({$plus_minus}[0-9]$leading_number_symbol\.[0-9]+)($banned|\$)?#"
             ),
         1 => '.', //doubles must have a dot

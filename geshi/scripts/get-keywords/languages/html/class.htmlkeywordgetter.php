@@ -35,9 +35,11 @@
 /**
  * Implementation of KeywordGetterStrategy for the HTML language.
  * 
- * @author Nigel McNie <nigel@geshi.org>
- * @since  0.1.1
- * @see    KeywordGetterStrategy
+ * @package scripts
+ * @author  Nigel McNie <nigel@geshi.org>
+ * @since   0.1.1
+ * @version $Revision$
+ * @see     KeywordGetterStrategy
  */
 class htmlKeywordGetterStrategy extends KeywordGetterStrategy
 {
@@ -83,6 +85,7 @@ class htmlKeywordGetterStrategy extends KeywordGetterStrategy
         }
         
         $file_contents = implode('', file($this->_fileName));
+        $matches = array();
         preg_match_all('#<td title="Name"><a[^>]+>\s*([a-z\-]+)#', $file_contents, $matches);
         $keywords = $matches[1];
         

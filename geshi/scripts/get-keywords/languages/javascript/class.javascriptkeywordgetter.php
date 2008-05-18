@@ -38,9 +38,11 @@ require_once 'class.javascriptxmlparser.php';
 /**
  * Implementation of KeywordGetterStrategy for the Javascript language.
  * 
- * @author Nigel McNie <nigel@geshi.org>
- * @since  0.1.1
- * @see    KeywordGetterStrategy
+ * @package scripts
+ * @author  Nigel McNie <nigel@geshi.org>
+ * @since   0.1.1
+ * @version $Revision$
+ * @see     KeywordGetterStrategy
  */
 class javascriptKeywordGetterStrategy extends KeywordGetterStrategy
 {
