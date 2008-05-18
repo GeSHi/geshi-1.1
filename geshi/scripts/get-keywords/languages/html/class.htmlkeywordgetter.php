@@ -32,37 +32,41 @@
  * 
  */
 
-/** Get the CSS XML parser used for getting CSS keywords */
-require_once 'class.cssxmlparser.php';
-
 /**
- * Implementation of KeywordGetterStrategy for the CSS language.
+ * Implementation of KeywordGetterStrategy for the HTML language.
  * 
  * @author Nigel McNie <nigel@geshi.org>
- * @since  0.1.0
+ * @since  0.1.1
  * @see    KeywordGetterStrategy
  */
-class cssKeywordGetterStrategy extends KeywordGetterStrategy
+class htmlKeywordGetterStrategy extends KeywordGetterStrategy
 {
     /**
-     * Creates a new CSS Keyword Getter Strategy. Defines allowed
-     * keyword groups for CSS.
+     * The file from which the attribute names will be raided
+     * @var string
+     * @access private
      */
-    function cssKeywordGetterStrategy ()
+    var $_fileName = '/usr/share/doc/w3-recs/RECS/html4/index/attributes.html';
+    
+    /**
+     * Creates a new HTML Keyword Getter Strategy. Defines allowed
+     * keyword groups for HTML.
+     */
+    function htmlKeywordGetterStrategy ()
     {
-        $this->_language = 'CSS';
+        $this->_language = 'HTML';
         $this->_validKeywordGroups = array(
-            'properties', 'types', 'colors', 'paren', 'mediatypes', 'pseudoclasses'
+            'attributes'
         );
     }
         
     /**
      * Implementation of abstract method {@link KeywordGetterStrategy::getKeywords()}
-     * to get keywords for CSS
+     * to get keywords for HTML
      * 
      * @param  string The keyword group to get keywords for. If not a valid keyword
      *                 group an error is returned
-     * @return array  The keywords for CSS for the specified keyword group
+     * @return array  The keywords for HTML for the specified keyword group
      * @throws KeywordGetterError
      */
     function getKeywords ($keyword_group)
@@ -73,25 +77,15 @@ class cssKeywordGetterStrategy extends KeywordGetterStrategy
             return $group_valid;
         }
         
-        $xml_parser =& new CSS_XML_Parser;
-        $xml_parser->setKeywordGroup($keyword_group);
-        
-        // Set the file to parse to Nigel's local CSS syntax file.
-        // @todo Find online if possible (check kde.org) and link to that
-        // @todo Make configurable the file? Have at least hardcoded ones for me and for the web
-        $result =& $xml_parser->setInputFile('/usr/share/apps/katepart/syntax/css.xml');
-        if (PEAR::isError($result)) {
+        if (!is_readable($this->_fileName)) {
             return new KeywordGetterError(FILE_UNAVAILABLE, $this->_language,
-                array('{FILENAME}' => '/usr/share/apps/katepart/syntax/css.xml'));
-        }        
-
-        $result =& $xml_parser->parse();
-        if (PEAR::isError($result)) {
-            return new KeywordGetterError(PARSE_ERROR, $this->_language,
-                array('{PARSE_ERROR}' => $result->getMessage()));
+                array('{FILENAME}' => $this->_fileName));
         }
         
-        $keywords =& $xml_parser->getKeywords();
+        $file_contents = implode('', file($this->_fileName));
+        preg_match_all('#<td title="Name"><a[^>]+>\s*([a-z\-]+)#', $file_contents, $matches);
+        $keywords = $matches[1];
+        
         return array_unique($keywords);
     }
 }

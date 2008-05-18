@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -159,7 +158,6 @@ define('GESHI_DEFAULT_FILE_EXTENSION', '.php');
  */
 class GeSHi
 {
-    
     /**#@+
      * @access private
      * @var string
@@ -244,18 +242,12 @@ class GeSHi
         );
         
         $this->_styler =& new GeSHiStyler;
-        
-        // Set some defaults
-        // We can abuse the weak typing here to check if $path is actually a config array
-        if (is_array($path)) {
-            $options = $path;
-        }
-        // @todo Move this into a setOption(s) method
+
+        // @todo Make third parameter an option array thing        
         
         $this->setFileExtension(GESHI_DEFAULT_FILE_EXTENSION);
         //$this->setOutputFormat(GESHI_OUTPUT_HTML);
         //$this->setEncoding(GESHI_DEFAULT_ENCODING);
-        //$this->useNamespaces(false);
 
         // Set the initial source/language
         $this->setSource($source);
@@ -382,25 +374,6 @@ class GeSHi
         $this->_styler->fileExtension = ('.' == substr($extension, 0, 1)) ? $extension : '.' . $extension;
         geshi_dbg('GeSHi::setFileExtension(' . $this->_styler->fileExtension . ')', GESHI_DBG_API);
     }
-    
-    /**
-     * Sets whether namespaces should be used or not.
-     * 
-     * Namespaces enable distinguishing between, for example, the PHP code embedded
-     * in CSS and the PHP code embedded in javascript in the same source code
-     * 
-     * This is off by default however, as most people will want all of their (as in
-     * the example) PHP code highlighted the same.
-     * 
-     * @param boolean Whether to use namespaces or not
-     * @since 1.2.0
-     */
-    /*
-    function useNamespaces ($flag = true)
-    {
-        $this->_styler->useNamespaces = ($flag) ? true : false;
-    }
-    */
 
     /**
      * Returns various timings related to this object.
@@ -460,11 +433,13 @@ class GeSHi
             return $result;
         }
 
-        
         // Kill the cached root context, replacing with
         // the new root context if needed
-        $this->_rootContext = ($this->_cacheRootContext) ? $this->_cachedRootContext : $this->_rootContext;
+        if ($this->_cacheRootContext) {
+            $this->_rootContext = $this->_cachedRootContext;
+        }
         
+        //@todo does this space still need to be added?
         $code = ' ' . $this->_source;
         // Runtime setup of context tree/styler info
         // Reset the parse data to nothing 
@@ -472,10 +447,6 @@ class GeSHi
         // Remove contexts from the parse tree that aren't interesting
         $this->_rootContext->trimUselessChildren($code);
         // The important bit - parse the code
-        /*if ($this->_cacheRootContext) {
-            // Use the cached context
-            $this->_rootContet = $this->_cachedRootContext;
-        }*/
         $this->_rootContext->parseCode($code);
 
 
@@ -663,7 +634,9 @@ class GeSHi
             if ($token[2]) {
                 $result .= '<a href="' . $token[2] . '">';
             }
-            $result .= '<span style="' . $this->_styler->getStyle($token[1]) . '" class="' . str_replace(array('/', '_'), '-', $token[1]) . '">' . htmlspecialchars($token[0]) . '</span>';
+            $result .= '<span style="' . $this->_styler->getStyle($token[1]) . '" ';
+            $result .= 'class="' . str_replace(array('/', '_'), '-', $token[1]) . '" ';
+            $result .= 'title="' . $token[1] . '">' . htmlspecialchars($token[0]) . '</span>';
             if ($token[2]) {
                 // there's a URL associated with this token
                 $result .= '</a>';
@@ -696,7 +669,6 @@ class GeSHi
         geshi_dbg('Language file is ' . $language_file, GESHI_DBG_API);
         return GESHI_LANGUAGES_ROOT . $language_file;
     }
-
     /**#@-*/    
 }
 ?>

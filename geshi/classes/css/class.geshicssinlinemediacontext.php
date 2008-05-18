@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -38,6 +37,9 @@ class GeSHiCSSInlineMediaContext extends GeSHiContext
     /**
      * Overrides {@link GeSHiContext::_addParseDataStart()} to
      * highlight the start of the inline media context correctly
+     * 
+     * @param string The code that is part of the start of this context
+     * @access private
      */
     function _addParseDataStart ($code)
     {

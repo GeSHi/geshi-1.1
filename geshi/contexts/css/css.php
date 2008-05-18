@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -33,32 +32,25 @@
  * 
  */
 
-// If someone wanted to style the selectors, they would have to make
-// this context and inline_media into GeSHiCodeContexts, or make a new
-// context and make this and inline_media be overridden by it
+/** Get the GeSHiCSSInlineMediaContext class */
 require_once GESHI_CLASSES_ROOT . 'css' . GESHI_DIR_SEPARATOR . 'class.geshicssinlinemediacontext.php';
- 
-$this->_contextDelimiters = array();
 
 $this->_childContexts = array(
-    new GeSHiCSSInlineMediaContext('css/inline_media'),
-    new GeSHiCodeContext('css/rule'),
-    new GeSHiContext('common|css/multi_comment'),
-    new GeSHiContext('css/attribute_selector'),
-    new GeSHiCodeContext('css/at_rule')
+    new GeSHiCSSInlineMediaContext('css', $DIALECT, 'inline_media'),
+    new GeSHiCodeContext('css',  $DIALECT, 'rule'),
+    new GeSHiContext('css',  $DIALECT, 'common/multi_comment'),
+    new GeSHiContext('css',  $DIALECT, 'attribute_selector'),
+    new GeSHiCodeContext('css', $DIALECT, 'at_rule')
 );
 
-$this->_styler->setStyle($this->_contextName, 'color:#000;');
-$this->_contextStyleType = GESHI_STYLE_NONE;
-// irrelevant if no delimiters...
-$this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
+$this->_styler->setStyle($CONTEXT, 'color:#000;');
 
 $this->_contextKeywords = array(
     0 => array(
         0 => array(
             '@font-face'
         ),
-        1 => $this->_contextName . '/atrules',
+        1 => $CONTEXT . '/atrules',
         2 => 'color:#c9c;font-weight:bold;',
         3 => false,
         4 => ''
@@ -68,14 +60,12 @@ $this->_contextKeywords = array(
             'hover', 'link', 'visited', 'active', 'focus', 'first-child', 'first-letter',
             'first-line', 'before', 'after'
          ),
-         1 => $this->_contextName . '/psuedoclasses',
+         1 => $CONTEXT . '/psuedoclasses',
          2 => 'color:#33f;',
          3 => false,
          4 => ''
      )
 );
-$this->_contextCharactersDisallowedBeforeKeywords = array();
-$this->_contextCharactersDisallowedAfterKeywords  = array();
 
 $this->_contextSymbols  = array(
     0 => array(
@@ -83,7 +73,7 @@ $this->_contextSymbols  = array(
             ',', '*', '>', '+'
             ),
         // name (should names have / in them like normal contexts? YES
-        1 => $this->_contextName . '/sym',
+        1 => $CONTEXT . '/sym',
         // style
         2 => 'color:#008000;'
         )
@@ -96,7 +86,7 @@ $this->_contextRegexps  = array(
         ),
         1 => '.',
         2 => array(
-            1 => array($this->_contextName . '/class', 'color:#c9c;')
+            1 => array($CONTEXT . '/class', 'color:#c9c;')
         )
     ),
     1 => array(
@@ -105,8 +95,9 @@ $this->_contextRegexps  = array(
         ),
         1 => '#',
         2 => array(
-            1 => array($this->_contextName . '/id', 'color:#c9c;font-weight:bold;')
+            1 => array($CONTEXT . '/id', 'color:#c9c;font-weight:bold;')
         )
     )
 );
+
 ?>

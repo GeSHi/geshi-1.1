@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -43,28 +42,38 @@ $this->_contextDelimiters = array(
 
 $this->_childContexts = array(
     // HTML strings have no escape characters, so the don't need to be GeSHiStringContexts
-    new GeSHiContext('html/string', 'string')
+    new GeSHiContext('html',  $DIALECT, 'string')
 );
 
-$this->_styler->setStyle($this->_contextName, 'color:#008000;');
-$this->_styler->setStartStyle($this->_contextName, 'font-weight:bold;color:#000;');
-$this->_styler->setEndStyle($this->_contextName, 'font-weight:bold;color:#000;');
-$this->_contextStyleType = GESHI_STYLE_NONE;
-$this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
-
+$this->_styler->setStyle($CONTEXT, 'color:#008000;');
+$this->_styler->setStartStyle($CONTEXT, 'font-weight:bold;color:#000;');
+$this->_styler->setEndStyle($CONTEXT, 'font-weight:bold;color:#000;');
 
 $this->_contextKeywords = array(
     0 => array(
         // keywords
         0 => array(
-            'lang', 'cellspacing', 'cellpadding', 'http-equiv', 'content', 'type', 'border',
-            'class', 'id', 'href', 'width', 'align', 'height', 'colspan', 'nowrap', 'alt',
-            'valign', 'name', 'size', 'value', 'maxlength', 'clear', 'rowspan', 'src', 'method',
-            'action', 'bgcolor', 'background', 'onload', 'onsubmit', 'onmouseup', 'onmousedown',
-            'onfocus', 'onblur', 'rows', 'cols', 'selected', 'checked', 'enctype', 'language'
-            ),
+            'abbr', 'accept-charset', 'accept', 'accesskey', 'action', 'align',
+            'alink', 'alt', 'archive', 'axis', 'background', 'bgcolor', 'border',
+            'cellpadding', 'cellspacing', 'char', 'charoff', 'charset', 'checked',
+            'cite', 'class', 'classid', 'clear', 'code', 'codebase', 'codetype',
+            'color', 'cols', 'colspan', 'compact', 'content', 'coords', 'data',
+            'datetime', 'declare', 'defer', 'dir', 'disabled', 'enctype', 'face',
+            'for', 'frame', 'frameborder', 'headers', 'height', 'href', 'hreflang',
+            'hspace', 'http-equiv', 'id', 'ismap', 'label', 'lang', 'language',
+            'link', 'longdesc', 'marginheight', 'marginwidth', 'maxlength', 'media',
+            'method', 'multiple', 'name', 'nohref', 'noresize', 'noshade', 'nowrap',
+            'object', 'onblur', 'onchange', 'onclick', 'ondblclick', 'onfocus',
+            'onkeydown', 'onkeypress', 'onkeyup', 'onload', 'onmousedown',
+            'onmousemove', 'onmouseout', 'onmouseover', 'onmouseup', 'onreset',
+            'onselect', 'onsubmit', 'onunload', 'profile', 'prompt', 'readonly',
+            'rel', 'rev', 'rows', 'rowspan', 'rules', 'scheme', 'scope', 'scrolling',
+            'selected', 'shape', 'size', 'span', 'src', 'standby', 'start', 'style',
+            'summary', 'tabindex', 'target', 'text', 'title', 'type', 'usemap',
+            'valign', 'value', 'valuetype', 'version', 'vlink', 'vspace', 'width'
+        ),
         // name
-        1 => $this->_contextName . '/attrs',
+        1 => $CONTEXT . '/attrs',
         // style
         2 => 'color:#006;',
         // case sensitive
@@ -74,23 +83,16 @@ $this->_contextKeywords = array(
         )
 );
 
-$this->_contextCharactersDisallowedBeforeKeywords = array();
-$this->_contextCharactersDisallowedAfterKeywords  = array();
-
 $this->_contextSymbols  = array(
     0 => array(
         0 => array(
             '='
             ),
         // name (should names have / in them like normal contexts? YES
-        1 => $this->_contextName . '/sym',
+        1 => $CONTEXT . '/sym',
         // style
         2 => 'color:#008000;'
         )
 );
-
-$this->_contextRegexps  = array(
-);
-
 
 ?>

@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -37,10 +36,10 @@
  * The GeSHiStyler class
  * 
  * @package core
+ * @author  Nigel McNie <nigel@geshi.org>
  */
 class GeSHiStyler
 {
-    
     /**
      * @var string
      */
@@ -70,14 +69,7 @@ class GeSHiStyler
      * @var array
      */
     var $_contextCacheData = array();
-    
-    /**
-     * Whether to use namespaces or not
-     * 
-     * @var boolean
-     */
-    //var $_useNamespaces;
-    
+        
     function setStyle ($context_name, $style)
     {
         $this->_styleData[$context_name] = $style;

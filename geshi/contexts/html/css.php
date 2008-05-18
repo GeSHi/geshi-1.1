@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -43,9 +42,8 @@ $this->_contextDelimiters = array(
     )
 );
 
-$this->_childContexts = array();
-$this->_contextStyleType = GESHI_STYLE_NONE;
 $this->_delimiterParseData = GESHI_CHILD_PARSE_NONE;
 
-$this->_overridingChildContext = new GeSHiCodeContext('css', $this->_contextName . '/css');
+$this->_overridingChildContext =& new GeSHiCodeContext('css');
+
 ?>

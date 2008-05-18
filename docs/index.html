@@ -5,7 +5,8 @@
 <body>
 <h1>GeSHi 1.1 Documentation</h1>
 
-<p>&copy; Nigel McNie, 2005, licensed under the <a href="http://www.gnu.org/copyleft/gpl.html">GNU GPL</a>.</p>
+<p style="text-align:center;color:gray;font-size:smaller;">&copy; 2005 Nigel McNie, licensed under
+the <a href="http://www.gnu.org/copyleft/gpl.html">GNU GPL</a>.</p>
 
 <p>If you're reading this, thanks for helping test GeSHi 1.1! This is the brand-spanking new version of GeSHi
 set to debut as GeSHi 1.2 whenever it's finished, and hopefully with your help that time will be sooner rather
@@ -34,18 +35,24 @@ pull out user-defined functions and classes from the source and list them nicely
 The downside, as ever, will be speed and CPU usage. GeSHi is not the lightest script to run. However, I plan
 to minimise load wherever possible, and already 1.1.X benefits from using nearly no regular expressions.</p>
 
+<p style="text-align:center;font-style:italic;">Note that as of 2005/06/09, the 1.1 branch runs at speed
+comparable to 1.0.X, for languages of <strong>far greater</strong> complexity and achieves much better
+results. You can see for yourself either by downloading a copy of 1.0.X and comparing some source, or
+by visiting the demo forms at <a href="http://geshi.org/">http://geshi.org/</a> and
+<a href="http://qbnz.com/highlighter/demo.php">http://qbnz.com/highlighter/demo.php</a>.</p>
+
 <h2>Features planned for 1.2</h2>
 
 <p>GeSHi 1.2 will be light-years ahead of GeSHi 1.0.X, and further ahead still from any competition. These are
 the major planned features:</p>
 
 <ul>
-    <li>PEAR compliance</li>
-    <li>Majorly improved highlighting (already mainly achieved!)</li>
-    <li>Caching support</li>
-    <li>Reduced CPU load, and increased speed for equivalent sources/configurations</li>
-    <li>Support for people to access the parsed source directly to do as they please with it</li>
-    <li>Release into mainstream Linux distributions (debian, redhat) as installable package</li>
+    <li>PEAR compliance <span style="color:#00c000;">(achieved)</span></li>
+    <li>Majorly improved highlighting <span style="color:#00a000;">(Only one remaining feature needs implementing)</span></li>
+    <li>Caching support <span style="color:red;">(to be done)</span></li>
+    <li>Reduced CPU load, and increased speed for equivalent sources/configurations <span style="color:#df0;">(so far speed is good, but much optimisation is to come)</span></li>
+    <li>Support for people to access the parsed source directly to do as they please with it <span style="color:#red;">(todo)</span></li>
+    <li>Release into mainstream Linux distributions (debian, redhat) as installable package <span style="color:#red;">(todo)</span></li>
 </ul>
 
 <p>1.2 is not numbered as 2.0 as the API will remain the same where possible. However, the PEAR compliance
@@ -74,7 +81,7 @@ in 1.0.X, due to the way it works. However, 1.2 understands perfectly.</p>
 rewrite, using the knowledge I have learned from my time at university. With the aid of concepts such as trees,
 GeSHi 1.2 now provides much better highlighting, that is configurable on a far more fine-grained level. The
 trade-off, of course, is in complexity. Instead of simply defining one language file for a language, you need
-at *least* two file, and more like six for any decent language. And all of these files need to be loaded by
+at *least* two files, and more like six for any decent language. And all of these files need to be loaded by
 GeSHi at runtime, so there is quite a bit of overhead (recent builds use caching to reduce disk access).</p>
 
 <p>Still, the benefits are great. You've probably seen the pages with PHP embedded in HTML, with CSS and

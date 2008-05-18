@@ -29,17 +29,24 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
+ *
+ */
+
+/*
+ * Javascript language file for GeSHi
+ * 
+ * [notes about language]
+ * 
+ * [notes about this implementation of the language]
  * 
  */
 
-$this->_contextDelimiters = array(
-    0 => array(
-        0 => array('/**'),
-        1 => array('*/'),
-        2 => false
-    )
-);
+/** Get the GeSHiCodeContext class */ 
+require_once GESHI_CLASSES_ROOT . 'class.geshicodecontext.php';
 
-$this->_overridingChildContext = new GeSHiContext('doxygen');
+
+$this->_humanLanguageName = 'Javascript';
+
+$this->_rootContext =& new GeSHiCodeContext('javascript');
 
 ?>

@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -41,12 +40,7 @@ $this->_contextDelimiters = array(
 	)
 );
 
-$this->_childContexts = array();
-
-$this->_styler->setStyle($this->_contextName, 'color:#888;font-style:italic;');
-//$this->_styler->setStartStyle($this->_styleName, '');
-//$this->_styler->setEndStyle($this->_styleName, '');
-$this->_contextStyleType = GESHI_STYLE_NONE;
-$this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
+$this->_styler->setStyle($CONTEXT, 'color:#888;font-style:italic;');
+$this->_contextStyleType = GESHI_STYLE_COMMENTS;
 
 ?>

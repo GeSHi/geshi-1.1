@@ -32,37 +32,37 @@
  * 
  */
 
-/** Get the CSS XML parser used for getting CSS keywords */
-require_once 'class.cssxmlparser.php';
+/** Get the Javascript XML parser used for getting Javascript keywords */
+require_once 'class.javascriptxmlparser.php';
 
 /**
- * Implementation of KeywordGetterStrategy for the CSS language.
+ * Implementation of KeywordGetterStrategy for the Javascript language.
  * 
  * @author Nigel McNie <nigel@geshi.org>
- * @since  0.1.0
+ * @since  0.1.1
  * @see    KeywordGetterStrategy
  */
-class cssKeywordGetterStrategy extends KeywordGetterStrategy
+class javascriptKeywordGetterStrategy extends KeywordGetterStrategy
 {
     /**
-     * Creates a new CSS Keyword Getter Strategy. Defines allowed
-     * keyword groups for CSS.
+     * Creates a new Javascript Keyword Getter Strategy. Defines allowed
+     * keyword groups for Javascript.
      */
-    function cssKeywordGetterStrategy ()
+    function javascriptKeywordGetterStrategy ()
     {
-        $this->_language = 'CSS';
+        $this->_language = 'Javascript';
         $this->_validKeywordGroups = array(
-            'properties', 'types', 'colors', 'paren', 'mediatypes', 'pseudoclasses'
+            'keywords', 'functions', 'objects', 'math', 'events', 'methods'
         );
     }
         
     /**
      * Implementation of abstract method {@link KeywordGetterStrategy::getKeywords()}
-     * to get keywords for CSS
+     * to get keywords for Javascript
      * 
      * @param  string The keyword group to get keywords for. If not a valid keyword
      *                 group an error is returned
-     * @return array  The keywords for CSS for the specified keyword group
+     * @return array  The keywords for Javascript for the specified keyword group
      * @throws KeywordGetterError
      */
     function getKeywords ($keyword_group)
@@ -73,18 +73,16 @@ class cssKeywordGetterStrategy extends KeywordGetterStrategy
             return $group_valid;
         }
         
-        $xml_parser =& new CSS_XML_Parser;
+        $xml_parser =& new Javascript_XML_Parser;
         $xml_parser->setKeywordGroup($keyword_group);
         
-        // Set the file to parse to Nigel's local CSS syntax file.
-        // @todo Find online if possible (check kde.org) and link to that
-        // @todo Make configurable the file? Have at least hardcoded ones for me and for the web
-        $result =& $xml_parser->setInputFile('/usr/share/apps/katepart/syntax/css.xml');
+        // Set the file to parse to Nigel's local Javascript syntax file.
+        $result =& $xml_parser->setInputFile('/usr/share/apps/katepart/syntax/javascript.xml');
         if (PEAR::isError($result)) {
             return new KeywordGetterError(FILE_UNAVAILABLE, $this->_language,
-                array('{FILENAME}' => '/usr/share/apps/katepart/syntax/css.xml'));
-        }        
-
+                array('{FILENAME}' => '/usr/share/apps/katepart/syntax/javascript.xml'));
+        }
+        
         $result =& $xml_parser->parse();
         if (PEAR::isError($result)) {
             return new KeywordGetterError(PARSE_ERROR, $this->_language,

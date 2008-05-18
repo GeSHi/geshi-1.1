@@ -32,37 +32,37 @@
  * 
  */
 
-/** Get the CSS XML parser used for getting CSS keywords */
-require_once 'class.cssxmlparser.php';
+/** Get the PHP XML parser used for getting PHP keywords */
+require_once 'class.phpxmlparser.php';
 
 /**
- * Implementation of KeywordGetterStrategy for the CSS language.
+ * Implementation of KeywordGetterStrategy for the PHP language.
  * 
  * @author Nigel McNie <nigel@geshi.org>
- * @since  0.1.0
+ * @since  0.1.1
  * @see    KeywordGetterStrategy
  */
-class cssKeywordGetterStrategy extends KeywordGetterStrategy
+class phpKeywordGetterStrategy extends KeywordGetterStrategy
 {
     /**
-     * Creates a new CSS Keyword Getter Strategy. Defines allowed
-     * keyword groups for CSS.
+     * Creates a new PHP Keyword Getter Strategy. Defines allowed
+     * keyword groups for PHP.
      */
-    function cssKeywordGetterStrategy ()
+    function phpKeywordGetterStrategy ()
     {
-        $this->_language = 'CSS';
+        $this->_language = 'PHP';
         $this->_validKeywordGroups = array(
-            'properties', 'types', 'colors', 'paren', 'mediatypes', 'pseudoclasses'
+            'controlstructures', 'keywords', 'functions'
         );
     }
         
     /**
      * Implementation of abstract method {@link KeywordGetterStrategy::getKeywords()}
-     * to get keywords for CSS
+     * to get keywords for PHP
      * 
      * @param  string The keyword group to get keywords for. If not a valid keyword
      *                 group an error is returned
-     * @return array  The keywords for CSS for the specified keyword group
+     * @return array  The keywords for PHP for the specified keyword group
      * @throws KeywordGetterError
      */
     function getKeywords ($keyword_group)
@@ -73,16 +73,20 @@ class cssKeywordGetterStrategy extends KeywordGetterStrategy
             return $group_valid;
         }
         
-        $xml_parser =& new CSS_XML_Parser;
+        // Convert keyword group to correct name
+        // for XML parser if needed
+        if ('controlstructures' == $keyword_group) {
+            $keyword_group = 'control structures';
+        }
+        
+        $xml_parser =& new PHP_XML_Parser;
         $xml_parser->setKeywordGroup($keyword_group);
         
-        // Set the file to parse to Nigel's local CSS syntax file.
-        // @todo Find online if possible (check kde.org) and link to that
-        // @todo Make configurable the file? Have at least hardcoded ones for me and for the web
-        $result =& $xml_parser->setInputFile('/usr/share/apps/katepart/syntax/css.xml');
+        // Set the file to parse to Nigel's local PHP syntax file.
+        $result =& $xml_parser->setInputFile('/usr/share/apps/katepart/syntax/php.xml');
         if (PEAR::isError($result)) {
             return new KeywordGetterError(FILE_UNAVAILABLE, $this->_language,
-                array('{FILENAME}' => '/usr/share/apps/katepart/syntax/css.xml'));
+                array('{FILENAME}' => '/usr/share/apps/katepart/syntax/php.xml'));
         }        
 
         $result =& $xml_parser->parse();
@@ -92,6 +96,21 @@ class cssKeywordGetterStrategy extends KeywordGetterStrategy
         }
         
         $keywords =& $xml_parser->getKeywords();
+        
+        // Add some keywords that don't seem to be in the XML file
+        if ('control structures' == $keyword_group) {
+            array_push($keywords, 'endwhile', 'endif', 'endswitch', 'endforeach');
+        } elseif ('keywords' == $keyword_group) {
+            array_push($keywords, '__FUNCTION__', '__CLASS__', '__METHOD__',
+            'DEFAULT_INCLUDE_PATH', 'PEAR_INSTALL_DIR', 'PEAR_EXTENSION_DIR',
+            'PHP_EXTENSION_DIR', 'PHP_BINDIR', 'PHP_LIBDIR', 'PHP_DATADIR',
+            'PHP_SYSCONFDIR', 'PHP_LOCALSTATEDIR', 'PHP_CONFIG_FILE_PATH',
+            'PHP_OUTPUT_HANDLER_START', 'PHP_OUTPUT_HANDLER_CONT',
+            'PHP_OUTPUT_HANDLER_END', 'E_STRICT', 'E_CORE_ERROR', 'E_CORE_WARNING',
+            'E_COMPILE_ERROR', 'E_COMPILE_WARNING');
+        }
+        sort($keywords);
+
         return array_unique($keywords);
     }
 }

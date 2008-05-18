@@ -32,18 +32,18 @@
  * 
  */
 
-/** Get the Keyword XML Parser class for use by CSS_XML_Parser */
+/** Get the Keyword XML Parser class for use by Javascript_XML_Parser */
 require_once 'lib/class.keywordxmlparser.php';
 
 /**
- * Extends Keyword_XML_Parser as a class to get CSS keywords from
+ * Extends Keyword_XML_Parser as a class to get Javascript keywords from
  * a katepart syntax XML file
  * 
  * @author Nigel McNie <nigel@geshi.org>
- * @since  0.1.0
+ * @since  0.1.1
  * @see    Keyword_XML_Parser
  */
-class CSS_XML_Parser extends Keyword_XML_Parser
+class Javascript_XML_Parser extends Keyword_XML_Parser
 {
     /**#@+
      * @var boolean
@@ -61,18 +61,13 @@ class CSS_XML_Parser extends Keyword_XML_Parser
      */
     var $_addKeyword;
     
-    /**
-     * A list of keywords to ignore
-     * @var array
-     */
-    var $_keywordsToIgnore = array('100', '200', '300', '400', '500', '600', '700', '800', '900');
     /**#@-*/
     
     /**
      * Called when the start tag of a node of the
      * XML document is encountered
      * 
-     * @param resource XML Parser Resource
+     * @param resource XML Parser resource
      * @param string   The name of the node encountered
      * @param array    Any attributes the node has
      */
@@ -95,12 +90,12 @@ class CSS_XML_Parser extends Keyword_XML_Parser
     /**
      * Called when CDATA is encountered
      * 
-     * @param resource XML Parser resource
+     * @param resource XML Parser Resource
      * @param string   The CDATA encountered
      */    
     function cdataHandler ($xp, $cdata)
     {
-        if ($this->_addKeyword && !in_array(trim($cdata), $this->_keywordsToIgnore)) {
+        if ($this->_addKeyword) {
             array_push($this->_keywords, trim($cdata));
         }
        $this->_addKeyword = false;

@@ -55,7 +55,11 @@ class KeywordGetterError
             'The strategy object given is invalid (this is an internal error,
 if you see this please send a bug report to nigel@geshi.org)',
         INVALID_KEYWORD_GROUP =>
-            'The keyword group "{KEYWORD_GROUP}" given is invalid for the language "{LANGUAGE}"'
+            'The keyword group "{KEYWORD_GROUP}" given is invalid for the language "{LANGUAGE}"',
+        PARSE_ERROR =>
+            'There was a parsing error while trying to parse the XML language file: {MESSAGE}',
+        FILE_UNAVAILABLE =>
+            'The file {FILENAME} is unavailable for retrieving keywords from. Does it exist/is it readable?'
     );
     
     /**
