@@ -61,7 +61,7 @@ class GeSHiStyler
      * 
      * @var boolean
      */
-    var $_useNamespaces;
+    //var $_useNamespaces;
     
     function setStyle ($context_name, $style)
     {

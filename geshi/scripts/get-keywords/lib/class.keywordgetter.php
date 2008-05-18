@@ -53,14 +53,12 @@ class KeywordGetter
      */
     /**
      * The language being used
-     * 
      * @var string
      */
     var $_language;
     
     /**
      * The keyword strategy to use
-     * 
      * @var KeywordGetterStrategy
      */
     var $_keywordStrategy;
@@ -100,7 +98,7 @@ class KeywordGetter
             return new KeywordGetterError(LANG_NOT_SUPPORTED, $language);
         }
         
-        return new KeywordGetter(new $class($language));
+        return new KeywordGetter(new $class);
     }
     
     /**
@@ -125,6 +123,17 @@ class KeywordGetter
     {
         return $this->_keywordStrategy->getKeywords($keyword_group);
     }
+    
+    /**
+     * Gets valid keyword groups
+     * 
+     * @return array
+     */
+    function &getValidKeywordGroups ()
+    {
+        return $this->_keywordStrategy->getValidKeywordGroups();
+    }
+    
 }
     
 ?>

@@ -21,11 +21,12 @@
 // If someone wanted to style the selectors, they would have to make
 // this context and inline_media into GeSHiCodeContexts, or make a new
 // context and make this and inline_media be overridden by it
-
+require_once GESHI_CLASSES_ROOT . 'css' . GESHI_DIR_SEPARATOR . 'class.geshicssinlinemediacontext.php';
+ 
 $this->_contextDelimiters = array();
 
 $this->_childContexts = array(
-    new GeSHiContext('css/inline_media'),
+    new GeSHiCSSInlineMediaContext('css/inline_media', 'inline_media'),
     new GeSHiCodeContext('css/rule', 'rule'),
     new GeSHiContext('common/multi_comment', 'multi_comment')
 );

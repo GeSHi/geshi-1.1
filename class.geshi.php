@@ -235,9 +235,10 @@ class GeSHi
             $options = $path;
         }
         // @todo Move this into a setOption(s) method
-        if (isset($options['useNamespaces'])) {
-            $this->useNamespaces($options['useNamespaces']);
-        }
+        // @todo Remove all references to namespaces
+        //if (isset($options['useNamespaces'])) {
+        //    $this->useNamespaces($options['useNamespaces']);
+        //}
         
         $this->setFileExtension(GESHI_DEFAULT_FILE_EXTENSION);
         //$this->setOutputFormat(GESHI_OUTPUT_HTML);
@@ -382,10 +383,12 @@ class GeSHi
      * @param boolean Whether to use namespaces or not
      * @since 1.2.0
      */
+    /*
     function useNamespaces ($flag = true)
     {
         $this->_styler->useNamespaces = ($flag) ? true : false;
     }
+    */
 
     /**
      * Returns various timings related to this object.

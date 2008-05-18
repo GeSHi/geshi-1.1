@@ -19,25 +19,46 @@
  */
 
 /**
+ * Class that is overridden to provide an implementation of getting keywords
+ * for a particular language
+ * 
+ * @author Nigel McNie <nigel@geshi.org>
+ * @since  0.1.0
  * @abstract
  */
 class KeywordGetterStrategy
 {
     
+    /**#@+
+     * @access private
+     */
+     
+    /**
+     * The language that this getter is getting keywords for
+     * @var string
+     */
     var $_language;
     
+    /**
+     * The keyword group within the language that this getter is
+     * getting keywords for
+     * @var string
+     */
     var $_keywordGroup;
     
-    var $_keywords = array();
+    /**
+     * The keyword groups that are valid (supported) by this strategy
+     * @var array
+     */
+    var $_validKeywordGroups;
     
     /**
-     * Creates a new KeywordGetterStrategy
+     * used?
      */
-    function KeywordGetterStrategy ($language)
-    {
-        $this->_language = $language;
-    }
+    var $_keywords = array();
     
+    /**#@-*/
+        
     /**
      * @abstract
      */
@@ -47,10 +68,18 @@ class KeywordGetterStrategy
     }
     
     /**
+     * @return array
+     */
+    function getValidKeywordGroups ()
+    {
+        return $this->_validKeywordGroups;
+    }
+    
+    /**
      * Checks whether the keyword group asked for is valid
      */
-    function keywordGroupIsValid ($keyword_group, $valid_keyword_groups) {
-        if (in_array($keyword_group, $valid_keyword_groups)) {
+    function keywordGroupIsValid ($keyword_group) {
+        if (in_array($keyword_group, $this->_validKeywordGroups)) {
             return true;
         }
         return new KeywordGetterError(INVALID_KEYWORD_GROUP, $this->_language,

@@ -28,6 +28,7 @@
  * get-keywords.php php statements
  * get-keywords.php php keywords
  * get-keywords.php list-langs
+ * get-keywords.php --list-groups css
  * ...
  * 
  * @todo support list-langs, version options
@@ -43,7 +44,7 @@ error_reporting(E_ALL);
 require_once 'lib/functions.get-keywords.php';
 /** Get the KeywordGetter class */
 require_once 'lib/class.keywordgetter.php';
-//@todo blocking 1.1.0beta1 Add pear classes required into lib and require them from there
+//@todo [blocking 1.1.0beta1] Add pear classes required into lib and require them from there
 
 // Do the easy options first
 if (in_array('-h', $argv) || in_array('--help', $argv)) {
@@ -53,6 +54,17 @@ if (in_array('-h', $argv) || in_array('--help', $argv)) {
 
 if (in_array('-v', $argv) || in_array('--version', $argv)) {
     show_version();
+    exit;
+}
+
+
+// Check for --list-groups
+if (count($argv) > 2 && $argv[1] == '--list-groups') {
+    $kwgetter =& KeywordGetter::factory($argv[2]);
+    if (KeywordGetter::isError($kwgetter)) {
+        die($kwgetter->lastError());
+    }
+    print_r($kwgetter->getValidKeywordGroups());
     exit;
 }
 
