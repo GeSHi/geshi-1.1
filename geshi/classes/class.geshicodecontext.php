@@ -167,6 +167,7 @@ class GeSHiCodeContext extends GeSHiContext
         // @todo [blocking 1.1.1] Style data for infectious context loaded many times, could be reduced to one?
         //@todo [blocking 1.1.1] array_keys loop construct if possible
         foreach ($this->_contextKeywords as $keyword_group_array) {
+            geshi_dbg($keyword_group_array[1] . ' ' . $keyword_group_array[2], GESHI_DBG_PARSE);
             $this->_styler->setStyle($keyword_group_array[1], $keyword_group_array[2]);
         }
          
@@ -211,6 +212,7 @@ class GeSHiCodeContext extends GeSHiContext
             if (!$regex_data[1] || false !== strpos($code, $regex_data[1])) {
                 foreach ($regex_data[0] as $regex) {
                     geshi_dbg('    Trying regex ' . $regex . '... ', GESHI_DBG_PARSE, false);
+                    $matches = array();
                     preg_match_all($regex, $code, $matches);
                     geshi_dbg('found ' . count($matches[0]) . ' matches', GESHI_DBG_PARSE);
                     
@@ -340,6 +342,8 @@ class GeSHiCodeContext extends GeSHiContext
                 foreach ($regex_replacements[$i] as $replacement) {
                     $result[++$result_pointer] = $replacement;
                 }
+                // Allow keyword matching immediately after regular expressions
+                $keyword_match_allowed = true;
             }
             
             $char = substr($code, $i, 1);
@@ -373,6 +377,7 @@ class GeSHiCodeContext extends GeSHiContext
                         $next_part_is_keyword = (strtolower($keyword_array[0]) == strtolower(substr($code, $i, strlen($keyword_array[0]))));
                     }
 
+                    geshi_dbg("  next part is keyword: $next_part_is_keyword", GESHI_DBG_PARSE);
                     // OPTIMIZE (use lookup to remember for length $foo(1 => false, 2 => false) so if kw is length 1 or 2 then don't need to check
                     //$after_allowed = ( !in_array(substr($code, $i + strlen($keyword_array[0]), 1), array_diff($this->_context_characters_disallowed_after_keywords, $this->_context_keywords[$keyword_array[1]][4])) );
                     // the first char of the keyword is always $char???
@@ -382,11 +387,13 @@ class GeSHiCodeContext extends GeSHiContext
                     if ( '' == $after_char ) $after_char = $first_char_of_next_context;
 
                     geshi_dbg("  after char to check: |$after_char|", GESHI_DBG_PARSE);
-                    $after_allowed = (!ctype_alpha(substr($code, $i + strlen($keyword_array[0]), 1)) ||
-                        (ctype_alpha(substr($code, $i + strlen($keyword_array[0]), 1)) &&
-                        !ctype_alpha($char)) );
+                    $after_allowed = ('' == $after_char || !ctype_alnum($after_char) ||
+                        (ctype_alnum($after_char) &&
+                        !ctype_alnum($char)) );
                     $after_allowed = ($after_allowed &&
                         !in_array($after_char, $this->_contextCharactersDisallowedAfterKeywords));
+                    // Disallow underscores after keywords
+                    $after_allowed = ($after_allowed && ($after_char != '_'));
 
                     // If where we are up to is a keyword, and it's allowed to be here (before was already
                     // tested by $keyword_match_allowed)
@@ -432,10 +439,13 @@ class GeSHiCodeContext extends GeSHiContext
             /// If we move this to the end we might be able to get rid of the last one [DONE]
             /// The second test on the first line is a little contentious  - allows functions that don't
             /// start with an alpha character to be within other words, e.g abc<?php, where <?php is a kw
-            $last_char_is_alpha = ctype_alpha(substr($code, $i, 1));
-            $keyword_match_allowed = (!$last_char_is_alpha || ($last_char_is_alpha && !ctype_alpha($char)));
-            $keyword_match_allowed = ($keyword_match_allowed && !in_array(substr($code, $i, 1),
+            $before_char = substr($code, $i, 1);
+            $before_char_is_alnum = ctype_alnum($before_char);
+            $keyword_match_allowed = (!$before_char_is_alnum || ($before_char_is_alnum && !ctype_alnum($char)));
+            $keyword_match_allowed = ($keyword_match_allowed && !in_array($before_char,
                 $this->_contextCharactersDisallowedBeforeKeywords));
+            // Disallow underscores before keywords
+            $keyword_match_allowed = ($keyword_match_allowed && ('_' != $before_char));
             geshi_dbg('  Keyword matching allowed: ' . $keyword_match_allowed, GESHI_DBG_PARSE);
             geshi_dbg('    [checked ' . substr($code, $i, 1) . ' against ' . print_r($this->_contextCharactersDisallowedBeforeKeywords, true), GESHI_DBG_PARSE);
         }

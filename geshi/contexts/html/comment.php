@@ -40,7 +40,7 @@ $this->_contextDelimiters = array(
     )
 );
 
-$this->_styler->setStyle($this->_contextName, 'color:#888;');
+$this->_styler->setStyle($CONTEXT, 'color:#888;');
 $this->_contextStyleType = GESHI_STYLE_COMMENTS;
 
 ?>

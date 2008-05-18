@@ -32,6 +32,11 @@
  * 
  */
 
+$GLOBALS['geshi_dbg_level'] = 0;
+function geshi_dbg_level ($level) {
+    $GLOBALS['geshi_dbg_level'] = $level;
+}
+
 /**
  * Handles debugging by printing a message according to current debug level,
  * mask of context and other things.
@@ -44,7 +49,7 @@
  */
 function geshi_dbg ($message, $context, $add_nl = true, $return_counts = false)
 {
-    if (GESHI_DBG & $context) {
+    if ((GESHI_DBG & $context) || ($GLOBALS['geshi_dbg_level'] & $context)) {
         //
         // Message can have the following symbols at start
         //
@@ -126,7 +131,7 @@ function geshi_can_include ($file_name)
  */
 function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = false, $need_table = false)
 {
-    geshi_dbg('Checking haystack: ' . $haystack . ' against needle ' . $needle . ' (' . $offset . ')',GESHI_DBG_PARSE, false);
+    //geshi_dbg('Checking haystack: ' . $haystack . ' against needle ' . $needle . ' (' . $offset . ')',GESHI_DBG_PARSE, false);
     if ('REGEX' != substr($needle, 0, 5)) {
         if (!$case_sensitive) {
             return array('pos' => stripos($haystack, $needle, $offset), 'len' => strlen($needle));
@@ -142,16 +147,13 @@ function geshi_get_position ($haystack, $needle, $offset = 0, $case_sensitive = 
     
     $foo = microtime();
     $foo_len = strlen($foo);
-    //if ( DEBUG ) echo "    md5: $foo\n";
     $len = strlen($string);
-    //if ( DEBUG ) echo "    length of \$string: $len\n";
     $str = preg_replace($regex, $foo, $string, 1);
-    //if ( DEBUG ) echo "    new replaced string: " . htmlspecialchars($str) . "\n";
     $length = $len - (strlen($str) - $foo_len);
-    //if ( DEBUG ) echo "    length of replaced string: $length, pos of replace string: " . strpos($str, $foo) . "\n";
 
     // ADD SOME MORE: Return matching table (?)
     if ($need_table) {
+        $matches = array();
         preg_match_all($regex, $string, $matches);
         //$table = $matches;
         $i = 0;
@@ -175,7 +177,7 @@ function geshi_use_integers ($prefix)
 {
     return array(
         0 => array(
-            '#([^a-zA-Z_])([-]?[0-9]+)#'
+            '#([^a-zA-Z_0-9\.]|^)([-]?[0-9]+)(?=[^a-zA-Z_0-9]|$)#'
             ),
         1 => '',
         2 => array(
@@ -184,7 +186,8 @@ function geshi_use_integers ($prefix)
                 0 => $prefix . '/' . GESHI_NUM_INT,
                 1 => 'color:#11e;',
                 2 => false
-                )
+                ),
+            3 => true
             )
     );
 }
@@ -193,16 +196,24 @@ function geshi_use_integers ($prefix)
  * Returns the regexp for double numbers, for use with GeSHiCodeContexts
  * 
  * @param string The prefix to use for the name of this number match
+ * @param boolean Whether a number is required in front of the decimal point or not.
  * @return array
  */
-function geshi_use_doubles ($prefix)
+function geshi_use_doubles ($prefix, $require_leading_number = false)
 {
     $banned = '[^a-zA-Z_0-9]';
     $plus_minus = '[\-\+]?';
+    $leading_number_symbol = ($require_leading_number) ? '+' : '*';
 
     return array(
         0 => array(
-            "#(^|$banned)?({$plus_minus}[0-9]*\.[0-9]+)($banned)?#" // double precision (.123 or 34.342 for example)
+             // double precision with e, e.g. 3.5e7 or -.45e2
+            "#(^|$banned)?({$plus_minus}[0-9]$leading_number_symbol\.[0-9]+[eE]{$plus_minus}[0-9]+)($banned|\$)?#",
+            // double precision with e and no decimal place, e.g. 5e2
+            "#(^|$banned)?({$plus_minus}[0-9]+[eE]{$plus_minus}[0-9]+)($banned|\$)?#",
+            // double precision (.123 or 34.342 for example)
+            //@todo fix - sign in double numbers
+            "#(^|$banned)?({$plus_minus}[0-9]$leading_number_symbol\.[0-9]+)($banned|\$)?#"
             ),
         1 => '.', //doubles must have a dot
         2 => array(

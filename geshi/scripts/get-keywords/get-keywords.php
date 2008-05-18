@@ -32,7 +32,7 @@
  * 
  */
 
-define('GESHI_GET_KEYWORDS_VERSION', '0.1.1');
+define('GESHI_GET_KEYWORDS_VERSION', '0.1.2');
 
 /**
  * Script to get keywords for languages from katepart kde package

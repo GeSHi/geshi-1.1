@@ -57,12 +57,12 @@ $this->_childContexts = array(
     // PHP single comment, with # starter and end-php-context ender
     new GeSHiContext('php',  $DIALECT, 'single_comment'),
     // Use common multi comment since it is a PHP comment...
-    new GeSHiContext('php',  $DIALECT, 'multi_comment'),
+    new GeSHiContext('php',  $DIALECT, 'common/multi_comment'),
     new GeSHiContext('php',  $DIALECT, 'doxygen')
 );
 
-$this->_styler->setStartStyle($CONTEXT, 'font-weight:bold;color:red;'); // signals to me it's php4
-$this->_styler->setEndStyle($CONTEXT, 'font-weight:bold;color:red;');
+$this->_styler->setStyle($CONTEXT_START, 'color:#000;font-weight:bold;');
+$this->_styler->setStyle($CONTEXT_END, 'color:#000;font-weight:bold;');
 
 $this->_contextKeywords = array(
     0 => array(

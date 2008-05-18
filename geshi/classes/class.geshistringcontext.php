@@ -108,7 +108,7 @@ class GeSHiStringContext extends GeSHiContext
      */
      function _addParseData ($code, $first_char_of_next_context = '')
      {
-        geshi_dbg('GeSHiStringContext::_addParseData(' . substr($code, 0, 15) . ')', GESHI_DBG_PARSE);
+        geshi_dbg('GeSHiStringContext::_addParseData(' . substr($code, 0, 15) . '...)', GESHI_DBG_PARSE);
         
         $length = strlen($code);
         $string = '';

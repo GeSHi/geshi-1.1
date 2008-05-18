@@ -84,7 +84,7 @@ class KeywordGetter
      * @param KeywordGetterStrategy The strategy to use to get keywords
      * @private
      * {@internal Yes, that's right, PRIVATE. Use KeywordGetter::factory
-     * to create new KeywordGetters}
+     * to create new KeywordGetters}}
      * @todo [blocking 1.1.9] @internal format?
      */
     function KeywordGetter ($kwstrategy)

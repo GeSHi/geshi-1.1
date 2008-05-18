@@ -37,8 +37,15 @@
  * 
  * @todo [blocking 1.1.1] Support balanced context endings
  * @todo [blocking 1.1.1] OCCs should be able to modify their parent context
- * @todo [blocking 1.1.5] Language aliasing should be possible
+ * [done todo: Language aliasing should be possible]
+ * @todo [blocking 1.1.1] Better Delphi and Codeworker support
+ * [done todo: who controls the style of an OCC?: Who cares since theming
+ * will be coming in soon]
  */
+
+/** GeSHi Version */
+define('GESHI_VERSION', '1.1.0beta1');
+
 /** Set the correct directory separator */
 define('GESHI_DIR_SEPARATOR', ('WIN' != substr(PHP_OS, 0, 3)) ? '/' : '\\');
 
@@ -210,15 +217,24 @@ class GeSHi
     /**
      * Whether this object should be prepared as if it will be used
      * many times
+     * 
      * @var boolean
      */
     var $_cacheRootContext;
     
     /**
      * The cached root context, if caching of context trees is enabled
+     * 
      * @var GeSHiContext
      */
     var $_cachedRootContext;
+    
+    /**
+     * The GeSHiStyler object used by this class and all contexts for
+     * assisting parsing.
+     * 
+     * @var GeSHiStyler
+     */
 
     /**#@-*/
     
@@ -439,6 +455,29 @@ class GeSHi
      {
         geshi_dbg('GeSHi::setStyles(' . $selector . ', ' . $styles . ')', GESHI_DBG_API);
         $this->_styler->setStyle($selector, $styles);
+     }
+     
+     /**
+      * Returns the version of this GeSHi
+      * 
+      * @return string The version of this GeSHi
+      * @static
+      */
+     function getVersion ()
+     {
+     	geshi_dbg('GeSHi::getVersion()', GESHI_DBG_API);
+     	return GESHI_VERSION;
+     }
+     
+     /**
+      * Returns the version of this GeSHi
+      * 
+      * @return string The version of this GeSHi
+      * @deprecated in favour of {@link GeSHi::getVersion()}
+      */
+     function get_version ()
+     {
+     	return GeSHi::getVersion();
      }
 
     /**
@@ -662,7 +701,7 @@ class GeSHi
                 $result .= '<a href="' . $token[2] . '">';
             }
             $result .= '<span style="' . $this->_styler->getStyle($token[1]) . '" ';
-            $result .= 'class="' . str_replace(array('/', '_'), '-', $token[1]) . '" ';
+//            $result .= 'class="' . str_replace(array('/', '_'), '-', $token[1]) . '" ';
             $result .= 'title="' . $token[1] . '">' . htmlspecialchars($token[0]) . '</span>';
             if ($token[2]) {
                 // there's a URL associated with this token
@@ -672,8 +711,8 @@ class GeSHi
         $result .= '</pre>';
         
         // @todo [blocking 1.1.1] Evaluate feasability and get working if possible the functionality below...
-        $result = preg_replace('#([^"])(((https?)|(ftp))://[a-z0-9\-]+\.([a-z0-9\-\.]+)+/?([a-zA-Z0-9\.\-_%]+/?)*\??([a-zA-Z0-9=&\[\];%]+)?(\#[a-zA-Z0-9\-_]+)?)#', '\\1<a href="\\2">\\2</a>', $result);
-        $result = preg_replace('#([a-z0-9\._\-]+@[[a-z0-9\-\.]+[a-z]+)#si', '<a href="mailto:\\1">\\1</a>', $result);
+        //$result = preg_replace('#([^"])(((https?)|(ftp))://[a-z0-9\-]+\.([a-z0-9\-\.]+)+/?([a-zA-Z0-9\.\-_%]+/?)*\??([a-zA-Z0-9=&\[\];%]+)?(\#[a-zA-Z0-9\-_]+)?)#', '\\1<a href="\\2">\\2</a>', $result);
+        //$result = preg_replace('#([a-z0-9\._\-]+@[[a-z0-9\-\.]+[a-z]+)#si', '<a href="mailto:\\1">\\1</a>', $result);
                 
         return $result;        
     }

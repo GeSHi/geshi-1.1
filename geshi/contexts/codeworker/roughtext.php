@@ -1,10 +1,10 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  *  This file is part of GeSHi.
  *
  *  GeSHi is free software; you can redistribute it and/or modify
@@ -29,32 +29,30 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
- * 
+ *
  */
 
 $this->_contextDelimiters = array(
-	0 => array(
-		0 => array("REGEX#<<<\s*([a-z][a-z0-9]*)\n#i"),
-		1 => array("REGEX#\n!!!1;?\n#i"),
-		2 => false
-	)
+    0 => array(
+        0 => array('REGEX#generate\s*\(\s*\{#'),
+        1 => array('}'),
+        2 => false
+    ),
+    1 => array(
+        0 => array('REGEX#generateString\s*\(\s*\{#'),
+        1 => array('}'),
+        2 => false
+    ),
+    2 => array(
+        0 => array('REGEX#expand\s*\(\s*\{#'),
+        1 => array('}'),
+        2 => false
+    )
 );
 
 $this->_styler->setStyle($CONTEXT, 'color:#f00;');
-$this->_styler->setStyle($CONTEXT_START, 'color:#006;font-weight:bold;');
-$this->_styler->setStyle($CONTEXT_END, 'color:#006;font-weight:bold;');
-$this->_contextStyleType = GESHI_STYLE_STRINGS;
-
-//HEREDOC doesn't seem to have anything to escape - just the variable interpolation
-// String only stuff
-$this->_escapeCharacters = array('\\');
-// Escapes can be defined by regular expressions. 
-$this->_charsToEscape = array('n', 'r', 't', 'REGEX#[0-7]{1,3}#', 'REGEX#x[0-9a-f]{1,2}#i', '\\', '"');
-$this->_styler->setStyle($CONTEXT . '/esc', 'color:#006;font-weight:bold;');
-
-// GeSHiPHPDoubleStringContext stuff
-$this->_styler->setStyle($CONTEXT . '/var', 'color:#22f;');
-$this->_styler->setStyle($CONTEXT . '/sym0', 'color:#008000;');
-$this->_styler->setStyle($CONTEXT . '/oodynamic', 'color:#933;');
+//$this->_contextStyleType = GESHI_STYLE_NONE;
+$this->_delimiterParseData = GESHI_CHILD_PARSE_NONE;
+$this->_overridingChildContext =& new GeSHiCodeContext('codeworker', 'cwt');
 
 ?>

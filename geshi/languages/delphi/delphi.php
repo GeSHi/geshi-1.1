@@ -29,32 +29,26 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
+ *
+ */
+
+/*
+ * Delphi language file for GeSHi
+ * 
+ * [notes about language]
+ * 
+ * This implementation of delphi uses it's own version of ASM. It might
+ * be the case in the future that another version of ASM is similar enough
+ * for it to be used instead of the current delphi-specific one.
  * 
  */
 
-$this->_contextDelimiters = array(
-	0 => array(
-		0 => array("REGEX#<<<\s*([a-z][a-z0-9]*)\n#i"),
-		1 => array("REGEX#\n!!!1;?\n#i"),
-		2 => false
-	)
-);
+/** Get the GeSHiCodeContext class */ 
+require_once GESHI_CLASSES_ROOT . 'class.geshicodecontext.php';
 
-$this->_styler->setStyle($CONTEXT, 'color:#f00;');
-$this->_styler->setStyle($CONTEXT_START, 'color:#006;font-weight:bold;');
-$this->_styler->setStyle($CONTEXT_END, 'color:#006;font-weight:bold;');
-$this->_contextStyleType = GESHI_STYLE_STRINGS;
 
-//HEREDOC doesn't seem to have anything to escape - just the variable interpolation
-// String only stuff
-$this->_escapeCharacters = array('\\');
-// Escapes can be defined by regular expressions. 
-$this->_charsToEscape = array('n', 'r', 't', 'REGEX#[0-7]{1,3}#', 'REGEX#x[0-9a-f]{1,2}#i', '\\', '"');
-$this->_styler->setStyle($CONTEXT . '/esc', 'color:#006;font-weight:bold;');
+$this->_humanLanguageName = 'Delphi';
 
-// GeSHiPHPDoubleStringContext stuff
-$this->_styler->setStyle($CONTEXT . '/var', 'color:#22f;');
-$this->_styler->setStyle($CONTEXT . '/sym0', 'color:#008000;');
-$this->_styler->setStyle($CONTEXT . '/oodynamic', 'color:#933;');
+$this->_rootContext =& new GeSHiCodeContext('delphi');
 
 ?>
