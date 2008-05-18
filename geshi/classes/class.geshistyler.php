@@ -1,47 +1,52 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
+ * <pre>
+ *   File:   geshi/classes/class.geshicodecontext.php
+ *   Author: Nigel McNie
+ *   E-mail: nigel@geshi.org
+ * </pre>
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
  * 
- *  This file is part of GeSHi.
+ * This program is part of GeSHi.
  *
- *  GeSHi is free software; you can redistribute it and/or modify
+ *  This program is free software; you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
  *  the Free Software Foundation; either version 2 of the License, or
  *  (at your option) any later version.
  *
- *  GeSHi is distributed in the hope that it will be useful,
+ *  This program is distributed in the hope that it will be useful,
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- *
+ * 
  *  You should have received a copy of the GNU General Public License
- *  along with GeSHi; if not, write to the Free Software
- *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *  along with this program; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  *
- * You can view a copy of the GNU GPL in the COPYING file that comes
- * with GeSHi, in the docs/ directory.
- *
- * @package   core
- * @author    Nigel McNie <nigel@geshi.org>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright (C) 2005 Nigel McNie
- * @version   $Id$
+ * @package    geshi
+ * @subpackage core
+ * @author     Nigel McNie <nigel@geshi.org>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * @copyright  (C) 2004 - 2006 Nigel McNie
+ * @version    $Id$
  * 
  */
 
 /**
  * The GeSHiStyler class
  * 
- * @package core
- * @author  Nigel McNie <nigel@geshi.org>
- * @since   1.1.0
- * @version $Revision$
+ * @package    geshi
+ * @subpackage core
+ * @author     Nigel McNie <nigel@geshi.org>
+ * @since      1.1.0
+ * @version    $Revision$
  */
 class GeSHiStyler
 {
+    
     // {{{ properties
     
     /**
@@ -49,11 +54,6 @@ class GeSHiStyler
      */
     var $charset;
 
-    /**
-     * @var string
-     */    
-    var $fileExtension;
-    
     /**
      * Array of themes to attempt to use for highlighting, in
      * preference order
@@ -65,7 +65,6 @@ class GeSHiStyler
     /**
      * @var string
      * Note: only set once language name is determined to be valid
-     * @todo [blocking 1.1.1] Some methods use this by parameter in this class, perhaps they could use this field?
      */
     var $language = '';
     
@@ -118,7 +117,7 @@ class GeSHiStyler
      */
     function setStyle ($context_name, $style, $start_name = 'start', $end_name = 'end')
     {
-        geshi_dbg('GeSHiStyler::setStyle(' . $context_name . ', ' . $style . ')', GESHI_DBG_PARSE);
+        geshi_dbg('GeSHiStyler::setStyle(' . $context_name . ', ' . $style . ')');
         if ($context_name) {
             $context_name = "/$context_name";
         }
@@ -152,7 +151,7 @@ class GeSHiStyler
         unset($this->_styleData[$context_name]);
         unset($this->_styleData["$context_name/$context_start_name"]);
         unset($this->_styleData["$context_name/$context_end_name"]);
-        geshi_dbg('  removed style data for ' . $context_name, GESHI_DBG_PARSE);
+        geshi_dbg('  removed style data for ' . $context_name);
     }
 
     // }}}
@@ -196,13 +195,17 @@ class GeSHiStyler
     // }}}
     // {{{ loadStyles()
     
-    function loadStyles ($language, $load_theme = false) {
-        geshi_dbg('GeSHiStyler::loadStyles(' . $language . ')', GESHI_DBG_PARSE);
+    function loadStyles ($language = '', $load_theme = false)
+    {
+        if (!$language) {
+            $language = $this->language;
+        }
+        geshi_dbg('GeSHiStyler::loadStyles(' . $language . ')');
         if ($this->reloadThemeData) {
-            geshi_dbg('  Loading theme data', GESHI_DBG_PARSE);
+            geshi_dbg('  Loading theme data');
             // Trash old data
             if ($load_theme) {
-                geshi_dbg('  Old data trashed', GESHI_DBG_PARSE);
+                geshi_dbg('  Old data trashed');
                 $this->_styleData = array();
             }
             
@@ -210,7 +213,7 @@ class GeSHiStyler
             $tmp = $this->language;
             $this->language = $language;
             foreach ($this->themes as $theme) {
-                $theme_file = GESHI_THEMES_ROOT . $theme . GESHI_DIR_SEP . $language . $this->fileExtension;
+                $theme_file = GESHI_THEMES_ROOT . $theme . GESHI_DIR_SEP . $language . '.php';
                 if (is_readable($theme_file)) {
                     require $theme_file;
                     break;
@@ -232,7 +235,7 @@ class GeSHiStyler
      * Makes sure that GeSHiStyler has a code parser and
      * renderer associated with it.
      */
-    function resetParseData ($language)
+    function resetParseData ()
     {
         // Set result to empty
         $this->_parsedCode = '';
@@ -240,21 +243,25 @@ class GeSHiStyler
         // If the language we are using does not have a code
         // parser associated with it, use the default one
         if (is_null($this->_codeParser)) {
+            /** Get the GeSHiCodeParser class */
+            require_once GESHI_CLASSES_ROOT . 'class.geshicodeparser.php';
             /** Get the default code parser class */
             require_once GESHI_CLASSES_ROOT . 'class.geshidefaultcodeparser.php';
-            $this->_codeParser =& new GeSHiDefaultCodeParser($this, $language);
+            $this->_codeParser =& new GeSHiDefaultCodeParser($this, $this->language);
         }
 
         // It the user did not explicitly set a renderer with GeSHi::accept(), then
         // use the default renderer (HTML)
         if (is_null($this->_renderer)) {
+            /** Get the GeSHiRenderer class */
+            require_once GESHI_CLASSES_ROOT . 'class.geshirenderer.php';
             /** Get the renderer class */
             require_once GESHI_RENDERERS_ROOT . 'class.geshirendererhtml.php';
-            $this->_renderer =& new GeSHiRendererHTML($this);
+            $this->_renderer =& new GeSHiRendererHTML;
         }
         
         // Load theme data now
-        $this->loadStyles($language, true);
+        $this->loadStyles('', true);
     }
 
     // }}}
@@ -268,9 +275,11 @@ class GeSHiStyler
      */
     function setCodeParser (&$codeparser)
     {
-        // @todo [blocking 1.1.1] handle case when not so (which should never happen)
         if (is_subclass_of($codeparser, 'GeSHiCodeParser')) {
             $this->_codeParser =& $codeparser;
+        } else {
+            trigger_error('GeSHiStyler::setCodeParser(): code parser must be a subclass '
+                . 'of GeSHiCodeParser', E_USER_ERROR);
         }
     }
     
@@ -400,29 +409,7 @@ class GeSHiStyler
     }
     
     // }}}
-    // {{{ setCacheData()
-    
-    /**
-     * Sets cache data
-     */
-    function setCacheData ($cached_file_name, $cache_str)
-    {
-        $this->_contextCacheData[$cached_file_name] = $cache_str;
-    }
-    
-    // }}}
-    // {{{ getCacheData()
-    
-    /**
-     * Gets cache data
-     */
-    function getCacheData ($cached_file_name)
-    {
-        return isset($this->_contextCacheData[$cached_file_name]) ?
-            $this->_contextCacheData[$cached_file_name] : null;
-    }
-    
-    // }}}
+
 }
 
 ?>

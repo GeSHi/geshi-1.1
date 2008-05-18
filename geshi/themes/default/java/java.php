@@ -55,10 +55,17 @@ $this->setStyle('num/dbl', 'color:#c6c;');
 
 $this->setStyle('class_name', 'color:red;');
 $this->setStyle('variable', 'color:gray;');
+$this->setStyle('exception', 'color:violet;');
+$this->setStyle('abstract', 'color:teal;');
+$this->setStyle('static', 'color:lime;');
 $this->setStyle('method', 'color:gold;');
 $this->setStyle('generic_type', 'color:purple;');
 $this->setStyle('annotation', 'color:orange;');
 $this->setStyle('interface', 'color: navy;');
+$this->setStyle('import', 'color:#ac23ef;');
+$this->setStyle('package', 'color:turquoise;');
+$this->setStyle('enum_value', 'color:cyan;');
+$this->setStyle('static_class', 'color:tan;');
 
 $this->loadStyles('doxygen/doxygen');
 

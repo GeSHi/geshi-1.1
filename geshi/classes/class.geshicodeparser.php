@@ -47,6 +47,15 @@
  * @version $Revision$
  * @abstract
  */
+
+/**
+ * @todo [blocking 1.1.9] From my nigel@geshi.org email I wrote
+ * a useful description of how the parseToken method works, which
+ * I should put in here and on the wiki
+ * 
+ * @todo [blocking 1.1.2] The java stack/reference stuff is useful
+ * for C as well, perhaps it could be reparented into here?
+ */
 class GeSHiCodeParser
 {
     // {{{ properties

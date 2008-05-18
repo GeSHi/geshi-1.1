@@ -46,7 +46,7 @@ define('GESHI_GET_KEYWORDS_VERSION', '0.1.3');
  * get-keywords.php --list-groups css
  * ...
  * 
- * @todo [blocking 1.1.1] customise output format options (one per line, formatted for pasting into lang file, HTML)
+ * @todo possibly remove this script
  */
   
 // As always...
@@ -142,7 +142,7 @@ if (KeywordGetter::isError($keywords)) {
 }
 
 // Simply echo to standard out, although a todo would be to make this customisable
-// @todo [blocking 1.1.1] Customise the output of keywords (to a file perhaps?)
+// @todo Customise the output of keywords (to a file perhaps?)
 $result = '';
 $spaces = '            ';
 foreach ($keywords as $keyword) {

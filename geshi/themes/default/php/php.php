@@ -46,7 +46,7 @@ $this->setStyle('symbol', 'color:#008000;');
 $this->setStyle('var', 'color:#33f;');
 
 $this->setStyle('num/int', 'color:#11e;');
-$this->setStyle('num/dbl', 'color:#fdf;');
+$this->setStyle('num/dbl', 'color:#c6c;');
 
 $this->setStyle('oodynamic', 'color:#933;');
 $this->setStyle('oostatic', 'color:#933;font-weight:bold;');
@@ -63,6 +63,7 @@ $this->setStyle('double_string/oodynamic', 'color:#933;');
 $this->setStyle('heredoc', 'color:#f00;');
 $this->setStyle('heredoc/start', 'color:#006;font-weight:bold;');
 $this->setStyle('heredoc/end', 'color:#006;font-weight:bold;');
+$this->setStyle('heredoc/esc', 'color:#006;font-weight:bold;');
 $this->setStyle('heredoc/var', 'color:#22f;');
 $this->setStyle('heredoc/symbol', 'color:#008000;');
 $this->setStyle('heredoc/oodynamic', 'color:#933;');

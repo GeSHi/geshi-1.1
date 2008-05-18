@@ -46,7 +46,7 @@ $this->setStyle('symbol', 'color:#008000;');
 $this->setStyle('var', 'color:#33f;');
 
 $this->setStyle('num/int', 'color:#11e;');
-$this->setStyle('num/dbl', 'color:#fdf;');
+$this->setStyle('num/dbl', 'color:#c6c;');
 
 $this->setStyle('oodynamic', 'color:#933;');
 $this->setStyle('oostatic', 'color:#933;font-weight:bold;');
