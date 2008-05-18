@@ -1,13 +1,28 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
+ * ----------------------------------
+ * 
+ * For information on how to use GeSHi, please consult the documentation
+ * found in the docs/ directory, or online at http://geshi.org/docs/
+ * 
+ *  This file is part of GeSHi.
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ *  GeSHi is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- * You can view a copy of the GNU GPL in the LICENSE file that comes
+ *  GeSHi is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with GeSHi; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * You can view a copy of the GNU GPL in the COPYING file that comes
  * with GeSHi, in the docs/ directory.
  *
  * @package   scripts
@@ -47,7 +62,6 @@ require_once 'class.keywordgetterstrategy.php';
  */
 class KeywordGetter
 {
-
     /**#@+
      * @access private
      */
@@ -68,6 +82,10 @@ class KeywordGetter
      * Constructor
      * 
      * @param KeywordGetterStrategy The strategy to use to get keywords
+     * @private
+     * {@internal Yes, that's right, PRIVATE. Use KeywordGetter::factory
+     * to create new KeywordGetters}
+     * @todo @internal format?
      */
     function KeywordGetter ($kwstrategy)
     {
@@ -114,7 +132,7 @@ class KeywordGetter
     }
     
     /**
-     * Gets the keywords
+     * Gets the keywords for a language
      * 
      * @param  The keyword group to get keywords for
      * @return array An array of the keywords for this language/keyword group
@@ -125,15 +143,43 @@ class KeywordGetter
     }
     
     /**
-     * Gets valid keyword groups
+     * Gets valid keyword groups for a language
      * 
-     * @return array
+     * @return array An array of valid keyword groups for the language
+     *               that this KeywordGetter is representing
      */
     function &getValidKeywordGroups ()
     {
         return $this->_keywordStrategy->getValidKeywordGroups();
     }
     
+    /**
+     * Gets a list of all supported languages
+     * 
+     * @return array
+     * @static
+     */
+    function &getSupportedLanguages ()
+    {
+        $files_to_ignore = array('.', '..', 'CVS');
+        $supported_languages = array();
+        
+        $dh = @opendir('languages');
+        if (false === $dh) {
+            return false;
+        }
+        
+        while (false !== ($file = @readdir($dh))) {
+            if (in_array($file, $files_to_ignore)) {
+                continue;
+            }
+            if (file_exists('languages/' . $file . '/class.' . $file . 'keywordgetter.php')) {
+                array_push($supported_languages, $file);
+            }
+        }
+        
+        return $supported_languages;
+    }
 }
     
 ?>

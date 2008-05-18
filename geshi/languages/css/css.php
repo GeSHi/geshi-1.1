@@ -37,10 +37,10 @@
 require_once GESHI_CLASSES_ROOT . 'class.geshicodecontext.php';
 
 /**
- * QBasic Language file for GeSHi
+ * CSS Language file for GeSHi
  */ 
-$this->_humanLanguageName = 'QBasic';
+$this->_humanLanguageName = 'CSS';
 
-$this->_rootContext =& new GeSHiCodeContext('qbasic');
+$this->_rootContext =& new GeSHiCodeContext('css');
 
 ?>

@@ -1,13 +1,28 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
+ * ----------------------------------
+ * 
+ * For information on how to use GeSHi, please consult the documentation
+ * found in the docs/ directory, or online at http://geshi.org/docs/
+ * 
+ *  This file is part of GeSHi.
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ *  GeSHi is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- * You can view a copy of the GNU GPL in the LICENSE file that comes
+ *  GeSHi is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with GeSHi; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * You can view a copy of the GNU GPL in the COPYING file that comes
  * with GeSHi, in the docs/ directory.
  *
  * @package   core
@@ -30,13 +45,13 @@
  * Use this class in a context or language file, to define a code
  * context:
  *
- * <pre>'CHILD_CONTEXTS' => array(
+ * <pre> 'CHILD_CONTEXTS' => array(
  *   ...
  *   new GeSHiCodeContext([params])
  *   ...
  * ),</pre>
  *
- * <pre>'CONTEXTS' => array(
+ * <pre> 'CONTEXTS' => array(
  *   ...
  *   new GeSHiCodeContext([params])
  *   ...
@@ -409,7 +424,7 @@ class GeSHiCodeContext extends GeSHiContext
         unset($result[0]);        
         geshi_dbg('@b  Resultant Parse Data:', GESHI_DBG_PARSE);
         geshi_dbg(str_replace("\n", "\r", print_r($result, true)), GESHI_DBG_PARSE);
-        //return array(array($code, $this->_styleName));
+        //return array(array($code, $this->_contextName));
         return $result;
      }
 
@@ -440,10 +455,10 @@ class GeSHiCodeContext extends GeSHiContext
             }
         }
         if (!$skip) {
-            if ($result[$result_pointer][1] == $this->_styleName) {
+            if ($result[$result_pointer][1] == $this->_contextName) {
                 $result[$result_pointer][0] .= $possible_symbol;
             } else {
-                $result[++$result_pointer] = array($possible_symbol, $this->_styleName);
+                $result[++$result_pointer] = array($possible_symbol, $this->_contextName);
             }
         }   
     }        

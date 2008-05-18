@@ -30,17 +30,51 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
- *
+ * 
  */
+ 
+$this->_contextDelimiters = array(
+    0 => array(
+        0 => array('@import', '@charset'),
+        1 => array(';'),
+        2 => false
+    )
+);
 
-/** Get the GeSHiCodeContext class */ 
-require_once GESHI_CLASSES_ROOT . 'class.geshicodecontext.php';
+$this->_childContexts = array(
+    new GeSHiStringContext('css/string')
+);
 
-/**
- * QBasic Language file for GeSHi
- */ 
-$this->_humanLanguageName = 'QBasic';
+$this->_styler->setStartStyle($this->_contextName, 'color:#c9c;font-weight:bold;');
+$this->_styler->setEndStyle($this->_contextName, 'color:#008000;');
+$this->_contextStyleType = GESHI_STYLE_NONE;
+// irrelevant if no delimiters...
+$this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
 
-$this->_rootContext =& new GeSHiCodeContext('qbasic');
+$this->_contextKeywords = array(
+    0 => array(
+        0 => array(
+            'url'
+        ),
+        1 => $this->_contextName . '/blah',
+        2 => 'color:#933;',
+        3 => false,
+        4 => ''
+    )
+);
+$this->_contextCharactersDisallowedBeforeKeywords = array();
+$this->_contextCharactersDisallowedAfterKeywords  = array();
+
+$this->_contextSymbols  = array(
+    0 => array(
+        0 => array(
+            ':', ';', '(', ')'
+            ),
+        // name (should names have / in them like normal contexts? YES
+        1 => $this->_contextName . '/sym',
+        // style
+        2 => 'color:#008000;'
+        )
+);
 
 ?>

@@ -1,13 +1,28 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
+ * ----------------------------------
+ * 
+ * For information on how to use GeSHi, please consult the documentation
+ * found in the docs/ directory, or online at http://geshi.org/docs/
+ * 
+ *  This file is part of GeSHi.
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ *  GeSHi is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
  *
- * You can view a copy of the GNU GPL in the LICENSE file that comes
+ *  GeSHi is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  You should have received a copy of the GNU General Public License
+ *  along with GeSHi; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ * You can view a copy of the GNU GPL in the COPYING file that comes
  * with GeSHi, in the docs/ directory.
  *
  * @package   lang
@@ -31,9 +46,9 @@ $this->_childContexts = array(
     new GeSHiContext('html/string', 'string')
 );
 
-$this->_styler->setStyle($this->_styleName, 'color:#008000;');
-$this->_styler->setStartStyle($this->_styleName, 'font-weight:bold;color:#000;');
-$this->_styler->setEndStyle($this->_styleName, 'font-weight:bold;color:#000;');
+$this->_styler->setStyle($this->_contextName, 'color:#008000;');
+$this->_styler->setStartStyle($this->_contextName, 'font-weight:bold;color:#000;');
+$this->_styler->setEndStyle($this->_contextName, 'font-weight:bold;color:#000;');
 $this->_contextStyleType = GESHI_STYLE_NONE;
 $this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
 
@@ -45,10 +60,11 @@ $this->_contextKeywords = array(
             'lang', 'cellspacing', 'cellpadding', 'http-equiv', 'content', 'type', 'border',
             'class', 'id', 'href', 'width', 'align', 'height', 'colspan', 'nowrap', 'alt',
             'valign', 'name', 'size', 'value', 'maxlength', 'clear', 'rowspan', 'src', 'method',
-            'action'
+            'action', 'bgcolor', 'background', 'onload', 'onsubmit', 'onmouseup', 'onmousedown',
+            'onfocus', 'onblur', 'rows', 'cols', 'selected', 'checked', 'enctype', 'language'
             ),
         // name
-        1 => $this->_styleName . '/attrs',
+        1 => $this->_contextName . '/attrs',
         // style
         2 => 'color:#006;',
         // case sensitive
@@ -67,7 +83,7 @@ $this->_contextSymbols  = array(
             '='
             ),
         // name (should names have / in them like normal contexts? YES
-        1 => $this->_styleName . '/sym',
+        1 => $this->_contextName . '/sym',
         // style
         2 => 'color:#008000;'
         )

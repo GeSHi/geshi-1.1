@@ -30,17 +30,24 @@
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright (C) 2005 Nigel McNie
  * @version   $Id$
- *
+ * 
  */
+ 
+$this->_contextDelimiters = array(
+    0 => array(
+        0 => array('['),
+        1 => array(']'),
+        2 => false
+    )
+);
 
-/** Get the GeSHiCodeContext class */ 
-require_once GESHI_CLASSES_ROOT . 'class.geshicodecontext.php';
+$this->_childContexts = array(
+    new GeSHiStringContext('css/string')
+);
 
-/**
- * QBasic Language file for GeSHi
- */ 
-$this->_humanLanguageName = 'QBasic';
-
-$this->_rootContext =& new GeSHiCodeContext('qbasic');
+$this->_styler->setStyle($this->_contextName, 'color:#008000;');
+$this->_contextStyleType = GESHI_STYLE_NONE;
+// irrelevant if no delimiters...
+$this->_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
 
 ?>
