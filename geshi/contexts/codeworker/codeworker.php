@@ -48,8 +48,9 @@ $this->_styler->setStyle($CONTEXT, 'color:#000;');
 $this->_contextKeywords = array(
     0 => array(
         0 => array(
-            'foreach', 'forfile', 'in', 'if', 'else', 'while', 'do', 'local', 'ref', 'localref',
-			'value', 'node', 'function', 'return', 'insert', 'pushItem', 'break'
+            'break', 'do', 'else', 'foreach', 'forfile', 'function', 'if', 'in',
+            'insert', 'local', 'localref', 'node', 'pushItem', 'ref', 'return',
+            'value', 'while'
         ),
         1 => $CONTEXT . '/keywords',
         2 => 'color:#000;font-weight:bold;',
@@ -58,12 +59,13 @@ $this->_contextKeywords = array(
     ),
     1 => array(
         0 => array(
-            'traceLine', 'removeElement', 'clearVariable', 'incrementIndentLevel',
-			'decrementIndentLevel', 'setInputLocation', 'readChars', 'getShortFilename',
-			'getInputFilename', 'getOutputFilename', 'replaceString', 'subString', 'rsubString',
-			'findLastString', 'leftString', 'midString', 'startString', 'toLowerString',
-			'toUpperString', 'composeCLikeString', 'composeHTMLLikeString', 'loadFile', 'size',
-			'empty', 'key', 'first', 'last'
+            'clearVariable', 'composeCLikeString', 'composeHTMLLikeString',
+            'decrementIndentLevel', 'empty', 'findLastString', 'first',
+            'getInputFilename', 'getOutputFilename', 'getShortFilename',
+            'incrementIndentLevel', 'key', 'last', 'leftString', 'loadFile',
+            'midString', 'readChars', 'removeElement', 'replaceString', 'rsubString',
+            'setInputLocation', 'size', 'startString', 'subString', 'toLowerString',
+            'toUpperString', 'traceLine'
          ),
          1 => $CONTEXT . '/functions',
          2 => 'color:#006;',
@@ -72,7 +74,7 @@ $this->_contextKeywords = array(
      ),
     2 => array(
         0 => array(
-            'project', 'this', '_ARGS', '_REQUEST', 'true', 'false'
+            'false', 'project', 'this', 'true', '_ARGS', '_REQUEST'
         ),
         1 => $CONTEXT . '/constants',
         2 => 'color:#900;font-weight:bold;',

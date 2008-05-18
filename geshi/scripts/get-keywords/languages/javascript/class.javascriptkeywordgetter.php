@@ -48,21 +48,6 @@ class javascriptKeywordGetterStrategy extends KeywordGetterStrategy
 {
     
     /**
-     * Extra keywords missed by the language file
-     * 
-     * @var array
-     * @access private
-     */
-    var $_missedKeywords = array(
-        'keywords' => array(
-            'null'
-        ),
-        'methods' => array(
-            'getElementById'
-        )
-    );
-    
-    /**
      * Creates a new Javascript Keyword Getter Strategy. Defines allowed
      * keyword groups for Javascript.
      */
@@ -72,6 +57,15 @@ class javascriptKeywordGetterStrategy extends KeywordGetterStrategy
         $this->_validKeywordGroups = array(
             'keywords', 'functions', 'objects', 'math', 'events', 'methods'
         );
+        
+        $this->_missedKeywords = array(
+            'keywords' => array(
+                'null'
+            ),
+            'methods' => array(
+                'getElementById'
+            )
+        );    
     }
         
     /**
@@ -83,7 +77,7 @@ class javascriptKeywordGetterStrategy extends KeywordGetterStrategy
      * @return array  The keywords for Javascript for the specified keyword group
      * @throws KeywordGetterError
      */
-    function getKeywords ($keyword_group)
+    function &getKeywords ($keyword_group)
     {
         // Check that keyword group listed is valid
         $group_valid = $this->keywordGroupIsValid($keyword_group);
@@ -95,26 +89,22 @@ class javascriptKeywordGetterStrategy extends KeywordGetterStrategy
         $xml_parser->setKeywordGroup($keyword_group);
         
         // Set the file to parse to Nigel's local Javascript syntax file.
-        $result =& $xml_parser->setInputFile('/usr/share/apps/katepart/syntax/javascript.xml');
+        $result = $xml_parser->setInputFile('/usr/share/apps/katepart/syntax/javascript.xml');
         if (PEAR::isError($result)) {
             return new KeywordGetterError(FILE_UNAVAILABLE, $this->_language,
                 array('{FILENAME}' => '/usr/share/apps/katepart/syntax/javascript.xml'));
         }
         
-        $result =& $xml_parser->parse();
+        $result = $xml_parser->parse();
         if (PEAR::isError($result)) {
             return new KeywordGetterError(PARSE_ERROR, $this->_language,
                 array('{PARSE_ERROR}' => $result->getMessage()));
         }
         
         $keywords =& $xml_parser->getKeywords();
-        //@todo [blocking 1.1.1] move missedkeywords functionality into common place
-        // as well as unique and sorts
-        if (isset($this->_missedKeywords[$keyword_group])) {
-            $keywords = array_merge($keywords, $this->_missedKeywords[$keyword_group]);
-        }
-        sort($keywords);
-        return array_unique($keywords);
+
+        $keywords =& $this->tidy($keywords, $keyword_group);
+        return $keywords;
     }
 }
 

@@ -42,6 +42,8 @@
  */
 class GeSHiContext
 {
+    // {{{ properties
+    
     /**#@-
      * @access private
      */
@@ -143,6 +145,15 @@ class GeSHiContext
     /**#@-*/
     
     /**
+     * Whether this context should never be trimmed
+     * @var boolean
+     */
+    var $_neverTrim = false;
+    
+    // }}}
+    // {{{ GeSHiContext()
+    
+    /**
      * Creates a new GeSHiContext.
      * 
      * @param string The name of the language this context represents
@@ -180,6 +191,9 @@ class GeSHiContext
         }
     }
     
+    // }}}
+    // {{{ getName()
+    
     /**
      * Returns the name of this context
      * 
@@ -190,23 +204,58 @@ class GeSHiContext
         return $this->_contextName;
     }
     
+    // }}}
+    // {{{ getStartName()
+    
+    /**
+     * Returns the name given to the part of this context that is
+     * matched by the starting context delimiter. Typically this is
+     * used by aliased contexts to lie about what they really start
+     * with.
+     * 
+     * @return string
+     */
     function getStartName ()
     {
         return $this->_startName;
     }
     
+    // }}}
+    // {{{ getEndName()
+    
+    /**
+     * Returns the name given to the part of this context that is
+     * matched by the ending context delimiter. Typically this is
+     * used by aliased contexts to lie about what they really end
+     * with.
+     * 
+     * @return string
+     */
     function getEndName ()
     {
         return $this->_endName;
     }
     
+    // }}}
+    // {{{ isAlias()
+    
+    /**
+     * Returns whether this context is an aliased context
+     * 
+     * @return boolean
+     */
     function isAlias ()
     {
         return $this->_isAlias;
     }
     
+    // }}}
+    // {{{ load()
+    
     /**
      * Loads the context data
+     * 
+     * @param GeSHiStyler The styler object to use
      */
     function load (&$styler)
     {
@@ -258,8 +307,8 @@ class GeSHiContext
             }
             // And add the infectious context to this context itself
             $this->_childContexts[] =& $this->_infectiousContext;
-            geshi_dbg('  Added infectious context ' . $this->_infectiousContext->getName()
-                . ' to ' . $this->getName(), GESHI_DBG_PARSE);
+            //geshi_dbg('  Added infectious context ' . $this->_infectiousContext->getName()
+            //    . ' to ' . $this->getName(), GESHI_DBG_PARSE);
         }
 
         // Recursively load the child contexts
@@ -278,6 +327,9 @@ class GeSHiContext
         //geshi_dbg('@o  Finished loading context ' . $this->_styleName . ' successfully', GESHI_DBG_PARSE);
     }
 
+    // }}}
+    // {{{ infectWith()
+    
     /**
      * Adds an "infectious child" to this context.
      * 
@@ -290,6 +342,8 @@ class GeSHiContext
         //    . ' to ' . $this->getName(), GESHI_DBG_PARSE);
     }
     
+    // }}}
+    // {{{ loadStyleData()
     
     /**
      * Loads style data for the given context. Not implemented here, but can be overridden
@@ -311,7 +365,10 @@ class GeSHiContext
             $this->_overridingChildContext->loadStyleData();
         }        
     }
-     
+    
+    // }}}
+    // {{{ trimUselessChildren()
+    
     /**
      * Checks each child to see if it's useful. If not, then remove it
      * 
@@ -346,7 +403,10 @@ class GeSHiContext
         foreach ($keys as $key) {
             $this->_childContexts[$key]->trimUselessChildren($code);
         }
-    }        
+    }
+    
+    // }}}
+    // {{{ parseCode()        
     
     /**
      * Parses the given code
@@ -492,6 +552,9 @@ class GeSHiContext
             }
         }
     }
+    
+    // }}}
+    // {{{ shouldParseStarter()
 
     /**
      * @return true if this context wants to parse its start delimiters
@@ -501,6 +564,9 @@ class GeSHiContext
         return $this->_delimiterParseData & GESHI_CHILD_PARSE_LEFT;
     }
     
+    // }}}
+    // {{{ shouldParseEnder()
+    
     /**
      * @return true if this context wants to parse its end delimiters
      */
@@ -508,15 +574,21 @@ class GeSHiContext
     {
         return $this->_delimiterParseData & GESHI_CHILD_PARSE_RIGHT;
     }
+    
+    // }}}
+    // {{{ contextCanStart()
 
     /**
      * Return true if it is possible for this context to parse this code at all
      */    
     function contextCanStart ($code)
     {
+        if ($this->_neverTrim) {
+            return true;
+        }
         foreach ($this->_contextDelimiters as $key => $delim_array) {
             foreach ($delim_array[0] as $delimiter) {
-                geshi_dbg('    Checking delimiter ' . $delimiter . '... ', GESHI_DBG_PARSE, false);
+                //geshi_dbg('    Checking delimiter ' . $delimiter . '... ', GESHI_DBG_PARSE, false);
                 $data     = geshi_get_position($code, $delimiter, 0, $delim_array[2]);
                 
                 if (false !== $data['pos']) {
@@ -526,7 +598,10 @@ class GeSHiContext
         }
         return false;
     }
-         
+    
+    // }}}
+    // {{{ _getEarliestContextData()
+
     /**
      * Works out the closest child context
      * 
@@ -576,6 +651,9 @@ class GeSHiContext
         }
     }
     
+    // }}}
+    // {{{ getContextStartData()
+    
     /**
      * Checks the context delimiters for this context against the passed
      * code to see if this context can help parse the code
@@ -623,6 +701,9 @@ class GeSHiContext
                      'key' => $first_key, 'dlm' => $first_dlm);
     }
     
+    // }}}
+    // {{{ _getContextEndData()
+    
     /**
      * GetContextEndData
      */
@@ -633,19 +714,83 @@ class GeSHiContext
         $context_end_pos = false;
         $context_end_len = -1;
         $context_end_dlm = '';
+        $offset = 0;
         
         // Bail out if context open key tells us that there is no ender for this context
         if (-1 == $context_open_key) {
         	geshi_dbg('  no opener so no ender', GESHI_DBG_PARSE);
         	return false;
         }
+
+        // Balanced endings is handled here        
+        if (isset($this->_contextDelimiters[$context_open_key][3])) {
+            $balance_opener = $this->_contextDelimiters[$context_open_key][3][0];
+            $balance_closer = $this->_contextDelimiters[$context_open_key][3][1];
+
+            // We get the first push for free
+            // @todo [blocking 1.1.1] if what we are balancing against is not related
+            // to the starter of the context then we have a problem... check $context_opener
+            // for starter stuff instead of assuming
+            $balance_count = 1;
+            geshi_dbg('@w  Begun balancing', GESHI_DBG_PARSE);
+            
+            while ($balance_count > 0) {
+                // Look for opener/closers.
+                $opener_pos = geshi_get_position($code, $balance_opener, $offset);
+                $closer_pos = geshi_get_position($code, $balance_closer, $offset);
+                geshi_dbg('  opener pos = ' . print_r($opener_pos,true) . ', closer pos = ' . print_r($closer_pos,true), GESHI_DBG_PARSE);
+                
+                // Check what we found
+                if (false !== $opener_pos['pos']) {
+                    if (false !== $closer_pos['pos']) {
+                        // Opener and closer available
+                        if ($opener_pos['pos'] < $closer_pos['pos']) {
+                            // Opener is closer so inc. counter
+                            ++$balance_count;
+                            geshi_dbg('  opener is closer so inc. to ' . $balance_count, GESHI_DBG_PARSE);
+                            // Start searching from new pos just past where we found the opener
+                            $offset = $opener_pos['pos'] + 1;
+                            // @todo [blocking 1.1.1] could cache closer pos at this point?
+                        } else {
+                            // closer is closer (bad english heh)
+                            --$balance_count;
+                            $offset = $closer_pos['pos'] + 1;
+                            geshi_dbg('  closer is closer so dec. to ' . $balance_count, GESHI_DBG_PARSE);
+                        }
+                    } else {
+                        // No closer will ever be available yet we are still in this context...
+                        // use end of code as end pos
+                        // I've yet to test this case
+                        geshi_dbg('@w  No closer but still in this context!', GESHI_DBG_PARSE);
+                        return array('pos' => strlen($code), 'len' => 0, 'dlm' => '');
+                    }
+                } elseif (false !== $closer_pos['pos']) {
+                    // No opener but closer. Nothing wrong with this
+                    --$balance_count;
+                    $offset = $closer_pos['pos'] + 1;
+                    geshi_dbg('  only closer left, dec. to ' . $balance_count, GESHI_DBG_PARSE);
+                } else {
+                    // No opener or closer
+                    // Assume that we end this context at the end of the code, with
+                    // no delimiter
+                    geshi_dbg('@w  No opener or closer but still in this context!', GESHI_DBG_PARSE);
+                    return array('pos' => strlen($code), 'len' => 0, 'dlm' => '');
+                }
+            }
+            // start looking for real end from the position where balancing ends
+            // because we've found where balancing ends, but the end of the balancing
+            // is likely to be the same as the end of the context
+            --$offset;
+        }        
         
         foreach ($this->_contextDelimiters[$context_open_key][1] as $ender) {
             geshi_dbg('  Checking ender: ' . str_replace("\n", '\n', $ender), GESHI_DBG_PARSE, false);
             $ender = $this->_substitutePlaceholders($ender);
             geshi_dbg(' converted to ' . $ender, GESHI_DBG_PARSE);
-             
-            $position = geshi_get_position($code, $ender);
+            
+            // Use the offset we may have found when handling balancing of contexts (will
+            // be zero if balancing not done).
+            $position = geshi_get_position($code, $ender, $offset);
             geshi_dbg('    Ender ' . $ender . ': ' . print_r($position, true), GESHI_DBG_PARSE);
             $length   = $position['len'];
             $position = $position['pos'];
@@ -670,6 +815,9 @@ class GeSHiContext
         }
     }
     
+    // }}}
+    // {{{ _addParseData()
+    
     /**
      * Adds parse data to the overall result
      * 
@@ -685,6 +833,9 @@ class GeSHiContext
        $this->_styler->addParseData($code, $this->_contextName);
     }
     
+    // }}}
+    // {{{ _addParseDataStart()
+    
     /**
      * Adds parse data for the start of a context to the overallresult
      */
@@ -692,6 +843,9 @@ class GeSHiContext
     {
         $this->_styler->addParseDataStart($code, $this->_contextName, $this->_startName);
     }
+    
+    // }}}
+    // {{{ _addParseDataEnd()
 
     /**
      * Adds parse data for the end of a context to the overallresult
@@ -700,6 +854,9 @@ class GeSHiContext
     {
         $this->_styler->addParseDataEnd($code, $this->_contextName, $this->_endName);
     }
+    
+    // }}}
+    // {{{ _substitutePlaceholders()
     
     /**
      * Substitutes placeholders for values matched in opening regular expressions
@@ -716,6 +873,8 @@ class GeSHiContext
         }
         return $ender;
     }
+    
+    // }}}
 }
 
 ?>

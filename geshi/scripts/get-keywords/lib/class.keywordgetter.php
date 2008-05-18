@@ -1,7 +1,6 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * ----------------------------------
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -39,12 +38,14 @@ define('LANG_NOT_SUPPORTED', -1);
 define('INVALID_KEYWORD_GROUP', -2);
 /** There was a parse error parsing an XML document for keywords */
 define('PARSE_ERROR', -3);
+/** The file to be used is unavailable */
+define('FILE_UNAVAILABLE', -4);
 
 /**#@+
  * @access private
  */
 /** The strategy object used to get keywords is invalid */
-define('INVALID_STRATEGY', -4);
+define('INVALID_STRATEGY', -5);
 /**#@-*/
 
 /** Class that handles errors */
@@ -103,7 +104,8 @@ class KeywordGetter
     function &factory ($language)
     {
         if (!file_exists('languages/' . $language . '/class.' . $language . 'keywordgetter.php')) {
-            return new KeywordGetterError(LANG_NOT_SUPPORTED, $language);
+            $tmp =& new KeywordGetterError(LANG_NOT_SUPPORTED, $language);
+            return $tmp;
         }
         $this->_language = $language;
         
@@ -112,10 +114,12 @@ class KeywordGetter
         
         $class = $language . 'KeywordGetterStrategy';
         if (!class_exists($class)) {
-            return new KeywordGetterError(LANG_NOT_SUPPORTED, $language);
+            $tmp =& new KeywordGetterError(LANG_NOT_SUPPORTED, $language);
+            return $tmp;
         }
         
-        return new KeywordGetter(new $class);
+        $tmp =& new KeywordGetter(new $class);
+        return $tmp;
     }
     
     /**
@@ -138,7 +142,8 @@ class KeywordGetter
      */
     function &getKeywords ($keyword_group)
     {
-        return $this->_keywordStrategy->getKeywords($keyword_group);
+        $tmp = $this->_keywordStrategy->getKeywords($keyword_group);
+        return $tmp;
     }
     
     /**
@@ -149,7 +154,8 @@ class KeywordGetter
      */
     function &getValidKeywordGroups ()
     {
-        return $this->_keywordStrategy->getValidKeywordGroups();
+        $tmp = $this->_keywordStrategy->getValidKeywordGroups();
+        return $tmp;
     }
     
     /**
@@ -165,7 +171,8 @@ class KeywordGetter
         
         $dh = @opendir('languages');
         if (false === $dh) {
-            return false;
+            $tmp = false;
+            return $tmp;
         }
         
         while (false !== ($file = @readdir($dh))) {
@@ -180,5 +187,5 @@ class KeywordGetter
         return $supported_languages;
     }
 }
-    
+
 ?>

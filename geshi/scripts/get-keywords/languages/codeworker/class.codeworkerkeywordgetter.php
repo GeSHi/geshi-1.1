@@ -33,42 +33,57 @@
  */
 
 /**
- * Implementation of KeywordGetterStrategy for the HTML language.
+ * Implementation of KeywordGetterStrategy for the CodeWorker language.
  * 
  * @package scripts
  * @author  Nigel McNie <nigel@geshi.org>
- * @since   0.1.1
+ * @since   0.1.2
  * @version $Revision$
  * @see     KeywordGetterStrategy
  */
-class htmlKeywordGetterStrategy extends KeywordGetterStrategy
+class codeworkerKeywordGetterStrategy extends KeywordGetterStrategy
 {
     /**
-     * The file from which the attribute names will be raided
-     * @var string
-     * @access private
+     * Creates a new CodeWorker Keyword Getter Strategy. Defines allowed
+     * keyword groups for CodeWorker.
      */
-    var $_fileName = '/usr/share/doc/w3-recs/RECS/html4/index/attributes.html';
-    
-    /**
-     * Creates a new HTML Keyword Getter Strategy. Defines allowed
-     * keyword groups for HTML.
-     */
-    function htmlKeywordGetterStrategy ()
+    function codeworkerKeywordGetterStrategy ()
     {
-        $this->_language = 'HTML';
+        $this->_language = 'CodeWorker';
         $this->_validKeywordGroups = array(
-            'attributes'
+	       'keywords', 'functions', 'constants', 'sfunctions'
+        );
+        $this->_missedKeywords = array(
+            'keywords' => array(
+                'break', 'do', 'else', 'foreach', 'forfile', 'function', 'if', 'in',
+                'insert', 'local', 'localref', 'node', 'pushItem', 'ref', 'return',
+                'value', 'while'
+            ),
+            'functions' => array(
+                'clearVariable', 'composeCLikeString', 'composeHTMLLikeString',
+                'decrementIndentLevel', 'empty', 'findLastString', 'first',
+                'getInputFilename', 'getOutputFilename', 'getShortFilename',
+                'incrementIndentLevel', 'key', 'last', 'leftString', 'loadFile',
+                'midString', 'readChars', 'removeElement', 'replaceString', 'rsubString',
+                'setInputLocation', 'size', 'startString', 'subString', 'toLowerString',
+                'toUpperString', 'traceLine'
+            ),
+            'constants' => array(
+                'false', 'project', 'this', 'true', '_ARGS', '_REQUEST'
+            ),
+            'sfunctions' => array(
+                'parseAsBNF', 'parseStringAsBNF', 'translate', 'translateString'
+            )
         );
     }
         
     /**
      * Implementation of abstract method {@link KeywordGetterStrategy::getKeywords()}
-     * to get keywords for HTML
+     * to get keywords for CodeWorker
      * 
      * @param  string The keyword group to get keywords for. If not a valid keyword
      *                 group an error is returned
-     * @return array  The keywords for HTML for the specified keyword group
+     * @return array  The keywords for CodeWorker for the specified keyword group
      * @throws KeywordGetterError
      */
     function &getKeywords ($keyword_group)
@@ -79,18 +94,7 @@ class htmlKeywordGetterStrategy extends KeywordGetterStrategy
             return $group_valid;
         }
         
-        if (!is_readable($this->_fileName)) {
-            $tmp =& new KeywordGetterError(FILE_UNAVAILABLE, $this->_language,
-                array('{FILENAME}' => $this->_fileName));
-            return $tmp;
-        }
-        
-        $file_contents = implode('', file($this->_fileName));
-        $matches = array();
-        preg_match_all('#<td title="Name"><a[^>]+>\s*([a-z\-]+)#', $file_contents, $matches);
-        $keywords = $matches[1];
-        
-        $keywords = $this->tidy($keywords, $keyword_group);
+        $keywords =& $this->tidy(array(), $keyword_group);
         return $keywords;
     }
 }
