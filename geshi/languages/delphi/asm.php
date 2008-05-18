@@ -34,6 +34,10 @@
  * @version    $Id$
  */
 
+/**#@+
+ * @access private
+ */
+
 require_once GESHI_LANGUAGES_ROOT . 'delphi' . GESHI_DIR_SEP . 'delphi.php';
 
 function geshi_delphi_asm (&$context)
@@ -214,5 +218,7 @@ function geshi_delphi_asm (&$context)
 
     geshi_delphi_stdprocs($context);
 }
+
+/**#@-*/
 
 ?>

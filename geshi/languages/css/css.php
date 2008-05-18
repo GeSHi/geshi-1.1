@@ -27,12 +27,16 @@
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
  *
  * @package    geshi
- * @subpackage core
+ * @subpackage lang
  * @author     Nigel McNie <nigel@geshi.org>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Nigel McNie
  * @version    $Id$
  *
+ */
+
+/**#@+
+ * @access private
  */
 
 /** Get common functions for CSS */
@@ -67,7 +71,7 @@ function geshi_css_css_rule (&$context)
         'border-top-color', 'border-top-style', 'border-top-width', 'border-width', 'bottom',
         'caption-side', 'clear', 'clip', 'color', 'content', 'counter-increment', 'counter-reset', 'cue',
         'cue-after', 'cue-before', 'cursor', 'direction', 'display', 'elevation', 'empty-cells', 'float',
-        'font', 'font-family', 'font-size', 'font-size-adjust', 'font-stretch', 'font-style',
+        'font', 'font-face', 'font-family', 'font-size', 'font-size-adjust', 'font-stretch', 'font-style',
         'font-variant', 'font-weight', 'height', 'left', 'letter-spacing', 'line-height', 'list-style',
         'list-style-image', 'list-style-keyword', 'list-style-position', 'list-style-type', 'margin',
         'margin-bottom', 'margin-left', 'margin-right', 'margin-top', 'marker-offset', 'max-height',
@@ -172,5 +176,7 @@ function geshi_css_css_at_rule (&$context)
         ':', ';', '(', ')'
     ), 'symbol');
 }
+
+/**#@-*/
 
 ?>

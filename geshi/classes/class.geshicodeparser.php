@@ -1,6 +1,11 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
+ * <pre>
+ *   File:   geshi/classes/class.geshicodeparser.php
+ *   Author: Nigel McNie
+ *   E-mail: nigel@geshi.org
+ * </pre>
  * 
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
@@ -24,11 +29,12 @@
  * You can view a copy of the GNU GPL in the COPYING file that comes
  * with GeSHi, in the docs/ directory.
  *
- * @package   core
- * @author    Nigel McNie <nigel@geshi.org>
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright (C) 2005 Nigel McNie
- * @version   $Id$
+ * @package    geshi
+ * @subpackage core
+ * @author     Nigel McNie <nigel@geshi.org>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * @copyright  (C) 2004 - 2006 Nigel McNie
+ * @version    $Id$
  * 
  */
 
@@ -41,14 +47,12 @@
  * detecting things that the context tree cannot detect
  * by itself.
  * 
- * @package core
- * @author  Nigel McNie <nigel@geshi.org>
- * @since   1.1.1
- * @version $Revision$
+ * @package    geshi
+ * @subpackage core
+ * @author     Nigel McNie <nigel@geshi.org>
+ * @since      1.1.1
+ * @version    $Revision$
  * @abstract
- */
-
-/**
  * @todo [blocking 1.1.9] From my nigel@geshi.org email I wrote
  * a useful description of how the parseToken method works, which
  * I should put in here and on the wiki
@@ -99,7 +103,7 @@ class GeSHiCodeParser
      * @param string The token recieved
      * @param string The name of the context the token is in
      * @param string Any extra data associated with the context
-     * @return mixed Either <code>false</code>, an array($token, $context_name, $data)
+     * @return mixed Either <kbd>false</kbd>, an array($token, $context_name, $data)
      *               or an array of arrays like this.
      * @abstract
      */

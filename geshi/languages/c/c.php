@@ -29,13 +29,18 @@
  * You can view a copy of the GNU GPL in the COPYING file that comes
  * with GeSHi, in the docs/ directory.
  *
- * @package   lang
- * @author    http://clc-wiki.net/wiki/User:Netocrat
- * @link      http://clc-wiki.net/wiki/Development:GeSHi_C Bug reports
- * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright (C) 2006 Netocrat
- * @version   $Id$
+ * @package    geshi
+ * @subpackage lang
+ * @author     http://clc-wiki.net/wiki/User:Netocrat
+ * @link       http://clc-wiki.net/wiki/Development:GeSHi_C Bug reports
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * @copyright  (C) 2006 Netocrat
+ * @version    $Id$
  *
+ */
+
+/**#@+
+ * @access private
  */
 
 /**
@@ -323,5 +328,7 @@ function geshi_c_c_preprocessor (&$context)
 
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
 }
+
+/**#@-*/
 
 ?>

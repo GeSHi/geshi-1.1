@@ -35,6 +35,10 @@
  *
  */
 
+/**#@+
+ * @access private
+ */
+
 /** Get common functions for PHP */
 require_once GESHI_LANGUAGES_ROOT . 'php' . GESHI_DIR_SEP . 'common.php';
 
@@ -776,5 +780,7 @@ function geshi_php_php4 (&$context)
     $context = $context->embedInside('html/html');
 
 }
+
+/**#@-*/
 
 ?>

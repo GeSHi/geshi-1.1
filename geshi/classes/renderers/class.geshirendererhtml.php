@@ -43,6 +43,7 @@
  * @author     Nigel McNie <nigel@geshi.org>
  * @since      1.1.1
  * @version    $Revision$
+ * @see        GeSHiRenderer
  */
 class GeSHiRendererHTML extends GeSHiRenderer
 {
@@ -50,8 +51,12 @@ class GeSHiRendererHTML extends GeSHiRenderer
     // {{{ parseToken()
         
     /**
-     * Implements parseToken to put HTML tags around
-     * the tokens
+     * Implements parseToken to put HTML tags around the tokens
+     * 
+     * @param string $token         The token to put tags around
+     * @param string $context_name  The name of the context that the tag is in
+     * @param array  $data          Miscellaneous data about the context
+     * @return string               The token wrapped in the appropriate HTML
      */
     function parseToken ($token, $context_name, $data)
     {
@@ -59,15 +64,16 @@ class GeSHiRendererHTML extends GeSHiRenderer
         if ('' == $token || geshi_is_whitespace($token)) {
             return $token;
         }
-        //echo $context_name; exit;
+
         $result = '';
         if (isset($data['url'])) {
+            // There's a URL associated with this token
             $result .= '<a href="' . $data['url'] . '">';
         }
         $result .= '<span style="' . $this->_styler->getStyle($context_name) . '" ';
         $result .= 'title="' . $context_name . '">' . htmlspecialchars($token) . '</span>';
         if (isset($data['url'])) {
-            // there's a URL associated with this token
+            // Finish the link
             $result .= '</a>';
         }
         return $result;
@@ -77,7 +83,9 @@ class GeSHiRendererHTML extends GeSHiRenderer
     // {{{ getHeader()
     
     /**
-     * Boring preset header at this time
+     * Returns the header for the code. Currently just a boring preset.
+     * 
+     * @return string
      */
     function getHeader ()
     {
@@ -88,7 +96,9 @@ class GeSHiRendererHTML extends GeSHiRenderer
     // {{{ getFooter()
     
     /**
-     * And preset footer
+     * Returns the footer for the code. Currently just a boring preset.
+     * 
+     * @return string
      */
     function getFooter ()
     {

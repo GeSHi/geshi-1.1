@@ -48,6 +48,9 @@
  */
 class GeSHiStringContext extends GeSHiContext
 {
+    
+    // {{{ properties
+    
     /**#@-
      * @access private
      */
@@ -58,6 +61,7 @@ class GeSHiStringContext extends GeSHiContext
     
     /**#@-*/
     
+    // }}}
     // {{{ setEscapeCharacters()
     
     /**

@@ -35,6 +35,10 @@
  *
  */
 
+/**#@+
+ * @access private
+ */
+
 /*
  * This implementation of delphi uses it's own version of ASM. It might
  * be the case in the future that another version of ASM is similar enough
@@ -365,5 +369,7 @@ function geshi_delphi_delphi_property_property_index(&$context)
     // @todo: This might require some changes later on to fix some bugs ...
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
+
+/**#@-*/
 
 ?>

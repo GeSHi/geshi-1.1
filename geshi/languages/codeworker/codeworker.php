@@ -38,6 +38,9 @@
  *
  */
 
+/**#@+
+ * @access private
+ */
 
 // @todo [blocking 1.1.2] noticed wierd error when no children: script<".cws">
 // the < wasn't being highlighted as a symbol
@@ -122,5 +125,7 @@ function geshi_codeworker_codeworker_double_string (&$context)
     $context->setEscapeCharacters('\\');
     $context->setCharactersToEscape('n', 'r', 't', '\\', '"');
 }
+
+/**#@-*/
 
 ?>

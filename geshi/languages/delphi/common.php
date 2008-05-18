@@ -35,6 +35,10 @@
  *
  */
 
+/**#@+
+ * @access private
+ */
+
 function geshi_delphi_common(&$context)
 {
     $context->addChild('single_comment');
@@ -357,5 +361,7 @@ function geshi_delphi_stdprocs(&$context)
         'Variance'
     ), 'stdprocs/math');
 }
+
+/**#@-*/
 
 ?>
