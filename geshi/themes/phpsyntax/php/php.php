@@ -52,10 +52,12 @@ $this->setStyle('heredoc/end', 'color:#070;');
 
 $this->setStyle('single_comment', 'color:#ff8000;');
 $this->setStyle('multi_comment', 'color:#ff8000;');
+$this->setStyle('phpdoc_comment', 'color:#ff8000;');
+$this->setStyle('phpdoc_comment/*', 'color:#ff8000;');
 
 $this->setRawStyle('html/html/*', 'color:#000;');
 $this->setRawStyle('javascript/javascript/*', 'color:#000;');
 $this->setRawStyle('css/css/*', 'color:#000;');
-$this->setRawStyle('doxygen/doxygen/*', 'color:#ff8000');
+//$this->setRawStyle('doxygen/doxygen/*', 'color:#ff8000');
 
 ?>

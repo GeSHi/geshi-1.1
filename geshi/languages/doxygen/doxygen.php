@@ -51,7 +51,7 @@ function geshi_doxygen_doxygen (&$context)
 
 function geshi_doxygen_doxygen_tag (&$context)
 {
-    $context->addDelimiters('@', 'REGEX#[^a-z]#');
+    $context->addDelimiters('REGEX#(?<=[\s*])@#', 'REGEX#[^a-z]#');
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 

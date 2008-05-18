@@ -54,8 +54,7 @@ function geshi_php_common (&$context)
     $context->addChild('heredoc', 'phpdoublestring');
     $context->addChild('single_comment');
     $context->addChild('multi_comment');
-    // Parse PHPDoc comments with doxygen
-    $context->addChildLanguage('doxygen/doxygen', '/**', '*/', false, GESHI_CHILD_PARSE_BOTH);
+    $context->addChild('phpdoc_comment');
     
     // Keywords that have php.net manual entries
     $context->addKeywordGroup(array(
@@ -75,7 +74,7 @@ function geshi_php_common (&$context)
     
     // PHP Variables
     // @todo [blocking 1.1.5] maybe later let the test string be a regex or something
-    $context->addRegexGroup('#(\$\$?[a-zA-Z_][a-zA-Z0-9_]*)#', '$',
+    $context->addRegexGroup('#(\$\$?)([a-zA-Z_][a-zA-Z0-9_]*)#', '$',
         // This is the special bit ;)
         // For each bracket pair in the regex above, you can specify a name and optionally,
         // whether the matched part should be checked for being code first
@@ -96,7 +95,8 @@ function geshi_php_common (&$context)
             // The "bar" will be highlighted as an oo method, while the
             // "toLowerCase" will be highlighted as a keyword even though
             // it matches the oo method.
-            1 => array('var', false)
+            1 => array('varstart', false),
+            2 => array('var', false)
         )
     );
     
@@ -117,6 +117,7 @@ function geshi_php_single_string (&$context)
     $context->setEscapeCharacters('\\');
     $context->setCharactersToEscape(array('\\', "'"));
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
+    $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
 function geshi_php_double_string (&$context)
@@ -125,6 +126,7 @@ function geshi_php_double_string (&$context)
     $context->setEscapeCharacters('\\');
     $context->setCharactersToEscape(array('n', 'r', 't', 'REGEX#[0-7]{1,3}#', 'REGEX#x[0-9a-f]{1,2}#i', '\\', '"', '$'));
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
+    $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
 function geshi_php_heredoc (&$context)
@@ -133,19 +135,50 @@ function geshi_php_heredoc (&$context)
     $context->setEscapeCharacters('\\');
     $context->setCharactersToEscape(array('n', 'r', 't', 'REGEX#[0-7]{1,3}#', 'REGEX#x[0-9a-f]{1,2}#i', '\\', '"', '$'));
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
+    $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
 function geshi_php_single_comment (&$context)
 {
     $context->addDelimiters(array('//', '#'), array("\n", '?>'));
     $context->parseDelimiters(GESHI_CHILD_PARSE_LEFT);
+    $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
 }
 
 function geshi_php_multi_comment (&$context)
 {
     $context->addDelimiters('/*', '*/');
+    $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
+}
+
+function geshi_php_phpdoc_comment (&$context)
+{
+    $context->addDelimiters('/**', '*/');
+    $context->addChild('tag');
+    $context->addChild('link');
+    $context->addChild('htmltag');
+    $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
+    //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
+}
+
+function geshi_php_phpdoc_comment_tag (&$context)
+{
+    $context->addDelimiters('REGEX#(?<=[\s*])@#', 'REGEX#[^a-z]#');
+    $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
+}
+
+function geshi_php_phpdoc_comment_link (&$context)
+{
+    $context->addDelimiters('{@', '}');
+    $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
+}
+
+function geshi_php_phpdoc_comment_htmltag (&$context)
+{
+    $context->addDelimiters('REGEX#<[/a-z_0-6]+#i', '>');
+    $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
 /**#@-*/

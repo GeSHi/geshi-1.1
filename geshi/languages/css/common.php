@@ -58,12 +58,14 @@ function geshi_css_common (&$context)
     ), 'css/css/symbol');
     
     // CSS classes
-    $context->addRegexGroup('#(\.[a-zA-Z][a-zA-Z0-9\-_]*)#', '.', array(
-        1 => array('css/css/class', false)
+    $context->addRegexGroup('#(\.)([a-zA-Z][a-zA-Z0-9\-_]*)#', '.', array(
+        1 => array('css/css/symbol', false),
+        2 => array('css/css/class', false)
     ));
     // CSS IDs
-    $context->addRegexGroup('/(#[a-zA-Z][a-zA-Z0-9\-_]*)/', '#', array(
-            1 => array('css/css/id', false)
+    $context->addRegexGroup('/(#)([a-zA-Z][a-zA-Z0-9\-_]*)/', '#', array(
+            1 => array('css/css/symbol', false),
+            2 => array('css/css/id', false)
     ));
 }
 
