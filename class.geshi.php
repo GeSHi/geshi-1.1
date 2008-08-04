@@ -29,7 +29,7 @@
  * @package    geshi
  * @subpackage core
  * @author     Nigel McNie <nigel@geshi.org>
- * @author     Knut A. Wikström <knut@wikstrom.dk>
+ * @author     Knut A. Wikstrï¿½m <knut@wikstrom.dk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Nigel McNie
  * @version    $Id$
@@ -182,14 +182,14 @@ class GeSHi
      *
      * @var string
      */
-    var $_source = '';
+    private $_source = '';
 
     /**
      * The name of the language to use when parsing the source
      *
      * @var string
      */
-    var $_language = '';
+    private $_language = '';
 
     /**
      * The humanised version of the language name
@@ -210,7 +210,7 @@ class GeSHi
      *
      * @var GeSHiContext
      */
-    var $_rootContext = null;
+    private $_rootContext = null;
 
     /**
      * The GeSHiStyler object used by this class and all contexts for
@@ -218,14 +218,14 @@ class GeSHi
      *
      * @var GeSHiStyler
      */
-    var $_styler = null;
+    private $_styler = null;
 
     /**
      * Timing information for the last code parsing
      *
      * @var array
      */
-    var $_times = array();
+    private $_times = array();
 
     /**#@-*/
 
@@ -251,7 +251,7 @@ class GeSHi
      *               GESHI_ROOT constant before including class.geshi.php.
      * @since 1.0.0
      */
-    function GeSHi ($source, $language_name, $path = '')
+    public function GeSHi ($source, $language_name, $path = '')
     {
         // Initialise timing
         // @todo [blocking 1.1.5] have to re-initialise timing if this object used many times
@@ -279,7 +279,7 @@ class GeSHi
      * @param string The source code to highlight
      * @since 1.0.0
      */
-    function setSource ($source)
+    public function setSource ($source)
     {
         $this->_source = strval($source);
     }
@@ -293,7 +293,7 @@ class GeSHi
      * @param string The language to use for highlighting
      * @since 1.0.0
      */
-    function setLanguage ($language_name)
+    public function setLanguage ($language_name)
     {
         // Make a legal language name
         $this->_language = GeSHi::_cleanLanguageName($language_name);
@@ -327,7 +327,7 @@ class GeSHi
      * @return mixed The time if there is a time, else false if there was an error
      * @since  1.1.0
      */
-    function getTime ($type = 'total')
+    public function getTime ($type = 'total')
     {
         if (isset($this->_times[$type])) {
             $start = explode(' ', $this->_times[$type][0]);
@@ -350,7 +350,7 @@ class GeSHi
      * @param string The CSS styles to apply to the context
      * @since 1.1.1
      */
-    function setStyles ($selector, $styles)
+    public function setStyles ($selector, $styles)
     {
         geshi_dbg('GeSHi::setStyles(' . $selector . ', ' . $styles . ')');
         $this->_styler->loadStyles('', true);
@@ -374,7 +374,7 @@ class GeSHi
      * @param mixed The theme name(s)
      * @since 1.1.1
      */
-    function setTheme ($themes)
+    public function setTheme ($themes)
     {
         // Passed in reverse order so priority is preserved
         for ($i = func_num_args() - 1; $i >= 0; $i--) {
@@ -390,7 +390,7 @@ class GeSHi
      *
      * @param GeSHiRenderer $renderer The renderer to use
      */
-    function setRenderer (&$renderer) {
+    public function setRenderer (&$renderer) {
         $this->_styler->setRenderer($renderer);
     }
 
@@ -403,7 +403,7 @@ class GeSHi
      * functionality, which could be split out somehow.
      * @todo actually, this should be implemented using a registry
      */
-    function getSupportedLanguages ($return_human = false)
+    public function getSupportedLanguages ($return_human = false)
     {
         $languages = array();
 
@@ -441,11 +441,10 @@ class GeSHi
      *                             the form <kbd>theme_name => human name</kbd>,
      *                             otherwise it is an array of <kbd>theme_name</kbd>s
      * @return array A list of themes supported by GeSHi
-     * @static
      * @since  1.1.1
      * @todo   This is expensive, possibly cache?
      */
-    function getSupportedThemes ($return_human = false)
+    public static function getSupportedThemes ($return_human = false)
     {
         $themes = array();
 
@@ -479,12 +478,11 @@ class GeSHi
      *                               just return an array of theme names.
      * @return array A list of themes supported by the language. Note that
      *               they are _not_ in preferred order
-     * @static
      * @since 1.1.1
      * @todo  Make them in preferred order?
      * @todo  Expensive, maybe cache?
      */
-    function themesSupportedBy ($language, $return_human = false)
+    public static function themesSupportedBy ($language, $return_human = false)
     {
         $themes = array();
         //geshi_dbg('GeSHi::themesSupportedBy(' . $language . ')', GESHI_DBG_API);
@@ -536,10 +534,9 @@ class GeSHi
      *      'language' => array('dialect', ...)
      * );</pre>
      *
-     * @static
      * @since 1.1.1
      */
-    function languagesSupportedBy ($theme)
+    public static function languagesSupportedBy ($theme)
     {
         //geshi_dbg('GeSHi::languagesSupportedBy(' . $theme . ')', GESHI_DBG_API);
         $languages = array();
@@ -562,11 +559,10 @@ class GeSHi
      * @param  string $language The language name to get the human version of
      * @return string The human language name, or <kbd>false</kbd> if the
      *                language does not exist
-     * @static
      * @todo actually implement this function
      * @since 1.1.2
      */
-    function getHumanLanguageName ($language)
+    public static function getHumanLanguageName ($language)
     {
         $human_name = '';
         $language = GeSHi::_clean($language);
@@ -582,10 +578,9 @@ class GeSHi
      * @param  string $theme The theme name to get the human version of
      * @return string The human theme name, or <kbd>false</kbd> if the
      *                theme does not exist
-     * @static
      * @since 1.1.1
      */
-    function getHumanThemeName ($theme)
+    public static function getHumanThemeName ($theme)
     {
         $human_name = '';
         $theme = GeSHi::_clean($theme);
@@ -607,10 +602,9 @@ class GeSHi
      * @param  string $theme    The name of the theme to check
      * @param  string $language The name of the language to check
      * @return boolean          Whether the language supports the theme
-     * @static
      * @since 1.1.1
      */
-    function themeSupportsLanguage ($theme, $language)
+    public static function themeSupportsLanguage ($theme, $language)
     {
         $language = GeSHi::_cleanLanguageName($language);
         return geshi_can_include(GESHI_THEMES_ROOT . $theme . '/' . $language . '.php');
@@ -623,10 +617,9 @@ class GeSHi
      * Returns the version of this GeSHi
      *
      * @return string The version of this GeSHi
-     * @static
      * @since  1.1.0
      */
-    function getVersion ()
+    public static function getVersion ()
     {
         return GESHI_VERSION;
     }
@@ -640,7 +633,7 @@ class GeSHi
      * @return string The source code, highlighted
      * @since 1.0.0
      */
-    function parseCode ()
+    public function parseCode ()
     {
         $this->_times['pre'][0] = microtime();
         $result = $this->_parsePreProcess();
@@ -714,7 +707,7 @@ class GeSHi
      *                      - ENT_QUOTES:   escapes &, <, >, double and single quotes
      * @return      string  converted string
      */
-    function hsc($string, $quote_style=ENT_COMPAT)
+    public static function hsc($string, $quote_style=ENT_COMPAT)
     {
         // init
         $aTransSpecchar = array(
@@ -752,7 +745,7 @@ class GeSHi
     /**
      * Resets timing for this GeSHi object
      */
-    function _initialiseTiming ()
+    protected function _initialiseTiming ()
     {
         $initial_times = array(0 => '0 0', 1 => '0 0');
         $this->_times = array(
@@ -768,7 +761,7 @@ class GeSHi
     /**
      * Prepare the source code for parsing
      */
-    function _parsePreProcess ()
+    protected function _parsePreProcess ()
     {
         // Strip newlines to common form
         $this->_source = str_replace("\r\n", "\n", $this->_source);
@@ -792,7 +785,7 @@ class GeSHi
 
         // Build the context tree. This creates a new context which calls a function which may
         // define children contexts etc. etc.
-        $this->_rootContext =& new GeSHiCodeContext($this->_language);
+        $this->_rootContext = new GeSHiCodeContext($this->_language);
 
 
         // Load the code parser if necessary
@@ -812,7 +805,7 @@ class GeSHi
         // Now the code parser (if existing) has been included, create it if it is defined
         if (class_exists($codeparser_name)) {
             // Get the code parser
-            $codeparser =& new $codeparser_name($this->_language);
+            $codeparser = new $codeparser_name($this->_language);
             // Call the source preprocessing method
             $this->_source = $codeparser->sourcePreProcess($this->_source);
             // Tell the styler about the code parser
@@ -839,7 +832,7 @@ class GeSHi
      *
      * @return The code, post-processed.
      */
-    function _parsePostProcess ()
+    protected function _parsePostProcess ()
     {
         // @todo [blocking 1.1.5] (bug 5) Evaluate feasability and get working if possible the functionality below...
         //$result = preg_replace('#([^"])(((https?)|(ftp))://[a-z0-9\-]+\.([a-z0-9\-\.]+)+/?([a-zA-Z0-9\.\-_%]+/?)*\??([a-zA-Z0-9=&\[\];%]+)?(\#[a-zA-Z0-9\-_]+)?)#', '\\1<a href="\\2">\\2</a>', $result);
@@ -862,7 +855,7 @@ class GeSHi
      * @return The absolute path of the language file where the current language data will be sourced
      * @todo only used in one place, can be removed?
      */
-    function _getLanguageDataFile ()
+    protected function _getLanguageDataFile ()
     {
         if ('/' == '/') {
             $language_file = $this->_language . '.php';
@@ -882,7 +875,7 @@ class GeSHi
      * @param  mixed $data Input to clean, can be a string or array
      * @return mixed The data in "clean" form
      */
-    function _clean ($data)
+    public static function _clean ($data)
     {
         return preg_replace('#[^a-z0-9/]#', '', $data);
     }
@@ -897,7 +890,7 @@ class GeSHi
      * @param  string $language The string to convert
      * @return string The converted language name
      */
-    function _cleanLanguageName ($language)
+    protected function _cleanLanguageName ($language)
     {
         $language = strtolower(strval($language));
         if (false === strpos($language, '/')) {
@@ -930,7 +923,7 @@ class GeSHi
      * @since  1.0.0
      * @deprecated
      */
-    function error ()
+    public function error ()
     {
         return false;
     }
@@ -946,7 +939,7 @@ class GeSHi
      * @since 1.0.0
      * @deprecated In favour of {@link setSource()}
      */
-    function set_source ($source)
+    public function set_source ($source)
     {
         $this->setSource($source);
     }
@@ -962,7 +955,7 @@ class GeSHi
      * @since 1.0.0
      * @deprecated In favour of {@link setLanguage()}
      */
-    function set_language($language_name)
+    public function set_language($language_name)
     {
         $this->setLanguage($language_name);
     }
