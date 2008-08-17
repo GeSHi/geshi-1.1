@@ -39,7 +39,7 @@
  * @access private
  */
 
-function geshi_html_html (GeSHiContext $context)
+function geshi_html_html (GeSHiContext &$context)
 {
     $context->addChild('doctype');
     $context->addChild('tag', 'code');
@@ -60,13 +60,13 @@ function geshi_html_html (GeSHiContext $context)
     );
 }
 
-function geshi_html_html_doctype (GeSHiContext $context)
+function geshi_html_html_doctype (GeSHiContext &$context)
 {
     $context->addDelimiters('<!DOCTYPE ', '>');
     $context->addChild('html/html/string');
 }
 
-function geshi_html_html_tag (GeSHiContext $context)
+function geshi_html_html_tag (GeSHiContext &$context)
 {
     $context->addDelimiters('REGEX#<[/a-z_0-6]+#i', '>');
     $context->addChild('html/html/string');
@@ -97,7 +97,7 @@ function geshi_html_html_tag (GeSHiContext $context)
     $context->addSymbolGroup(array('=', '/'), 'symbol');
 }
 
-function geshi_html_html_string (GeSHiContext $context)
+function geshi_html_html_string (GeSHiContext &$context)
 {
     $context->addDelimiters("'", "'");
     $context->addDelimiters('"', '"');
@@ -107,7 +107,7 @@ function geshi_html_html_string (GeSHiContext $context)
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
 }
 
-function geshi_html_html_comment (GeSHiContext $context)
+function geshi_html_html_comment (GeSHiContext &$context)
 {
     $context->addDelimiters('<!--', '-->');
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;

@@ -50,7 +50,7 @@
 require_once GESHI_LANGUAGES_ROOT . 'php' . GESHI_DIR_SEP
     . 'class.geshiphpdoublestringcontext.php';
 
-function geshi_php_common (GeSHiContext $context)
+function geshi_php_common (GeSHiContext &$context)
 {
     // Delimiters for PHP
     $context->addDelimiters(array('<?php', '<?'), '?>');
@@ -1928,7 +1928,7 @@ function geshi_php_common (GeSHiContext $context)
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
 }
 
-function geshi_php_single_string (GeSHiContext $context)
+function geshi_php_single_string (GeSHiContext &$context)
 {
     $context->addDelimiters("'", "'");
     $context->addEscapeGroup(array('\\'), array("'"));
@@ -1936,7 +1936,7 @@ function geshi_php_single_string (GeSHiContext $context)
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
-function geshi_php_double_string (GeSHiContext $context)
+function geshi_php_double_string (GeSHiContext &$context)
 {
     $context->addDelimiters('"', '"');
     $context->addEscapeGroup(array('\\'), array(
@@ -1948,7 +1948,7 @@ function geshi_php_double_string (GeSHiContext $context)
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
-function geshi_php_heredoc (GeSHiContext $context)
+function geshi_php_heredoc (GeSHiContext &$context)
 {
     $context->addDelimiters("REGEX#<<<\s*([a-z][a-z0-9]*)\n#i", "REGEX#\n!!!1;?\n#i");
     $context->addEscapeGroup(array('\\'), array(
@@ -1960,7 +1960,7 @@ function geshi_php_heredoc (GeSHiContext $context)
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
-function geshi_php_single_comment (GeSHiContext $context)
+function geshi_php_single_comment (GeSHiContext &$context)
 {
     $context->addDelimiters(array('//', '#'), array("\n", '?>'));
     $context->parseDelimiters(GESHI_CHILD_PARSE_LEFT);
@@ -1968,14 +1968,14 @@ function geshi_php_single_comment (GeSHiContext $context)
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
 }
 
-function geshi_php_multi_comment (GeSHiContext $context)
+function geshi_php_multi_comment (GeSHiContext &$context)
 {
     $context->addDelimiters('/*', '*/');
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
 }
 
-function geshi_php_phpdoc_comment (GeSHiContext $context)
+function geshi_php_phpdoc_comment (GeSHiContext &$context)
 {
     $context->addDelimiters('/**', '*/');
     $context->addChild('tag');
@@ -1985,19 +1985,19 @@ function geshi_php_phpdoc_comment (GeSHiContext $context)
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
 }
 
-function geshi_php_phpdoc_comment_tag (GeSHiContext $context)
+function geshi_php_phpdoc_comment_tag (GeSHiContext &$context)
 {
     $context->addDelimiters('REGEX#(?<=[\s*])@#', 'REGEX#[^a-z]#');
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
-function geshi_php_phpdoc_comment_link (GeSHiContext $context)
+function geshi_php_phpdoc_comment_link (GeSHiContext &$context)
 {
     $context->addDelimiters('{@', '}');
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
-function geshi_php_phpdoc_comment_htmltag (GeSHiContext $context)
+function geshi_php_phpdoc_comment_htmltag (GeSHiContext &$context)
 {
     $context->addDelimiters('REGEX#<[/a-z_0-6]+#i', '>');
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);

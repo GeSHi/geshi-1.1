@@ -42,7 +42,7 @@
 /** Get common functions for PHP */
 require_once GESHI_LANGUAGES_ROOT . 'php' . GESHI_DIR_SEP . 'common.php';
 
-function geshi_php_php (GeSHiContext $context)
+function geshi_php_php (GeSHiContext &$context)
 {
     geshi_php_common($context);
 
