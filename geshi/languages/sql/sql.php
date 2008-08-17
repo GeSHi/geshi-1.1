@@ -52,14 +52,12 @@
 //   be written to be much smarter about how it tells between an identifier
 //   and a keyword.
 //
+
+require_once GESHI_LANGUAGES_ROOT . 'sql' . GESHI_DIR_SEP . 'common.php';
+
 function geshi_sql_sql (&$context)
 {
-    $context->addChild('quoted_identifier', 'string');
-    $context->addChild('string', 'string');
-    $context->addChild('bitstring');
-    $context->addChild('hexstring');
-    $context->addChild('single_comment');
-    $context->addChild('multi_comment');
+    geshi_sql_common($context);
 
     $context->addKeywordGroup(array(
         'ABORT', 'ABS', 'ABSOLUTE', 'ACCESS', 'ADA', 'ADD', 'ADMIN',
@@ -186,72 +184,6 @@ function geshi_sql_sql (&$context)
         'INT8', 'SERIAL8', 'TEXT'
     ), 'type');
 
-    $context->addSymbolGroup(array(
-        ';', ':', '(', ')', '[', ']', ',', '.'
-    ), 'symbol');
-
-    $context->addSymbolGroup(array(
-        '+', '-', '*', '/', '<', '>', '=', '~', '!', '@', '#', '%', '^', '&',
-        '|', '`', '?'
-    ), 'operator');
-
-    $context->addRegexGroup(array('#(\$\d+)#'), '$', array(
-        1 => array('positional_parameter', false)
-    ));
-
-    $context->useStandardIntegers();
-    $context->useStandardDoubles();
-
-    $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
-function geshi_sql_sql_quoted_identifier (&$context)
-{
-    $context->addDelimiters('"', '"');
-    $context->addEscapeGroup(array('"'));
-}
-
-function geshi_sql_sql_string (&$context)
-{
-    // This context starts with a ' and ends with one too
-    $context->addDelimiters(array("'", '"'), array("'", '"'));
-
-    // If a ' occurs it can escape. There's nothing else listed as escape
-    // characters so it only escapes itself.
-    $context->addEscapeGroup(array("'"));
-
-    // The backslash escape is not SQL standard but is used in many databases
-    // regardless (e.g. mysql, postgresql)
-    // This rule means that the backslash escapes the array given (inc. the regex)
-    // As such, the definitions given here are perfectly in line with the new feature
-    // The only other feature is that the escape char could actually be an array of them
-    $context->addEscapeGroup(array('\\'), array('b', 'f', 'n', 'r', 't', "'",
-        'REGEX#[0-7]{3}#'));
-}
-
-function geshi_sql_sql_bitstring (&$context)
-{
-    // @todo [blocking 1.2.0] use parser to detect that only 0 and 1 are in
-    // the string
-    $context->addDelimiters("B'", "'");
-}
-
-function geshi_sql_sql_hexstring (&$context)
-{
-    // @todo [blocking 1.2.0] use parser to detect that only 0 - F are in
-    // the string
-    $context->addDelimiters("X'", "'");
-}
-
-
-function geshi_sql_sql_single_comment (&$context)
-{
-    $context->addDelimiters('--', "\n");
-}
-
-function geshi_sql_sql_multi_comment (&$context)
-{
-    // @todo [blocking 1.1.5] sql multiline comments can be nested
-    $context->addDelimiters('/*', '*/');
-}
 ?>
