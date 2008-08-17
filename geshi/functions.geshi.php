@@ -287,7 +287,7 @@ function geshi_whichsubstr($str, $substrs, $offset = 0, $flags = 0) {
  * @return string The regex with anchor inserted.
  */
 function geshi_anchor_re($regex) {
-    $delim = $regex{0};
+    $delim = $regex[0];
     $endPos = strrpos($regex, $delim);
     $endChars = substr($regex, $endPos);
     return "$delim^(".substr($regex, 1, $endPos - 1).')'.$endChars;

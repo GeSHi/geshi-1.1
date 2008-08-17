@@ -6,10 +6,10 @@
  *   Author: Nigel McNie
  *   E-mail: nigel@geshi.org
  * </pre>
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  * This program is part of GeSHi.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
@@ -32,7 +32,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Nigel McNie
  * @version    $Id$
- * 
+ *
  */
 
 /**#@+
@@ -50,7 +50,7 @@
 require_once GESHI_LANGUAGES_ROOT . 'php' . GESHI_DIR_SEP
     . 'class.geshiphpdoublestringcontext.php';
 
-function geshi_php_common (&$context)
+function geshi_php_common (GeSHiContext $context)
 {
     // Delimiters for PHP
     $context->addDelimiters(array('<?php', '<?'), '?>');
@@ -63,14 +63,14 @@ function geshi_php_common (&$context)
     $context->addChild('single_comment');
     $context->addChild('multi_comment');
     $context->addChild('phpdoc_comment');
-    
+
     // Keywords in all PHP version that have php.net manual entries
     $context->addKeywordGroup(array(
         'array', 'die', 'echo', 'empty', 'eval', 'exit', 'include',
         'include_once', 'isset', 'list', 'print', 'require', 'require_once',
         'return', 'unset'
     ), 'keyword', false, 'http://www.php.net/{FNAME}');
-    
+
     // Keywords in all PHP versions with no manual entry
     $context->addKeywordGroup(array(
         'and', 'as', 'break', 'case', 'class', 'continue', 'declare',
@@ -79,22 +79,22 @@ function geshi_php_common (&$context)
         'foreach', 'function', 'global', 'if', 'or', 'parent', 'static',
         'switch', 'new', 'use', 'var', 'while', 'xor'
     ), 'keyword');
-    
+
     // Keywords in all PHP versions that are case sensitive
     $context->addKeywordGroup(array(
         '__CLASS__', '__FILE__', '__FUNCTION__', '__LINE__'
     ), 'keyword', true);
-    
+
     // Primitive types in all PHP versions
     $context->addKeywordGroup(array(
         'bool', 'boolean', 'float',  'int', 'integer', 'string', 'object'
     ), 'type', true, 'http://php.net/{FNAME}');
-    
+
     // Double type has no manual entry, it's an alias of float
     $context->addKeywordGroup(array(
         'double'
     ), 'type', true, 'http://php.net/float');
-    
+
     // Constants in all PHP versions
     $context->addKeywordGroup(array(
         'E_ERROR', 'E_WARNING', 'E_PARSE', 'E_NOTICE', 'E_CORE_ERROR',
@@ -286,9 +286,9 @@ function geshi_php_common (&$context)
         'APD_AF_INET', 'APD_FUNCTION_TRACE', 'APD_ARGS_TRACE',
         'APD_ASSIGNMENT_TRACE', 'APD_STATEMENT_TRACE', 'APD_MEMORY_TRACE',
         'APD_TIMING_TRACE', 'APD_SUMMARY_TRACE', 'APD_ERROR_TRACE',
-        'APD_PROF_TRACE', 
-    ), 'constant'); 
-    
+        'APD_PROF_TRACE',
+    ), 'constant');
+
     // Functions
     $context->addKeywordGroup(array(
         'abs', 'acos', 'acosh', 'addcslashes', 'addslashes', 'aggregate',
@@ -1889,7 +1889,7 @@ function geshi_php_common (&$context)
         'ziparchive_unchangeindex', 'ziparchive_unchangename',
         'zlib_get_coding_type'
     ), 'function', false, 'http://www.php.net/{FNAME}');
-    
+
     $context->setCharactersDisallowedBeforeKeywords('$', '_');
     $context->setCharactersDisallowedAfterKeywords("'", '_');
 
@@ -1899,7 +1899,7 @@ function geshi_php_common (&$context)
         '+', '-', '*', '/', '&', '|', '!', '<', '>', '~',
         '{', '}', '=', '@', '?', '.'
     ), 'symbol');
-    
+
     // PHP Variables
     // @todo [blocking 1.1.5] maybe later let the test string be a regex or
     // something
@@ -1912,11 +1912,11 @@ function geshi_php_common (&$context)
             2 => array('var', false)
         )
     );
-    
+
     // Number support
     $context->useStandardIntegers();
     $context->useStandardDoubles();
-    
+
     // PHP Objects
     $context->addObjectSplitter('->', 'oodynamic', 'symbol');
     $context->addObjectSplitter('::', 'oostatic', 'symbol');
@@ -1924,7 +1924,7 @@ function geshi_php_common (&$context)
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
 }
 
-function geshi_php_single_string (&$context)
+function geshi_php_single_string (GeSHiContext $context)
 {
     $context->addDelimiters("'", "'");
     $context->addEscapeGroup('\\', array("'"));
@@ -1932,7 +1932,7 @@ function geshi_php_single_string (&$context)
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
-function geshi_php_double_string (&$context)
+function geshi_php_double_string (GeSHiContext $context)
 {
     $context->addDelimiters('"', '"');
     $context->addEscapeGroup('\\', array('n', 'r', 't', 'REGEX#[0-7]{1,3}#',
@@ -1941,7 +1941,7 @@ function geshi_php_double_string (&$context)
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
-function geshi_php_heredoc (&$context)
+function geshi_php_heredoc (GeSHiContext $context)
 {
     $context->addDelimiters("REGEX#<<<\s*([a-z][a-z0-9]*)\n#i", "REGEX#\n!!!1;?\n#i");
     $context->addEscapeGroup('\\', array('n', 'r', 't', 'REGEX#[0-7]{1,3}#',
@@ -1950,7 +1950,7 @@ function geshi_php_heredoc (&$context)
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
-function geshi_php_single_comment (&$context)
+function geshi_php_single_comment (GeSHiContext $context)
 {
     $context->addDelimiters(array('//', '#'), array("\n", '?>'));
     $context->parseDelimiters(GESHI_CHILD_PARSE_LEFT);
@@ -1958,14 +1958,14 @@ function geshi_php_single_comment (&$context)
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
 }
 
-function geshi_php_multi_comment (&$context)
+function geshi_php_multi_comment (GeSHiContext $context)
 {
     $context->addDelimiters('/*', '*/');
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
 }
 
-function geshi_php_phpdoc_comment (&$context)
+function geshi_php_phpdoc_comment (GeSHiContext $context)
 {
     $context->addDelimiters('/**', '*/');
     $context->addChild('tag');
@@ -1975,19 +1975,19 @@ function geshi_php_phpdoc_comment (&$context)
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
 }
 
-function geshi_php_phpdoc_comment_tag (&$context)
+function geshi_php_phpdoc_comment_tag (GeSHiContext $context)
 {
     $context->addDelimiters('REGEX#(?<=[\s*])@#', 'REGEX#[^a-z]#');
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
-function geshi_php_phpdoc_comment_link (&$context)
+function geshi_php_phpdoc_comment_link (GeSHiContext $context)
 {
     $context->addDelimiters('{@', '}');
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
-function geshi_php_phpdoc_comment_htmltag (&$context)
+function geshi_php_phpdoc_comment_htmltag (GeSHiContext $context)
 {
     $context->addDelimiters('REGEX#<[/a-z_0-6]+#i', '>');
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);

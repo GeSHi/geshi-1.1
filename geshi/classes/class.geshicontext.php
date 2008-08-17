@@ -181,7 +181,7 @@ class GeSHiContext
         $this->_styler = geshi_styler();
     }
 
-    static function _initContext(&$context, $context_name, $init_function = '')
+    static function _initContext(GeSHiContext $context, $context_name, $init_function = '')
     {
         // Try a list of functions that should be used to populate this context.
         $tried_functions = array();
@@ -454,7 +454,7 @@ class GeSHiContext
         $context->parseDelimiters($parse_delimiter_flag);
         // @todo setter
         $context->_isChildLanguage = true;
-        $this->_childContexts[] =& $context;
+        $this->_childContexts[] = $context;
     }
 
     // }}}
