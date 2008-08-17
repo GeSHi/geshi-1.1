@@ -330,4 +330,170 @@ function geshi_styler ($force_new = false)
     return $styler;
 }
 
+
+/**
+* this functions creates an optimized regular expression list
+* of an array of strings.
+*
+* Example:
+* <code>$list = array('faa', 'foo', 'foobar');
+*          => string 'f(aa|oo(bar)?)'</code>
+*
+* @param $list array of (unquoted) strings
+* @param $regexp_delimiter your regular expression delimiter, @see preg_quote()
+* @return string for regular expression
+* @author Milian Wolff <mail@milianw.de>
+* @access private
+*/
+function geshi_optimize_regexp_list(array $list, $regexp_delimiter = '/') {
+    $regex_chars = array('.', '\\', '+', '*', '?', '[', '^', ']', '$',
+        '(', ')', '{', '}', '=', '!', '<', '>', '|', ':', $regexp_delimiter);
+    sort($list);
+    $regexp_list = array('');
+    $list_key = 0;
+
+    // prevent "Compilation failed: regular expression is too large" errors
+    $max_len = 35000;
+    $cur_len = 0;
+
+    // the tokens which we will use to generate the regexp list
+    $tokens = array();
+    $prev_keys = array();
+    // go through all entries of the list and generate the token list
+    for ($i = 0, $i_max = count($list); $i < $i_max; ++$i) {
+        $level = 0;
+        $entry = preg_quote((string) $list[$i], $regexp_delimiter);
+        $pointer = &$tokens;
+        // properly assign the new entry to the correct position in the token array
+        // possibly generate smaller common denominator keys
+        while (true) {
+            // get the common denominator
+            if (isset($prev_keys[$level])) {
+                if ($prev_keys[$level] == $entry) {
+                    // this is a duplicate entry, skip it
+                    continue 2;
+                }
+                $char = 0;
+                while (isset($entry[$char]) && isset($prev_keys[$level][$char])
+                        && $entry[$char] == $prev_keys[$level][$char]) {
+                    ++$char;
+                }
+                if ($char > 0) {
+                    // this entry has at least some chars in common with the current key
+                    if ($char == strlen($prev_keys[$level])) {
+                        // current key is totally matched, i.e. this entry has just some bits appended
+                        $pointer = &$pointer[$prev_keys[$level]];
+                    } else {
+                        // only part of the keys match
+                        $new_key_part1 = substr($prev_keys[$level], 0, $char);
+                        $new_key_part2 = substr($prev_keys[$level], $char);
+                        if (in_array($new_key_part1[0], $regex_chars)
+                            || in_array($new_key_part2[0], $regex_chars)) {
+                            // this is bad, a regex char as first character
+                            $pointer[$entry] = array('' => true);
+                            array_splice($prev_keys, $level, count($prev_keys), $entry);
+                            continue;
+                        } else {
+                            // relocate previous tokens
+                            $pointer[$new_key_part1] = array($new_key_part2 => $pointer[$prev_keys[$level]]);
+                            unset($pointer[$prev_keys[$level]]);
+                            $pointer = &$pointer[$new_key_part1];
+                            // recreate key index
+                            array_splice($prev_keys, $level, count($prev_keys), array($new_key_part1, $new_key_part2));
+                        }
+                    }
+                    ++$level;
+                    $entry = substr($entry, $char);
+                    continue;
+                }
+                // else: fall trough, i.e. no common denominator was found
+            }
+            if ($level == 0 && !empty($tokens)) {
+                // we can dump current tokens into the string and throw them away afterwards
+                $new_entry = geshi_optimize_regexp_list_tokens_to_string($tokens);
+
+                $entry_len = strlen($new_entry);
+                if ($max_len < $cur_len + $entry_len) {
+                    $regexp_list[++$list_key] = $new_entry;
+                    $cur_len = $entry_len;
+                } else {
+                    if (!empty($regexp_list[$list_key])) {
+                        $new_entry = '|' . $new_entry;
+                    }
+                    $regexp_list[$list_key] .= $new_entry;
+                    $cur_len += $entry_len;
+                }
+
+                $tokens = array();
+            }
+            // no further common denominator found
+            $pointer[$entry] = array('' => true);
+            array_splice($prev_keys, $level, count($prev_keys), $entry);
+            break;
+        }
+        unset($list[$i]);
+    }
+    // make sure the last tokens get converted as well
+    $new_entry = geshi_optimize_regexp_list_tokens_to_string($tokens);
+
+    $entry_len = strlen($new_entry);
+    if ($max_len < $cur_len + $entry_len) {
+        $regexp_list[++$list_key] = $new_entry;
+        $cur_len = $entry_len;
+    } else {
+        if (!empty($regexp_list[$list_key])) {
+            $new_entry = '|' . $new_entry;
+        }
+        $regexp_list[$list_key] .= $new_entry;
+        $cur_len += $entry_len;
+    }
+
+    $tokens = array();
+    return $regexp_list;
+}
+/**
+* this function creates the appropriate regexp string of an token array
+* you should not call this function directly, @see $this->optimize_regexp_list().
+*
+* @param &$tokens array of tokens
+* @param $recursed bool to know wether we recursed or not
+* @return string
+* @author Milian Wolff <mail@milianw.de>
+* @access private
+*/
+function geshi_optimize_regexp_list_tokens_to_string(&$tokens, $recursed = false) {
+    $list = '';
+    foreach ($tokens as $token => $sub_tokens) {
+        $list .= $token;
+        $close_entry = isset($sub_tokens['']);
+        unset($sub_tokens['']);
+        if (!empty($sub_tokens)) {
+            $list .= '(?:' . geshi_optimize_regexp_list_tokens_to_string($sub_tokens, true) . ')';
+            if ($close_entry) {
+                // make sub_tokens optional
+                $list .= '?';
+            }
+        }
+        $list .= '|';
+    }
+    if (!$recursed) {
+        // do some optimizations
+        // common trailing strings
+        // BUGGY!
+        //$list = preg_replace_callback('#(?<=^|\:|\|)\w+?(\w+)(?:\|.+\1)+(?=\|)#', create_function(
+        //    '$matches', 'return "(?:" . preg_replace("#" . preg_quote($matches[1], "#") . "(?=\||$)#", "", $matches[0]) . ")" . $matches[1];'), $list);
+        // (?:p)? => p?
+        $list = preg_replace('#\(\?\:(.)\)\?#', '\1?', $list);
+        // (?:a|b|c|d|...)? => [abcd...]?
+        // TODO: a|bb|c => [ac]|bb
+        static $callback_2;
+        if (!isset($callback_2)) {
+            $callback_2 = create_function('$matches', 'return "[" . str_replace("|", "", $matches[1]) . "]";');
+        }
+        $list = preg_replace_callback('#\(\?\:((?:.\|)+.)\)#', $callback_2, $list);
+    }
+    // return $list without trailing pipe
+    return substr($list, 0, -1);
+}
+
 ?>

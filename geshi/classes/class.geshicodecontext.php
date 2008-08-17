@@ -353,10 +353,11 @@ class GeSHiCodeContext extends GeSHiContext
         $result_pointer = 0;
         $length = strlen($code);
         $keyword_match_allowed  = true;
-        $earliest_pos           = false;
-        $earliest_keyword       = '';
-        $earliest_keyword_group = 0;
 
+        $keyword_cache = array();
+        $next_keyword_pos = -1;
+        $next_keyword_group = '';
+        $next_keyword = '';
         // For each character
         for ($i = 0; $i < $length; $i++) {
             if (isset($regex_replacements[$i])) {
@@ -370,7 +371,7 @@ class GeSHiCodeContext extends GeSHiContext
                 $keyword_match_allowed = true;
             }
 
-            $char = substr($code, $i, 1);
+            $char = $code[$i];
             if ("\0" == $char) {
                 // Not interested in null characters inserted by regex replacements
                 continue;
@@ -384,81 +385,73 @@ class GeSHiCodeContext extends GeSHiContext
 
             geshi_dbg('@b  Current char is: ' . str_replace("\n", '\n', $char));
 
-            if ($keyword_match_allowed && isset($this->_contextKeywordLookup[$char])) {
-                foreach ($this->_contextKeywordLookup[$char] as $keyword_array) {
-                    // keyword array is 0 => keyword, 1 => kwgroup
-                    if (strlen($keyword_array[0]) < $earliest_keyword) {
-                        // We can skip keywords that are shorter than the best
-                        // earliest we can currently do
-                        geshi_dbg('  [skipping ' . $keyword_array[0]);
-                        continue;
-                    }
-                    geshi_dbg('    Checking code for ' . $keyword_array[0]);
-                    // If case sensitive
-                    if ($this->_contextKeywords[$keyword_array[1]][2]) {
-                        $next_part_is_keyword = ($keyword_array[0] == substr($code, $i, strlen($keyword_array[0])));
-                    } else {
-                        $next_part_is_keyword = (strtolower($keyword_array[0]) == strtolower(substr($code, $i, strlen($keyword_array[0]))));
-                    }
-                    geshi_dbg("  next part is keyword: $next_part_is_keyword");
-                    if ($next_part_is_keyword) {
-                        // OPTIMIZE (use lookup to remember for length $foo(1 => false, 2 => false) so if kw is length 1 or 2 then don't need to check
-                        //$after_allowed = ( !in_array(substr($code, $i + strlen($keyword_array[0]), 1), array_diff($this->_context_characters_disallowed_after_keywords, $this->_context_keywords[$keyword_array[1]][4])) );
-                        // the first char of the keyword is always $char???
-                        $after_char = substr($code, $i + strlen($keyword_array[0]), 1);
-                        // if '' == $after_char, it's at the end of the context so we need
-                        // the first char from the next context...
-                        if ( '' == $after_char ) $after_char = $first_char_of_next_context;
-
-                        geshi_dbg("  after char to check: |$after_char|");
-                        $after_allowed = ('' == $after_char || !ctype_alnum($after_char) ||
-                            (ctype_alnum($after_char) &&
-                            !ctype_alnum($char)) );
-                        $after_allowed = ($after_allowed &&
-                            !in_array($after_char, $this->_contextCharactersDisallowedAfterKeywords));
-                        // Disallow underscores after keywords
-                        $after_allowed = ($after_allowed && ($after_char != '_'));
-
-                        // If where we are up to is a keyword, and it's allowed to be here (before was already
-                        // tested by $keyword_match_allowed)
-                        if ($next_part_is_keyword && $after_allowed) {
-                            //if ( false === $earliest_pos || $pos < $earliest_pos || ($pos == $earliest_pos && strlen($keyword_array[0]) > strlen($earliest_keyword)) )
-                            if (strlen($keyword_array[0]) > strlen($earliest_keyword)) {
-                                geshi_dbg('@bfound');
-                                // what is _pos for?
-                                // What are any of them for??
-                                $earliest_pos           = true;//$pos;
-                                // BUGFIX: just in case case sensitive matching used, get data from string
-                                // instead of from data array
-                                $earliest_keyword       = substr($code, $i, strlen($keyword_array[0]));
-                                $earliest_keyword_group = $keyword_array[1];
-                                //break;
-                                //@todo: lookahead for other keywords with same base
+            // check keywords
+            $matched_keyword = false;
+            if ($keyword_match_allowed) {
+                if ($next_keyword_pos < $i) {
+                    geshi_dbg('  check for new keyword position');
+                    $next_keyword_pos = $length;
+                    foreach ($this->_contextKeywordLookup as $group_key => $arr) {
+                        $min_len = $arr[1];
+                        if ($length - $i < $min_len) {
+                            continue;
+                        }
+                        foreach ($arr[0] as $regex_key => $regexp) {
+                            $match_i = false;
+                            if (isset($keyword_cache[$regex_key][$group_key]) &&
+                                ($keyword_cache[$regex_key][$group_key]['pos'] >= $i ||
+                                  $keyword_cache[$regex_key][$group_key]['pos'] === false)) {
+                                // we have already matched something
+                                if ($keyword_cache[$regex_key][$group_key]['pos'] === false) {
+                                    // this comment is never matched
+                                    continue;
+                                }
+                                $match_i = $keyword_cache[$regex_key][$group_key]['pos'];
+                                $keyword = $keyword_cache[$regex_key][$group_key]['keyword'];
+                            } else if (preg_match($regexp, $code, $match, PREG_OFFSET_CAPTURE, $i)) {
+                                $match_i = $match[0][1];
+                                $keyword = $match[0][0];
+                                $keyword_cache[$regex_key][$group_key] = array(
+                                    'pos' => $match_i,
+                                    'keyword' => $keyword
+                                );
+                                geshi_dbg("    found match for keyword group $group_key at $match_i");
+                            } else {
+                                $keyword_cache[$regex_key][$group_key]['pos'] = false;
+                                geshi_dbg("    keywordgroup $group_key is never again matched");
+                                continue;
+                            }
+                            if ($match_i !== false && $match_i < $next_keyword_pos) {
+                                $next_keyword_pos = $match_i;
+                                $next_keyword_group = $group_key;
+                                $next_keyword = $keyword;
+                                geshi_dbg("    next keyword: $next_keyword (group $group_key) at pos $match_i");
+                                if ($match_i === $i) {
+                                    break;
+                                }
                             }
                         }
                     }
                 }
+                if ($i == $next_keyword_pos) {
+                    // there's a keyword match!
+                    geshi_dbg('Keyword matched:' . $next_keyword);
+
+                    $result[++$result_pointer] = array(
+                        $next_keyword,
+                        $this->_contextKeywords[$next_keyword_group][1],
+                        $this->_getURL($next_keyword, $next_keyword_group)
+                    );
+                    $matched_keyword = true;
+                    if (!$next_keyword) {
+                        var_dump($i, $next_keyword_pos);
+                    }
+                    $i += strlen($next_keyword) - 1;
+                    geshi_dbg("strlen of keyword is " . strlen($next_keyword) . " (pos is $i)");
+                    $next_keyword_pos = false;
+                }
             }
-
-            // reset matching of keywords
-            //$keyword_match_allowed = false;
-
-            //echo "Current pos = $i, earliest keyword is " . GeSHi::hsc($earliest_keyword) . ' at ' . $earliest_pos . "\n";
-            //echo "Symbol string is |$current_symbols|\n";
-
-            if (false !== $earliest_pos) {
-                geshi_dbg('Keyword matched: ' . $earliest_keyword);
-                // there's a keyword match!
-
-                $result[++$result_pointer] = array($earliest_keyword,
-                                                   $this->_contextKeywords[$earliest_keyword_group][1],
-                                                   $this->_getURL($earliest_keyword, $earliest_keyword_group));
-                $i += strlen($earliest_keyword) - 1;
-                geshi_dbg("strlen of earliest keyword is " . strlen($earliest_keyword) . " (pos is $i)");
-                // doesn't help
-                $earliest_pos = false;
-                $earliest_keyword = '';
-            } else {
+            if (!$matched_keyword) {
                 // Check for a symbol instead
                 $this->_checkForSymbol($char, $result, $result_pointer);
                 /*foreach ($this->_contextSymbols as $symbol_data) {
@@ -473,7 +466,10 @@ class GeSHiCodeContext extends GeSHiContext
             /// If we move this to the end we might be able to get rid of the last one [DONE]
             /// The second test on the first line is a little contentious  - allows functions that don't
             /// start with an alpha character to be within other words, e.g abc<?php, where <?php is a kw
-            $before_char = substr($code, $i, 1);
+            if (!isset($code[$i + 1])) {
+                break;
+            }
+            $before_char = $code[$i + 1];
             $before_char_is_alnum = ctype_alnum($before_char);
             $keyword_match_allowed = (!$before_char_is_alnum || ($before_char_is_alnum && !ctype_alnum($char)));
             $keyword_match_allowed = ($keyword_match_allowed && !in_array($before_char,
@@ -533,24 +529,43 @@ class GeSHiCodeContext extends GeSHiContext
         foreach ($this->_contextKeywords as $keyword_group_key => $keyword_group_array) {
             geshi_dbg("  keyword group key: $keyword_group_key");
 
+            $regexps = geshi_optimize_regexp_list($keyword_group_array[0]);
+
+            $append = '';
+            if (!empty($this->_contextCharactersDisallowedAfterKeywords)) {
+                $append .= '(?!['. implode($this->_contextCharactersDisallowedAfterKeywords) .'])';
+            } else {
+                $append .= '(?![a-zA-Z0-9_])';
+            }
+            $append .= '/';
+            if ($keyword_group_array[2]) {
+              $append .= 'i';
+            }
+
+            foreach ($regexps as &$regexp) {
+                $regexp = '/(?:'. $regexp .')'. $append;
+            }
+
+            // get min length
+            $min_len = strlen(current($keyword_group_array[0])); // anything as a start value
             foreach ($keyword_group_array[0] as $keyword) {
-                // If keywords are case sensitive, add them straight in.
-                // Otherwise, if they're not and the first char of the lookup is alphabetical,
-                // add it to both parts of the lookup (a and A for example).
-                $key = substr($keyword, 0, 1);
-                if (ctype_alpha($key) && !$keyword_group_array[2]) {
-                    $this->_contextKeywordLookup[strtoupper(substr($keyword, 0, 1))][] =
-                        array(0 => $keyword, 1 => $keyword_group_key /*$keyword_group_array[1]*/);
-                    $this->_contextKeywordLookup[strtolower(substr($keyword, 0, 1))][] =
-                        array(0 => $keyword, 1 => $keyword_group_key /*$keyword_group_array[1]*/);
-                } else {
-                    $this->_contextKeywordLookup[$key][] =
-                        array(0 => $keyword, 1 => $keyword_group_key /*$keyword_group_array[1]*/);
+                // if $min_len = 12 we are only interested in keywords which are
+                // less then 12 chars long, i.e. character @ index 11 is not set
+                if (!isset($keyword[$min_len - 1])) {
+                    $len = strlen($keyword);
+                    if ($len < $min_len) {
+                        $min_len = $len;
+                    }
                 }
             }
+            $this->_contextKeywordLookup[$keyword_group_key] = array(
+                0 => $regexps,
+                1 => $min_len
+            );
         }
-        if (isset($key)) {
-            geshi_dbg('  Lookup created, first entry: ' . print_r($this->_contextKeywordLookup[$key][0], true));
+        if (isset($keyword_group_key)) {
+            geshi_dbg('  Lookup created, first entry: ' .
+                    print_r($this->_contextKeywordLookup[$keyword_group_key], true));
         } else {
             geshi_dbg('  Lookup created with no entries');
         }
