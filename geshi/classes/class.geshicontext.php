@@ -173,7 +173,7 @@ class GeSHiContext
      * @param string An initialisation function
      * @todo [blocking 1.1.9] Better comment
      */
-    function GeSHiContext ($context_name, $init_function = '')
+    function __construct ($context_name, $init_function = '')
     {
         $this->_contextName = $context_name;
         $this->_languageName = substr($context_name, 0,
@@ -216,7 +216,7 @@ class GeSHiContext
         $tried_functions[] = $function;
 
         // Final chance is the language shortcut function
-        $root_language_name = "$context->_languageName/$context->_languageName";
+        $root_language_name = $context->_languageName ."/". $context->_languageName;
         if ($context_name != $root_language_name && "$root_language_name/" !=
             substr($context_name, 0, strlen($root_language_name) + 1)) {
             $function = 'geshi_' . str_replace('/', '_', $context->_languageName
@@ -397,6 +397,7 @@ class GeSHiContext
         // by reference (if we do things break horribly), and so therefore
         // may not be PHP5 compliant
         $context->addEmbeddedChild($this);
+        $context->_initContext($context, $context->_contextName);
 
         return $context;
     }
@@ -726,7 +727,6 @@ class GeSHiContext
         $earliest_con = null;
         $earliest_key = -1;
         $earliest_dlm = '';
-
         foreach ($this->_childContexts as $context) {
             if ($ignore_context == $context->/*getName*/name()) {
                 // whups, ignore you...

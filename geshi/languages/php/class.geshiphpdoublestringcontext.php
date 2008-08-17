@@ -6,10 +6,10 @@
  *   Author: Nigel McNie
  *   E-mail: nigel@geshi.org
  * </pre>
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  * This program is part of GeSHi.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
@@ -32,14 +32,14 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Nigel McNie
  * @version    $Id$
- * 
+ *
  */
 
 /**
  * The GeSHiPHPDoubleStringContext class represents a PHP double string
- * 
+ *
  * @todo The GeSHiPHPDoubleStringContext functionality may be do-able by the code parser
- * 
+ *
  * @package    geshi
  * @subpackage lang
  * @author     Nigel McNie <nigel@geshi.org>
@@ -51,16 +51,16 @@
 class GeSHiPHPDoubleStringContext extends GeSHiStringContext
 {
     var $_parentName = '';
-    
+
     /**
      * The regular expressions used to match variables
      * in this context.
-     * 
+     *
      * {@internal Do Not Change These! The code logic
      * depends on them, they are just assigned here so
      * that they aren't assigned every time the
      * _addParseData method is called}}
-     * 
+     *
      * @var array
      * @access private
      */
@@ -69,20 +69,20 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
         'REGEX#(\{?\$\$?\{?[a-zA-Z_][a-zA-Z0-9_]*\[[\$a-zA-Z0-9_\s\[\]\']*\]\}?)#',
         'REGEX#(\{?)(\$\$?\{?[a-zA-Z_][a-zA-Z0-9_]*)(\s*->\s*)([a-zA-Z_][a-zA-Z0-9_]*)(\}?)#'
     );
-    
-    function GeSHiPHPDoubleStringContext ($context_name, $init_function = '')
+
+    function __construct ($context_name, $init_function = '')
     {
-        $this->GeSHiStringContext($context_name, $init_function);
+        parent::__construct($context_name, $init_function);
         $this->_parentName = parent::name();
     }
-    
+
     /**
      * Adds code detected as being in this context to the parse data
-     */    
+     */
     function _addParseData ($code, $first_char_of_next_context = '')
     {
         $parent_name = $this->_parentName;
-        
+
         geshi_dbg('GeSHiPHPDoubleStringContext::_addParseData(' . substr($code, 0, 15) . '...)');
 
         while (true) {
@@ -101,17 +101,17 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
                 // No more variables in this string
                 break;
             }
-            
+
             // bugfix: because we match a var, it might have been escaped.
             // so only do to -1 so we can catch slash if it has been
             $pos = ($earliest_data['pos']) ? $earliest_data['pos'] - 1 : 0;
             $len = ($earliest_data['pos']) ? $earliest_data['len'] + 1 : $earliest_data['len'];
             parent::_addParseData(substr($code, 0, $pos));
-            
+
             // Now the entire possible var is in:
             $possible_var = substr($code, $pos, $len);
             geshi_dbg('Found variable at position ' . $earliest_data['pos'] . '(' . $possible_var . ')');
-            
+
             // Check that the dollar sign that started this variable was not escaped
             //$first_part = str_replace('\\\\', '', substr($code, 0, $pos));
             //if ('\\' == substr($first_part, -1)) {
@@ -131,7 +131,7 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
                     parent::_addParseData(substr($possible_var, 0, 1));
                     $possible_var = substr($possible_var, 1);
                 }
-                
+
                 // Many checks could go in here...
                 // @todo [blocking 1.1.5] check for ${foo} variables: start { matched by end }
                 // because at the moment ${foo is matched for example.
@@ -168,19 +168,19 @@ class GeSHiPHPDoubleStringContext extends GeSHiStringContext
                         } else {
                             parent::_addParseData('}');
                         }
-                    } 
+                    }
                 } else {
                     $this->_styler->addParseData($possible_var, $parent_name . '/var',
                         $this->_getExtraParseData(), $this->_complexFlag);
                 }
             }
-            
+
             // Chop off what we have done
             $code = substr($code, $earliest_data['pos'] + $earliest_data['len']);
         }
         // Add the rest
-        parent::_addParseData($code, $first_char_of_next_context); 
+        parent::_addParseData($code, $first_char_of_next_context);
     }
 }
-   
+
 ?>
