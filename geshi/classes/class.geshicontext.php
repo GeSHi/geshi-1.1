@@ -393,11 +393,11 @@ class GeSHiContext
 
         $context = new GeSHiCodeContext($name);
 
+        $context->_initContext($context, $context->_contextName);
         // @todo I don't like this... it assumes we are not passing an object
         // by reference (if we do things break horribly), and so therefore
         // may not be PHP5 compliant
         $context->addEmbeddedChild($this);
-        $context->_initContext($context, $context->_contextName);
 
         return $context;
     }
@@ -434,7 +434,10 @@ class GeSHiContext
     function addChild ($name, $type = '', $init_function = '')
     {
         $classname = 'geshi' . $type . 'context';
-        $this->_childContexts[] = new $classname($this->_makeContextName($name), $init_function);
+        $context_name = $this->_makeContextName($name);
+        $this->_childContexts[] = new $classname($context_name, $init_function);
+        GeSHiContext::_initContext($this->_childContexts[count($this->_childContexts) - 1],
+                                      $context_name, $init_function);
     }
 
     // }}}
@@ -451,6 +454,7 @@ class GeSHiContext
         /** Get function info for the child language */
         require_once GESHI_LANGUAGES_ROOT . $name . '.php';
         $context = new GeSHiCodeContext($name);
+        GeSHiContext::_initContext($context, $name);
         $context->addDelimiters($start_delimiters, $end_delimiters, $case_sensitive);
         $context->parseDelimiters($parse_delimiter_flag);
         // @todo setter
@@ -1007,8 +1011,8 @@ class GeSHiContext
 
     function _makeContextName ($name)
     {
-        return (substr($name, 0, strlen($this->_languageName) + 1) == "{$this->_languageName}/")
-            ? $name : "$this->_contextName/$name";
+        return (substr($name, 0, strlen($this->_languageName) + 1) == $this->_languageName ."/")
+            ? $name : ($this->_contextName ."/". $name);
     }
 
     // }}}

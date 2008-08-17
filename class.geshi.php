@@ -787,7 +787,7 @@ class GeSHi
         // define children contexts etc. etc.
         $this->_rootContext = new GeSHiCodeContext($this->_language);
         //Work around a PHP5 bug(???) prohibiting to override $this
-        $this->_rootContext->_initContext($this->_rootContext, $this->_language);
+        GeSHiContext::_initContext($this->_rootContext, $this->_language);
 
         // Load the code parser if necessary
         $language_name   = substr($this->_language, 0, strpos($this->_language, '/'));
