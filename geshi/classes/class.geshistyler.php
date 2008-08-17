@@ -6,10 +6,10 @@
  *   Author: Nigel McNie
  *   E-mail: nigel@geshi.org
  * </pre>
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  * This program is part of GeSHi.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
@@ -32,12 +32,12 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Nigel McNie
  * @version    $Id$
- * 
+ *
  */
 
 /**
  * The GeSHiStyler class
- * 
+ *
  * @package    geshi
  * @subpackage core
  * @author     Nigel McNie <nigel@geshi.org>
@@ -46,9 +46,9 @@
  */
 class GeSHiStyler
 {
-    
+
     // {{{ properties
-    
+
     /**
      * @var string
      */
@@ -57,22 +57,22 @@ class GeSHiStyler
     /**
      * Array of themes to attempt to use for highlighting, in
      * preference order
-     * 
+     *
      * @var array
      */
     var $themes = array('default');
-    
+
     /**
      * @var string
      * Note: only set once language name is determined to be valid
      */
     var $language = '';
-    
+
     /**
      * @var boolean
      */
     var $reloadThemeData = true;
-    
+
     /**#@+
      * @access private
      */
@@ -80,37 +80,37 @@ class GeSHiStyler
      * @var array
      */
     var $_styleData = array();
-    
+
     /**
      * @var array
      */
     var $_wildcardStyleData = array();
-    
+
     /**
      * @var array
      */
     var $_contextCacheData = array();
-    
+
     /**
      * @var GeSHiCodeParser
      */
     var $_codeParser = null;
-    
+
     /**
      * @var GeSHiRenderer
      */
     var $_renderer = null;
-    
+
     /**
      * @var string
      */
     var $_parsedCode = '';
-    
+
     /**#@-*/
-    
+
     // }}}
     // {{{ setStyle()
-    
+
     /**
      * Sets the style of a specific context. Language name is prefixed,
      * to make theme files shorter and easier
@@ -123,10 +123,10 @@ class GeSHiStyler
         }
         $this->setRawStyle($this->language . $context_name, $style);
     }
-    
+
     // }}}
     // {{{ setRawStyle()
-    
+
     /**
      * Sets styles with explicit control over style name
      */
@@ -138,10 +138,10 @@ class GeSHiStyler
             $this->_wildcardStyleData[substr($context_name, 0, -2)] = $style;
         }
     }
-    
-    // }}}        
+
+    // }}}
     // {{{ removeStyleData()
-    
+
     /**
      * Removes any style data for the related context, including
      * data for the start and end of the context
@@ -156,7 +156,7 @@ class GeSHiStyler
 
     // }}}
     // {{{ getStyle()
-    
+
     function getStyle ($context_name)
     {
         if (isset($this->_styleData[$context_name])) {
@@ -165,20 +165,20 @@ class GeSHiStyler
         // If style for starter/ender requested and we got here, use the default
         if ('/end' == substr($context_name, -4)) {
             $this->_styleData[$context_name] = $this->getStyle(substr($context_name, 0, -4));
-            return $this->_styleData[$context_name]; 
+            return $this->_styleData[$context_name];
         }
         if ('/start' == substr($context_name, -6)) {
             $this->_styleData[$context_name] = $this->getStyle(substr($context_name, 0, -6));
-            return $this->_styleData[$context_name]; 
+            return $this->_styleData[$context_name];
         }
-        
+
         // Check for a one-level wildcard match
         $wildcard_idx = substr($context_name, 0, strrpos($context_name, '/'));
         if (isset($this->_wildcardStyleData[$wildcard_idx])) {
             $this->_styleData[$context_name] = $this->_wildcardStyleData[$wildcard_idx];
             return $this->_wildcardStyleData[$wildcard_idx];
         }
-        
+
         // Maybe a deeper match?
         foreach ($this->_wildcardStyleData as $context => $style) {
             if (substr($context_name, 0, strlen($context)) == $context) {
@@ -186,15 +186,15 @@ class GeSHiStyler
                 return $style;
             }
         }
-        
+
         //@todo [blocking 1.1.5] Make the default style for otherwise unstyled elements configurable
         $this->_styleData[$context_name] = 'color:#000;';
         return 'color:#000;';
     }
-    
+
     // }}}
     // {{{ loadStyles()
-    
+
     function loadStyles ($language = '', $load_theme = false)
     {
         if (!$language) {
@@ -208,7 +208,7 @@ class GeSHiStyler
                 geshi_dbg('  Old data trashed');
                 $this->_styleData = array();
             }
-            
+
             // Lie for a short while, to get extra style names to behave
             $tmp = $this->language;
             $this->language = $language;
@@ -219,14 +219,14 @@ class GeSHiStyler
                     break;
                 }
             }
-            
+
             if ($load_theme) {
                 $this->reloadThemeData = false;
             }
             $this->language = $tmp;
         }
     }
-    
+
     // }}}
     // {{{ resetParseData()
 
@@ -239,7 +239,7 @@ class GeSHiStyler
     {
         // Set result to empty
         $this->_parsedCode = '';
-        
+
         // If the language we are using does not have a code
         // parser associated with it, use the default one
         if (is_null($this->_codeParser)) {
@@ -247,7 +247,7 @@ class GeSHiStyler
             require_once GESHI_CLASSES_ROOT . 'class.geshicodeparser.php';
             /** Get the default code parser class */
             require_once GESHI_CLASSES_ROOT . 'class.geshidefaultcodeparser.php';
-            $this->_codeParser =& new GeSHiDefaultCodeParser($this, $this->language);
+            $this->_codeParser = new GeSHiDefaultCodeParser($this, $this->language);
         }
 
         // It the user did not explicitly set a renderer with GeSHi::accept(), then
@@ -257,20 +257,23 @@ class GeSHiStyler
             require_once GESHI_CLASSES_ROOT . 'class.geshirenderer.php';
             /** Get the renderer class */
             require_once GESHI_RENDERERS_ROOT . 'class.geshirendererhtml.php';
-            $this->_renderer =& new GeSHiRendererHTML;
+            $this->_renderer = new GeSHiRendererHTML;
         }
-        
+
+        //Allow the code renderer to preprocess the code
+        $this->_renderer->renderPreview();
+
         // Load theme data now
         $this->loadStyles('', true);
     }
 
     // }}}
     // {{{ setCodeParser()
-    
+
     /**
      * Sets the code parser that will be used. This is used by language
      * files in the geshi/languages directory to set their code parser
-     * 
+     *
      * @param GeSHiCodeParser The code parser to use
      */
     function setCodeParser (&$codeparser)
@@ -282,7 +285,7 @@ class GeSHiStyler
                 . 'subclass of GeSHiCodeParser', E_USER_ERROR);
         }
     }
-    
+
     // }}}
     // {{{ setRenderer()
 
@@ -303,7 +306,7 @@ class GeSHiStyler
 
     // }}}
     // {{{ useThemes()
-    
+
     /**
      * Sets the themes to use
      */
@@ -315,15 +318,15 @@ class GeSHiStyler
         // Could check here: get first element of orig. $this->themes, if different now then reload
         $this->reloadThemeData = true;
     }
-    
+
     // }}}
     // {{{ addParseData()
-    
+
     /**
      * Recieves parse data from the context tree. Sends the
      * data on to the code parser, then to the renderer for
      * building the result string
-     */    
+     */
     function addParseData ($code, $context_name, $data = null, $complex = false)
     {
         // @todo [blocking 1.1.5] test this, esp. not passing back anything and passing back multiple
@@ -377,10 +380,10 @@ class GeSHiStyler
             }
         } // else wtf???
     }
-    
+
     // }}}
     // {{{ _addToParsedCode()
-    
+
     /**
      * Adds data from the renderer to the parsed code
      */
@@ -396,36 +399,65 @@ class GeSHiStyler
             }
         }
     }
-    
+
     // }}}
     // {{{ addParseDataStart()
-    
+
     function addParseDataStart ($code, $context_name, $start_name = 'start', $complex = false)
     {
     	$this->addParseData($code, "$context_name/$start_name", null, $complex);
     }
-    
+
     // }}}
     // {{{ addParseDataEnd()
-    
+
     function addParseDataEnd ($code, $context_name, $end_name = 'end', $complex = false)
     {
     	$this->addParseData($code, "$context_name/$end_name", null, $complex);
     }
-    
+
     // }}}
     // {{{ getParsedCode()
-    
+
     function getParsedCode ()
     {
         // Flush the last of the code
         $this->_addToParsedCode($this->_codeParser->flush());
-        
+
+        //Allow the code renderer to postprocess the code
+        $this->_renderer->renderPostview();
+
         $result = $this->_renderer->getHeader() . $this->_parsedCode . $this->_renderer->getFooter();
         $this->_parsedCode = '';
         return $result;
     }
-    
+
+    // }}}
+    // {{{ getRendererOption()
+
+    /**
+     * Retrieves renderer specific data controlling
+     * how the renderer outputs source
+     *
+     * @abstract
+     * @param string The name of the Renderer specific option to retrieve
+     * @param mixed The default value for this property
+     */
+    function getRendererOption ($name, $default) {}
+
+    // }}}
+    // {{{ setRendererOption()
+
+    /**
+     * Sets up renderer specific data controlling
+     * how the renderer works
+     *
+     * @abstract
+     * @param string The name of the Renderer specific option to modify
+     * @param mixed The new value for the renderer specific value of the option to modify
+     */
+    function setRendererOption ($name, $value) {}
+
     // }}}
 
 }

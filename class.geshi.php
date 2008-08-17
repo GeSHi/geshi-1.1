@@ -29,7 +29,7 @@
  * @package    geshi
  * @subpackage core
  * @author     Nigel McNie <nigel@geshi.org>
- * @author     Knut A. Wikstr�m <knut@wikstrom.dk>
+ * @author     Knut A. Wikstr?m <knut@wikstrom.dk>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Nigel McNie
  * @version    $Id$
@@ -239,7 +239,7 @@ class GeSHi
      *
      * <b>USAGE:</b>
      *
-     * <code> $geshi =& new GeSHi($source, $language);
+     * <code> $geshi = new GeSHi($source, $language);
      * // Various API calls... (todo: better examples)
      * $code = $geshi->parseCode();</code>
      *
@@ -786,7 +786,8 @@ class GeSHi
         // Build the context tree. This creates a new context which calls a function which may
         // define children contexts etc. etc.
         $this->_rootContext = new GeSHiCodeContext($this->_language);
-
+        //Work around a PHP5 bug(???) prohibiting to override $this
+        $this->_rootContext->_initContext($this->_rootContext, $this->_language);
 
         // Load the code parser if necessary
         $language_name   = substr($this->_language, 0, strpos($this->_language, '/'));
@@ -857,11 +858,11 @@ class GeSHi
      */
     protected function _getLanguageDataFile ()
     {
-        if ('/' == '/') {
+        if ('/' == GESHI_DIR_SEP) {
             $language_file = $this->_language . '.php';
         } else {
             $language_file = explode('/', $this->_language);
-            $language_file = implode('/', $language_file) . '.php';
+            $language_file = implode(GESHI_DIR_SEP, $language_file) . '.php';
         }
         return GESHI_LANGUAGES_ROOT . $language_file;
     }

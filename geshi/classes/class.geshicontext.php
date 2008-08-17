@@ -179,15 +179,18 @@ class GeSHiContext
         $this->_languageName = substr($context_name, 0,
             strpos($context_name, '/'));
         $this->_styler =& geshi_styler();
+    }
 
+    static function _initContext(&$context, $context_name, $init_function = '')
+    {
         // Try a list of functions that should be used to populate this context.
         $tried_functions = array();
         // First function to try is the user-defined one
         if ('' != $init_function) {
-            $function =  'geshi_' . $this->_languageName . '_' . $init_function;
+            $function =  'geshi_' . $context->_languageName . '_' . $init_function;
             if (function_exists($function)) {
-                $function($this);
-                $this->_initPostProcess();
+                $function($context);
+                $context->_initPostProcess();
                 return;
             }
             $tried_functions[] = $function;
@@ -196,8 +199,8 @@ class GeSHiContext
         // Next choice is the full context name function
         $function = 'geshi_' . str_replace('/', '_', $context_name);
         if (function_exists($function)) {
-            $function($this);
-            $this->_initPostProcess();
+            $function($context);
+            $context->_initPostProcess();
             return;
         }
         $tried_functions[] = $function;
@@ -206,22 +209,22 @@ class GeSHiContext
         $function = 'geshi'  . str_replace('/', '_', substr($context_name,
             strpos($context_name, '/')));
         if (function_exists($function)) {
-            $function($this);
-            $this->_initPostProcess();
+            $function($context);
+            $context->_initPostProcess();
             return;
         }
         $tried_functions[] = $function;
 
         // Final chance is the language shortcut function
-        $root_language_name = "$this->_languageName/$this->_languageName";
+        $root_language_name = "$context->_languageName/$context->_languageName";
         if ($context_name != $root_language_name && "$root_language_name/" !=
             substr($context_name, 0, strlen($root_language_name) + 1)) {
-            $function = 'geshi_' . str_replace('/', '_', $this->_languageName
+            $function = 'geshi_' . str_replace('/', '_', $context->_languageName
                 . substr($context_name, strpos($context_name, '/',
                 strpos($context_name, '/') + 1)));
             if (function_exists($function)) {
-                $function($this);
-                $this->_initPostProcess();
+                $function($context);
+                $context->_initPostProcess();
                 return;
             }
             $tried_functions[] = $function;
@@ -388,7 +391,7 @@ class GeSHiContext
         /** Get the appropriate functions for the language we are embedding inside */
         require_once GESHI_LANGUAGES_ROOT . $language_file;
 
-        $context =& new GeSHiCodeContext($name);
+        $context = new GeSHiCodeContext($name);
 
         // @todo I don't like this... it assumes we are not passing an object
         // by reference (if we do things break horribly), and so therefore
@@ -430,7 +433,7 @@ class GeSHiContext
     function addChild ($name, $type = '', $init_function = '')
     {
         $classname = 'geshi' . $type . 'context';
-        $this->_childContexts[] =& new $classname($this->_makeContextName($name), $init_function);
+        $this->_childContexts[] = new $classname($this->_makeContextName($name), $init_function);
     }
 
     // }}}
@@ -446,7 +449,7 @@ class GeSHiContext
     {
         /** Get function info for the child language */
         require_once GESHI_LANGUAGES_ROOT . $name . '.php';
-        $context =& new GeSHiCodeContext($name);
+        $context = new GeSHiCodeContext($name);
         $context->addDelimiters($start_delimiters, $end_delimiters, $case_sensitive);
         $context->parseDelimiters($parse_delimiter_flag);
         // @todo setter
@@ -781,15 +784,15 @@ class GeSHiContext
             foreach ($delim_array[0] as $delimiter) {
                 geshi_dbg('    Checking delimiter ' . $delimiter . '... ', false);
                 $data     = geshi_get_position($code, $delimiter, 0, $delim_array[2], true);
-                geshi_dbg(print_r($data, true), false);
+                geshi_dbg(print_r($data, true));
                 $position = $data['pos'];
                 $length   = $data['len'];
                 if (isset($data['tab'])) {
-                    geshi_dbg('Table: ' . print_r($data['tab'], true));
+                    geshi_dbg('      Table: ' . print_r($data['tab'], true));
                 }
 
                 if (false !== $position) {
-                    geshi_dbg('found at position ' . $position . ', checking... ', false);
+                    geshi_dbg('      Found at position ' . $position . ', checking... ', false);
                     if ((-1 == $first_position) || ($first_position > $position) ||
                        (($first_position == $position) && ($first_length < $length))) {
                         geshi_dbg('@bearliest! (length ' . $length . ')');
@@ -801,9 +804,9 @@ class GeSHiContext
                             $delimiter = $data['tab'][0];
                         }
                         $first_dlm      = $delimiter;
+                    } else {
+                        geshi_dbg('beaten :(');
                     }
-                } else {
-                    geshi_dbg('');
                 }
             }
         }
