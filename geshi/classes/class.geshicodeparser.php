@@ -109,7 +109,7 @@ class GeSHiCodeParser
      * @param string The token recieved
      * @param string The name of the context the token is in
      * @param string Any extra data associated with the context
-     * @return mixed Either <kbd>false</kbd>, an array($token, $context_name, $data)
+     * @return array Either <kbd>false</kbd>, an array($token, $context_name, $data)
      *               or an array of arrays like this.
      * @abstract
      */
@@ -169,10 +169,6 @@ class GeSHiCodeParser
             $this->push($token, $context_name, $data);
         }
         $result = $this->_stack;
-        // todo: Does this do anything?
-        if (!$result) {
-            $result = false;
-        }
         $this->_stack = array();
         return $result;
     }

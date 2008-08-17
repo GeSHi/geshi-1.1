@@ -56,7 +56,7 @@ class GeSHiRenderer
      * @var GeSHiStyler
      * @access protected
      */
-    var $_styler = null;
+    protected $_styler = null;
 
     // }}}
     // {{{ GeSHiRenderer()

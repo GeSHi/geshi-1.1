@@ -52,7 +52,7 @@ class GeSHiStyler
     /**
      * @var string
      */
-    var $charset;
+    private $charset;
 
     /**
      * Array of themes to attempt to use for highlighting, in
@@ -60,18 +60,18 @@ class GeSHiStyler
      *
      * @var array
      */
-    var $themes = array('default');
+    private $themes = array('default');
 
     /**
      * @var string
      * Note: only set once language name is determined to be valid
      */
-    var $language = '';
+    private $language = '';
 
     /**
      * @var boolean
      */
-    var $reloadThemeData = true;
+    private $reloadThemeData = true;
 
     /**#@+
      * @access private
@@ -79,34 +79,45 @@ class GeSHiStyler
     /**
      * @var array
      */
-    var $_styleData = array();
+    private $_styleData = array();
 
     /**
      * @var array
      */
-    var $_wildcardStyleData = array();
+    private $_wildcardStyleData = array();
 
     /**
      * @var array
      */
-    var $_contextCacheData = array();
+    private $_contextCacheData = array();
 
     /**
      * @var GeSHiCodeParser
      */
-    var $_codeParser = null;
+    private $_codeParser = null;
 
     /**
      * @var GeSHiRenderer
      */
-    var $_renderer = null;
+    private $_renderer = null;
 
     /**
      * @var string
      */
-    var $_parsedCode = '';
+    private $_parsedCode = '';
 
     /**#@-*/
+
+    // }}}
+    // {{{ setLanguage()
+
+    /**
+     * Sets the language of this styler.
+     */
+    function setLanguage ($language_name)
+    {
+        $this->language = $language_name;
+    }
 
     // }}}
     // {{{ setStyle()
@@ -300,9 +311,8 @@ class GeSHiStyler
     /**
      * Sets the themes to use
      */
-    function useThemes ($themes)
+    function useThemes (array $themes)
     {
-        $themes = (array) $themes;
         $this->themes = array_merge($themes, $this->themes);
         $this->themes = array_unique($this->themes);
         // Could check here: get first element of orig. $this->themes, if different now then reload
@@ -317,7 +327,7 @@ class GeSHiStyler
      * data on to the code parser, then to the renderer for
      * building the result string
      */
-    function addParseData ($code, $context_name, $data = null, $complex = false)
+    function addParseData ($code, $context_name, array $data = array(), $complex = false)
     {
         // @todo [blocking 1.1.5] test this, esp. not passing back anything and passing back multiple
         // can use PHP code parser for this
@@ -377,8 +387,9 @@ class GeSHiStyler
     /**
      * Adds data from the renderer to the parsed code
      */
-    function _addToParsedCode ($data)
+    function _addToParsedCode (array $data)
     {
+        //todo: Rework parser so this function always gets an array of tokens
         if ($data) {
             if (!is_array($data[0])) {
                 $this->_parsedCode .= $this->_renderer->parseToken($data[0], $data[1], $data[2]);
@@ -395,7 +406,7 @@ class GeSHiStyler
 
     function addParseDataStart ($code, $context_name, $start_name = 'start', $complex = false)
     {
-    	$this->addParseData($code, "$context_name/$start_name", null, $complex);
+    	$this->addParseData($code, "$context_name/$start_name", array(), $complex);
     }
 
     // }}}
@@ -403,7 +414,7 @@ class GeSHiStyler
 
     function addParseDataEnd ($code, $context_name, $end_name = 'end', $complex = false)
     {
-    	$this->addParseData($code, "$context_name/$end_name", null, $complex);
+    	$this->addParseData($code, "$context_name/$end_name", array(), $complex);
     }
 
     // }}}

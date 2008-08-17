@@ -162,7 +162,7 @@ function geshi_javascript_javascript_multi_comment (&$context)
 function geshi_javascript_javascript_single_string (&$context)
 {
     $context->addDelimiters("'", array("'", "\n"));
-    $context->addEscapeGroup('\\', array('\\', "'", "\n"));
+    $context->addEscapeGroup(array('\\'), array('\\', "'", "\n"));
     //$context->setEscapeCharacters('\\');
     //$context->setCharactersToEscape(array('\\', "'", "\n"));
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
@@ -171,7 +171,9 @@ function geshi_javascript_javascript_single_string (&$context)
 function geshi_javascript_javascript_double_string (&$context)
 {
     $context->addDelimiters('"', '"');
-    $context->addEscapeGroup('\\', array('n', 'r', 't', '\\', '"'));
+    $context->addEscapeGroup(array('\\'), array(
+        'n', 'r', 't',
+        '\\', '"'));
     //$context->setEscapeCharacters('\\');
     //$context->setCharactersToEscape(array('n', 'r', 't', '\\', '"'));
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;

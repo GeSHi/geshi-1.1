@@ -6,10 +6,10 @@
  *   Author: Nigel McNie
  *   E-mail: nigel@geshi.org
  * </pre>
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  * This program is part of GeSHi.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
@@ -32,13 +32,13 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Nigel McNie
  * @version    $Id$
- * 
+ *
  */
 
 /**
  * The GeSHiStringContext class. This class extends GeSHiContext to handle
  * the concept of escape characters that strings often use.
- *  
+ *
  * @package    geshi
  * @subpackage core
  * @author     Nigel McNie <nigel@geshi.org>
@@ -48,28 +48,28 @@
  */
 class GeSHiStringContext extends GeSHiContext
 {
-    
+
     // {{{ properties
-    
+
     /**#@-
      * @access private
      */
-    
+
     /**
      * Escape character groups.
-     * 
+     *
      * @var array
      */
     var $_escapeGroups = array();
-    
+
     /**#@-*/
-    
+
     // }}}
     // {{{ addEscapeGroup()
-    
+
     /**
      * Adds an escape group to this string context.
-     * 
+     *
      * An escape group consists of a group of characters that are escape
      * characters, and another group of characters or regexes that are
      * the characters to escape. You can also specify a context name for
@@ -77,18 +77,18 @@ class GeSHiStringContext extends GeSHiContext
      *
      * The escape characters MUST be one character in length, and are
      * automatically assumed to escape themselves.
-     * 
+     *
+     * @todo Is the self-escaping really needed?
+     *
      * @param mixed  $escape_characters    The characters that escape others
      * @param mixed  $characters_to_escape The characters/regexes that are
      *                                     escaped
      * @param string $context_name         A name for the escaped characters
      */
-    function addEscapeGroup ($escape_characters,
-        $characters_to_escape = array(), $context_name = 'esc')
+    function addEscapeGroup (array $escape_characters,
+        array $characters_to_escape = array(), $context_name = 'esc')
     {
         // Sanity checking
-        $escape_characters = (array) $escape_characters;
-        $characters_to_escape = (array) $characters_to_escape;
         foreach ($escape_characters as $char) {
             if (strlen($char) != 1) {
                 trigger_error('GeSHiStringContext::addEscapeGroup(): malformed'
@@ -106,14 +106,14 @@ class GeSHiStringContext extends GeSHiContext
             $context_name
         );
     }
-    
+
     // }}}
     // {{{ _getContextEndData()
-    
+
     /**
      * Finds the end of a string context, taking the escape characters into
      * account.
-     * 
+     *
      * @param string $code             The code to look for the end of the
      *                                 context in
      * @param int    $context_open_key The key in the array of delimiters
@@ -126,7 +126,7 @@ class GeSHiStringContext extends GeSHiContext
             . $this->_contextName . ')');
         $this->_lastOpener = $context_opener;
         $ender_data = array();
-        
+
         foreach ($this->_contextDelimiters[$context_open_key][1] as $ender) {
             // Prepare ender regexes if needed
             $ender = $this->_substitutePlaceholders($ender);
@@ -213,7 +213,7 @@ class GeSHiStringContext extends GeSHiContext
                         $ender_data['dlm'] = $ender;
                         $ender_data['len'] = $pos_data['len'];
                     }
-                    
+
                     break;
                 }
             }
@@ -221,7 +221,7 @@ class GeSHiStringContext extends GeSHiContext
         geshi_dbg('Ender data: ' . print_r($ender_data, true));
         return ($ender_data) ? $ender_data : false;
     }
-    
+
     // }}}
     // {{{ _charEscapesChar()
 
@@ -275,28 +275,28 @@ class GeSHiStringContext extends GeSHiContext
 
     // }}}
     // {{{ _addParseData()
-    
+
     /**
      * Overrides addParseData to add escape characters also.
-     * 
+     *
      * @param string $code
      * @param string $first_char_of_next_context
      */
      function _addParseData ($code, $first_char_of_next_context = '')
      {
         geshi_dbg('GeSHiStringContext::_addParseData(' . substr($code, 0, 15));
-        
+
         $length = strlen($code);
         $string = '';
         for ($i = 0; $i < $length; $i++) {
             $char = substr($code, $i, 1);
             geshi_dbg('Char: ' . $char);
             $skip = false;
-            
+
             foreach ($this->_escapeGroups as $group) {
                 foreach ($group[0] as $escape_char) {
                     $len = 1;
-                    if ($char == $escape_char 
+                    if ($char == $escape_char
                         && (false !== ($len = $this->_shouldBeEscaped(
                             substr($code, $i + 1), $group[1])))) {
                         geshi_dbg('Match: len = ' . $len);
@@ -319,7 +319,7 @@ class GeSHiStringContext extends GeSHiContext
                     }
                 }
             }
-            
+
             if (!$skip) {
                 $string .= $char;
             }
@@ -330,14 +330,14 @@ class GeSHiStringContext extends GeSHiContext
                 $this->_complexFlag);
         }
     }
-    
+
     // }}}
     // {{{ _shouldBeEscaped()
-     
+
     /**
      * Checks whether the character(s) at the start of the parameter string are
      * characters that should be escaped.
-     * 
+     *
      * @param string The string to check the beginning of for escape characters
      * @return int|false The length of the escape character sequence, else false
      */
@@ -364,9 +364,9 @@ class GeSHiStringContext extends GeSHiContext
         // No matches...
         return false;
     }
-    
+
     // }}}
-    
+
 }
 
 ?>

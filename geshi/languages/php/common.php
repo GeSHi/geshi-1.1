@@ -1931,7 +1931,7 @@ function geshi_php_common (GeSHiContext $context)
 function geshi_php_single_string (GeSHiContext $context)
 {
     $context->addDelimiters("'", "'");
-    $context->addEscapeGroup('\\', array("'"));
+    $context->addEscapeGroup(array('\\'), array("'"));
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
@@ -1939,8 +1939,11 @@ function geshi_php_single_string (GeSHiContext $context)
 function geshi_php_double_string (GeSHiContext $context)
 {
     $context->addDelimiters('"', '"');
-    $context->addEscapeGroup('\\', array('n', 'r', 't', 'REGEX#[0-7]{1,3}#',
-        'REGEX#x[0-9a-f]{1,2}#i', '"','$'));
+    $context->addEscapeGroup(array('\\'), array(
+        'n', 'r', 't',
+        'REGEX#[0-7]{1,3}#',
+        'REGEX#x[0-9a-f]{1,2}#i',
+        '"','$'));
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
@@ -1948,8 +1951,11 @@ function geshi_php_double_string (GeSHiContext $context)
 function geshi_php_heredoc (GeSHiContext $context)
 {
     $context->addDelimiters("REGEX#<<<\s*([a-z][a-z0-9]*)\n#i", "REGEX#\n!!!1;?\n#i");
-    $context->addEscapeGroup('\\', array('n', 'r', 't', 'REGEX#[0-7]{1,3}#',
-        'REGEX#x[0-9a-f]{1,2}#i', '"', '$'));
+    $context->addEscapeGroup(array('\\'), array(
+        'n', 'r', 't',
+        'REGEX#[0-7]{1,3}#',
+        'REGEX#x[0-9a-f]{1,2}#i',
+        '"', '$'));
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }

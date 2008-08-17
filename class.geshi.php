@@ -297,7 +297,7 @@ class GeSHi
     {
         // Make a legal language name
         $this->_language = GeSHi::_cleanLanguageName($language_name);
-        $this->_styler->language = $this->_language;
+        $this->_styler->setLanguage($this->_language);
     }
 
     // }}}

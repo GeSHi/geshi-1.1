@@ -156,7 +156,7 @@ function geshi_css_css_string (&$context)
     $context->addDelimiters('"', '"');
     $context->addDelimiters("'", "'");
 
-    $context->addEscapeGroup('\\', array('\\', 'A', '"'));
+    $context->addEscapeGroup(array('\\'), array('\\', 'A', '"'));
     // @todo [blocking 1.1.9] possible bug where " will be escapable in
     // ' strings etc (need two string contexts for this)
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
