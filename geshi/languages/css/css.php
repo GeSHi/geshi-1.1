@@ -89,6 +89,8 @@ function geshi_css_css_rule (&$context)
         'definition-src', 'baseline', 'centerline', 'mathline', 'topline', '!important'
     ), 'attribute');
 
+    //@todo: make a subcontext for attributes so that something like
+    // `position: left` is highlighted properly (i.e. the left is different from position)
     // Attributes that take arguments
     $context->addKeywordGroup(array(
         'url', 'attr', 'rect', 'rgb', 'counter', 'counters', 'local', 'format'
