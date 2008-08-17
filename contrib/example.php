@@ -27,14 +27,14 @@ while ($lang = readdir($dir)) {
     $len = strlen($lang);
     while ($file = readdir($subdir)) {
         if ($file[0] == '.' || !is_file($file) || substr($file, -4) != '.php'
-               || substr($file, 0, 6) == 'class.' || ($file == 'common.php' && $lang != 'common')
-               || substr($file, 0, $len) != $lang) {
+               || substr($file, 0, 6) == 'class.' || ($file == 'common.php' && $lang != 'common')) {
             continue;
         }
         $languages[$lang][] = substr($file, 0, -4);
     }
     closedir($subdir);
     chdir('..');
+    sort($languages[$lang]);
 }
 closedir($dir);
 
