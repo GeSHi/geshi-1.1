@@ -337,7 +337,7 @@ class GeSHiCodeContext extends GeSHiContext
             (($regex_replacements) ? 'array(...)' : 'null') . ', ' . $first_char_of_next_context . ')');
         //$first_char_of_next_context = '';
 
-        if (!is_array($this->_contextKeywordLookup)) {
+        if (empty($this->_contextKeywordLookup)) {
             $this->_createContextKeywordLookup();
         }
 
