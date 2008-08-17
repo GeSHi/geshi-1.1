@@ -181,7 +181,7 @@ class GeSHiContext
         $this->_styler = geshi_styler();
     }
 
-    static function _initContext(GeSHiContext $context, $context_name, $init_function = '')
+    static function _initContext(GeSHiContext &$context, $context_name, $init_function = '')
     {
         // Try a list of functions that should be used to populate this context.
         $tried_functions = array();
@@ -189,7 +189,7 @@ class GeSHiContext
         if ('' != $init_function) {
             $function =  'geshi_' . $context->_languageName . '_' . $init_function;
             if (function_exists($function)) {
-                $function($context);
+                $function(&$context);
                 $context->_initPostProcess();
                 return;
             }
@@ -199,7 +199,7 @@ class GeSHiContext
         // Next choice is the full context name function
         $function = 'geshi_' . str_replace('/', '_', $context_name);
         if (function_exists($function)) {
-            $function($context);
+            $function(&$context);
             $context->_initPostProcess();
             return;
         }
@@ -209,7 +209,7 @@ class GeSHiContext
         $function = 'geshi'  . str_replace('/', '_', substr($context_name,
             strpos($context_name, '/')));
         if (function_exists($function)) {
-            $function($context);
+            $function(&$context);
             $context->_initPostProcess();
             return;
         }

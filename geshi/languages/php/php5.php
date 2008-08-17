@@ -62,7 +62,9 @@ function geshi_php_php5 (GeSHiContext $context)
     );
 
     // PHP is embedded within HTML
+    var_dump($context->_contextName);
     $context = $context->embedInside('html/html');
+    var_dump($context->_contextName);
 }
 
 /**#@-*/
