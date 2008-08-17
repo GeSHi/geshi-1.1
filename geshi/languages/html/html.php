@@ -49,7 +49,12 @@ function geshi_html_html (GeSHiContext $context)
     $context->addChildLanguage('css/css', 'REGEX#<style[^>]+>\s*(<!\[CDATA\[)?#i', '</style>');
     $context->addChildLanguage('javascript/javascript', 'REGEX#<script[^>]+>#i', '</script>');
 
-    $context->addRegexGroup('#(&(([a-z0-9]{2,5})|(\#[0-9]{2,4}));)#', '&', array(
+    $context->addRegexGroup(
+        array(
+            '#(&(([a-z0-9]{2,5})|(\#[0-9]{2,4}));)#'
+        ),
+        '&',
+        array(
             1 => array('entity', false)
         )
     );

@@ -69,20 +69,20 @@ class GeSHiCodeParser
      *
      * @var GeSHiStyler
      */
-    var $_styler = null;
+    protected $_styler = null;
 
     /**
      * The language/dialect that is being highlighted
      *
      * @var string
      */
-    var $_language = '';
+    protected $_language = '';
 
     /**
      * A stack. Not necessary for all code parsers but this class provides a common
      * implementation
      */
-    var $_stack = array();
+    protected $_stack = array();
 
     /**#@-*/
 
@@ -139,7 +139,7 @@ class GeSHiCodeParser
     /**
      * This method handles storing of stuff into a stack of elements.
      */
-    function push ($token, $context_name, $data)
+    function push ($token, $context_name, array $data)
     {
         $this->_stack[] =  array($token, $context_name, $data);
     }
@@ -163,13 +163,13 @@ class GeSHiCodeParser
      *
      * @return array The contents of the stack
      */
-    function flush ($token = '', $context_name = '', $data = array())
+    function flush ($token = '', $context_name = '', array $data = array())
     {
         if ('' != $token) {
             $this->push($token, $context_name, $data);
         }
         $result = $this->_stack;
-        // Does this do anything?
+        // todo: Does this do anything?
         if (!$result) {
             $result = false;
         }

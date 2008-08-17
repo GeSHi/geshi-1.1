@@ -6,10 +6,10 @@
  *   Author: Nigel McNie
  *   E-mail: nigel@geshi.org
  * </pre>
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  * This program is part of GeSHi.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
@@ -46,7 +46,7 @@ function geshi_css_css (&$context)
 {
     geshi_css_common($context);
     $context->addChild('inline_media', 'code');
-    $context->addKeywordGroup('@font-face', 'at_rule/start');
+    $context->addKeywordGroup(array('@font-face'), 'at_rule/start');
 }
 
 function geshi_css_css_inline_media (&$context)
@@ -88,12 +88,12 @@ function geshi_css_css_rule (&$context)
         'stemv', 'stemh', 'slope', 'cap-height', 'x-height', 'ascent', 'descent', 'widths', 'bbox',
         'definition-src', 'baseline', 'centerline', 'mathline', 'topline', '!important'
     ), 'attribute');
-    
+
     // Attributes that take arguments
     $context->addKeywordGroup(array(
         'url', 'attr', 'rect', 'rgb', 'counter', 'counters', 'local', 'format'
     ), 'paren');
-    
+
     // Colours
     $context->addKeywordGroup(array(
         'aqua', 'black', 'blue', 'fuchsia', 'gray', 'green', 'lime', 'maroon', 'navy', 'olive',
@@ -104,7 +104,7 @@ function geshi_css_css_rule (&$context)
         'ThreeDDarkShadow', 'ThreeDFace', 'ThreeDHighlight', 'ThreeDLightShadow', 'ThreeDShadow',
         'Window', 'WindowFrame', 'WindowText'
     ), 'color');
-    
+
     // Types
     $context->addKeywordGroup(array(
         'inherit', 'none', 'hidden', 'dotted', 'dashed', 'solid', 'double', 'groove', 'ridge', 'inset',
@@ -172,7 +172,7 @@ function geshi_css_css_at_rule (&$context)
 {
     $context->addDelimiters(array('@import', '@charset'), ';');
     $context->addChild('css/css/string', 'string');
-    $context->addKeywordGroup('url', 'paren');
+    $context->addKeywordGroup(array('url'), 'paren');
     $context->addSymbolGroup(array(
         ':', ';', '(', ')'
     ), 'symbol');

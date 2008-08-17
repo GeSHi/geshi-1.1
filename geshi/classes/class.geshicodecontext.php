@@ -63,92 +63,104 @@ class GeSHiCodeContext extends GeSHiContext
 
     /**
      * Keywords for this code context
+     *
+     * @var array
      */
-    var $_contextKeywords = array();
+    private $_contextKeywords = array();
 
     /**
      * Characters that cannot appear before a keyword
+     *
+     * @var array
      */
-    var $_contextCharactersDisallowedBeforeKeywords = array();
+    private $_contextCharactersDisallowedBeforeKeywords = array();
 
     /**
      * Characters that cannot appear after a keyword
+     *
+     * @var array
      */
-    var $_contextCharactersDisallowedAfterKeywords = array();
+    private $_contextCharactersDisallowedAfterKeywords = array();
 
     /**
      * A lookup table for use with regex matched starters/enders
      * @todo initialise to array?
+     *
+     * @var array
      */
-    var $_contextKeywordLookup;
+    private $_contextKeywordLookup = array();
 
     /**
      * A symbol array
+     *
+     * @var array
      */
-    var $_contextSymbols = array();
+    private $_contextSymbols = array();
 
     /**
      * A regex array
+     *
+     * @var array
      */
-    var $_contextRegexps = array();
+    private $_contextRegexps = array();
 
-     /**
-      * Whether standard integer support will be used for this context
-      *
-      * @var boolean
-      */
-     var $_useStandardIntegers = false;
+    /**
+     * Whether standard integer support will be used for this context
+     *
+     * @var boolean
+     */
+    private $_useStandardIntegers = false;
 
-     /**
-      * Options for standard integer support
-      *
-      * @var array
-      */
-     var $_integerOptions = array();
+    /**
+     * Options for standard integer support
+     *
+     * @var array
+     */
+    private $_integerOptions = array();
 
-     /**
-      * Whether standard double support will be used for this context
-      *
-      * @var boolean
-      */
-     var $_useStandardDoubles = false;
+    /**
+     * Whether standard double support will be used for this context
+     *
+     * @var boolean
+     */
+    private $_useStandardDoubles = false;
 
-     /**
-      * Options for standard double support
-      *
-      * @var array
-      */
-     var $_doubleOptions = array();
+    /**
+     * Options for standard double support
+     *
+     * @var array
+     */
+    private $_doubleOptions = array();
 
      /**#@-*/
 
      // }}}
 
-    function addKeywordGroup ($keywords, $context_name, $case_sensitive = false, $url_data = '') {
-        $this->_contextKeywords[] = array((array)$keywords, $this->_makeContextName($context_name), $case_sensitive, $url_data);
+    function addKeywordGroup (array $keywords, $context_name, $case_sensitive = false, $url_data = '') {
+        $this->_contextKeywords[] = array($keywords, $this->_makeContextName($context_name), $case_sensitive, $url_data);
     }
-    function setCharactersDisallowedBeforeKeywords($chars) {
-        $this->_contextCharactersDisallowedBeforeKeywords = (array)$chars;
+    function setCharactersDisallowedBeforeKeywords(array $chars) {
+        $this->_contextCharactersDisallowedBeforeKeywords = $chars;
     }
-    function setCharactersDisallowedAfterKeywords($chars) {
-        $this->_contextCharactersDisallowedAfterKeywords  = (array)$chars;
-    }
-
-    function addSymbolGroup($symbols, $context_name) {
-        $this->_contextSymbols[] = array((array)$symbols, $this->_makeContextName($context_name));
+    function setCharactersDisallowedAfterKeywords(array $chars) {
+        $this->_contextCharactersDisallowedAfterKeywords = $chars;
     }
 
-    function addRegexGroup($regexes, $test_char, $handler_info) {
+    function addSymbolGroup(array $symbols, $context_name) {
+        $this->_contextSymbols[] = array($symbols, $this->_makeContextName($context_name));
+    }
+
+    function addRegexGroup(array $regexes, $test_char, array $handler_info) {
         // Add context name to the beginning of entries
         foreach (array_keys($handler_info) as $key) {
             if (is_array($handler_info[$key])) {
                 $handler_info[$key][0] = $this->_makeContextName($handler_info[$key][0]);
             }
         }
-        $this->_contextRegexps[] = array((array) $regexes, $test_char, $handler_info);
+        $this->_contextRegexps[] = array($regexes, $test_char, $handler_info);
     }
 
-    function useStandardIntegers ($options = array())
+    function useStandardIntegers (array $options = array())
     {//echo "using standard ints: $this->_contextName<br />";
         $this->_useStandardIntegers = true;
         $this->_integerOptions = $options;
@@ -158,20 +170,23 @@ class GeSHiCodeContext extends GeSHiContext
      * @param array $options An array of options to configure double number
      *                       highlighting
      */
-    function useStandardDoubles ($options = array())
+    function useStandardDoubles (array $options = array())
     {
         $this->_useStandardDoubles = true;
         $this->_doubleOptions = $options;
     }
 
-    function addObjectSplitter ($splitters, $ootoken_name, $splitter_name, $check_is_code = false)
+    function addObjectSplitter (array $splitters, $ootoken_name, $splitter_name, $check_is_code = false)
     {
         $splitter_match = '';
-        foreach ((array)$splitters as $splitter) {
+        foreach ($splitters as $splitter) {
             $splitter_match .= preg_quote($splitter) . '|';
         }
 
-        $this->addRegexGroup("#(" . substr($splitter_match, 0, -1) . ")(\s*)([a-zA-Z_][a-zA-Z0-9_]*)#", '',
+        $this->addRegexGroup(
+            array(
+                "#(" . substr($splitter_match, 0, -1) . ")(\s*)([a-zA-Z_][a-zA-Z0-9_]*)#"
+            ), '',
             array(
                 // If array, first index is name and second index is whether to let code have a go
                 // If not array and set, the whole thing is passed to code to have a go
@@ -316,7 +331,7 @@ class GeSHiCodeContext extends GeSHiContext
     /**
      * Given code, returns an array of context data about it
      */
-     function _codeContextHighlight ($code, $regex_replacements = array(), $first_char_of_next_context = '')
+     function _codeContextHighlight ($code, array $regex_replacements = array(), $first_char_of_next_context = '')
      {
         geshi_dbg('GeSHiCodeContext::_codeContextHighlight(' . substr($code, 0, 15) . ', ' .
             (($regex_replacements) ? 'array(...)' : 'null') . ', ' . $first_char_of_next_context . ')');
@@ -482,7 +497,7 @@ class GeSHiCodeContext extends GeSHiContext
      * @param array  The current result data that will be appended to
      * @param int    The pointer to the current result record
      */
-    function _checkForSymbol($possible_symbol, &$result,&$result_pointer)
+    function _checkForSymbol($possible_symbol, array &$result, &$result_pointer)
     {
         $skip = false;
         geshi_dbg('Checking ' . $possible_symbol . ' for symbol match');
@@ -593,7 +608,12 @@ class GeSHiCodeContext extends GeSHiContext
             $context_name = (isset($this->_integerOptions['context_name'])) ?
                 $this->_integerOptions['context_name'] : 'num/int';
             // NOTE: changed from having a \. in the last banned group, so that in perl -5..-1 would work for the 5
-            $this->addRegexGroup('#([^a-zA-Z_0-9\.]|^)([0-9]+)(?=[^a-zA-Z_0-9]|$)#', '', array(
+            $this->addRegexGroup(
+                array(
+                    '#([^a-zA-Z_0-9\.]|^)([0-9]+)(?=[^a-zA-Z_0-9]|$)#'
+                ),
+                '',
+                array(
                     1 => true, // catch banned stuff for highlighting by the code context that it is in
                     2 => array($context_name, false),
                     3 => true

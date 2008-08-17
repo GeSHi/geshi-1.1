@@ -1890,8 +1890,8 @@ function geshi_php_common (GeSHiContext $context)
         'zlib_get_coding_type'
     ), 'function', false, 'http://www.php.net/{FNAME}');
 
-    $context->setCharactersDisallowedBeforeKeywords('$', '_');
-    $context->setCharactersDisallowedAfterKeywords("'", '_');
+    $context->setCharactersDisallowedBeforeKeywords(array('$', '_'));
+    $context->setCharactersDisallowedAfterKeywords(array("'", '_'));
 
     // PHP symbols
     $context->addSymbolGroup(array(
@@ -1906,7 +1906,11 @@ function geshi_php_common (GeSHiContext $context)
     // NOTE: related to an optimisation bug, rather than having the second
     // parameter it should be somehow included in the first parameter so that
     // geshi_get_position always has access to it.
-    $context->addRegexGroup('#(\$\$?)([a-zA-Z_][a-zA-Z0-9_]*)#', '$',
+    $context->addRegexGroup(
+        array(
+            '#(\$\$?)([a-zA-Z_][a-zA-Z0-9_]*)#'
+        ),
+        '$',
         array(
             1 => array('varstart', false),
             2 => array('var', false)
@@ -1918,8 +1922,8 @@ function geshi_php_common (GeSHiContext $context)
     $context->useStandardDoubles();
 
     // PHP Objects
-    $context->addObjectSplitter('->', 'oodynamic', 'symbol');
-    $context->addObjectSplitter('::', 'oostatic', 'symbol');
+    $context->addObjectSplitter(array('->'), 'oodynamic', 'symbol');
+    $context->addObjectSplitter(array('::'), 'oostatic', 'symbol');
 
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
 }
