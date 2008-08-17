@@ -390,7 +390,7 @@ class GeSHi
      *
      * @param GeSHiRenderer $renderer The renderer to use
      */
-    public function setRenderer (&$renderer) {
+    public function setRenderer (GeSHiRenderer $renderer) {
         $this->_styler->setRenderer($renderer);
     }
 
