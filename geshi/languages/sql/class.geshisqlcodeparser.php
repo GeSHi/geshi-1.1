@@ -6,10 +6,10 @@
  *   Author: Nigel McNie
  *   E-mail: nigel@geshi.org
  * </pre>
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  * This program is part of GeSHi.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
@@ -36,17 +36,17 @@
 
 class GeSHiSQLCodeParser extends GeSHiCodeParser
 {
-    var $_prevToken = '';
-    var $_prevContextName = '';
-    var $_prevData = '';
-    
-    function parseToken ($token, $context_name, $data)
+    private $_prevToken = '';
+    private $_prevContextName = '';
+    private $_prevData = '';
+
+    public function parseToken ($token, $context_name, $data)
     {
         if (geshi_is_whitespace($token)
             || false !== strpos($context_name, 'comment')) {
             return array($token, $context_name, $data);
         }
-        
+
         // make sure that the NEXT token after this is not a (, because
         // then we would be clobbering a function name
         $ctype = substr($context_name, strlen($this->_language) + 1);
@@ -54,11 +54,11 @@ class GeSHiSQLCodeParser extends GeSHiCodeParser
             && in_array($ctype, array('type', 'keyword/nonreserved'))) {
             $context_name = $this->_language;
         }
-        
+
         $this->_prevToken = $token;
         $this->_prevContextName = $context_name;
         $this->_prevData = $data; // needed?
-        
+
         return array($token, $context_name, $data);
     }
 }

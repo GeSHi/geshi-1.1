@@ -6,10 +6,10 @@
  *   Author: Nigel McNie
  *   E-mail: nigel@geshi.org
  * </pre>
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  * This program is part of GeSHi.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
@@ -77,7 +77,7 @@ function geshi_sql_sql (&$context)
         'COLLATE', 'COLLATION', 'COLLATION_CATALOG', 'COLLATION_NAME',
         'COLLATION_SCHEMA', 'COLUMN', 'COLUMN_NAME', 'COMMAND_FUNCTION',
         'COMMAND_FUNCTION_CODE', 'COMMENT', 'COMMIT', 'COMMITTED',
-        'COMPLETION', 'CONDITION_NUMBER', 'CONNECT', 'CONNECTION', 
+        'COMPLETION', 'CONDITION_NUMBER', 'CONNECT', 'CONNECTION',
         'CONNECTION_NAME', 'CONSTRAINT', 'CONSTRAINTS', 'CONSTRAINT_CATALOG',
         'CONSTRAINT_NAME', 'CONSTRAINT_SCHEMA', 'CONSTRUCTOR', 'CONTAINS',
         'CONTINUE', 'CONVERSION', 'CONVERT', 'COPY', 'CORRESPONTING', 'COUNT',
@@ -154,7 +154,7 @@ function geshi_sql_sql (&$context)
         'USER_DEFINED_TYPE_SCHEMA', 'USING', 'VACUUM', 'VALID', 'VALIDATOR',
         'VALUES', 'VARIABLE', 'VERBOSE',
         'VERSION', 'VIEW', 'VOLATILE', 'WHEN', 'WHENEVER', 'WHERE', 'WITH',
-        'WITHOUT', 'WORK', 'WRITE', 'YEAR', 'ZONE' 
+        'WITHOUT', 'WORK', 'WRITE', 'YEAR', 'ZONE'
     ), 'keyword/reserved');
 
     // Need to take nonreserved keywords out of the above array and put here...
@@ -168,7 +168,7 @@ function geshi_sql_sql (&$context)
     // e.g. detect CREATE TABLE rule, then make first stuff field names unless
     // it's ones like CONSTRAINT, PRIMARY etc...
     // @todo to add here:
-    //  version, search, scale, data, year, rule, role, reads, 
+    //  version, search, scale, data, year, rule, role, reads,
     $context->addKeywordGroup(array(
         'ACTION', 'DEPTH', 'INSTANCE', 'MODULE', 'NAME', 'PASSWORD', 'PATH',
         'SECTION', 'SEQUENCE', 'TIME', 'VALUE'
@@ -185,30 +185,30 @@ function geshi_sql_sql (&$context)
         // These types added but weren't listed in the postgres manual
         'INT8', 'SERIAL8', 'TEXT'
     ), 'type');
-    
+
     $context->addSymbolGroup(array(
         ';', ':', '(', ')', '[', ']', ',', '.'
     ), 'symbol');
-    
+
     $context->addSymbolGroup(array(
         '+', '-', '*', '/', '<', '>', '=', '~', '!', '@', '#', '%', '^', '&',
         '|', '`', '?'
     ), 'operator');
-    
-    $context->addRegexGroup('#(\$\d+)#', '$', array(
+
+    $context->addRegexGroup(array('#(\$\d+)#'), '$', array(
         1 => array('positional_parameter', false)
     ));
-    
+
     $context->useStandardIntegers();
     $context->useStandardDoubles();
-    
+
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
 
 function geshi_sql_sql_quoted_identifier (&$context)
 {
     $context->addDelimiters('"', '"');
-    $context->addEscapeGroup('"');
+    $context->addEscapeGroup(array('"'));
 }
 
 function geshi_sql_sql_string (&$context)
@@ -218,15 +218,15 @@ function geshi_sql_sql_string (&$context)
 
     // If a ' occurs it can escape. There's nothing else listed as escape
     // characters so it only escapes itself.
-    $context->addEscapeGroup("'");
+    $context->addEscapeGroup(array("'"));
 
     // The backslash escape is not SQL standard but is used in many databases
     // regardless (e.g. mysql, postgresql)
     // This rule means that the backslash escapes the array given (inc. the regex)
     // As such, the definitions given here are perfectly in line with the new feature
     // The only other feature is that the escape char could actually be an array of them
-    $context->addEscapeGroup('\\', array('b', 'f', 'n', 'r', 't', "'",
-        'REGEX#[0-7]{3}#')); 
+    $context->addEscapeGroup(array('\\'), array('b', 'f', 'n', 'r', 't', "'",
+        'REGEX#[0-7]{3}#'));
 }
 
 function geshi_sql_sql_bitstring (&$context)
