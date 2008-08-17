@@ -258,7 +258,7 @@ class GeSHi
         $this->_initialiseTiming();
 
         // Create a new styler
-        $this->_styler =& geshi_styler(true);
+        $this->_styler = geshi_styler(true);
 
         // Set the initial source/language
         $this->setSource($source);
@@ -843,7 +843,7 @@ class GeSHi
         // Get code
         $code = $this->_styler->getParsedCode();
         // Trash the old GeSHiStyler
-        $this->_styler =& geshi_styler(true);
+        $this->_styler = geshi_styler(true);
         return $code;
     }
 

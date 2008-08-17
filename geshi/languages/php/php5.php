@@ -6,10 +6,10 @@
  *   Author: Nigel McNie
  *   E-mail: nigel@geshi.org
  * </pre>
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  * This program is part of GeSHi.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
@@ -45,7 +45,7 @@ require_once GESHI_LANGUAGES_ROOT . 'php' . GESHI_DIR_SEP . 'common.php';
 function geshi_php_php5 (&$context)
 {
     geshi_php_common($context);
-    
+
     // Standard PHP5 keywords
     $context->addKeywordGroup(array(
             'declare', 'abstract', 'catch', 'class', 'default',
@@ -54,16 +54,15 @@ function geshi_php_php5 (&$context)
             'try',
         ), 'keyword'
     );
-    
+
     // Constants
     $context->addKeywordGroup(array(
             'E_STRICT', '__METHOD__'
         ), 'constant'
     );
-    
+
     // PHP is embedded within HTML
     $context = $context->embedInside('html/html');
-    
 }
 
 /**#@-*/

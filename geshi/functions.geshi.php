@@ -321,7 +321,7 @@ if (!function_exists('stripos')) {
  * @return GeSHi_Styler
  * @access private
  */
-function &geshi_styler ($force_new = false)
+function geshi_styler ($force_new = false)
 {
     static $styler = null;
     if (!$styler || $force_new) {

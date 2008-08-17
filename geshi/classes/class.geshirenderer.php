@@ -66,7 +66,7 @@ class GeSHiRenderer
      */
     function GeSHiRenderer ()
     {
-        $this->_styler =& geshi_styler();
+        $this->_styler = geshi_styler();
     }
 
     // }}}

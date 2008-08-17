@@ -178,7 +178,7 @@ class GeSHiContext
         $this->_contextName = $context_name;
         $this->_languageName = substr($context_name, 0,
             strpos($context_name, '/'));
-        $this->_styler =& geshi_styler();
+        $this->_styler = geshi_styler();
     }
 
     static function _initContext(&$context, $context_name, $init_function = '')
