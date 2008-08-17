@@ -400,38 +400,40 @@ class GeSHiCodeContext extends GeSHiContext
                     } else {
                         $next_part_is_keyword = (strtolower($keyword_array[0]) == strtolower(substr($code, $i, strlen($keyword_array[0]))));
                     }
-
                     geshi_dbg("  next part is keyword: $next_part_is_keyword");
-                    // OPTIMIZE (use lookup to remember for length $foo(1 => false, 2 => false) so if kw is length 1 or 2 then don't need to check
-                    //$after_allowed = ( !in_array(substr($code, $i + strlen($keyword_array[0]), 1), array_diff($this->_context_characters_disallowed_after_keywords, $this->_context_keywords[$keyword_array[1]][4])) );
-                    // the first char of the keyword is always $char???
-                    $after_char = substr($code, $i + strlen($keyword_array[0]), 1);
-                    // if '' == $after_char, it's at the end of the context so we need
-                    // the first char from the next context...
-                    if ( '' == $after_char ) $after_char = $first_char_of_next_context;
+                    if ($next_part_is_keyword) {
+                        // OPTIMIZE (use lookup to remember for length $foo(1 => false, 2 => false) so if kw is length 1 or 2 then don't need to check
+                        //$after_allowed = ( !in_array(substr($code, $i + strlen($keyword_array[0]), 1), array_diff($this->_context_characters_disallowed_after_keywords, $this->_context_keywords[$keyword_array[1]][4])) );
+                        // the first char of the keyword is always $char???
+                        $after_char = substr($code, $i + strlen($keyword_array[0]), 1);
+                        // if '' == $after_char, it's at the end of the context so we need
+                        // the first char from the next context...
+                        if ( '' == $after_char ) $after_char = $first_char_of_next_context;
 
-                    geshi_dbg("  after char to check: |$after_char|");
-                    $after_allowed = ('' == $after_char || !ctype_alnum($after_char) ||
-                        (ctype_alnum($after_char) &&
-                        !ctype_alnum($char)) );
-                    $after_allowed = ($after_allowed &&
-                        !in_array($after_char, $this->_contextCharactersDisallowedAfterKeywords));
-                    // Disallow underscores after keywords
-                    $after_allowed = ($after_allowed && ($after_char != '_'));
+                        geshi_dbg("  after char to check: |$after_char|");
+                        $after_allowed = ('' == $after_char || !ctype_alnum($after_char) ||
+                            (ctype_alnum($after_char) &&
+                            !ctype_alnum($char)) );
+                        $after_allowed = ($after_allowed &&
+                            !in_array($after_char, $this->_contextCharactersDisallowedAfterKeywords));
+                        // Disallow underscores after keywords
+                        $after_allowed = ($after_allowed && ($after_char != '_'));
 
-                    // If where we are up to is a keyword, and it's allowed to be here (before was already
-                    // tested by $keyword_match_allowed)
-                    if ($next_part_is_keyword && $after_allowed) {
-                        //if ( false === $earliest_pos || $pos < $earliest_pos || ($pos == $earliest_pos && strlen($keyword_array[0]) > strlen($earliest_keyword)) )
-                        if (strlen($keyword_array[0]) > strlen($earliest_keyword)) {
-                            geshi_dbg('@bfound');
-                            // what is _pos for?
-                            // What are any of them for??
-                            $earliest_pos           = true;//$pos;
-                            // BUGFIX: just in case case sensitive matching used, get data from string
-                            // instead of from data array
-                            $earliest_keyword       = substr($code, $i, strlen($keyword_array[0]));
-                            $earliest_keyword_group = $keyword_array[1];
+                        // If where we are up to is a keyword, and it's allowed to be here (before was already
+                        // tested by $keyword_match_allowed)
+                        if ($next_part_is_keyword && $after_allowed) {
+                            //if ( false === $earliest_pos || $pos < $earliest_pos || ($pos == $earliest_pos && strlen($keyword_array[0]) > strlen($earliest_keyword)) )
+                            if (strlen($keyword_array[0]) > strlen($earliest_keyword)) {
+                                geshi_dbg('@bfound');
+                                // what is _pos for?
+                                // What are any of them for??
+                                $earliest_pos           = true;//$pos;
+                                // BUGFIX: just in case case sensitive matching used, get data from string
+                                // instead of from data array
+                                $earliest_keyword       = substr($code, $i, strlen($keyword_array[0]));
+                                $earliest_keyword_group = $keyword_array[1];
+                                break;
+                            }
                         }
                     }
                 }
