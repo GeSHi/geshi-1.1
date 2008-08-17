@@ -432,7 +432,8 @@ class GeSHiCodeContext extends GeSHiContext
                                 // instead of from data array
                                 $earliest_keyword       = substr($code, $i, strlen($keyword_array[0]));
                                 $earliest_keyword_group = $keyword_array[1];
-                                break;
+                                //break;
+                                //@todo: lookahead for other keywords with same base
                             }
                         }
                     }
