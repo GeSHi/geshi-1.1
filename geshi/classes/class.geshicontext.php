@@ -59,35 +59,35 @@ class GeSHiContext
      *
      * @var string
      */
-    var $_contextName;
+    protected $_contextName;
 
     /**
      * The language that this context is in
      *
      * @var string
      */
-    var $_languageName = '';
+    private $_languageName = '';
 
     /**
      * The styler helper object
      *
      * @var GeSHiStyler
      */
-    var $_styler;
+    protected $_styler;
 
     /**
      * The context delimiters
      *
      * @var array
      */
-    var $_contextDelimiters = array();
+    protected $_contextDelimiters = array();
 
     /**
      * The child contexts
      *
      * @var array
      */
-    var $_childContexts = array();
+    private $_childContexts = array();
 
     /**
      * The style type of this context, used for backward compatibility
@@ -95,7 +95,7 @@ class GeSHiContext
      *
      * @var int
      */
-    var $_contextStyleType = GESHI_STYLE_NONE;
+    private $_contextStyleType = GESHI_STYLE_NONE;
 
     /**
      * Delimiter parse data. Controls which context - the parent or child -
@@ -103,35 +103,35 @@ class GeSHiContext
      *
      * @var int
      */
-    var $_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
+    private $_delimiterParseData = GESHI_CHILD_PARSE_BOTH;
 
     /**
      * The matching regex table for regex starters
      *
      * @var array
      */
-     var $_startRegexTable = array();
+    private $_startRegexTable = array();
 
     /**
      * The name for stuff detected in the start of a context
      *
      * @var string
      */
-    var $_startName = 'start';
+    private $_startName = 'start';
 
     /**
      * The name for stuff detected in the end of a context
      *
      * @var string
      */
-    var $_endName = 'end';
+    private $_endName = 'end';
 
     /**
      * Whether this context is an alias context
      *
      * @var boolean
      */
-    var $_isAlias = false;
+    private $_isAlias = false;
 
     /**
      * The name of the context if not aliased
@@ -139,27 +139,27 @@ class GeSHiContext
      */
     //var $_aliasForContext = '';
 
-    var $_aliasName = '';
+    private $_aliasName = '';
 
     /**
      * Whether this context should never be trimmed
      * @var boolean
      */
-    //var $_neverTrim = false;
+    //private $_neverTrim = false;
 
     /**
      * Whether this context should be broken up by whitespace
      * for the code parser (GESHI_COMPLEX_* constants)
      * @var int
      */
-    var $_complexFlag = GESHI_COMPLEX_NO;
+    protected $_complexFlag = GESHI_COMPLEX_NO;
 
     /**
      * Whether this context is a child context
      *
      * @var boolean
      */
-    var $_isChildLanguage = false;
+    private $_isChildLanguage = false;
 
     /**#@-*/
 
