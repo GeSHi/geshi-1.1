@@ -12,7 +12,7 @@ header('Content-Type: text/html; charset=utf-8');
 
 error_reporting(E_ALL);
 
-require '../class.geshi.php';
+define('GESHI_DBG_ENABLE', true);
 
 chdir('../geshi/languages');
 $dir = opendir('.');
@@ -27,7 +27,7 @@ while ($lang = readdir($dir)) {
     $len = strlen($lang);
     while ($file = readdir($subdir)) {
         if ($file[0] == '.' || !is_file($file) || substr($file, -4) != '.php'
-               || substr($file, 0, 6) == 'class.' || ($file == 'common.php' && $lang != 'common')) {
+               || substr($file, 0, 6) == 'class.' || $file == 'common.php') {
             continue;
         }
         $languages[$lang][] = substr($file, 0, -4);
@@ -37,10 +37,17 @@ while ($lang = readdir($dir)) {
     sort($languages[$lang]);
 }
 closedir($dir);
+chdir('../../');
 
 ksort($languages);
 
 $fill_source = false;
+$parsed_code = '';
+$debug_output = '';
+
+ob_start();
+require 'class.geshi.php';
+
 if (isset($_POST['submit'])) {
     if (get_magic_quotes_gpc()) {
         $_POST['source'] = stripslashes($_POST['source']);
@@ -108,10 +115,14 @@ if (isset($_POST['submit'])) {
     // You can use <TIME> and <VERSION> as placeholders
     //$geshi->set_footer_content('Parsed in <TIME> seconds at <SPEED>, using GeSHi <VERSION>');
     //$geshi->set_footer_content_style('font-family: sans-serif; color: #808080; font-size: 70%; font-weight: bold; background-color: #f0f0ff; border-top: 1px solid #d0d0d0; padding: 2px;');
+
+    $parsed_code = $geshi->parseCode();
 } else {
     // make sure we don't preselect any language
     $_POST['language'] = null;
 }
+$debug_output = ob_get_contents();
+ob_end_clean();
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
@@ -180,10 +191,12 @@ include_path, and that the language files are in a subdirectory of GeSHi's direc
 <p>Enter your source and a language to highlight the source in and submit, or just choose a language to
 have that language file highlighted in PHP.</p>
 <?php
-if (isset($_POST['submit'])) {
+if (!empty($parsed_code)) {
     // The fun part :)
-    echo $geshi->parseCode();
-    echo '<hr />';
+    echo $parsed_code . '<hr />';
+}
+if (!empty($debug_output)) {
+    echo '<pre>'.$debug_output.'</pre>';
 }
 ?>
 <form action="<?php echo basename($_SERVER['PHP_SELF']); ?>" method="post">
