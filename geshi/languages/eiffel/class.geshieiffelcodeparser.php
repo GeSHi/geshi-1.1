@@ -6,10 +6,10 @@
  *   Author: Julian Tschannen
  *   E-mail: julian@tschannen.net
  * </pre>
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  * This program is part of GeSHi.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
@@ -32,7 +32,7 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
  * @copyright  (C) 2004 - 2006 Julian Tschannen, Nigel McNie
  * @version    $Id$
- * 
+ *
  */
 
 define('GESHI_EIFFEL_UNKNOWN', 0);
@@ -43,8 +43,8 @@ define('GESHI_EIFFEL_FEATURE_BEFORE_COLON', 2);
 
 /**
  * The GeSHiEiffelCodeParser class.
- * 
- * 
+ *
+ *
  * @package    geshi
  * @subpackage lang
  * @author     Julian Tschannen <julian@tschannen.net>
@@ -53,9 +53,9 @@ define('GESHI_EIFFEL_FEATURE_BEFORE_COLON', 2);
  */
 class GeSHiEiffelCodeParser extends GeSHiCodeParser
 {
-    
+
     // {{{ properties
-    
+
     /**#@+
      * @access private
      */
@@ -64,43 +64,43 @@ class GeSHiEiffelCodeParser extends GeSHiCodeParser
       * The current parse context which helps categorize tokens
       */
      var $_parse_context = GESHI_EIFFEL_UNKNOWN;
-     
+
      /**
       * The content of the last token. The last token is always token 0 on the stack.
       */
      var $_last_token = NULL;
-    
+
     /**#@-*/
-    
+
     // }}}
     // {{{ sourcePreProcess()
-    
+
     /**
      * Is given the entire source code before parsing begins so that various information
      * about the source can be stored.
-     * 
+     *
      * This method is completely optional. Note that there is no postprocess method - the
      * information gathered by this method should be exploited by {@link parseToken()}
-     * 
+     *
      * @param  string The source code
      * @return string The source code modified as necessary
      */
     function sourcePreProcess ($code)
     {
-        // todo: maybe preprocess text to look for feature, class and 
+        // todo: maybe preprocess text to look for feature, class and
         // generic names for better highlighting
         return $code;
     }
-    
+
     // }}}
     // {{{ parseToken()
-    
+
     function parseToken ($token, $context_name, $data)
     {
         if (geshi_is_whitespace ($token)) {
             if ($this->_last_token) {
                 $this->push ($token, $context_name, $data);
-                return false;
+                return array();
             } else {
                 return array ($token, $context_name, $data);
             }
@@ -181,17 +181,20 @@ class GeSHiEiffelCodeParser extends GeSHiCodeParser
                 $result = array ($token, $context_name, $data);
             }
         }
+        if ($result === false) {
+            return array();
+        }
         return $result;
     }
-    
+
     // }}}
-    
+
     /**#@+
      * @access private
      */
-    
+
     /**#@-*/
-    
+
 }
 
 ?>

@@ -6,7 +6,7 @@
  *   Author: Nigel McNie
  *   E-mail: nigel@geshi.org
  * </pre>
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
  *
@@ -52,7 +52,7 @@ require_once GESHI_CLASSES_ROOT . 'class.geshicodeparser.php';
  */
 class GeSHiDelphiCodeParser extends GeSHiCodeParser
 {
-    
+
     // {{{ properties
 
     /**
@@ -139,7 +139,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
             //If there's anything in the storage, simply add the whitespace
             if ($this->_stack) {
                 $this->push($token, $context_name, $data);
-                return false;
+                return array();
             } else {
                 //Return the token as is ...
                 return $this->flush($token, $context_name, $data);
@@ -160,7 +160,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
                 $this->_defaultFlag = 0;
             }
         }
-        
+
         // @todo for ben: I don't think alias_name is set anymore, maybe you want to check
         // that this functionality works now?
         if (0 == $this->_defaultFlag && isset($data['alias_name']) && $data['alias_name'] == $this->_language . '/property') {
@@ -290,7 +290,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
         // after it, so we know for sure that it is a keyword. So we save it to "_store" and return false
         if (substr($context_name, 0, strlen($this->_language . '/stdproc')) == $this->_language . '/stdproc') {
             $this->push($token, $context_name, $data);
-            return false;
+            return array();
         }
 
         // Default action: just return the token (including all stored)

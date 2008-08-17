@@ -334,7 +334,7 @@ class GeSHiCCodeParser extends GeSHiCodeParser
 
         // Firstly: if we are storing data for later, return
         if (false === $ret) {
-            return false;
+            return array();
         }
 
         // Check that there is a location to search for. Code below removes
