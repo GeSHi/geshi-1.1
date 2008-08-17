@@ -45,6 +45,7 @@ function geshi_javascript_javascript (&$context)
     $context->addChild('multi_comment');
     $context->addChild('single_string', 'string');
     $context->addChild('double_string', 'string');
+    $context->addChild('regexp', 'string');
 
     // Keywords
     $context->addKeywordGroup(array(
@@ -179,6 +180,18 @@ function geshi_javascript_javascript_double_string (&$context)
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
 }
 
+function geshi_javascript_javascript_regexp (&$context)
+{
+    $context->addDelimiters('/', 'REGEX#/(gi|ig|[gi])#');
+    $context->addEscapeGroup(array('\\'), array(
+        'n', 'r', 't',
+        '[', '{', '-', '$', '?', '*', '+', '/', 'd', '.',
+        '|','(', ']', ')', '}','s',
+        '\\', '"'));
+    //$context->setEscapeCharacters('\\');
+    //$context->setCharactersToEscape(array('n', 'r', 't', '\\', '"'));
+    //$this->_contextStyleType = GESHI_STYLE_STRINGS;
+}
 /**#@-*/
 
 ?>
