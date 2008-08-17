@@ -276,14 +276,9 @@ class GeSHiStyler
      *
      * @param GeSHiCodeParser The code parser to use
      */
-    function setCodeParser (&$codeparser)
+    function setCodeParser (GeSHiCodeParser $codeparser)
     {
-        if (is_subclass_of($codeparser, 'GeSHiCodeParser')) {
-            $this->_codeParser =& $codeparser;
-        } else {
-            trigger_error('GeSHiStyler::setCodeParser(): code parser must be a '
-                . 'subclass of GeSHiCodeParser', E_USER_ERROR);
-        }
+        $this->_codeParser = $codeparser;
     }
 
     // }}}
@@ -294,14 +289,9 @@ class GeSHiStyler
      *
      * @param GeSHiRenderer $renderer The renderer to use
      */
-    function setRenderer (&$renderer)
+    function setRenderer (GeSHiRenderer $renderer)
     {
-        if (is_subclass_of($renderer, 'GeSHiRenderer')) {
-            $this->_renderer =& $renderer;
-        } else {
-            trigger_error('GeSHiStyler::setRenderer(): renderer must be a '
-                . 'subclass of GeSHiRenderer', E_USER_ERROR);
-        }
+        $this->_renderer = $renderer;
     }
 
     // }}}
