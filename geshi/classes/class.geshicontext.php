@@ -508,7 +508,11 @@ class GeSHiContext
 
     function alias ($name)
     {
-        $this->_contextName = ('' == $name) ? "$this->_languageName/$name" : $name;
+        if ($name == '') {
+            $this->_contextName = $this->_languageName. '/'. $name;
+        } else {
+            $this->_contextName = $name;
+        }
         $this->_isAlias = true;
     }
 
@@ -540,11 +544,9 @@ class GeSHiContext
                         $this->_childContexts[$key]->getEndName());
                 }
                 unset($this->_childContexts[$key]);
+                continue;
             }
-        }
-
-        // Recurse into the remaining children, checking them
-        foreach (array_keys($this->_childContexts) as $key) {
+            // check remaining children
             $this->_childContexts[$key]->trimUselessChildren($source);
         }
     }
@@ -749,7 +751,7 @@ class GeSHiContext
         $earliest_key = -1;
         $earliest_dlm = '';
         foreach ($this->_childContexts as $context) {
-            if ($ignore_context == $context->/*getName*/name()) {
+            if ($ignore_context && $ignore_context == $context->/*getName*/name()) {
                 // whups, ignore you...
                 continue;
             }
@@ -807,13 +809,10 @@ class GeSHiContext
                 $data     = geshi_get_position($code, $delimiter, 0, $delim_array[2], true);
                 geshi_dbg(print_r($data, true));
                 $position = $data['pos'];
-                $length   = $data['len'];
-                if (isset($data['tab'])) {
-                    geshi_dbg('      Table: ' . print_r($data['tab'], true));
-                }
 
                 if (false !== $position) {
                     geshi_dbg('      Found at position ' . $position . ', checking... ', false);
+                    $length   = $data['len'];
                     if ((-1 == $first_position) || ($first_position > $position) ||
                        (($first_position == $position) && ($first_length < $length))) {
                         geshi_dbg('@bearliest! (length ' . $length . ')');
@@ -821,6 +820,7 @@ class GeSHiContext
                         $first_length   = $length;
                         $first_key      = $key;
                         if (isset($data['tab'])) {
+                            geshi_dbg('      Table: ' . print_r($data['tab'], true));
                             $this->_startRegexTable = $data['tab'];
                             $delimiter = $data['tab'][0];
                         }
