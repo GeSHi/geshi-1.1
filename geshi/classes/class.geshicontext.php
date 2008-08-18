@@ -278,7 +278,7 @@ class GeSHiContext
                             $args .= $arg;
                         break;
                         case 'string':
-                            $arg = substr($arg, 0, 64) . ((strlen($arg) > 64) ? '...' : '');
+                            $arg = substr($arg, 0, 64) . ((isset($arg[64])) ? '...' : '');
                             $args .= '"' . $arg . '"';
                             break;
                         case 'array':
@@ -589,15 +589,17 @@ class GeSHiContext
         $original_length = strlen($code);
 
         while ('' != $code) {
-            if (strlen($code) != $original_length) {
+            $code_len = strlen($code);
+
+            if ($code_len != $original_length) {
                 geshi_dbg('CODE: ' . str_replace("\n", "\r", substr($code, 0, 100)) . "<<<<<\n");
             }
             // Second parameter: if we are at the start of the context or not
             // Pass the ignored context so it can be properly ignored
-            $earliest_context_data = $this->_getEarliestContextData($code, strlen($code) == $original_length,
+            $earliest_context_data = $this->_getEarliestContextData($code, $code_len == $original_length,
                 $ignore_context);
             $finish_data = $this->_getContextEndData($code, $context_start_key, $context_start_delimiter,
-                strlen($code) == $original_length);
+                $code_len == $original_length);
             geshi_dbg('@bEarliest context data: pos=' . $earliest_context_data['pos'] . ', len=' .
                 $earliest_context_data['len']);
             geshi_dbg('@bFinish data: pos=' . $finish_data['pos'] . ', len=' . $finish_data['len']);
@@ -644,15 +646,16 @@ class GeSHiContext
                 // else we'll have a wee recursion problem on our hands...
                 $tmp = substr($code, 0, $earliest_context_data['pos']);
                 $this->parseCode($tmp, -1, '', $earliest_context_data['con']->/*getName*/name(),
-                    substr($code, $earliest_context_data['pos'], 1)); // parse with no starter
+                    $code[$earliest_context_data['pos']]); // parse with no starter
                 $code = substr($code, $earliest_context_data['pos']);
                 $ender = $earliest_context_data['con']->parseCode($code, $earliest_context_data['key'], $earliest_context_data['dlm']);
                 // check that the earliest context actually wants the ender
                 if (!$earliest_context_data['con']->shouldParseEnder() && $earliest_context_data['dlm'] == $ender) {
                 	geshi_dbg('earliest_context_data[dlm]=' . $earliest_context_data['dlm'] . ', ender=' . $ender);
                     // second param = first char of next context
-                    $this->_addParseData(substr($code, 0, strlen($ender)), substr($code, strlen($ender), 1));
-                    $code = substr($code, strlen($ender));
+                    $ender_len = strlen($ender);
+                    $this->_addParseData(substr($code, 0, $ender_len), $code[$ender_len]);
+                    $code = substr($code, $ender_len);
                 }
             } else {
                 if ($finish_data) {
@@ -663,7 +666,7 @@ class GeSHiContext
                         $finish_data['pos'] += $finish_data['len'];
                     }
                     // second param = first char of next context
-                    $this->_addParseData(substr($code, 0, $finish_data['pos']), substr($code, $finish_data['pos'], 1));
+                    $this->_addParseData(substr($code, 0, $finish_data['pos']), $code[$finish_data['pos']]);
 
                     if ($this->shouldParseEnder() && !$this->_isChildLanguage) {
                        	$this->_addParseDataEnd(substr($code, $finish_data['pos'], $finish_data['len']));
