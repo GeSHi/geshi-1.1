@@ -3,7 +3,7 @@
  * GeSHi - Generic Syntax Highlighter
  * <pre>
  *   File:   geshi/themes/boride/d8/csharp/csharp.php
- *   Author: Knut A. Wikström
+ *   Author: Knut A. Wikstrï¿½m
  *   E-mail: knut@wikstrom.dk
  *   Author: Benny Baumann
  *   E-mail: BenBE@omorphia.de
@@ -30,10 +30,10 @@
  *
  * @package    geshi
  * @subpackage theme
- * @author     Knut A. Wikström <knut@wikstrom.dk>
+ * @author     Knut A. Wikstrï¿½m <knut@wikstrom.dk>
  * @author     Benny Baumann <BenBE@omorphia.de>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
- * @copyright  (C) 2006-2007 Knut A. Wikström, Benny Baumann
+ * @copyright  (C) 2006-2007 Knut A. Wikstrï¿½m, Benny Baumann
  * @version    $Id$
  *
  */
@@ -47,20 +47,20 @@ $this->setStyle('doc_comment/start',     '#808080; font-style: italic;'        )
 $this->setStyle('doc_comment',           '#008000; font-style: italic;'        );
 
 // Types
-$this->setStyle('type',                  '#2b91af',                            );
+$this->setStyle('type',                  '#2b91af'                            );
 
 // Modifiers
-$this->setStyle('modifier',              '',                                   );
+$this->setStyle('modifier',              ''                                   );
 
 // General keywords
-$this->setStyle('keyword',               '#0000ff',                            );
+$this->setStyle('keyword',               '#0000ff'                            );
 
 // Strings...
-$this->setStyle('single_string',         '#a31515',                            );
-$this->setStyle('double_string',         '#a31515',                            );
+$this->setStyle('single_string',         '#a31515'                            );
+$this->setStyle('double_string',         '#a31515'                            );
 
 // Using directives...
-$this->setStyle('using/start',           '',                                   );
-$this->setStyle('using',                 '',                                   );
-$this->setStyle('using/end',             '',                                   );
+$this->setStyle('using/start',           ''                                   );
+$this->setStyle('using',                 ''                                  );
+$this->setStyle('using/end',             ''                                   );
 ?>
