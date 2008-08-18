@@ -330,9 +330,7 @@ class GeSHi
     public function getTime ($type = 'total')
     {
         if (isset($this->_times[$type])) {
-            $start = explode(' ', $this->_times[$type][0]);
-            $end   = explode(' ', $this->_times[$type][1]);
-            return $end[0] + $end[1] - $start[0] - $start[1];
+            return $this->_times[$type][1] - $this->_times[$type][0];
         } elseif ('total' == $type) {
             return $this->getTime('pre') + $this->getTime('parse') + $this->getTime('post');
         }
@@ -635,18 +633,18 @@ class GeSHi
      */
     public function parseCode ()
     {
-        $this->_times['pre'][0] = microtime();
+        $this->_times['pre'][0] = microtime(true);
         $result = $this->_parsePreProcess();
-        $this->_times['pre'][1] = $this->_times['parse'][0] = microtime();
+        $this->_times['pre'][1] = $this->_times['parse'][0] = microtime(true);
 
         if ($result) {
             // The important bit - parse the code
             $this->_rootContext->parseCode($this->_source);
         }
 
-        $this->_times['parse'][1] = $this->_times['post'][0] = microtime();
+        $this->_times['parse'][1] = $this->_times['post'][0] = microtime(true);
         $result = $this->_parsePostProcess();
-        $this->_times['post'][1] = microtime();
+        $this->_times['post'][1] = microtime(true);
 
         return $result;
     }
