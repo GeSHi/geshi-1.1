@@ -102,9 +102,7 @@ if(true === GESHI_DBG_ENABLE) {
         if ($add_nl) echo "\n";
     }
 } else {
-    function geshi_dbg ($message, $add_nl = true)
-    {
-    }
+    function geshi_dbg (){}
 }
 
 /**
