@@ -538,7 +538,9 @@ class GeSHiCodeContext extends GeSHiContext
                 $append .= '(?![a-zA-Z0-9_])';
             }
             $append .= '/';
-            if ($keyword_group_array[2]) {
+
+            // handle case-insensitivity
+            if (!$keyword_group_array[2]) {
               $append .= 'i';
             }
 
