@@ -181,6 +181,20 @@ class GeSHiContext
         $this->_styler = geshi_styler();
     }
 
+    /**
+     * Initialize a GeSHiContext. We cannot put this function into the
+     * constructor since $this cannot be overridden there (possibly needed for
+     * subcontexts).
+     *
+     * @param GeSHiContext the context to initialize
+     * @param string       the context name
+     * @param string       init function
+     *
+     * @todo is $context_name not superflous with $context->_contextName?
+     * @todo remove the "nice error message" and either push it into an external
+     *       function or better yet drop it overall and rely on sane developers
+     *       which use Xdebug or similar. No need to reinvent the wheel!
+     */
     static function _initContext(GeSHiContext &$context, $context_name, $init_function = '')
     {
         // Try a list of functions that should be used to populate this context.
