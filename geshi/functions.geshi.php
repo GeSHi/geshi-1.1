@@ -54,6 +54,13 @@ if(true === GESHI_DBG_ENABLE) {
      */
     function geshi_dbg ($message, $add_nl = true)
     {
+        // shortcut
+        if (empty($message)) {
+            if ($add_nl) {
+                echo "\n";
+            }
+            return;
+        }
         //
         // Message can have the following symbols at start
         //
@@ -62,44 +69,46 @@ if(true === GESHI_DBG_ENABLE) {
         // @o: ok (green colour)
         // @w: warn (yellow colour)
         // @e: err (red colour)
-        $test  = substr($message, 0, 2);
         $start = '';
-        $end   = '</span>';
-        switch ($test) {
-            case '@b':
-                $start = '<span style="font-weight:bold;">';
-                break;
+        $end = '';
+        if ($message[0] == '@') {
+            $end   = '</span>';
+            switch (substr($message, 0, 2)) {
+                case '@b':
+                    $start = '<span style="font-weight:bold;">';
+                    break;
 
-            case '@i':
-                $start = '<span style="font-style:italic;">';
-                break;
+                case '@i':
+                    $start = '<span style="font-style:italic;">';
+                    break;
 
-            case '@o':
-                $start = '<span style="color:green;background-color:#efe;border:1px solid #393;">';
-                break;
+                case '@o':
+                    $start = '<span style="color:green;background-color:#efe;border:1px solid #393;">';
+                    break;
 
-            case '@w':
-                $start = '<span style="color:#660;background-color:#ffe;border:1px solid #993;">';
-                break;
+                case '@w':
+                    $start = '<span style="color:#660;background-color:#ffe;border:1px solid #993;">';
+                    break;
 
-            case '@e':
-                $start = '<span style="color:red;background-color:#fee;border:1px solid #933;">';
-                break;
+                case '@e':
+                    $start = '<span style="color:red;background-color:#fee;border:1px solid #933;">';
+                    break;
 
-            default:
-                $end = '';
-        }
-
-        if (preg_match('#(.*?)::(.*?)\((.*?)\)#si', $message)) {
+                default:
+                    $end = '';
+            }
+            if (!empty($end)) {
+                $message = substr($message, 2);
+            }
+        } elseif (preg_match('#::(?:.*?)\((?:.*?)\)#s', $message)) {
             $start = '<span style="font-weight:bold;">';
             $end   = '</span>';
         }
 
-        if (preg_match('#^@[a-z]#', $message)) {
-            $message = substr($message, 2);
-        }
+        if ($add_nl)
+            $end .= "\n";
+
         echo $start . GeSHi::hsc(str_replace("\n", '', $message)) . $end;
-        if ($add_nl) echo "\n";
     }
 } else {
     function geshi_dbg (){}
