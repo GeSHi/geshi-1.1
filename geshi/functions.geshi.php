@@ -176,10 +176,6 @@ function geshi_get_position ($haystack, $needle, $offset = 0,
 {
     if ('REGEX' != substr($needle, 0, 5)) {
         if (!$case_sensitive) {
-            // @todo [blocking 1.1.4] This line is marked by BenBE as
-            // one of the slowest. If you don't have PHP5 then this is
-            // done manually, the function for it should probably be
-            // cleaned up a bit.
             return array('pos' => stripos($haystack, $needle, $offset),
               'len' => strlen($needle));
         } else {
