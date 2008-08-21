@@ -129,7 +129,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
         geshi_dbg('GeSHiDelphiCodeParser::parseToken("' . substr(str_replace("\n", '\n', $token), 0, 15) . '"...,' . $context_name . ')');
 
         //Check for linebraks...
-        if (false !== stripos($token, "\n")) {
+        if (false !== strpos($token, "\n")) {
             $this->_semicolonFlag = false;
             $this->_instrExpected = true;
         }
@@ -190,13 +190,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
         }
 
         if (!stripos($context_name, 'comment')) {
-            if ('begin' == $token_l ||
-                'case' == $token_l ||
-                'class' == $token_l ||
-                'object' == $token_l ||
-                'record' == $token_l ||
-                'try' == $token_l ||
-                'asm' == $token_l) {
+            if (in_array($token_l, array('begin', 'case', 'class', 'object', 'record', 'try', 'asm'))) {
                 geshi_dbg('Detected opening block "'.$token_l.'" on level BC' . $this->_bracketCount . '\OBC' . $this->_openBlockCount . '...' . stripos($context_name, 'comment'));
 
                 $this->_openBlockCount++;
@@ -225,20 +219,15 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
             }
         }
 
-        if ($this->_inASMBlock && stripos($this->_language, 'delphi/asm')) {
+        if ($this->_inASMBlock && strpos($this->_language, 'delphi/asm')) {
             if ($this->_instrExpected) {
                 $this->_instrExpected = false;
             } else {
-                if ($token_l == 'and' ||
-                    $token_l == 'not' ||
-                    $token_l == 'or' ||
-                    $token_l == 'shl' ||
-                    $token_l == 'shr' ||
-                    $token_l == 'xor') {
+                if (in_array($token_l, array('and', 'not', 'or', 'shl', 'shr', 'xor'))) {
                     $context_name = $this->_language . '/asm/keyop';
                 }
             }
-            if (trim($token) == ';') {
+            if ($token_l == ';') {
                 $this->_instrExpected = true;
             }
         }
@@ -270,7 +259,7 @@ class GeSHiDelphiCodeParser extends GeSHiCodeParser
         }
         // There will be something else than a semicolon, so we finish semicolon detection here
         $this->_semicolonFlag = false;
-        if (trim($token) == ';') {
+        if ($token_l == ';') {
             $this->_semicolonFlag = true;
         }
 
