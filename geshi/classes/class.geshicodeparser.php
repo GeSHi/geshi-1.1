@@ -94,7 +94,7 @@ class GeSHiCodeParser
      *
      * @param GeSHiStyler The styler oject to use
      */
-    function GeSHiCodeParser($language)
+    function __construct ($language)
     {
         $this->_styler   = geshi_styler();
         $this->_language =  $language;

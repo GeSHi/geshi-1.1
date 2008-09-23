@@ -251,7 +251,7 @@ class GeSHi
      *               GESHI_ROOT constant before including class.geshi.php.
      * @since 1.0.0
      */
-    public function GeSHi ($source, $language_name, $path = '')
+    public function __construct ($source, $language_name, $path = '')
     {
         // Initialise timing
         // @todo [blocking 1.1.5] have to re-initialise timing if this object used many times

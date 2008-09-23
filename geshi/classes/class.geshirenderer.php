@@ -64,7 +64,7 @@ class GeSHiRenderer
     /**
      * Constructor.
      */
-    function GeSHiRenderer ()
+    function __construct ()
     {
         $this->_styler = geshi_styler();
     }
