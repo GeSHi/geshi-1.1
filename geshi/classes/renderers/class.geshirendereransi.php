@@ -2,8 +2,14 @@
 /**
  * GeSHi - Generic Syntax Highlighter
  */
+
+//HTML_CSS package from PEAR
 require_once 'HTML/CSS.php';
+
+//Image_Color2 package from PEAR
 require_once 'Image/Color2.php';
+
+//Console_Color package from PEAR
 require_once 'Console/Color.php';
 
 /**
@@ -34,7 +40,7 @@ class GeSHiRendererANSI extends GeSHiRenderer
         'magenta' => array(255, 0, 255),
         'purple'  => array(160, 32, 240),
         'cyan'    => array(0, 255, 255),
-        'white'   => array(0, 0, 0)
+        'white'   => array(255, 255, 255)
     );
 
     /**
@@ -44,6 +50,20 @@ class GeSHiRendererANSI extends GeSHiRenderer
      * @var array
      */
     protected $colorCache = array();
+
+    /**
+     * Cache mapping geshi context names to ansi color codes.
+     *
+     * @var array
+     */
+    protected $ansiCache = array();
+
+    /**
+     * Ansi reset code (%n)
+     *
+     * @var string
+     */
+    protected $resetCode = '';
 
     /**
      * Ansi color names to Console_Color value mapping.
@@ -64,6 +84,14 @@ class GeSHiRendererANSI extends GeSHiRenderer
         'white'   => array('%w', '%W', '%7'),
         ''        => array('', '', '')
     );
+
+
+
+    public function __construct()
+    {
+        parent::__construct();
+        $this->resetCode = Console_Color::convert('%n');
+    }
 
 
 
@@ -104,15 +132,46 @@ class GeSHiRendererANSI extends GeSHiRenderer
         return $name;
     }
 
+    /**
+     * Calculates the ANSI code from the given context name
+     *
+     * @param string $context_name Name of context, from parseToken
+     *
+     * @return string ANSI color code to output
+     */
+    protected function getAnsiCode($context_name)
+    {
+        if (isset($this->ansiCache[$context_name])) {
+            return $this->ansiCache[$context_name];
+        }
+
+        $style   = $this->_styler->getStyle($context_name);
+        $css     = new HTML_CSS();
+        $arStyle = $css->parseString('span{' . $style . '}');
+        $color   = $css->getStyle('span', 'color');
+        $bold    = 'bold' === $css->getStyle('span', 'font-weight');
+
+        $img             = new Image_Color2($color);
+        list($r, $g, $b) = $img->getRgb();
+        $colorname       = $this->getColorName($r, $g, $b);
+
+        $index    = 0 + (int)$bold;
+        $ansicode = Console_Color::convert(self::$ansi[$colorname][$index]);
+
+        $this->ansiCache[$context_name] = $ansicode;
+        return $ansicode;
+    }
+
     // {{{ parseToken()
 
     /**
-     * Implements parseToken to put HTML tags around the tokens
+     * Implements parseToken to put ANSI codes around the tokens
      *
-     * @param string $token         The token to put tags around
-     * @param string $context_name  The name of the context that the tag is in
-     * @param array  $data          Miscellaneous data about the context
-     * @return string               The token wrapped in the appropriate HTML
+     * @param string $token        The token to highlight
+     * @param string $context_name The name of the context that the tag is in
+     * @param array  $data         Miscellaneous data about the context
+     *
+     * @return string The token wrapped in ANSI codes
      */
     function parseToken($token, $context_name, $data)
     {
@@ -121,19 +180,9 @@ class GeSHiRendererANSI extends GeSHiRenderer
             return $token;
         }
 
-        $style   = $this->_styler->getStyle($context_name);
-        $css     = new HTML_CSS();
-        $arStyle = $css->parseString('span{' . $style . '}');
-        $color   = $css->getStyle('span', 'color');
-        $img     = new Image_Color2($color);
-
-        list($r, $g, $b) = $img->getRgb();
-        $colorname       = $this->getColorName($r, $g, $b);
-
-        $result = Console_Color::convert(self::$ansi[$colorname][0])
+        return $this->getAnsiCode($context_name)
             . $token
-            . Console_Color::convert('%n');
-        return $result;
+            . $this->resetCode;
     }
 
     // }}}
