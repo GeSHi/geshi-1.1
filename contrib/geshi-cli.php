@@ -4,6 +4,9 @@
 * Allows you to run geshi from shell scripts or simply yourself via cli.
 * Supports all renderers (output formats) and input formats.
 *
+* You will need Console_CommandLine and MIME_Type from PEAR:
+* $ pear install console_commandline mime_type
+*
 * @author Christian Weiske <cweiske@php.net>
 */
 require_once 'Console/CommandLine.php';
