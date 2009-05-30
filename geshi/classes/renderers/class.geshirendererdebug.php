@@ -34,7 +34,7 @@ class GeSHiRendererDebug extends GeSHiRenderer
     function parseToken($token, $context_name, $data)
     {
         static $counter = 0;
-        
+
         $flags = '';
 
         if ($token == '') {
@@ -44,7 +44,7 @@ class GeSHiRendererDebug extends GeSHiRenderer
         } else {
             $flags .= '-';
         }
-        
+
         $nSlashes = substr_count($context_name, '/');
         $nPos = strrpos($context_name, '/');
         if ($nPos === false) {
@@ -54,12 +54,12 @@ class GeSHiRendererDebug extends GeSHiRenderer
         }
         $context = str_repeat(' ', $nSlashes) . $contextTail;
 
-        return str_pad($counter++, 4, ' ', STR_PAD_LEFT)
-            . ' ' . $flags
-            . ' ' . str_pad(strlen($token), 3, ' ', STR_PAD_LEFT)
-            . ' ' . $context_name 
-            . ($this->outputTokens ? ' ' . addcslashes($token, "\0..\37") : '')
-            . "\n";
+        return sprintf("%8d %1s %4d %-40s - %s\n",
+            $counter++,
+            $flags,
+            strlen($token),
+            $context_name,
+            ($this->outputTokens ? addcslashes($token, "\0..\37") : ''));
     }
 
     // }}}
