@@ -16,6 +16,10 @@
  */
 class GeSHiRendererDebug extends GeSHiRenderer
 {
+    protected $outputTokens = false;
+
+
+
     // {{{ parseToken()
 
     /**
@@ -30,15 +34,32 @@ class GeSHiRendererDebug extends GeSHiRenderer
     function parseToken($token, $context_name, $data)
     {
         static $counter = 0;
-        return $counter++ . ' ' . $context_name . "\n";
-        // ignore blank tokens
-        if ('' == $token || geshi_is_whitespace($token)) {
-            return $token;
-        }
+        
+        $flags = '';
 
-        return $this->getAnsiCode($context_name)
-            . $token
-            . $this->resetCode;
+        if ($token == '') {
+            $flags .= 'E';//empty
+        } else if (geshi_is_whitespace($token)) {
+            $flags .= 'W';//whitespace
+        } else {
+            $flags .= '-';
+        }
+        
+        $nSlashes = substr_count($context_name, '/');
+        $nPos = strrpos($context_name, '/');
+        if ($nPos === false) {
+            $contextTail = $context_name;
+        } else {
+            $contextTail = substr($context_name, $nPos + 1);
+        }
+        $context = str_repeat(' ', $nSlashes) . $contextTail;
+
+        return str_pad($counter++, 4, ' ', STR_PAD_LEFT)
+            . ' ' . $flags
+            . ' ' . str_pad(strlen($token), 3, ' ', STR_PAD_LEFT)
+            . ' ' . $context_name 
+            . ($this->outputTokens ? ' ' . addcslashes($token, "\0..\37") : '')
+            . "\n";
     }
 
     // }}}
