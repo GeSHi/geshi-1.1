@@ -6,10 +6,10 @@
  *   Author: Nigel McNie
  *   E-mail: nigel@geshi.org
  * </pre>
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  * This program is part of GeSHi.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
@@ -41,6 +41,7 @@
 $this->setStyle('start', 'color:#f00;font-weight:bold;');
 $this->setStyle('end', 'color:#f00;font-weight:bold;');
 $this->setStyle('keyword', 'color:#00f;font-weight:bold;');
+$this->setStyle('keyident', 'color:#000;font-weight:bold;');
 $this->setStyle('keyop', 'color:#f00;font-weight:bold;');
 $this->setStyle('control', 'color:#00f;font-weight: bold;');
 $this->setStyle('register', 'color:#00f;');
