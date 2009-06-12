@@ -67,7 +67,7 @@ class GeSHiRendererHTML extends GeSHiRenderer
             $css .= 'font-weight:bold;';
         }
         if ($style['font']['style']['italic']) {
-            $css .= 'font-style:italic';
+            $css .= 'font-style:italic;';
         }
         if ($style['font']['style']['underline']) {
             $css .= 'text-decoration:underline;';
