@@ -143,6 +143,8 @@ class GeSHiStyler
      */
     function setRawStyle ($context_name, $style)
     {
+        $style = GeSHiStyler::_parseCSS($style);
+
         if (substr($context_name, -1) != '*') {
             $this->_styleData[$context_name] = $style;
         } else {
@@ -199,8 +201,8 @@ class GeSHiStyler
         }
 
         //@todo [blocking 1.1.5] Make the default style for otherwise unstyled elements configurable
-        $this->_styleData[$context_name] = 'color:#000;';
-        return 'color:#000;';
+        $this->_styleData[$context_name] = GeSHiStyler::_parseCSS('color:#000;');
+        return $this->_styleData[$context_name];
     }
 
     // }}}
@@ -460,7 +462,179 @@ class GeSHiStyler
     function setRendererOption ($name, $value) {}
 
     // }}}
+    // {{{ _parseCSS
 
+    /**
+     * Parse a CSS string into our internal data format
+     *
+     * @param mixed The input format information to convert
+     * @return array
+     */
+    function _parseCSS ($style) {
+        $result = array(
+            "font" => array(
+                "color" => array(
+                    "R" => 0.0,         //Red channel
+                    "G" => 0.0,         //Green channel
+                    "B" => 0.0,         //Blue channel
+                    "A" => 0.0          //Transparency (optional)
+                    ),
+                "style" => array(
+                    "bold" => false,    //Bold font
+                    "italic" => false,  //Italic / Emphasized font
+                    "underline" => 0,   //Boolean interpretation allowed
+                    "strike" => false   //Strike out text, optional
+                    ),
+                "special" => array(     //Optional, additional font settings
+                    "rotate" => 0
+                    )
+                ),
+            "border" => array(
+                "l" => false,           //The left border, see comment below
+                "r" => false,           //The right border, see comment below
+                "t" => false,           //The top border, see comment below
+                "b" => false            //The bottom border, see comment below
+                /*
+                 * If a border is present it contains a color attribute (as for font)
+                 * and a style attribute telling the kind of line to use.
+                 * Additional attributes like padding and margins can be supplied.
+                 */
+                ),
+            "back" => array(
+                "color" => false,       //color of the background, transparent if missing
+                )
+            );
+
+        if(is_array($style)) {
+            return GeSHiStyler::array_merge_recursive_unique($style, $result);
+        }
+
+        //No array, so we have to parse CSS ...
+
+        //First of the color:
+        if(preg_match('/\b(?<!-)color\s*:\s*(#[\da-f]{3}(?:[\da-f]{3})?|\w+)/', $style, $match)) {
+            //We got a color, let's analyze it:
+            $result['font']['color'] = GeSHiStyler::_parseColor($match[1]);
+        }
+
+        if(preg_match('/\b(?<!-)font-style\s*:\s*(\w+)/', $style, $match)) {
+            //We got a color, let's analyze it:
+            $result['font']['style']['italic'] = 'italic' == strtolower($match[1]);
+        }
+
+        if(preg_match('/\b(?<!-)font-weight\s*:\s*(\w+)/', $style, $match)) {
+            //We got a color, let's analyze it:
+            $result['font']['style']['bold'] = 'bold' == strtolower($match[1]);
+        }
+
+        if(preg_match('/\b(?<!-)text-decoration\s*:\s*(\w+)/', $style, $match)) {
+            //We got a color, let's analyze it:
+            $result['font']['style']['underline'] = 'underline' == strtolower($match[1]);
+        }
+
+        return $result;
+    }
+
+    // }}}
+
+    private static function array_merge_recursive_unique()
+    {
+        $arrays = func_get_args();
+        $remains = $arrays;
+
+        // We walk through each arrays and put value in the results (without
+        // considering previous value).
+        $result = array();
+
+        // loop available array
+        foreach($arrays as $array) {
+
+            // The first remaining array is $array. We are processing it. So
+            // we remove it from remaing arrays.
+            array_shift($remains);
+
+            // We don't care non array param, like array_merge since PHP 5.0.
+            if(is_array($array)) {
+                // Loop values
+                foreach($array as $key => $value) {
+                    if(is_array($value)) {
+                        // we gather all remaining arrays that have such key available
+                        $args = array();
+                        foreach($remains as $remain) {
+                            if(array_key_exists($key, $remain)) {
+                                array_push($args, $remain[$key]);
+                            }
+                        }
+
+                        if(count($args) > 2) {
+                            // put the recursion
+                            $result[$key] = call_user_func_array(array(__CLASS__, __FUNCTION__), $args);
+                        } else {
+                            foreach($value as $vkey => $vval) {
+                                $result[$key][$vkey] = $vval;
+                            }
+                        }
+                    } else {
+                        // simply put the value
+                        $result[$key] = $value;
+                    }
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
+     * GeSHiStyler::_parseColor()
+     *
+     * @param string $color
+     * @return
+     */
+    private static function _parseColor($color)
+    {
+        $result = array("R" => 0.0, "G" => 0.0, "B" => 0.0, "A" => 0.0);
+
+        if('' == $color) {
+            return $result;
+        }
+
+        if('#' != $color[0]) {
+            static $htmlColors = array(
+                "black" =>      array("R"=>0.0, "G"=>0.0, "B"=>0.0, "A"=>0.0),
+                "white" =>      array("R"=>1.0, "G"=>1.0, "B"=>1.0, "A"=>0.0),
+
+                "red" =>        array("R"=>1.0, "G"=>0.0, "B"=>0.0, "A"=>0.0),
+                "yellow" =>     array("R"=>1.0, "G"=>1.0, "B"=>0.0, "A"=>0.0),
+                "lime" =>       array("R"=>0.0, "G"=>1.0, "B"=>0.0, "A"=>0.0),
+                "cyan" =>       array("R"=>0.0, "G"=>1.0, "B"=>1.0, "A"=>0.0),
+                "blue" =>       array("R"=>0.0, "G"=>0.0, "B"=>1.0, "A"=>0.0),
+                "magenta" =>    array("R"=>1.0, "G"=>0.0, "B"=>1.0, "A"=>0.0),
+
+                "darkgrey" =>   array("R"=>0.4, "G"=>0.4, "B"=>0.4, "A"=>0.0),
+                "lightgrey" =>  array("R"=>0.8, "G"=>0.8, "B"=>0.8, "A"=>0.0),
+
+                );
+
+            if(isset($htmlColors[$color])) {
+                return $htmlColors[$color];
+            } else {
+                return $result;
+            }
+        }
+
+        if(4 == strlen($color)) {
+            $result['R'] = intval($color[1], 16) / 15.0;
+            $result['G'] = intval($color[2], 16) / 15.0;
+            $result['B'] = intval($color[3], 16) / 15.0;
+        } else {
+            $result['R'] = intval($color[1].$color[2], 16) / 255.0;
+            $result['G'] = intval($color[3].$color[4], 16) / 255.0;
+            $result['B'] = intval($color[5].$color[6], 16) / 255.0;
+        }
+
+        return $result;
+    }
 }
 
 ?>

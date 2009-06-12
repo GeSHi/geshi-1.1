@@ -48,6 +48,34 @@
 class GeSHiRendererHTML extends GeSHiRenderer
 {
 
+    private static function _colorToCSSColor($color)
+    {
+        $a = unpack('H*',
+            chr(round($color['R'] * 255)) .
+            chr(round($color['G'] * 255)) .
+            chr(round($color['B'] * 255))
+            );
+        return '#' . $a[1];
+    }
+
+    private static function _styleToCSS($style) {
+        //Add the color
+        $css = 'color:' . self::_colorToCSSColor($style['font']['color']) . ';';
+
+        //Add font styles
+        if ($style['font']['style']['bold']) {
+            $css .= 'font-weight:bold;';
+        }
+        if ($style['font']['style']['italic']) {
+            $css .= 'font-style;italic';
+        }
+        if ($style['font']['style']['underline']) {
+            $css .= 'text-decoration:underline;';
+        }
+
+        return $css;
+    }
+
     // {{{ parseToken()
 
     /**
@@ -70,8 +98,13 @@ class GeSHiRendererHTML extends GeSHiRenderer
             // There's a URL associated with this token
             $result .= '<a href="' . GeSHi::hsc($data['url']) . '">';
         }
-        $result .= '<span style="' . $this->_styler->getStyle($context_name) . '" ';
-        $result .= 'title="' . $context_name . '">' . GeSHi::hsc($token) . '</span>';
+
+        if(!isset($this->contextCSS[$context_name])) {
+            $this->contextCSS[$context_name] = self::_styleToCSS($this->_styler->getStyle($context_name));
+        }
+
+        $result .= '<span style="' . $this->contextCSS[$context_name] . '" ';
+        $result .= 'title="' . GeSHi::hsc($context_name) . '">' . GeSHi::hsc($token) . '</span>';
         if (isset($data['url'])) {
             // Finish the link
             $result .= '</a>';
@@ -89,6 +122,7 @@ class GeSHiRendererHTML extends GeSHiRenderer
      */
     function getHeader ()
     {
+        $this->contextCSS = array();
         return '<pre style="background-color:#ffc;border:1px solid #cc9;">';
     }
 
@@ -102,6 +136,7 @@ class GeSHiRendererHTML extends GeSHiRenderer
      */
     function getFooter ()
     {
+        $this->contextCSS = array();
         return '</pre>';
     }
 
