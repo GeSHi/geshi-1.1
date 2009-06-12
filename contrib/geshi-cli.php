@@ -37,7 +37,7 @@ class GeSHi_Cli
     * @var array
     */
     protected static $typeToFormat = array(
-        //FIXME    
+        //FIXME
     );
 
 
@@ -59,9 +59,9 @@ class GeSHi_Cli
             if ($format == '') {
                 $format = $this->detectFormat($file);
             }
-            
+
             $geshi = new GeSHi(file_get_contents($file), $format);
-            
+
             if ($renderer) {
                 $rendclass = self::$arRenderers[$renderer];
                 require_once GESHI_CLASSES_ROOT . 'class.geshirenderer.php';
@@ -75,9 +75,9 @@ class GeSHi_Cli
             exit(1);
         }
     }//public function run();
-    
-    
-    
+
+
+
     /**
     * Creates the command line parser and populates it with all allowed
     * options and parameters.
@@ -107,7 +107,7 @@ class GeSHi_Cli
             'action'      => 'StoreString',
             'default'     => false
         ));
-        
+
         $parser->addOption('renderer', array(
             'short_name'  => '-r',
             'long_name'   => '--renderer',
@@ -120,12 +120,12 @@ class GeSHi_Cli
             'add_list_option' => true
         ));
         $parser->addArgument('infile', array('help_name' => 'source file'));
-        
+
         return $parser;
     }//protected function createParser()
-    
-    
-    
+
+
+
     /**
     * Detects the GeSHi language format of a file.
     * It first detects the MIME type of the file and uses
