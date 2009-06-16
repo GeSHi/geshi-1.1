@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 /**
 * GeSHi command line interface.
