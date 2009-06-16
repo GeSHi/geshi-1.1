@@ -3,14 +3,6 @@
  * GeSHi - Generic Syntax Highlighter
  */
 
-//HTML_CSS package from PEAR
-require_once 'HTML/CSS.php';
-
-//Image_Color2 package from PEAR
-require_once 'Image/Color2.php';
-
-//Console_Color package from PEAR
-require_once 'Console/Color.php';
 
 /**
  * The GeSHiRendererTroff class.
@@ -46,7 +38,7 @@ class GeSHiRendererTroff extends GeSHiRenderer
 
     /**
      * Cache for rgb to color name mappings.
-     * Key is $r*255*255+$g*255+$b, value the color name.
+     * Key is $r<<16 + $g<<8 + $b, value the color name.
      *
      * @var array
      */
@@ -63,15 +55,15 @@ class GeSHiRendererTroff extends GeSHiRenderer
     /**
      * Returns the color name from the given rgb values.
      *
-     * @param integer $r Red value
-     * @param integer $g Green value
-     * @param integer $b Blue value
+     * @param integer $r Red value, 0-255
+     * @param integer $g Green value, 0-255
+     * @param integer $b Blue value, 0-255
      *
      * @return string Color name. Empty if no color found.
      */
     protected function getColorName($r, $g, $b)
     {
-        $col = $r*255*255 + $g*255 + $b;
+        $col = $r<<16 + $g<<8 + $b;
         if (isset($this->colorCache[$col])) {
             return $this->colorCache[$col];
         }
@@ -111,14 +103,12 @@ class GeSHiRendererTroff extends GeSHiRenderer
         }
 
         $style   = $this->_styler->getStyle($context_name);
-        $css     = new HTML_CSS();
-        $arStyle = $css->parseString('span{' . $style . '}');
-        $color   = $css->getStyle('span', 'color');
-        $bold    = 'bold' === $css->getStyle('span', 'font-weight');
+        $color   = $style['font']['color'];
+        $bold    = $style['font']['style']['bold'];
 
-        $img             = new Image_Color2($color);
-        list($r, $g, $b) = $img->getRgb();
-        $colorname       = $this->getColorName($r, $g, $b);
+        $colorname = $this->getColorName(
+            $color['R']*255, $color['G']*255, $color['B']*255
+        );
 
         $this->ansiCache[$context_name] = array($colorname, $bold);
         return $this->ansiCache[$context_name];
@@ -135,7 +125,7 @@ class GeSHiRendererTroff extends GeSHiRenderer
      *
      * @return string The token wrapped in ANSI codes
      */
-    function parseToken($token, $context_name, $data)
+    public function parseToken($token, $context_name, $data)
     {
         // ignore blank tokens
         if ('' == $token || geshi_is_whitespace($token)) {
@@ -179,7 +169,7 @@ class GeSHiRendererTroff extends GeSHiRenderer
      *
      * @return string
      */
-    function getHeader()
+    public function getHeader()
     {
         return "\n.nf\n";
     }
@@ -192,7 +182,7 @@ class GeSHiRendererTroff extends GeSHiRenderer
      *
      * @return string
      */
-    function getFooter()
+    public function getFooter()
     {
         return "\n.fi\n";
     }
