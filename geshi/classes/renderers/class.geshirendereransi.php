@@ -96,7 +96,7 @@ class GeSHiRendererANSI extends GeSHiRenderer
      * @param integer $g Green value, 0-255
      * @param integer $b Blue value, 0-255
      *
-     * @return string Color name. Empty if no color found.
+     * @return string Color name. NULL if no color found.
      */
     protected function getColorName($r, $g, $b)
     {
@@ -120,7 +120,7 @@ class GeSHiRendererANSI extends GeSHiRenderer
         }
         if (!$found) {
             echo "color name not found from ($r,$g,$b)\n";
-            $name = '';
+            $name = null;
         }
         $this->colorCache[$col] = $name;
         return $name;
@@ -131,7 +131,7 @@ class GeSHiRendererANSI extends GeSHiRenderer
      *
      * @param string $context_name Name of context, from parseToken
      *
-     * @return string ANSI color code to output
+     * @return string ANSI color code to output, null if no color shall be used.
      */
     protected function getAnsiCode($context_name)
     {
@@ -145,7 +145,11 @@ class GeSHiRendererANSI extends GeSHiRenderer
 
         $colorname = $this->getColorName(
 	    255*$color['R'], 255*$color['G'], 255*$color['B']
-	);
+        );
+
+        if ($colorname === 'black') {
+            return null;
+        }
 
         $index    = 0 + (int)$bold;
         $ansicode = Console_Color::convert(self::$ansi[$colorname][$index]);
@@ -172,9 +176,12 @@ class GeSHiRendererANSI extends GeSHiRenderer
             return $token;
         }
 
-        return $this->getAnsiCode($context_name)
-            . $token
-            . $this->resetCode;
+        $code = $this->getAnsiCode($context_name);
+        if ($code !== null) {
+            return $code . $token . $this->resetCode;
+        } else {
+            return $token;
+        }
     }
 
     // }}}
