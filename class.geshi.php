@@ -376,7 +376,7 @@ class GeSHi
     {
         // Passed in reverse order so priority is preserved
         for ($i = func_num_args() - 1; $i >= 0; $i--) {
-            $this->_styler->useThemes(GeSHi::_clean(func_get_arg($i)));
+            $this->_styler->useThemes(GeSHi::_clean((array)func_get_arg($i)));
         }
     }
 
@@ -876,6 +876,9 @@ class GeSHi
      */
     public static function _clean ($data)
     {
+        if(is_array($data)) {
+            return array_map(array(__CLASS__, '_clean'), $data);
+        }
         return preg_replace('#[^a-z0-9/]#', '', $data);
     }
 
