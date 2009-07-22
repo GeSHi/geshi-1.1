@@ -1,10 +1,10 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  *  This file is part of GeSHi.
  *
  *  GeSHi is free software; you can redistribute it and/or modify
@@ -38,6 +38,9 @@
  */
 $this->setStyle('multi_comment', 'color:#888;font-style:italic;');
 $this->setStyle('single_comment', 'color:#888;font-style:italic;');
+
+$this->setStyle('regexp', 'color:#D0D;');
+$this->setStyle('regexp/esc', 'color:#00f;font-weight:bold;');
 
 $this->setStyle('single_string', 'color:#f00;');
 $this->setStyle('single_string/esc', 'color:#006;font-weight:bold;');

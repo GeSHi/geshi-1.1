@@ -63,16 +63,16 @@ class GeSHiSingleCharContext extends GeSHiContext
      * @access private
      */
     /** The parsed data when getContextStartData() is successful. */
-    var $_characterLen;
-    var $_endDelimiterLen;
-    var $_isEscapeSeq;
+    private $_characterLen;
+    private $_endDelimiterLen;
+    private $_isEscapeSeq;
 
-    var $_disallowEmpty;
+    private $_disallowEmpty;
 
     /** Characters that start an escape sequence... */
-    var $_escapeCharacters;
+    private $_escapeCharacters = array();
     /** ...and the valid escape sequences that can follow. */
-    var $_charsToEscape;
+    private $_charsToEscape = array();
 
     /**#@-*/
 
@@ -86,9 +86,9 @@ class GeSHiSingleCharContext extends GeSHiContext
      * assertions on such regexes are not supported.
      * @param Mixed Array of strings or single string.
      */
-    function setEscapeCharacters ($chars)
+    function setEscapeCharacters (array $chars)
     {
-        $this->_escapeCharacters = (array) $chars;
+        $this->_escapeCharacters = $chars;
     }
 
     // }}}
@@ -100,7 +100,7 @@ class GeSHiSingleCharContext extends GeSHiContext
      * assertions on such regexes are not supported.
      * @param Mixed Array of strings or single string.
      */
-    function setCharactersToEscape ($chars)
+    function setCharactersToEscape (array $chars)
     {
         static $re_starter_c = 'REGEX';
         static $re_starter_len_c = 5/*strlen($re_starter_c)*/;
@@ -108,12 +108,14 @@ class GeSHiSingleCharContext extends GeSHiContext
         /* Save a little time and processing by anchoring all regexes now,
          * rather than each time geshi_whichsubstr() is called.
          */
-        foreach ((array)$chars as $escSeq) {
+        foreach ($chars as $escSeq) {
             if (strncmp($escSeq, $re_starter_c, $re_starter_len_c) == 0) {
                 $re = substr($escSeq, $re_starter_len_c);
                 $re = geshi_anchor_re($re);
                 $this->_charsToEscape[] = $re_starter_c.$re;
-            } else $this->_charsToEscape[] = $escSeq;
+            } else {
+                $this->_charsToEscape[] = $escSeq;
+            }
         }
     }
 

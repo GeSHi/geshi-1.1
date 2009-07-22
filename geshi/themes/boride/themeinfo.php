@@ -41,7 +41,7 @@
 $human_name = 'Borland IDE';
 $languages  = array(
     'delphi' => array('delphi'),
-    'csharp' => array('csharp', 'unmanaged')
+    'csharp' => array('csharp', 'unmanaged'),
     'java'   => array('java')
 );
 

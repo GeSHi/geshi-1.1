@@ -6,10 +6,10 @@
  *   Author: Benny Baumann
  *   E-mail: BenBE@benbe.omorphia.de
  * </pre>
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  * This program is part of GeSHi.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
@@ -41,6 +41,7 @@
 $this->setStyle('start', 'color:#000;font-weight:bold;');
 $this->setStyle('end', 'color:#000;font-weight:bold;');
 $this->setStyle('keyword', 'color:#000;font-weight:bold;');
+$this->setStyle('keyident', 'color:#000;font-weight:bold;');
 $this->setStyle('keyop', 'color:#000;font-weight:bold;');
 $this->setStyle('control', 'color:#000;font-weight:bold;');
 $this->setStyle('register', 'color:#000;');

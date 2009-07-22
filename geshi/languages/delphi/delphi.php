@@ -156,7 +156,7 @@ function geshi_delphi_delphi (&$context)
         'Do', 'DownTo', 'Else', 'End', 'Except', 'File', 'Finalization',
         'Finally', 'For', 'Function', 'Goto', 'If', 'Implementation', 'In',
         'Inherited', 'Initialization', 'Inline', 'Interface', 'Is', 'Label',
-        'Mod', 'Not', 'Object', 'Of', 'On', 'Or', 'Overload', 'Override',
+        'Mod', 'Not', 'Object', 'Of', 'On', 'Or', 'Out', 'Overload', 'Override',
         'Package', 'Packed', 'Private', 'Procedure', 'Program', 'Property',
         'Protected', 'Public', 'Published', 'Raise', 'Record', 'Repeat',
         'Requires', 'Resourcestring', 'Set', 'Shl', 'Shr', 'Then', 'ThreadVar',
@@ -194,11 +194,17 @@ function geshi_delphi_delphi (&$context)
     $context->useStandardDoubles(array('require_leading_number' => true));
 
     // Ranges
-    $context->addRegexGroup('/(\.\.)/', '.', array(
-        1 => array('ctrlsym', false)
-    ));
+    $context->addRegexGroup(
+        array(
+            '/(\.\.)/'
+        ),
+        '.',
+        array(
+            1 => array('ctrlsym', false)
+        )
+    );
 
-    $context->addObjectSplitter('.', 'oodynamic', 'oopsym');
+    $context->addObjectSplitter(array('.'), 'oodynamic', 'oopsym');
 
     $context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
 
@@ -233,19 +239,10 @@ function geshi_delphi_delphi_extern (&$context)
         '(', ')', '[', ']'
     ), 'brksym');
 
-    $context->addRegexGroup('/(#[0-9]+)/', '#', array(
-        1 => array('char', false)
-    ));
-    $context->addRegexGroup('/(#\$[0-9a-fA-F]+)/', '#', array(
-        1 => array('charhex', false)
-    ));
-    $context->addRegexGroup('/(\$[0-9a-fA-F]+)/', '$', array(
-        1 => array('hex', false)
-    ));
+    geshi_delphi_chars($context);
+    geshi_delphi_integers($context);
 
-    $context->useStandardIntegers();
-
-    $context->addObjectSplitter('.', 'oodynamic', 'oopsym');
+    $context->addObjectSplitter(array('.'), 'oodynamic', 'oopsym');
 
     // @todo This might be subject to change, depending on how I will handle this context.
     // It might be that I'll have to split this context a bit ...
@@ -276,20 +273,12 @@ function geshi_delphi_delphi_exports_brackets (&$context)
         ':', ';', ',', '='
     ), 'ctrlsym');
 
-    $context->addRegexGroup('/(#[0-9]+)/', '#', array(
-        1 => array('char', false)
-    ));
-    $context->addRegexGroup('/(#\$[0-9a-fA-F]+)/', '#', array(
-        1 => array('charhex', false)
-    ));
-    $context->addRegexGroup('/(\$[0-9a-fA-F]+)/', '$', array(
-        1 => array('hex', false)
-    ));
+    geshi_delphi_chars($context);
+    geshi_delphi_integers($context);
 
-    $context->useStandardIntegers();
     $context->useStandardDoubles(array('require_leading_number' => true));
 
-    $context->addObjectSplitter('.', 'oodynamic', 'oopsym');
+    $context->addObjectSplitter(array('.'), 'oodynamic', 'oopsym');
 
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
 }
@@ -315,21 +304,12 @@ function geshi_delphi_delphi_property (&$context)
 
     geshi_delphi_keyident_noself($context);
 
-    $context->addKeywordGroup(':', 'ctrlsym');
+    $context->addKeywordGroup(array(':'), 'ctrlsym');
 
-    $context->addRegexGroup('/(#[0-9]+)/', '#', array(
-        1 => array('char', false)
-    ));
-    $context->addRegexGroup('/(#\$[0-9a-fA-F]+)/', '#', array(
-        1 => array('charhex', false)
-    ));
-    $context->addRegexGroup('/(\$[0-9a-fA-F]+)/', '$', array(
-        1 => array('hex', false)
-    ));
+    geshi_delphi_chars($context);
+    geshi_delphi_integers($context);
 
-    $context->useStandardIntegers();
-
-    $context->addObjectSplitter('.', 'oodynamic', 'oopsym');
+    $context->addObjectSplitter(array('.'), 'oodynamic', 'oopsym');
 
     // @todo: This might require some changes later on to fix some bugs ...
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);
@@ -352,19 +332,10 @@ function geshi_delphi_delphi_property_property_index(&$context)
         ':', ';', ','
     ), 'ctrlsym');
 
-    $context->addRegexGroup('/(#[0-9]+)/', '#', array(
-        1 => array('char', false)
-    ));
-    $context->addRegexGroup('/(#\$[0-9a-fA-F]+)/', '#', array(
-        1 => array('charhex', false)
-    ));
-    $context->addRegexGroup('/(\$[0-9a-fA-F]+)/', '$', array(
-        1 => array('hex', false)
-    ));
+    geshi_delphi_chars($context);
+    geshi_delphi_integers($context);
 
-    $context->useStandardIntegers();
-
-    $context->addObjectSplitter('.', 'oopdynamic', 'oopsym');
+    $context->addObjectSplitter(array('.'), 'oopdynamic', 'oopsym');
 
     // @todo: This might require some changes later on to fix some bugs ...
     $context->setComplexFlag(GESHI_COMPLEX_PASSALL);

@@ -218,7 +218,7 @@ class GeSHiCCodeParser extends GeSHiCodeParser
         case GESHI_C_PPINCLUDE:
             // Highlight and link standard headers; also concatenate tokenised
             // header names into a single token to remove symbol contexts.
-            if ($token{0} == '<') {
+            if ($token[0] == '<') {
                 $this->_state = GESHI_C_PPHDRSTART;
                 // special-case handling for e.g. </dir/file.h> where "</" will
                 // be tokenised as a single symbol
@@ -334,7 +334,7 @@ class GeSHiCCodeParser extends GeSHiCodeParser
 
         // Firstly: if we are storing data for later, return
         if (false === $ret) {
-            return false;
+            return array();
         }
 
         // Check that there is a location to search for. Code below removes

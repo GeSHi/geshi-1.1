@@ -6,10 +6,10 @@
  *   Author: Nigel McNie
  *   E-mail: nigel@geshi.org
  * </pre>
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  * This program is part of GeSHi.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
@@ -82,9 +82,15 @@ function geshi_delphi_asm (&$context)
         'cr0', 'cr1', 'cr2', 'cr3', 'cr4',
         'dr0', 'dr1', 'dr2', 'dr3', 'dr4', 'dr5', 'dr6', 'dr7'
     ), 'register');
-    $context->addRegexGroup('/(?=\b)(st\([0-7]\))/im', '', array(
-        1 => array('register', false)
-    ));
+    $context->addRegexGroup(
+        array(
+            '/(?=\b)(st\([0-7]\))/im'
+        ),
+        'st',
+        array(
+            1 => array('register', false)
+        )
+    );
 
     // CPU i386 instructions
     $context->addKeywordGroup(array(
@@ -199,17 +205,53 @@ function geshi_delphi_asm (&$context)
         ',', ';', '[', ']', '(', ')', '.', '&', '+', '-', '/', '*'
     ), 'symbol');
 
-    $context->addObjectSplitter('.', 'oodynamic', 'symbol');
+    $context->addObjectSplitter(array('.'), 'oodynamic', 'symbol');
 
-    $context->addRegexGroup('#([@a-zA-Z_][@a-zA-Z0-9_]+:)#', ':', array(
-        1 => array('label', false)
-    ));
-    $context->addRegexGroup('#(@@[@a-zA-Z0-9_]+)#', '@@', array(
-        1 => array('label', false)
-    ));
-    $context->addRegexGroup('/(\$[0-9a-fA-F_]+)/', '$', array(
-        1 => array('hex', false)
-    ));
+    $context->addRegexGroup(
+        array(
+            '#([@a-zA-Z_][@a-zA-Z0-9_]+:)#'
+        ),
+        ':',
+        array(
+            1 => array('label', false)
+        )
+    );
+    $context->addRegexGroup(
+        array(
+            '#(@@[@a-zA-Z0-9_]+)#'
+        ),
+        '@@',
+        array(
+            1 => array('label', false)
+        )
+    );
+    $context->addRegexGroup(
+        array(
+            '/(#[0-9]+)/'
+        ),
+        '#',
+        array(
+            1 => array('char', false)
+        )
+    );
+    $context->addRegexGroup(
+        array(
+            '/(#\$[0-9a-fA-F]+)/'
+        ),
+        '#',
+        array(
+            1 => array('charhex', false)
+        )
+    );
+    $context->addRegexGroup(
+        array(
+            '/(\$[0-9a-fA-F]+)/'
+        ),
+        '$',
+        array(
+            1 => array('hex', false)
+        )
+    );
 
     $context->useStandardIntegers();
     $context->useStandardDoubles(array('require_leading_number' => true));

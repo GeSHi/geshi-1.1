@@ -6,10 +6,10 @@
  *   Author: Nigel McNie
  *   E-mail: nigel@geshi.org
  * </pre>
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  * This program is part of GeSHi.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
@@ -39,7 +39,7 @@
  * @access private
  */
 
-function geshi_html_html (&$context)
+function geshi_html_html (GeSHiContext &$context)
 {
     $context->addChild('doctype');
     $context->addChild('tag', 'code');
@@ -49,19 +49,24 @@ function geshi_html_html (&$context)
     $context->addChildLanguage('css/css', 'REGEX#<style[^>]+>\s*(<!\[CDATA\[)?#i', '</style>');
     $context->addChildLanguage('javascript/javascript', 'REGEX#<script[^>]+>#i', '</script>');
 
-    $context->addRegexGroup('#(&(([a-z0-9]{2,5})|(\#[0-9]{2,4}));)#', '&', array(
+    $context->addRegexGroup(
+        array(
+            '#(&(([a-z0-9]{2,5})|(\#[0-9]{2,4}));)#'
+        ),
+        '&',
+        array(
             1 => array('entity', false)
         )
     );
 }
 
-function geshi_html_html_doctype (&$context)
+function geshi_html_html_doctype (GeSHiContext &$context)
 {
     $context->addDelimiters('<!DOCTYPE ', '>');
     $context->addChild('html/html/string');
 }
 
-function geshi_html_html_tag (&$context)
+function geshi_html_html_tag (GeSHiContext &$context)
 {
     $context->addDelimiters('REGEX#<[/a-z_0-6]+#i', '>');
     $context->addChild('html/html/string');
@@ -88,11 +93,11 @@ function geshi_html_html_tag (&$context)
             'valign', 'value', 'valuetype', 'version', 'vlink', 'vspace', 'width'
         ), 'attribute'
     );
-    
+
     $context->addSymbolGroup(array('=', '/'), 'symbol');
 }
 
-function geshi_html_html_string (&$context)
+function geshi_html_html_string (GeSHiContext &$context)
 {
     $context->addDelimiters("'", "'");
     $context->addDelimiters('"', '"');
@@ -102,7 +107,7 @@ function geshi_html_html_string (&$context)
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
 }
 
-function geshi_html_html_comment (&$context)
+function geshi_html_html_comment (GeSHiContext &$context)
 {
     $context->addDelimiters('<!--', '-->');
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;

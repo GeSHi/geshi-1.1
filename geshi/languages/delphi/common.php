@@ -50,20 +50,38 @@ function geshi_delphi_common(&$context)
 function geshi_delphi_chars(&$context)
 {
     // Characters
-    $context->addRegexGroup('/(#[0-9]+)/', '#', array(
-        1 => array('char', false)
-    ));
-    $context->addRegexGroup('/(#\$[0-9a-fA-F]+)/', '#', array(
-        1 => array('charhex', false)
-    ));
+    $context->addRegexGroup(
+        array(
+            '/(#[0-9]+)/'
+        ),
+        '#',
+        array(
+            1 => array('char', false)
+        )
+    );
+    $context->addRegexGroup(
+        array(
+            '/(#\$[0-9a-fA-F]+)/'
+        ),
+        '#',
+        array(
+            1 => array('charhex', false)
+        )
+    );
 }
 
 function geshi_delphi_integers(&$context)
 {
     // Integers
-    $context->addRegexGroup('/(\$[0-9a-fA-F]+)/', '$', array(
-        1 => array('hex', false)
-    ));
+    $context->addRegexGroup(
+        array(
+            '/(\$[0-9a-fA-F]+)/'
+        ),
+        '$',
+        array(
+            1 => array('hex', false)
+        )
+    );
     $context->useStandardIntegers();
 }
 
@@ -115,7 +133,7 @@ function geshi_delphi_multi_comment (&$context)
 function geshi_delphi_single_string (&$context)
 {
     $context->addDelimiters("'", array("'", "\n"));
-    $context->addEscapeGroup("'");
+    $context->addEscapeGroup(array("'"));
 }
 
 function geshi_delphi_preprocessor (&$context)

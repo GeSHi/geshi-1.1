@@ -6,10 +6,10 @@
  *   Author: Nigel McNie
  *   E-mail: nigel@geshi.org
  * </pre>
- * 
+ *
  * For information on how to use GeSHi, please consult the documentation
  * found in the docs/ directory, or online at http://geshi.org/docs/
- * 
+ *
  * This program is part of GeSHi.
  *
  *  This program is free software; you can redistribute it and/or modify
@@ -21,7 +21,7 @@
  *  but WITHOUT ANY WARRANTY; without even the implied warranty of
  *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *  GNU General Public License for more details.
- * 
+ *
  *  You should have received a copy of the GNU General Public License
  *  along with this program; if not, write to the Free Software
  *  Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA
@@ -45,6 +45,7 @@ function geshi_javascript_javascript (&$context)
     $context->addChild('multi_comment');
     $context->addChild('single_string', 'string');
     $context->addChild('double_string', 'string');
+    $context->addChild('regexp', 'string');
 
     // Keywords
     $context->addKeywordGroup(array(
@@ -53,13 +54,13 @@ function geshi_javascript_javascript (&$context)
         'return', 'switch', 'throw', 'true', 'try', 'typeof', 'var', 'void',
         'while', 'with'
     ), 'keyword', true);
-    
+
     // Functions
     $context->addKeywordGroup(array(
         'escape', 'isFinite', 'isNaN', 'Number', 'parseFloat', 'parseInt',
         'reload', 'taint', 'unescape', 'untaint', 'write'
     ), 'function', true);
-    
+
     // Objects
     $context->addKeywordGroup(array(
         'Anchor', 'Applet', 'Area', 'Array', 'Boolean', 'Button', 'Checkbox',
@@ -68,20 +69,20 @@ function geshi_javascript_javascript (&$context)
         'navigator', 'Object', 'Password', 'Plugin', 'Radio', 'RegExp', 'Reset',
         'Screen', 'Select', 'String', 'Text', 'Textarea', 'this', 'Window'
     ), 'object', true);
-    
+
     // Math constants/methods
     $context->addKeywordGroup(array(
         'abs', 'acos', 'asin', 'atan', 'atan2', 'ceil', 'cos', 'ctg', 'E', 'exp',
         'floor', 'LN2', 'LN10', 'log', 'LOG2E', 'LOG10E', 'PI', 'pow', 'round',
         'sin', 'sqrt', 'SQRT1_2', 'SQRT2', 'tan'
     ), 'math', true);
-    
+
     // Events
     $context->addKeywordGroup(array(
         'onAbort', 'onBlur', 'onChange', 'onClick', 'onError', 'onFocus', 'onLoad',
         'onMouseOut', 'onMouseOver', 'onReset', 'onSelect', 'onSubmit', 'onUnload'
     ), 'event', true);
-    
+
     // Methods
     $context->addKeywordGroup(array(
         'MAX_VALUE', 'MIN_VALUE', 'NEGATIVE_INFINITY', 'NaN', 'POSITIVE_INFINITY',
@@ -132,7 +133,7 @@ function geshi_javascript_javascript (&$context)
         //@todo [blocking 1.1.5] Some important and recent DOM additions for js seem to be ommited...
     ), 'method', true);
 
-    $context->setCharactersDisallowedBeforeKeywords('$');
+    $context->setCharactersDisallowedBeforeKeywords(array('$'));
 
     // Symbols
     $context->addSymbolGroup(array(
@@ -144,7 +145,7 @@ function geshi_javascript_javascript (&$context)
     $context->useStandardIntegers();
     $context->useStandardDoubles();
 
-    $context->addObjectSplitter('.', 'oodynamic', 'symbol', true);
+    $context->addObjectSplitter(array('.'), 'oodynamic', 'symbol', true);
 }
 
 function geshi_javascript_javascript_single_comment (&$context)
@@ -162,7 +163,7 @@ function geshi_javascript_javascript_multi_comment (&$context)
 function geshi_javascript_javascript_single_string (&$context)
 {
     $context->addDelimiters("'", array("'", "\n"));
-    $context->addEscapeGroup('\\', array('\\', "'", "\n"));
+    $context->addEscapeGroup(array('\\'), array('\\', "'", "\n"));
     //$context->setEscapeCharacters('\\');
     //$context->setCharactersToEscape(array('\\', "'", "\n"));
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
@@ -171,12 +172,26 @@ function geshi_javascript_javascript_single_string (&$context)
 function geshi_javascript_javascript_double_string (&$context)
 {
     $context->addDelimiters('"', '"');
-    $context->addEscapeGroup('\\', array('n', 'r', 't', '\\', '"'));
+    $context->addEscapeGroup(array('\\'), array(
+        'n', 'r', 't',
+        '\\', '"'));
     //$context->setEscapeCharacters('\\');
     //$context->setCharactersToEscape(array('n', 'r', 't', '\\', '"'));
     //$this->_contextStyleType = GESHI_STYLE_STRINGS;
 }
 
+function geshi_javascript_javascript_regexp (&$context)
+{
+    $context->addDelimiters('/', 'REGEX#/(gi|ig|[gi])#');
+    $context->addEscapeGroup(array('\\'), array(
+        'n', 'r', 't',
+        '[', '{', '-', '$', '?', '*', '+', '/', 'd', '.',
+        '|','(', ']', ')', '}','s',
+        '\\', '"'));
+    //$context->setEscapeCharacters('\\');
+    //$context->setCharactersToEscape(array('n', 'r', 't', '\\', '"'));
+    //$this->_contextStyleType = GESHI_STYLE_STRINGS;
+}
 /**#@-*/
 
 ?>
