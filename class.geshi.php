@@ -790,7 +790,7 @@ class GeSHi
         // Load the code parser if necessary
         $language_name   = substr($this->_language, 0, strpos($this->_language, '/'));
         $codeparser_name = 'geshi' . $language_name . 'codeparser';
-        if (!class_exists($codeparser_name)) {
+        if (!class_exists($codeparser_name, false)) {
             $codeparser_file = GESHI_LANGUAGES_ROOT . $language_name . '/'
                 . "class.{$codeparser_name}.php";
             if (geshi_can_include($codeparser_file)) {
@@ -802,7 +802,7 @@ class GeSHi
         }
 
         // Now the code parser (if existing) has been included, create it if it is defined
-        if (class_exists($codeparser_name)) {
+        if (class_exists($codeparser_name, false)) {
             // Get the code parser
             $codeparser = new $codeparser_name($this->_language);
             // Call the source preprocessing method
