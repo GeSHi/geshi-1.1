@@ -45,7 +45,7 @@ require_once GESHI_CLASSES_ROOT . 'class.geshisinglecharcontext.php';
 
 /// Require the {@see GeSHiStringContext} class.
 require_once GESHI_CLASSES_ROOT . 'class.geshistringcontext.php';
- 
+
 function geshi_csharp_common (&$context)
 {
 	// Add children like comments
@@ -56,7 +56,7 @@ function geshi_csharp_common (&$context)
 	$context->addChild('double_string', 'string');
     $context->addChild('double_string_verbatim', 'string');
 	$context->addChild('using'); // Temporary solution, implementing in code parser. That'll be better.
-	
+
 	// Types
 	$context->addKeywordGroup(array(
 		'bool', 'byte', 'char', 'decimal',
@@ -64,7 +64,7 @@ function geshi_csharp_common (&$context)
 		'long', 'sbyte', 'short', 'struct',
 		'uint', 'ulong', 'ushort', 'void'
 	), 'type', true, 'geshi_csharp_get_url()' /*'http://msdn.microsoft.com/library/default.asp?url=/library/en-us/csref/html/vcrefreferencetypes.asp'*/);
-	
+
 	// Full types (System.*)
 	$context->addKeywordGroup(array(
 		'System.Boolean', 'System.Byte', 'System.SByte', 'System.Char',
@@ -72,7 +72,7 @@ function geshi_csharp_common (&$context)
 		'System.UInt32', 'System.Int64', 'System.UInt64', 'System.Object',
 		'System.Int16', 'System.UInt16', 'System.String'
 	), 'type', true, 'geshi_csharp_get_url()');
-    
+
     // Full types without prefix.
 	$context->addKeywordGroup(array(
 		'Boolean', 'Byte', 'SByte', 'Char',
@@ -80,13 +80,13 @@ function geshi_csharp_common (&$context)
 		'UInt32', 'Int64', 'UInt64', 'Object',
 		'Int16', 'UInt16', 'String'
 	), 'type', true, 'geshi_csharp_get_url()');
-	
+
 	// Reference types (OOP types)
 	$context->addKeywordGroup(array(
 			'class', 'interface', 'delegate',
 			'object', 'string'
 			), 'type', true, 'geshi_csharp_get_url()');
-	
+
 	// TODO: Pointer types
 	// I am working out this by studying the C file :D
 	// It will come soon
@@ -95,74 +95,74 @@ function geshi_csharp_common (&$context)
 	$context->addKeywordGroup(array(
 		'public', 'private', 'internal', 'protected', // Access modifiers
 		'abstract', 'const', 'event', 'extern', 'friend',
-		'override', 'readonly', 'sealed', 'static', 
+		'override', 'readonly', 'sealed', 'static',
 		'unsafe', 'virtual', 'volatile'
 	), 'modifier', true);
-	
+
 	// Selection statements
 	$context->addKeywordGroup(array(
 			'if', 'else', 'switch', 'case'
 			), 'statement', true);
-	
+
 	// Iteration statements
 	$context->addKeywordGroup(array(
 			'do', 'for', 'foreach', 'in',
 			'while'
 			), 'statement', true);
-	
+
 	// Jump statements
 	$context->addKeywordGroup(array(
 			'break', 'continue', 'default', 'goto',
 			'return'
 			), 'keyword', true);
-	
+
 	// Exception handling statements
 	$context->addKeywordGroup(array(
 			'try', 'throw', 'catch', 'finally'
 			), 'statement', true);
-	
+
 	// Checked and Unchecked
 	$context->addKeywordGroup(array(
 			'checked', 'unchecked'
 			), 'modifier', true);
-	
+
 	// Other statements (that don't fit in anywhere else)
 	$context->addKeywordGroup(array(
 			'fixed', // Fixed statement
 			'lock' // Lock expression statement
 			), 'statement', true);
-	
+
 	// Method parameter keywords
 	$context->addKeywordGroup(array(
 			'params', 'ref', 'out'
 			), 'keyword', true);
-	
+
 	// Namespace-oriented keywords
 	$context->addKeywordGroup(array(
 			'namespace'/*, 'using'*/ // I add this as a child - as I don't want them to be parsed as dynamic objects.
 			), 'keyword', true);
-	
+
 	// Operators (literal)
 	$context->addKeywordGroup(array(
 			'as', 'is', 'new', 'sizeof',
 			'typeof', 'true', 'false', 'stackalloc'
 			), 'keyword', true);
-	
+
 	// Conversion keywords
 	$context->addKeywordGroup(array(
 			'explicit', 'implicit', 'operator'
 			), 'modifier', true); // Added as modifier, that's where I think they fit in
-	
+
 	// Access keywords
 	$context->addKeywordGroup(array(
 			'base', 'this'
 			), 'access', true);
-	
+
 	// Literal keywords (or keyword :D)
 	$context->addKeywordGroup(array(
 			'null'
 			), 'keyword', true);
-	
+
 	// Symbols
 	$context->addSymbolGroup(array(
 			'+', '-', '*', '/', '%', // Arithmetic
@@ -172,7 +172,7 @@ function geshi_csharp_common (&$context)
 			'\\' // Line continuation & escape
 			// TODO: Make sure all symbols are here.
 			), 'symbol');
-	
+
 	// Object separators
 	$context->addObjectSplitter('.', 'oodynamic', 'symbol'); // Standard dynamic
 	// I moved those to unmanaged file, as they are not present in managed code.
@@ -200,7 +200,7 @@ function geshi_csharp_doc_comment (&$context)
 	$context->addDelimiters('///', "\n");
     //$context->setComplexFlag(GESHI_COMPLEX_TOKENISE);
     //$this->_contextStyleType = GESHI_STYLE_COMMENTS;
-	
+
 	// Add XML
 	//$context->addChildLanguage('xml/xml');
 }
@@ -208,17 +208,17 @@ function geshi_csharp_doc_comment (&$context)
 function geshi_csharp_single_string (&$context)
 {
 	$context->addDelimiters("'", "'");
-	
+
 	// Add escape groups
 	//$context->addEscapeGroup('\\', array('\'', 'n', 'r', 't', '\\', '0'));
-    $context->setEscapeCharacters('\\');
+    $context->setEscapeCharacters(array('\\'));
     $context->setCharactersToEscape(array('\'', '\\', '\n', '\t', '\0'));
 }
 
 function geshi_csharp_double_string (&$context)
 {
     $context->addDelimiters('"', '"');
-	
+
 	// Add escape groups
 	$context->addEscapeGroup('\\', array('"', 'n', 'r', 't', '\\', '0', "\n"));
 }
@@ -226,7 +226,7 @@ function geshi_csharp_double_string (&$context)
 function geshi_csharp_double_string_verbatim (&$context) // I can't remember the name... Too tired...
 {
     $context->addDelimiters('@"', '"');
-	
+
 	// Add escape groups
 	$context->addEscapeGroup('"', '"');
 }
