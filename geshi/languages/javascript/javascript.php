@@ -182,7 +182,7 @@ function geshi_javascript_javascript_double_string (&$context)
 
 function geshi_javascript_javascript_regexp (&$context)
 {
-    $context->addDelimiters('/', 'REGEX#/([gimsu]*)#');
+    $context->addDelimiters('REGEX#m?/(?=[^\n]+/[gimsu]*)#iU', 'REGEX#/([gimsu]*)#');
     $context->addEscapeGroup(array('\\'), array(
         'n', 'r', 't',
         '[', '{', '-', '$', '?', '*', '+', '/', 'd', '.',
