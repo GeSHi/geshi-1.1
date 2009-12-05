@@ -512,7 +512,7 @@ class GeSHiStyler
         //No array, so we have to parse CSS ...
 
         //First of the color:
-        if(preg_match('/\b(?<!-)color\s*:\s*(#(?i:[\da-f]{3}(?:[\da-f]{3}))?|\w+)/', $style, $match)) {
+        if(preg_match('/\b(?<!-)color\s*:\s*(#(?i:[\da-f]{3}(?:[\da-f]{3})?)|\w+)/', $style, $match)) {
             //We got a color, let's analyze it:
             $result['font']['color'] = GeSHiStyler::_parseColor($match[1]);
         }
