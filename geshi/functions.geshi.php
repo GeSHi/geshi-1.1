@@ -308,15 +308,6 @@ function geshi_is_whitespace ($token)
 }
 
 /**
- * Replacement for stripos for php4 users
- */
-if (!function_exists('stripos')) {
-    function stripos ($haystack, $needle, $offset=null) {
-        return strpos(strtolower($haystack), strtolower($needle), $offset);
-    }
-}
-
-/**
  * Returns the GeSHi_Styler object used to help with parsing
  *
  * @param boolean $force_new If true, forces the creation of
