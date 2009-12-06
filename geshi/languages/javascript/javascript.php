@@ -133,7 +133,7 @@ function geshi_javascript_javascript (&$context)
         //@todo [blocking 1.1.5] Some important and recent DOM additions for js seem to be ommited...
     ), 'method', true);
 
-    $context->setCharactersDisallowedBeforeKeywords(array('$'));
+    $context->setCharactersDisallowedBeforeKeywords(array('$A-Za-z_'));
 
     // Symbols
     $context->addSymbolGroup(array(

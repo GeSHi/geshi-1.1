@@ -39,8 +39,8 @@
 $this->setStyle('multi_comment', 'color:#888;font-style:italic;');
 $this->setStyle('single_comment', 'color:#888;font-style:italic;');
 
-$this->setStyle('regexp', 'color:#D0D;');
-$this->setStyle('regexp/esc', 'color:#00f;font-weight:bold;');
+$this->setStyle('regexp', 'color:#d0d;');
+$this->setStyle('regexp/esc', 'color:#d0d;font-weight:bold;');
 
 $this->setStyle('single_string', 'color:#f00;');
 $this->setStyle('single_string/esc', 'color:#006;font-weight:bold;');
