@@ -531,6 +531,13 @@ class GeSHiCodeContext extends GeSHiContext
 
             $regexps = geshi_optimize_regexp_list($keyword_group_array[0]);
 
+            $before = '/';
+            if (!empty($this->_contextCharactersDisallowedBeforeKeywords)) {
+                $before .= '(?<!['. implode($this->_contextCharactersDisallowedBeforeKeywords) .'])';
+            } else {
+                $before .= '(?<![a-zA-Z0-9_])';
+            }
+
             $append = '';
             if (!empty($this->_contextCharactersDisallowedAfterKeywords)) {
                 $append .= '(?!['. implode($this->_contextCharactersDisallowedAfterKeywords) .'])';
@@ -545,7 +552,7 @@ class GeSHiCodeContext extends GeSHiContext
             }
 
             foreach ($regexps as &$regexp) {
-                $regexp = '/(?:'. $regexp .')'. $append;
+                $regexp = $before . '(?:'. $regexp .')'. $append;
             }
 
             // get min length
