@@ -43,7 +43,7 @@
 $geshi_old_reporting_level = error_reporting(E_ALL);
 
 /** GeSHi Version */
-define('GESHI_VERSION', '1.1.2alpha4dev');
+define('GESHI_VERSION', '1.1.2alpha5');
 
 /** Set the correct directory separator */
 define('GESHI_DIR_SEP', DIRECTORY_SEPARATOR);
