@@ -53,3 +53,5 @@ $this->setStyle('positional_parameter', 'color:#606;');
 
 $this->setStyle('single_comment', 'color:#888;');
 $this->setStyle('multi_comment', 'color:#888;');
+
+?>

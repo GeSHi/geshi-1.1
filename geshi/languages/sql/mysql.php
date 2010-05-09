@@ -169,3 +169,5 @@ function geshi_sql_mysql_single_comment (&$context)
     $context->addDelimiters('--', "\n");
     $context->addDelimiters('#', "\n");
 }
+
+?>

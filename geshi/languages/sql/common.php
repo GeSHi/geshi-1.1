@@ -111,3 +111,5 @@ function geshi_sql_multi_comment (&$context)
     // @todo [blocking 1.1.5] sql multiline comments can be nested
     $context->addDelimiters('/*', '*/');
 }
+
+?>
