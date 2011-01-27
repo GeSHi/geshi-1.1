@@ -120,7 +120,7 @@ class GeSHiStringContext extends GeSHiContext
      *                                 which corresponds to the opener
      * @param string $context_opener   The actual opener for the string
      */
-    function _getContextEndData ($code, $context_open_key, $context_opener)
+    function _getContextEndData ($code, $context_open_key, $context_opener, $beginning_of_context)
     {
         geshi_dbg('GeSHiStringContext::_getContextEndData('
             . $this->_contextName . ')');
