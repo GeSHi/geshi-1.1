@@ -531,16 +531,24 @@ class GeSHiCodeContext extends GeSHiContext
 
             $regexps = geshi_optimize_regexp_list($keyword_group_array[0]);
 
+            $charlist = '';
+
             $before = '/';
             if (!empty($this->_contextCharactersDisallowedBeforeKeywords)) {
-                $before .= '(?<!['. implode($this->_contextCharactersDisallowedBeforeKeywords) .'])';
+                $charlist = implode($this->_contextCharactersDisallowedBeforeKeywords);
+                if (!empty($charlist)) {
+                    $before .= '(?<!['. $charlist .'])';
+                }
             } else {
                 $before .= '(?<![a-zA-Z0-9_])';
             }
 
             $append = '';
             if (!empty($this->_contextCharactersDisallowedAfterKeywords)) {
-                $append .= '(?!['. implode($this->_contextCharactersDisallowedAfterKeywords) .'])';
+                $charlist = implode($this->_contextCharactersDisallowedAfterKeywords);
+                if (!empty($charlist)) {
+                    $append .= '(?!['. $charlist .'])';
+                }
             } else {
                 $append .= '(?![a-zA-Z0-9_])';
             }
