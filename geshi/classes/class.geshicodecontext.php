@@ -358,6 +358,7 @@ class GeSHiCodeContext extends GeSHiContext
         $next_keyword_pos = -1;
         $next_keyword_group = '';
         $next_keyword = '';
+        $next_keyword_len = 0;
         // For each character
         for ($i = 0; $i < $length; $i++) {
             if (isset($regex_replacements[$i])) {
@@ -421,11 +422,14 @@ class GeSHiCodeContext extends GeSHiContext
                                 geshi_dbg("    keywordgroup $group_key is never again matched");
                                 continue;
                             }
-                            if ($match_i !== false && $match_i < $next_keyword_pos) {
+                            $keyword_len = strlen($keyword);
+                            if (($match_i !== false && $match_i < $next_keyword_pos) ||
+                                ($match_i == $next_keyword_pos && $keyword_len > $next_keyword_len)) {
                                 $next_keyword_pos = $match_i;
                                 $next_keyword_group = $group_key;
                                 $next_keyword = $keyword;
-                                geshi_dbg("    next keyword: $next_keyword (group $group_key) at pos $match_i");
+                                $next_keyword_len = $keyword_len;
+                                geshi_dbg("    next keyword: $next_keyword (group $group_key) at pos $match_i (unless longer match is found)");
                                 if ($match_i === $i) {
                                     break;
                                 }
@@ -447,8 +451,9 @@ class GeSHiCodeContext extends GeSHiContext
                         var_dump($i, $next_keyword_pos);
                     }
                     $i += strlen($next_keyword) - 1;
-                    geshi_dbg("strlen of keyword is " . strlen($next_keyword) . " (pos is $i)");
+                    geshi_dbg("strlen of keyword is " . $next_keyword_len . " (pos is $i)");
                     $next_keyword_pos = false;
+                    $next_keyword_len = 0;
                 }
             }
             if (!$matched_keyword) {
