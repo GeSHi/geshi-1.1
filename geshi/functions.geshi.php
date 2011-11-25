@@ -267,7 +267,7 @@ function geshi_whichsubstr($str, $substrs, $offset = 0, $flags = 0) {
             $len = strlen($substr);
             if (!($flags & GESHI_WHICHSS_CASEINSENSITIVE)) {
                 $match = substr($str,$offset,$len) == $substr ? $substr : null;
-            } else if (strcasecmp(substr($str, $offset, $len), $substr) == 0) {
+            } elseif (strcasecmp(substr($str, $offset, $len), $substr) == 0) {
                 $match = $substr;
             } else $match = null;
         }
@@ -275,7 +275,7 @@ function geshi_whichsubstr($str, $substrs, $offset = 0, $flags = 0) {
             if (!($flags & GESHI_WHICHSS_MAXIMAL)) {
                 $ret = $match;
                 break;
-            } else if ($len > $max_len) {
+            } elseif ($len > $max_len) {
                 $ret = $match;
                 $max_len = $len;
             }

@@ -142,7 +142,7 @@ class GeSHiRendererTroff extends GeSHiRenderer
         $prefix = '';
         if ($bold) {
             $prefix .= '.B ';
-        } else if ($token{0} == '.' || $token{0} == '\'') {
+        } elseif ($token{0} == '.' || $token{0} == '\'') {
             //zero-width space
             $prefix .= '\\&';
         }

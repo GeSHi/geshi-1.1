@@ -409,7 +409,7 @@ class GeSHiCodeContext extends GeSHiContext
                                 }
                                 $match_i = $keyword_cache[$regex_key][$group_key]['pos'];
                                 $keyword = $keyword_cache[$regex_key][$group_key]['keyword'];
-                            } else if (preg_match($regexp, $code, $match, PREG_OFFSET_CAPTURE, $i)) {
+                            } elseif (preg_match($regexp, $code, $match, PREG_OFFSET_CAPTURE, $i)) {
                                 $match_i = $match[0][1];
                                 $keyword = $match[0][0];
                                 $keyword_cache[$regex_key][$group_key] = array(

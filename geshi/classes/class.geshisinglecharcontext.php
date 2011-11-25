@@ -200,7 +200,7 @@ class GeSHiSingleCharContext extends GeSHiContext
                   GESHI_WHICHSS_SKIPANCHORINSERT);
                 if ($esc_seq === null) continue;
                 else $char_len = $esc_len + strlen($esc_seq);
-            } else if ($empty) continue;
+            } elseif ($empty) continue;
             else $char_len = 1; /* Possible single unescaped character */
 
             $final_char_offset = $data['len'] + $char_len;

@@ -499,7 +499,7 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
             ) {
         	//$context_name is a built in class
             $this->_state = 'found';
-        } else if ($this->_state == 'found') {
+        } elseif ($this->_state == 'found') {
             if (($token == '<' || $token == '<?') && $context_name == $this->_language . '/symbol') {
                 // Start of a generic block
                 $this->_state = '<';
@@ -511,10 +511,10 @@ class GeSHiJavaCodeParser extends GeSHiCodeParser
             } else {
                 $this->_state = '';
             }
-        } else if ($this->_state == '<' && $context_name == $this->_language) {
+        } elseif ($this->_state == '<' && $context_name == $this->_language) {
            	$this->_genericNames[] = $token;
            	$context_name .= '/generic_type';
-        } else if ($this->_state == '<' && (substr($token, -1) == ';' || substr($token, -1) == '>') && $context_name == $this->_language . '/symbol') {
+        } elseif ($this->_state == '<' && (substr($token, -1) == ';' || substr($token, -1) == '>') && $context_name == $this->_language . '/symbol') {
             $this->_state = '';
         }
 	}

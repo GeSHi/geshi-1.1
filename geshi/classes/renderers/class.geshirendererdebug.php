@@ -39,7 +39,7 @@ class GeSHiRendererDebug extends GeSHiRenderer
 
         if ($token == '') {
             $flags .= 'E';//empty
-        } else if (geshi_is_whitespace($token)) {
+        } elseif (geshi_is_whitespace($token)) {
             $flags .= 'W';//whitespace
         } else {
             $flags .= '-';

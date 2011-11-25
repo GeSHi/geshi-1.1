@@ -156,10 +156,10 @@ class GeSHiCCodeParser extends GeSHiCodeParser
         // Highlight and link preprocessor directives; set preliminary state.
         if ($context_name == $this->_language.'/preprocessor/end') {
             $this->_state = GESHI_C_NORMAL;
-        } else if ($this->_state == GESHI_C_PPSTART) {
+        } elseif ($this->_state == GESHI_C_PPSTART) {
             if ($token == '#') {
                 $this->_initial_hash = true;
-            } else if (in_array($token,
+            } elseif (in_array($token,
               geshi_c_get_start_of_line_PP_directives_hashsym())) {
                 $skipfirst = true;
                 $data['url'] =
@@ -174,7 +174,7 @@ class GeSHiCCodeParser extends GeSHiCodeParser
                 $this->_hltIfElifPPkeyWords = in_array($token,
                   geshi_c_get_if_elif_PP_directives());
                 $context_name = $this->_language.'/preprocessor/directive';
-            } else if (in_array($token,
+            } elseif (in_array($token,
               geshi_c_get_start_of_line_PP_directives_nohashsym()) &&
               !$this->_initial_hash) {
                 $skipfirst = true;
@@ -183,7 +183,7 @@ class GeSHiCCodeParser extends GeSHiCodeParser
                     $token);
                 $context_name = $this->_language.'/preprocessor/directive';
                 $this->_state = $token=='_Pragma'? GESHI_C_PPPRAGMA: GESHI_C_PP;
-            } else if ($this->_initial_hash &&
+            } elseif ($this->_initial_hash &&
               !geshi_is_whitespace($token) && $token != '\\') {
                 $data['url'] = geshi_c_get_non_std_preproc_directives_url();
                 $context_name = $this->_language.'/preprocessor/directive';
@@ -226,14 +226,14 @@ class GeSHiCCodeParser extends GeSHiCodeParser
                 $token = '<';
                 $context_name = $this->_language.
                   '/preprocessor/symbol/stdinclude';
-            } else if ($token == '"') {
+            } elseif ($token == '"') {
                 // Override the highlighting as a string literal of
                 // "headername.h" in #include "headername.h" (mostly to avoid
                 // the highlighting of escape sequences such as \n and \t -
                 // they aren't defined in that context)
                 $this->_state = GESHI_C_PPIMPLHDRSTART;
                 $context_name = $this->_language.'preprocessor/implheader';
-            } else if (trim($token) != '' && !$skipfirst) {
+            } elseif (trim($token) != '' && !$skipfirst) {
                 // String literals and < and > characters could occur as part of
                 // a macro that's substituting for the header that follows
                 // #include, so allow their highlighting in that context.
