@@ -10,8 +10,8 @@
  * @link       http://qbnz.com/highlighter/
  */
 
-//Console_Color package from PEAR
-require_once 'Console/Color.php';
+//Console_Color2 package from PEAR
+require_once 'Console/Color2.php';
 
 /**
  * The GeSHiRendererANSI class.
@@ -61,6 +61,13 @@ class GeSHiRendererANSI extends GeSHiRenderer
     protected $ansiCache = array();
 
     /**
+     * Converter instance
+     *
+     * @var Console_Color2
+     */
+    protected $ccolor;
+
+    /**
      * Ansi reset code (%n)
      *
      * @var string
@@ -68,7 +75,7 @@ class GeSHiRendererANSI extends GeSHiRenderer
     protected $resetCode = '';
 
     /**
-     * Ansi color names to Console_Color value mapping.
+     * Ansi color names to Console_Color2 value mapping.
      *
      * normal, bold, background
      *
@@ -94,7 +101,8 @@ class GeSHiRendererANSI extends GeSHiRenderer
     public function __construct()
     {
         parent::__construct();
-        $this->resetCode = Console_Color::convert('%n');
+        $this->ccolor = new Console_Color2();
+        $this->resetCode = $this->ccolor->convert('%n');
     }
 
 
@@ -162,7 +170,7 @@ class GeSHiRendererANSI extends GeSHiRenderer
         }
 
         $index    = 0 + (int)$bold;
-        $ansicode = Console_Color::convert(self::$ansi[$colorname][$index]);
+        $ansicode = $this->ccolor->convert(self::$ansi[$colorname][$index]);
 
         $this->ansiCache[$context_name] = $ansicode;
         return $ansicode;
