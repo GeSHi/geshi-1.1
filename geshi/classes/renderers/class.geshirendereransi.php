@@ -1,6 +1,13 @@
 <?php
 /**
  * GeSHi - Generic Syntax Highlighter
+ *
+ * @package    geshi
+ * @subpackage renderer
+ * @author     Christian Weiske <cweiske@php.net>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * @version    SVN: $Revision: 910 $
+ * @link       http://qbnz.com/highlighter/
  */
 
 //Console_Color package from PEAR
@@ -14,9 +21,10 @@ require_once 'Console/Color.php';
  * @package    geshi
  * @subpackage renderer
  * @author     Christian Weiske <cweiske@php.net>
- * @since      1.1.1
- * @version    $Revision: 910 $
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL
+ * @link       http://qbnz.com/highlighter/
  * @see        GeSHiRenderer
+ * @since      1.1.1
  */
 class GeSHiRendererANSI extends GeSHiRenderer
 {
@@ -80,7 +88,9 @@ class GeSHiRendererANSI extends GeSHiRenderer
     );
 
 
-
+    /**
+     * Create new instance, init reset code
+     */
     public function __construct()
     {
         parent::__construct();
@@ -144,7 +154,7 @@ class GeSHiRendererANSI extends GeSHiRenderer
         $bold    = $style['font']['style']['bold'];
 
         $colorname = $this->getColorName(
-	    255*$color['R'], 255*$color['G'], 255*$color['B']
+            255 * $color['R'], 255 * $color['G'], 255 * $color['B']
         );
 
         if ($colorname === 'black') {
