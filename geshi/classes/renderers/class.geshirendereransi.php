@@ -157,7 +157,7 @@ class GeSHiRendererANSI extends GeSHiRenderer
             255 * $color['R'], 255 * $color['G'], 255 * $color['B']
         );
 
-        if ($colorname === 'black') {
+        if ($colorname === 'black' && !$style['font']['style']['bold']) {
             return null;
         }
 
