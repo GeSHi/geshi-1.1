@@ -118,7 +118,7 @@ class GeSHiRendererANSI extends GeSHiRenderer
      */
     protected function getColorName($r, $g, $b)
     {
-        $col = $r<<16 + $g<<8 + $b;
+        $col = ($r<<16) + ($g<<8) + ($b);
         if (isset($this->colorCache[$col])) {
             return $this->colorCache[$col];
         }
