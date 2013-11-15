@@ -192,6 +192,7 @@ class GeSHiCodeContext extends GeSHiContext
                 // If not array and set, the whole thing is passed to code to have a go
                 // If not set, then nothing
                 1 => array($splitter_name, false), // highlight splitter with its name
+                2 => array('', false),
                 3 => array($ootoken_name, $check_is_code)
             )
         );
