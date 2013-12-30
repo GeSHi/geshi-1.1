@@ -517,6 +517,11 @@ class GeSHiStyler
             $result['font']['color'] = GeSHiStyler::_parseColor($match[1]);
         }
 
+        if(preg_match('/\b(?<!-)background(?:-color)?\s*:\s*(#(?i:[\da-f]{3}(?:[\da-f]{3})?)|\w+)/', $style, $match)) {
+            //We got a background color, let's analyze it:
+            $result['back']['color'] = GeSHiStyler::_parseColor($match[1]);
+        }
+
         if(preg_match('/\b(?<!-)font-style\s*:\s*(\w+)/', $style, $match)) {
             //We got an italics setting
             $result['font']['style']['italic'] = 'italic' == strtolower($match[1]);
