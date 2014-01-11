@@ -513,22 +513,22 @@ class GeSHiStyler
 
         //First of the color:
         if(preg_match('/\b(?<!-)color\s*:\s*(#(?i:[\da-f]{3}(?:[\da-f]{3})?)|\w+)/', $style, $match)) {
-            //We got a color, let's analyze it:
+            //We got a text color, let's analyze it:
             $result['font']['color'] = GeSHiStyler::_parseColor($match[1]);
         }
 
         if(preg_match('/\b(?<!-)font-style\s*:\s*(\w+)/', $style, $match)) {
-            //We got a color, let's analyze it:
+            //We got an italics setting
             $result['font']['style']['italic'] = 'italic' == strtolower($match[1]);
         }
 
         if(preg_match('/\b(?<!-)font-weight\s*:\s*(\w+)/', $style, $match)) {
-            //We got a color, let's analyze it:
+            //We got a bold setting
             $result['font']['style']['bold'] = 'bold' == strtolower($match[1]);
         }
 
         if(preg_match('/\b(?<!-)text-decoration\s*:\s*(\w+)/', $style, $match)) {
-            //We got a color, let's analyze it:
+            //We got an underline setting
             $result['font']['style']['underline'] = 'underline' == strtolower($match[1]);
         }
 
