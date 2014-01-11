@@ -123,10 +123,11 @@ class GeSHiRendererXML extends GeSHiRenderer
     function getHeader ()
     {
 	    // TODO: Add doctype (if needed)
+        $themes = $this->_styler->getThemes();
         return '<?xml version="1.0"?>' . "\n" .
 		'<!DOCTYPE GESHI SYSTEM "HERE_GOES_URL_TO_DTD">' . "\n" .
 		"\n" .
-		'<geshi language="' . $this->_styler->language . '" theme="' . $this->_styler->themes[0] . '">' . "\n";
+		'<geshi language="' . $this->_styler->getLanguage() . '" theme="' . $themes[0] . '">' . "\n";
     }
 
     // }}}
