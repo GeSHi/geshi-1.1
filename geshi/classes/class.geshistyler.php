@@ -109,6 +109,17 @@ class GeSHiStyler
     /**#@-*/
 
     // }}}
+    // {{{ getLanguage()
+
+    /**
+     * Retrieves the language this styler is using.
+     */
+    function getLanguage ()
+    {
+        return $this->language;
+    }
+
+    // }}}
     // {{{ setLanguage()
 
     /**
@@ -305,6 +316,17 @@ class GeSHiStyler
     function setRenderer (GeSHiRenderer $renderer)
     {
         $this->_renderer = $renderer;
+    }
+
+    // }}}
+    // {{{ getThemes()
+
+    /**
+     * Retrieves an array with the themes of this styler.
+     */
+    function getThemes ()
+    {
+        return $this->themes;
     }
 
     // }}}
