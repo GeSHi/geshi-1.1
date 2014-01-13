@@ -512,7 +512,7 @@ class GeSHiStyler
         //No array, so we have to parse CSS ...
 
         //First of the color:
-        if(preg_match('/\b(?<!-)color\s*:\s*(#(?i:[\da-f]{3}(?:[\da-f]{3})?)|\w+)/', $style, $match)) {
+        if(preg_match('/\b(?<!-)color\s*:\s*(#(?i:[\da-f]{3}(?:[\da-f]{3})?)|(?i:rgba?)\([^\)]+\)|\w+)/', $style, $match)) {
             //We got a text color, let's analyze it:
             $color = GeSHiStyler::_parseColor($match[1]);
             if ($color) {
@@ -520,7 +520,7 @@ class GeSHiStyler
             }
         }
 
-        if(preg_match('/\b(?<!-)background(?:-color)?\s*:\s*(#(?i:[\da-f]{3}(?:[\da-f]{3})?)|\w+)/', $style, $match)) {
+        if(preg_match('/\b(?<!-)background(?:-color)?\s*:\s*(#(?i:[\da-f]{3}(?:[\da-f]{3})?)|(?i:rgba?)\([^\)]+\)|\w+)/', $style, $match)) {
             //We got a background color, let's analyze it:
             $color = GeSHiStyler::_parseColor($match[1]);
             if ($color) {
@@ -632,6 +632,38 @@ class GeSHiStyler
                 return $htmlColors[$color];
             }
 
+            // The parser for RGB/RGBA color specifications is not very complete
+            // to avoid cluttering the RE too much. This code deals with parsing
+            // it properly, and returns FALSE when invalid.
+            $color = strtolower($color);
+            if (substr($color, 0, 5) == 'rgba(' || substr($color, 0, 4) == 'rgb(') {
+                $has_alpha = $color[3] == 'a' ? 1 : 0;
+
+                $colors = explode(',', substr($color, 4 + $has_alpha, -1));
+
+                // Validate arg count
+                if (count($colors) != 3 + $has_alpha)
+                    return false;
+
+                $idx_to_color = array("R", "G", "B", "A");
+
+                $result = array();
+                foreach($colors as $key=>$color) {
+                    // Lexical analysis of each number
+                    if (!preg_match('/^\s*([-+]?(?:[0-9]+|[0-9]*\.[0-9]+))(%?)\s*$/', $color, $match)) {
+                        return false;
+                    }
+
+                    $color = 0+$match[1]; // transform to int or float as appropriate
+                    $color /= $match[2] ? 100 : 255; // if percentage symbol present, use 100, otherwise 255
+                    $color = max(0, min(1, $color)); // clamp to 0..1 as per CSS spec
+                    $result[$idx_to_color[$key]] = $color;
+                }
+
+                return $result;
+            }
+
+            // Not #, color name, rgb(), rgba()...
             return false;
         }
 
