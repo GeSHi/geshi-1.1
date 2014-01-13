@@ -470,7 +470,7 @@ class GeSHiStyler
      * @param mixed The input format information to convert
      * @return array
      */
-    function _parseCSS ($style) {
+    private static function _parseCSS ($style) {
         $result = array(
             "font" => array(
                 "color" => array(
