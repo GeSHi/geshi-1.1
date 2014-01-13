@@ -628,7 +628,7 @@ class GeSHiStyler
 
                 );
 
-            if(isset($htmlColors[$color])) {
+            if(array_key_exists($color, $htmlColors)) {
                 return $htmlColors[$color];
             }
 
