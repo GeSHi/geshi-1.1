@@ -514,12 +514,18 @@ class GeSHiStyler
         //First of the color:
         if(preg_match('/\b(?<!-)color\s*:\s*(#(?i:[\da-f]{3}(?:[\da-f]{3})?)|\w+)/', $style, $match)) {
             //We got a text color, let's analyze it:
-            $result['font']['color'] = GeSHiStyler::_parseColor($match[1]);
+            $color = GeSHiStyler::_parseColor($match[1]);
+            if ($color) {
+                $result['font']['color'] = array_replace($result['font']['color'], $color);
+            }
         }
 
         if(preg_match('/\b(?<!-)background(?:-color)?\s*:\s*(#(?i:[\da-f]{3}(?:[\da-f]{3})?)|\w+)/', $style, $match)) {
             //We got a background color, let's analyze it:
-            $result['back']['color'] = GeSHiStyler::_parseColor($match[1]);
+            $color = GeSHiStyler::_parseColor($match[1]);
+            if ($color) {
+                $result['back']['color'] = array_replace($result['back']['color'], $color);
+            }
         }
 
         if(preg_match('/\b(?<!-)font-style\s*:\s*(\w+)/', $style, $match)) {
@@ -591,43 +597,45 @@ class GeSHiStyler
     }
 
     /**
-     * GeSHiStyler::_parseColor()
+     * Parses the input string as a CSS color, returning an array in the
+     * internal RGBA format, possibly partial (in which case the missing
+     * elements will be filled with default values), or false in case of
+     * parse error.
      *
      * @param string $color
-     * @return
+     * @return array|false
      */
     private static function _parseColor($color)
     {
-        $result = array("R" => 0.0, "G" => 0.0, "B" => 0.0, "A" => 0.0);
-
         if('' == $color) {
-            return $result;
+            return false;
         }
 
         if('#' != $color[0]) {
             static $htmlColors = array(
-                "black" =>      array("R"=>0.0, "G"=>0.0, "B"=>0.0, "A"=>0.0),
-                "white" =>      array("R"=>1.0, "G"=>1.0, "B"=>1.0, "A"=>0.0),
+                "black" =>      array("R"=>0.0, "G"=>0.0, "B"=>0.0),
+                "white" =>      array("R"=>1.0, "G"=>1.0, "B"=>1.0),
 
-                "red" =>        array("R"=>1.0, "G"=>0.0, "B"=>0.0, "A"=>0.0),
-                "yellow" =>     array("R"=>1.0, "G"=>1.0, "B"=>0.0, "A"=>0.0),
-                "lime" =>       array("R"=>0.0, "G"=>1.0, "B"=>0.0, "A"=>0.0),
-                "cyan" =>       array("R"=>0.0, "G"=>1.0, "B"=>1.0, "A"=>0.0),
-                "blue" =>       array("R"=>0.0, "G"=>0.0, "B"=>1.0, "A"=>0.0),
-                "magenta" =>    array("R"=>1.0, "G"=>0.0, "B"=>1.0, "A"=>0.0),
+                "red" =>        array("R"=>1.0, "G"=>0.0, "B"=>0.0),
+                "yellow" =>     array("R"=>1.0, "G"=>1.0, "B"=>0.0),
+                "lime" =>       array("R"=>0.0, "G"=>1.0, "B"=>0.0),
+                "cyan" =>       array("R"=>0.0, "G"=>1.0, "B"=>1.0),
+                "blue" =>       array("R"=>0.0, "G"=>0.0, "B"=>1.0),
+                "magenta" =>    array("R"=>1.0, "G"=>0.0, "B"=>1.0),
 
-                "darkgrey" =>   array("R"=>0.4, "G"=>0.4, "B"=>0.4, "A"=>0.0),
-                "lightgrey" =>  array("R"=>0.8, "G"=>0.8, "B"=>0.8, "A"=>0.0),
+                "darkgrey" =>   array("R"=>0.4, "G"=>0.4, "B"=>0.4),
+                "lightgrey" =>  array("R"=>0.8, "G"=>0.8, "B"=>0.8),
 
                 );
 
             if(isset($htmlColors[$color])) {
                 return $htmlColors[$color];
-            } else {
-                return $result;
             }
+
+            return false;
         }
 
+        $result = array();
         if(4 == strlen($color)) {
             $result['R'] = intval($color[1], 16) / 15.0;
             $result['G'] = intval($color[2], 16) / 15.0;
