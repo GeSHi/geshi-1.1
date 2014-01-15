@@ -516,7 +516,11 @@ class GeSHiStyler
             //We got a text color, let's analyze it:
             $color = GeSHiStyler::_parseColor($match[1]);
             if ($color) {
-                $result['font']['color'] = array_replace($result['font']['color'], $color);
+                if ($result['font']['color']) {
+                    $result['font']['color'] = array_replace($result['font']['color'], $color);
+                } else {
+                    $result['font']['color'] = $color;
+                }
             }
         }
 
@@ -524,7 +528,11 @@ class GeSHiStyler
             //We got a background color, let's analyze it:
             $color = GeSHiStyler::_parseColor($match[1]);
             if ($color) {
-                $result['back']['color'] = array_replace($result['back']['color'], $color);
+                if ($result['back']['color']) {
+                    $result['back']['color'] = array_replace($result['back']['color'], $color);
+                } else {
+                    $result['back']['color'] = $color;
+                }
             }
         }
 
