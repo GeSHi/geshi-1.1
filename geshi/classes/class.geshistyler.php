@@ -512,7 +512,7 @@ class GeSHiStyler
         //No array, so we have to parse CSS ...
 
         //First of the color:
-        if(preg_match('/\b(?<!-)color\s*:\s*(#(?i:[\da-f]{3}(?:[\da-f]{3})?)|\w+)/', $style, $match)) {
+        if(preg_match('/\b(?<!-)color\s*:\s*(#(?i:[\da-f]{3}(?:[\da-f]{3})?)|(?i:rgba?)\([^\);]+\)|\w+)/', $style, $match)) {
             //We got a text color, let's analyze it:
             $color = GeSHiStyler::_parseColor($match[1]);
             if($color) {
@@ -641,7 +641,46 @@ class GeSHiStyler
             return $htmlColors[$color];
         }
 
-        //Not #rrggbb or color name - return parse error
+        /*
+         * The _parseCSS parser for rgb()/rgba() colors is quite elementary,
+         * to avoid cluttering the RE too much. This code deals with parsing
+         * it properly, and returns false when invalid.
+         */
+        if(substr($color, 0, 5) == 'rgba(' || substr($color, 0, 4) == 'rgb(') {
+            $has_alpha = $color[3] == 'a' ? 1 : 0;
+
+            //Remove leading rgb( or rgba( and trailing ), split params
+            $colors = explode(',', substr($color, 4 + $has_alpha, -1));
+
+            //Validate arg count (needs to be 3 for rgb, 4 for rgba)
+            if(count($colors) != 3 + $has_alpha) {
+                return false;
+            }
+
+            //This array maps parameter positions to channel names
+            static $idx_to_color = array('R', 'G', 'B', 'A');
+
+            //Default alpha is 1, if not overriden
+            $result = array();
+
+            foreach($colors as $key => $value) {
+                //Lexical analysis of each number
+                if(!preg_match('/^\s*([-+]?(?:[0-9]+|[0-9]*\.[0-9]+))(%?)\s*$/', $value, $match)) {
+                    return false;
+                }
+
+                $value = 0.0 + $match[1]; //transform to float
+                $value /= $match[2] ? 100.0 : 255.0; //if % symbol present, use 100, otherwise 255
+                $value = max(0.0, min(1.0, $value)); //clip to 0..1 as per CSS spec
+                $result[$idx_to_color[$key]] = $value;
+            }
+            if(!$has_alpha)
+                $result['A'] = 1.0;
+
+            return $result;
+        }
+
+        //Not #rrggbb, color name, rgb(), rgba() - return parse error
         return false;
 
     }
