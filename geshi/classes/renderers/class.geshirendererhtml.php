@@ -102,8 +102,12 @@ class GeSHiRendererHTML extends GeSHiRenderer
             $this->contextCSS[$context_name] = self::_styleToCSS($this->_styler->getStyle($context_name));
         }
 
-        $result .= '<span style="' . $this->contextCSS[$context_name] . '" ';
-        $result .= 'title="' . GeSHi::hsc($context_name) . '">' . GeSHi::hsc($token) . '</span>';
+        $style = $this->contextCSS[$context_name];
+        if($style) {
+            $style = ' style="' . $style . '"';
+        }
+        $result .= '<span' . $style;
+        $result .= ' title="' . GeSHi::hsc($context_name) . '">' . GeSHi::hsc($token) . '</span>';
         if (isset($data['url'])) {
             // Finish the link
             $result .= '</a>';
