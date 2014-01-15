@@ -477,7 +477,7 @@ class GeSHiStyler
                     "R" => 0.0,         //Red channel
                     "G" => 0.0,         //Green channel
                     "B" => 0.0,         //Blue channel
-                    "A" => 0.0          //Transparency (optional)
+                    "A" => 1.0          //Opacity
                     ),
                 "style" => array(
                     "bold" => false,    //Bold font
@@ -593,7 +593,7 @@ class GeSHiStyler
      */
     private static function _parseColor($color)
     {
-        $result = array("R" => 0.0, "G" => 0.0, "B" => 0.0, "A" => 0.0);
+        $result = array("R" => 0.0, "G" => 0.0, "B" => 0.0, "A" => 1.0);
 
         if('' == $color) {
             return $result;
@@ -601,18 +601,18 @@ class GeSHiStyler
 
         if('#' != $color[0]) {
             static $htmlColors = array(
-                "black" =>      array("R"=>0.0, "G"=>0.0, "B"=>0.0, "A"=>0.0),
-                "white" =>      array("R"=>1.0, "G"=>1.0, "B"=>1.0, "A"=>0.0),
+                "black" =>      array("R"=>0.0, "G"=>0.0, "B"=>0.0, "A"=>1.0),
+                "white" =>      array("R"=>1.0, "G"=>1.0, "B"=>1.0, "A"=>1.0),
 
-                "red" =>        array("R"=>1.0, "G"=>0.0, "B"=>0.0, "A"=>0.0),
-                "yellow" =>     array("R"=>1.0, "G"=>1.0, "B"=>0.0, "A"=>0.0),
-                "lime" =>       array("R"=>0.0, "G"=>1.0, "B"=>0.0, "A"=>0.0),
-                "cyan" =>       array("R"=>0.0, "G"=>1.0, "B"=>1.0, "A"=>0.0),
-                "blue" =>       array("R"=>0.0, "G"=>0.0, "B"=>1.0, "A"=>0.0),
-                "magenta" =>    array("R"=>1.0, "G"=>0.0, "B"=>1.0, "A"=>0.0),
+                "red" =>        array("R"=>1.0, "G"=>0.0, "B"=>0.0, "A"=>1.0),
+                "yellow" =>     array("R"=>1.0, "G"=>1.0, "B"=>0.0, "A"=>1.0),
+                "lime" =>       array("R"=>0.0, "G"=>1.0, "B"=>0.0, "A"=>1.0),
+                "cyan" =>       array("R"=>0.0, "G"=>1.0, "B"=>1.0, "A"=>1.0),
+                "blue" =>       array("R"=>0.0, "G"=>0.0, "B"=>1.0, "A"=>1.0),
+                "magenta" =>    array("R"=>1.0, "G"=>0.0, "B"=>1.0, "A"=>1.0),
 
-                "darkgrey" =>   array("R"=>0.4, "G"=>0.4, "B"=>0.4, "A"=>0.0),
-                "lightgrey" =>  array("R"=>0.8, "G"=>0.8, "B"=>0.8, "A"=>0.0),
+                "darkgrey" =>   array("R"=>0.4, "G"=>0.4, "B"=>0.4, "A"=>1.0),
+                "lightgrey" =>  array("R"=>0.8, "G"=>0.8, "B"=>0.8, "A"=>1.0),
 
                 );
 
