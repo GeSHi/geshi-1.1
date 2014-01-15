@@ -624,13 +624,13 @@ class GeSHiStyler
         }
 
         if(4 == strlen($color)) {
-            $result['R'] = intval($color[1], 16) / 15.0;
-            $result['G'] = intval($color[2], 16) / 15.0;
-            $result['B'] = intval($color[3], 16) / 15.0;
+            $result['R'] = hexdec($color[1]) / 15.0;
+            $result['G'] = hexdec($color[2]) / 15.0;
+            $result['B'] = hexdec($color[3]) / 15.0;
         } else {
-            $result['R'] = intval($color[1].$color[2], 16) / 255.0;
-            $result['G'] = intval($color[3].$color[4], 16) / 255.0;
-            $result['B'] = intval($color[5].$color[6], 16) / 255.0;
+            $result['R'] = hexdec($color[1].$color[2]) / 255.0;
+            $result['G'] = hexdec($color[3].$color[4]) / 255.0;
+            $result['B'] = hexdec($color[5].$color[6]) / 255.0;
         }
 
         return $result;
