@@ -520,6 +520,14 @@ class GeSHiStyler
             }
         }
 
+        if(preg_match('/\b(?<!-)background(?:-color)?\s*:\s*(#(?i:[\da-f]{3}(?:[\da-f]{3})?)|(?i:rgba?)\([^\);]+\)|\w+)/', $style, $match)) {
+            //We got a background color, let's analyze it:
+            $color = GeSHiStyler::_parseColor($match[1]);
+            if($color) {
+                $result['back']['color'] = $color;
+            }
+        }
+
         if(preg_match('/\b(?<!-)font-style\s*:\s*(\w+)/', $style, $match)) {
             //We got an italics setting
             $result['font']['style']['italic'] = 'italic' == strtolower($match[1]);
