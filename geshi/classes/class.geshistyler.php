@@ -599,41 +599,44 @@ class GeSHiStyler
             return $result;
         }
 
-        if('#' != $color[0]) {
-            static $htmlColors = array(
-                "black" =>      array("R"=>0.0, "G"=>0.0, "B"=>0.0, "A"=>1.0),
-                "white" =>      array("R"=>1.0, "G"=>1.0, "B"=>1.0, "A"=>1.0),
+        if('#' == $color[0]) {
 
-                "red" =>        array("R"=>1.0, "G"=>0.0, "B"=>0.0, "A"=>1.0),
-                "yellow" =>     array("R"=>1.0, "G"=>1.0, "B"=>0.0, "A"=>1.0),
-                "lime" =>       array("R"=>0.0, "G"=>1.0, "B"=>0.0, "A"=>1.0),
-                "cyan" =>       array("R"=>0.0, "G"=>1.0, "B"=>1.0, "A"=>1.0),
-                "blue" =>       array("R"=>0.0, "G"=>0.0, "B"=>1.0, "A"=>1.0),
-                "magenta" =>    array("R"=>1.0, "G"=>0.0, "B"=>1.0, "A"=>1.0),
-
-                "darkgrey" =>   array("R"=>0.4, "G"=>0.4, "B"=>0.4, "A"=>1.0),
-                "lightgrey" =>  array("R"=>0.8, "G"=>0.8, "B"=>0.8, "A"=>1.0),
-
-                );
-
-            if(isset($htmlColors[$color])) {
-                return $htmlColors[$color];
+            if(4 == strlen($color)) {
+                $result['R'] = intval($color[1], 16) / 15.0;
+                $result['G'] = intval($color[2], 16) / 15.0;
+                $result['B'] = intval($color[3], 16) / 15.0;
             } else {
-                return $result;
+                $result['R'] = intval($color[1].$color[2], 16) / 255.0;
+                $result['G'] = intval($color[3].$color[4], 16) / 255.0;
+                $result['B'] = intval($color[5].$color[6], 16) / 255.0;
             }
+
+            return $result;
         }
 
-        if(4 == strlen($color)) {
-            $result['R'] = intval($color[1], 16) / 15.0;
-            $result['G'] = intval($color[2], 16) / 15.0;
-            $result['B'] = intval($color[3], 16) / 15.0;
-        } else {
-            $result['R'] = intval($color[1].$color[2], 16) / 255.0;
-            $result['G'] = intval($color[3].$color[4], 16) / 255.0;
-            $result['B'] = intval($color[5].$color[6], 16) / 255.0;
+        static $htmlColors = array(
+            "black" =>      array("R"=>0.0, "G"=>0.0, "B"=>0.0, "A"=>1.0),
+            "white" =>      array("R"=>1.0, "G"=>1.0, "B"=>1.0, "A"=>1.0),
+
+            "red" =>        array("R"=>1.0, "G"=>0.0, "B"=>0.0, "A"=>1.0),
+            "yellow" =>     array("R"=>1.0, "G"=>1.0, "B"=>0.0, "A"=>1.0),
+            "lime" =>       array("R"=>0.0, "G"=>1.0, "B"=>0.0, "A"=>1.0),
+            "cyan" =>       array("R"=>0.0, "G"=>1.0, "B"=>1.0, "A"=>1.0),
+            "blue" =>       array("R"=>0.0, "G"=>0.0, "B"=>1.0, "A"=>1.0),
+            "magenta" =>    array("R"=>1.0, "G"=>0.0, "B"=>1.0, "A"=>1.0),
+
+            "darkgrey" =>   array("R"=>0.4, "G"=>0.4, "B"=>0.4, "A"=>1.0),
+            "lightgrey" =>  array("R"=>0.8, "G"=>0.8, "B"=>0.8, "A"=>1.0),
+
+            );
+
+        if(isset($htmlColors[$color])) {
+            return $htmlColors[$color];
         }
 
+        //Not #rrggbb or color name - return default
         return $result;
+
     }
 }
 
