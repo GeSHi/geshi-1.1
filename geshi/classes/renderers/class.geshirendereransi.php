@@ -160,17 +160,42 @@ class GeSHiRendererANSI extends GeSHiRenderer
         $style   = $this->_styler->getStyle($context_name);
         $color   = $style['font']['color'];
         $bold    = $style['font']['style']['bold'];
+        $bgcolor = $style['back']['color'];
+
+        if(!$color) {
+            //Default to black
+            $color = array('R'=>0.0, 'G'=>0.0, 'B'=>0.0, 'A'=>1.0);
+        }
 
         $colorname = $this->getColorName(
             255 * $color['R'], 255 * $color['G'], 255 * $color['B']
         );
 
-        if ($colorname === 'black' && !$style['font']['style']['bold']) {
+        // If all parameters are defaults, change nothing
+        if($colorname === 'black' && !$bold && $bgcolor['A'] == 0) {
             return null;
         }
 
-        $index    = 0 + (int)$bold;
-        $ansicode = $this->ccolor->convert(self::$ansi[$colorname][$index]);
+        $fgcode = '';
+        if($colorname) {
+            $fgcode = self::$ansi[$colorname][$bold ? 1 : 0];
+        }
+
+        $bgcode = '';
+
+        //Alpha support is limited to checking if transparent, to not change BG
+
+        if($bgcolor['A'] != 0.0) {
+
+            $bgcolorname = $this->getColorName(
+                255 * $bgcolor['R'], 255 * $bgcolor['G'], 255 * $bgcolor['B']
+            );
+
+            if($bgcolorname) {
+                $bgcode = self::$ansi[$bgcolorname][2];
+            }
+        }
+        $ansicode = $this->ccolor->convert($fgcode . $bgcode);
 
         $this->ansiCache[$context_name] = $ansicode;
         return $ansicode;

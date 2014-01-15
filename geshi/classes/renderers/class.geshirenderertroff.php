@@ -106,6 +106,8 @@ class GeSHiRendererTroff extends GeSHiRenderer
         $color   = $style['font']['color'];
         $bold    = $style['font']['style']['bold'];
 
+        // TROFF does not support background color or alpha
+
         $colorname = $this->getColorName(
             $color['R']*255, $color['G']*255, $color['B']*255
         );

@@ -48,6 +48,7 @@
 class GeSHiRendererPango extends GeSHiRenderer
 {
 
+    //Pango does not have alpha support.
     private static function _colorToCSSColor($color)
     {
         $a = unpack('H*',
@@ -59,8 +60,17 @@ class GeSHiRendererPango extends GeSHiRenderer
     }
 
     private static function _styleToAttributes($style) {
-        //Add the color
-        $attributes = 'color="' . self::_colorToCSSColor($style['font']['color']) . '" ';
+        $attributes = '';
+
+        //Add text color if present
+        if($style['font']['color']) {
+            $attributes = 'color="' . self::_colorToCSSColor($style['font']['color']) . '" ';
+        }
+
+        //Add background color if not transparent
+        if($style['back']['color']['A'] != 0.0) {
+            $attributes .= 'bgcolor="' . self::_colorToCSSColor($style['back']['color']) . '" ';
+        }
 
         //Add font styles
         if ($style['font']['style']['bold']) {

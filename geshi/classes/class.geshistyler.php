@@ -473,12 +473,7 @@ class GeSHiStyler
     function _parseCSS ($style) {
         $result = array(
             "font" => array(
-                "color" => array(
-                    "R" => 0.0,         //Red channel
-                    "G" => 0.0,         //Green channel
-                    "B" => 0.0,         //Blue channel
-                    "A" => 1.0          //Opacity
-                    ),
+                "color" => false,       //false means renderers should use the default
                 "style" => array(
                     "bold" => false,    //Bold font
                     "italic" => false,  //Italic / Emphasized font
@@ -501,7 +496,18 @@ class GeSHiStyler
                  */
                 ),
             "back" => array(
-                "color" => false,       //color of the background, transparent if missing
+                "color" => array(
+                    "R" => 1.0,         //Red channel
+                    "G" => 1.0,         //Green channel
+                    "B" => 1.0,         //Blue channel
+                    "A" => 0.0          //Opacity, default to transparent
+                    /*
+                     * Renderers with optional background color support should
+                     * check opacity to know if they need to render it or not.
+                     * If BG is mandatory and opacity is 0.0, the renderer
+                     * should use the default instead.
+                     */
+                    )
                 )
             );
 
