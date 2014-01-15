@@ -64,7 +64,7 @@ class GeSHiRendererPango extends GeSHiRenderer
 
         //Add font styles
         if ($style['font']['style']['bold']) {
-            $attributes .= 'font-weight="bold" ';
+            $attributes .= 'font_weight="bold" ';
         }
         if ($style['font']['style']['italic']) {
             $attributes .= 'font_style="italic" ';
