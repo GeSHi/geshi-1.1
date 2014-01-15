@@ -514,7 +514,10 @@ class GeSHiStyler
         //First of the color:
         if(preg_match('/\b(?<!-)color\s*:\s*(#(?i:[\da-f]{3}(?:[\da-f]{3})?)|\w+)/', $style, $match)) {
             //We got a text color, let's analyze it:
-            $result['font']['color'] = GeSHiStyler::_parseColor($match[1]);
+            $color = GeSHiStyler::_parseColor($match[1]);
+            if($color) {
+                $result['font']['color'] = $color;
+            }
         }
 
         if(preg_match('/\b(?<!-)font-style\s*:\s*(\w+)/', $style, $match)) {
@@ -586,20 +589,21 @@ class GeSHiStyler
     }
 
     /**
-     * GeSHiStyler::_parseColor()
+     * Parses the input string as a CSS color, returning an array in the
+     * internal RGBA format, or false in case of parse error.
      *
      * @param string $color
-     * @return
+     * @return array|false
      */
     private static function _parseColor($color)
     {
-        $result = array("R" => 0.0, "G" => 0.0, "B" => 0.0, "A" => 1.0);
-
         if('' == $color) {
-            return $result;
+            return false;
         }
 
         if('#' == $color[0]) {
+
+            $result = array();
 
             if(4 == strlen($color)) {
                 $result['R'] = intval($color[1], 16) / 15.0;
@@ -610,6 +614,7 @@ class GeSHiStyler
                 $result['G'] = intval($color[3].$color[4], 16) / 255.0;
                 $result['B'] = intval($color[5].$color[6], 16) / 255.0;
             }
+            $result['A'] = 1.0;
 
             return $result;
         }
@@ -636,8 +641,8 @@ class GeSHiStyler
             return $htmlColors[$color];
         }
 
-        //Not #rrggbb or color name - return default
-        return $result;
+        //Not #rrggbb or color name - return parse error
+        return false;
 
     }
 }
