@@ -477,7 +477,7 @@ class GeSHiStyler
                     "R" => 0.0,         //Red channel
                     "G" => 0.0,         //Green channel
                     "B" => 0.0,         //Blue channel
-                    "A" => 0.0          //Transparency (optional)
+                    "A" => 1.0          //Transparency (optional)
                     ),
                 "style" => array(
                     "bold" => false,    //Bold font
