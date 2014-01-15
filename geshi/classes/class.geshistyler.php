@@ -650,8 +650,9 @@ class GeSHiStyler
                 $colors = explode(',', substr($color, 4 + $has_alpha, -1));
 
                 // Validate arg count
-                if (count($colors) != 3 + $has_alpha)
+                if (count($colors) != 3 + $has_alpha) {
                     return false;
+                }
 
                 $idx_to_color = array("R", "G", "B", "A");
 
