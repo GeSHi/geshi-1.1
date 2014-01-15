@@ -614,6 +614,8 @@ class GeSHiStyler
             return $result;
         }
 
+        $color = strtolower($color);
+
         static $htmlColors = array(
             "black" =>      array("R"=>0.0, "G"=>0.0, "B"=>0.0, "A"=>1.0),
             "white" =>      array("R"=>1.0, "G"=>1.0, "B"=>1.0, "A"=>1.0),
