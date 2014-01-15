@@ -172,7 +172,7 @@ class GeSHiStyler
 
     function getStyle ($context_name)
     {
-        if (isset($this->_styleData[$context_name])) {
+        if (array_key_exists($context_name, $this->_styleData)) {
             return $this->_styleData[$context_name];
         }
         // If style for starter/ender requested and we got here, use the default
@@ -187,7 +187,7 @@ class GeSHiStyler
 
         // Check for a one-level wildcard match
         $wildcard_idx = substr($context_name, 0, strrpos($context_name, '/'));
-        if (isset($this->_wildcardStyleData[$wildcard_idx])) {
+        if (array_key_exists($wildcard_idx, $this->_wildcardStyleData)) {
             $this->_styleData[$context_name] = $this->_wildcardStyleData[$wildcard_idx];
             return $this->_wildcardStyleData[$wildcard_idx];
         }
@@ -616,7 +616,7 @@ class GeSHiStyler
 
                 );
 
-            if(isset($htmlColors[$color])) {
+            if(array_key_exists($color, $htmlColors)) {
                 return $htmlColors[$color];
             } else {
                 return $result;
