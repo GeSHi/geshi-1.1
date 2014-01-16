@@ -50,17 +50,28 @@ class GeSHiRendererHTML extends GeSHiRenderer
 
     private static function _colorToCSSColor($color)
     {
-        $a = unpack('H*',
-            chr(round($color['R'] * 255)) .
-            chr(round($color['G'] * 255)) .
-            chr(round($color['B'] * 255))
-            );
-        return '#' . $a[1];
+        $R = round($color['R'] * 255.0);
+        $G = round($color['G'] * 255.0);
+        $B = round($color['B'] * 255.0);
+        $A = round($color['A'] * 255.0);
+        if($A == 255.0) {
+            return "#" . bin2hex(chr($R) . chr($G) . chr($B));
+        }
+        return "rgba($R,$G,$B,$A)";
     }
 
     private static function _styleToCSS($style) {
-        //Add the color
-        $css = 'color:' . self::_colorToCSSColor($style['font']['color']) . ';';
+        $css = '';
+
+        //Add the text color if defined
+        if($style['font']['color']) {
+            $css .= 'color:' . self::_colorToCSSColor($style['font']['color']) . ';';
+        }
+
+        //Add the background color if not transparent
+        if($style['back']['color']['A'] != 0.0) {
+            $css .= 'background:' . self::_colorToCSSColor($style['back']['color']) . ';';
+        }
 
         //Add font styles
         if ($style['font']['style']['bold']) {

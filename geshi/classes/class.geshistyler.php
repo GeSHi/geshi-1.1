@@ -473,12 +473,7 @@ class GeSHiStyler
     function _parseCSS ($style) {
         $result = array(
             "font" => array(
-                "color" => array(
-                    "R" => 0.0,         //Red channel
-                    "G" => 0.0,         //Green channel
-                    "B" => 0.0,         //Blue channel
-                    "A" => 0.0          //Transparency (optional)
-                    ),
+                "color" => false,       //false means renderers should use the default
                 "style" => array(
                     "bold" => false,    //Bold font
                     "italic" => false,  //Italic / Emphasized font
@@ -501,7 +496,18 @@ class GeSHiStyler
                  */
                 ),
             "back" => array(
-                "color" => false,       //color of the background, transparent if missing
+                "color" => array(
+                    "R" => 1.0,         //Red channel
+                    "G" => 1.0,         //Green channel
+                    "B" => 1.0,         //Blue channel
+                    "A" => 0.0          //Opacity, default to transparent
+                    /*
+                     * Renderers with optional background color support should
+                     * check opacity to know if they need to render it or not.
+                     * If BG is mandatory and opacity is 0.0, the renderer
+                     * should use the default instead.
+                     */
+                    )
                 )
             );
 
@@ -512,9 +518,20 @@ class GeSHiStyler
         //No array, so we have to parse CSS ...
 
         //First of the color:
-        if(preg_match('/\b(?<!-)color\s*:\s*(#(?i:[\da-f]{3}(?:[\da-f]{3})?)|\w+)/', $style, $match)) {
+        if(preg_match('/\b(?<!-)color\s*:\s*(#(?i:[\da-f]{3}(?:[\da-f]{3})?)|(?i:rgba?)\([^\);]+\)|\w+)/', $style, $match)) {
             //We got a text color, let's analyze it:
-            $result['font']['color'] = GeSHiStyler::_parseColor($match[1]);
+            $color = GeSHiStyler::_parseColor($match[1]);
+            if($color) {
+                $result['font']['color'] = $color;
+            }
+        }
+
+        if(preg_match('/\b(?<!-)background(?:-color)?\s*:\s*(#(?i:[\da-f]{3}(?:[\da-f]{3})?)|(?i:rgba?)\([^\);]+\)|\w+)/', $style, $match)) {
+            //We got a background color, let's analyze it:
+            $color = GeSHiStyler::_parseColor($match[1]);
+            if($color) {
+                $result['back']['color'] = $color;
+            }
         }
 
         if(preg_match('/\b(?<!-)font-style\s*:\s*(\w+)/', $style, $match)) {
@@ -586,54 +603,103 @@ class GeSHiStyler
     }
 
     /**
-     * GeSHiStyler::_parseColor()
+     * Parses the input string as a CSS color, returning an array in the
+     * internal RGBA format, or false in case of parse error.
      *
      * @param string $color
-     * @return
+     * @return array|false
      */
     private static function _parseColor($color)
     {
-        $result = array("R" => 0.0, "G" => 0.0, "B" => 0.0, "A" => 0.0);
-
         if('' == $color) {
+            return false;
+        }
+
+        if('#' == $color[0]) {
+
+            $result = array();
+
+            if(4 == strlen($color)) {
+                $result['R'] = intval($color[1], 16) / 15.0;
+                $result['G'] = intval($color[2], 16) / 15.0;
+                $result['B'] = intval($color[3], 16) / 15.0;
+            } else {
+                $result['R'] = intval($color[1].$color[2], 16) / 255.0;
+                $result['G'] = intval($color[3].$color[4], 16) / 255.0;
+                $result['B'] = intval($color[5].$color[6], 16) / 255.0;
+            }
+            $result['A'] = 1.0;
+
             return $result;
         }
 
-        if('#' != $color[0]) {
-            static $htmlColors = array(
-                "black" =>      array("R"=>0.0, "G"=>0.0, "B"=>0.0, "A"=>0.0),
-                "white" =>      array("R"=>1.0, "G"=>1.0, "B"=>1.0, "A"=>0.0),
+        $color = strtolower($color);
 
-                "red" =>        array("R"=>1.0, "G"=>0.0, "B"=>0.0, "A"=>0.0),
-                "yellow" =>     array("R"=>1.0, "G"=>1.0, "B"=>0.0, "A"=>0.0),
-                "lime" =>       array("R"=>0.0, "G"=>1.0, "B"=>0.0, "A"=>0.0),
-                "cyan" =>       array("R"=>0.0, "G"=>1.0, "B"=>1.0, "A"=>0.0),
-                "blue" =>       array("R"=>0.0, "G"=>0.0, "B"=>1.0, "A"=>0.0),
-                "magenta" =>    array("R"=>1.0, "G"=>0.0, "B"=>1.0, "A"=>0.0),
+        static $htmlColors = array(
+            "black" =>      array("R"=>0.0, "G"=>0.0, "B"=>0.0, "A"=>1.0),
+            "white" =>      array("R"=>1.0, "G"=>1.0, "B"=>1.0, "A"=>1.0),
 
-                "darkgrey" =>   array("R"=>0.4, "G"=>0.4, "B"=>0.4, "A"=>0.0),
-                "lightgrey" =>  array("R"=>0.8, "G"=>0.8, "B"=>0.8, "A"=>0.0),
+            "red" =>        array("R"=>1.0, "G"=>0.0, "B"=>0.0, "A"=>1.0),
+            "yellow" =>     array("R"=>1.0, "G"=>1.0, "B"=>0.0, "A"=>1.0),
+            "lime" =>       array("R"=>0.0, "G"=>1.0, "B"=>0.0, "A"=>1.0),
+            "cyan" =>       array("R"=>0.0, "G"=>1.0, "B"=>1.0, "A"=>1.0),
+            "blue" =>       array("R"=>0.0, "G"=>0.0, "B"=>1.0, "A"=>1.0),
+            "magenta" =>    array("R"=>1.0, "G"=>0.0, "B"=>1.0, "A"=>1.0),
 
-                );
+            "darkgrey" =>   array("R"=>0.4, "G"=>0.4, "B"=>0.4, "A"=>1.0),
+            "lightgrey" =>  array("R"=>0.8, "G"=>0.8, "B"=>0.8, "A"=>1.0),
 
-            if(isset($htmlColors[$color])) {
-                return $htmlColors[$color];
-            } else {
-                return $result;
+            // This is actually a keyword in CSS but works the same in CSS3
+            "transparent" =>array("R"=>0.0, "G"=>0.0, "B"=>0.0, "A"=>0.0),
+
+            );
+
+        if(isset($htmlColors[$color])) {
+            return $htmlColors[$color];
+        }
+
+        /*
+         * The _parseCSS parser for rgb()/rgba() colors is quite elementary,
+         * to avoid cluttering the RE too much. This code deals with parsing
+         * it properly, and returns false when invalid.
+         */
+        if(substr($color, 0, 5) == 'rgba(' || substr($color, 0, 4) == 'rgb(') {
+            $has_alpha = $color[3] == 'a' ? 1 : 0;
+
+            //Remove leading rgb( or rgba( and trailing ), split params
+            $colors = explode(',', substr($color, 4 + $has_alpha, -1));
+
+            //Validate arg count (needs to be 3 for rgb, 4 for rgba)
+            if(count($colors) != 3 + $has_alpha) {
+                return false;
             }
+
+            //This array maps parameter positions to channel names
+            static $idx_to_color = array('R', 'G', 'B', 'A');
+
+            //Default alpha is 1, if not overriden
+            $result = array();
+
+            foreach($colors as $key => $value) {
+                //Lexical analysis of each number
+                if(!preg_match('/^\s*([-+]?(?:[0-9]+|[0-9]*\.[0-9]+))(%?)\s*$/', $value, $match)) {
+                    return false;
+                }
+
+                $value = 0.0 + $match[1]; //transform to float
+                $value /= $match[2] ? 100.0 : 255.0; //if % symbol present, use 100, otherwise 255
+                $value = max(0.0, min(1.0, $value)); //clip to 0..1 as per CSS spec
+                $result[$idx_to_color[$key]] = $value;
+            }
+            if(!$has_alpha)
+                $result['A'] = 1.0;
+
+            return $result;
         }
 
-        if(4 == strlen($color)) {
-            $result['R'] = intval($color[1], 16) / 15.0;
-            $result['G'] = intval($color[2], 16) / 15.0;
-            $result['B'] = intval($color[3], 16) / 15.0;
-        } else {
-            $result['R'] = intval($color[1].$color[2], 16) / 255.0;
-            $result['G'] = intval($color[3].$color[4], 16) / 255.0;
-            $result['B'] = intval($color[5].$color[6], 16) / 255.0;
-        }
+        //Not #rrggbb, color name, rgb(), rgba() - return parse error
+        return false;
 
-        return $result;
     }
 }
 
