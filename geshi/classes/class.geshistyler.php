@@ -649,6 +649,9 @@ class GeSHiStyler
             "darkgrey" =>   array("R"=>0.4, "G"=>0.4, "B"=>0.4, "A"=>1.0),
             "lightgrey" =>  array("R"=>0.8, "G"=>0.8, "B"=>0.8, "A"=>1.0),
 
+            // This is actually a keyword in CSS but works the same in CSS3
+            "transparent" =>array("R"=>0.0, "G"=>0.0, "B"=>0.0, "A"=>0.0),
+
             );
 
         if(isset($htmlColors[$color])) {
