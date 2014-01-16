@@ -50,27 +50,26 @@ class GeSHiRendererPango extends GeSHiRenderer
 
     private static function _colorToCSSColor($color)
     {
-        $a = unpack('H*',
+        return '#' . bin2hex(
             chr(round($color['R'] * 255)) .
             chr(round($color['G'] * 255)) .
             chr(round($color['B'] * 255))
             );
-        return '#' . $a[1];
     }
 
     private static function _styleToAttributes($style) {
         //Add the color
-        $attributes = 'color="' . self::_colorToCSSColor($style['font']['color']) . '" ';
+        $attributes = ' color="' . self::_colorToCSSColor($style['font']['color']) . '"';
 
         //Add font styles
         if ($style['font']['style']['bold']) {
-            $attributes .= 'font-weight="bold" ';
+            $attributes .= ' font-weight="bold"';
         }
         if ($style['font']['style']['italic']) {
-            $attributes .= 'font_style="italic" ';
+            $attributes .= ' font_style="italic"';
         }
         if ($style['font']['style']['underline']) {
-            $attributes .= 'underline="single" ';
+            $attributes .= ' underline="single"';
         }
 
         return $attributes;
@@ -100,18 +99,16 @@ class GeSHiRendererPango extends GeSHiRenderer
         $style = $this->_styler->getStyle($context_name);
 
         // Add the basic tag
-        $result .= '<span ';
-
-        $result .= self::_styleToAttributes($style);
-
-        // Finish the opening tag
-        $result .= '>';
+        $attrs = self::_styleToAttributes($style);
+        if ($attrs)
+            $result .= '<span' . $attrs . '>';
 
         // Now add in the token
         $result .= GeSHi::hsc($token);
 
         // Add the closing tag
-        $result .= '</span>';
+        if ($attrs)
+            $result .= '</span>';
 
         // Return the result
         return $result;

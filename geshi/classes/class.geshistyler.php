@@ -172,7 +172,7 @@ class GeSHiStyler
 
     function getStyle ($context_name)
     {
-        if (isset($this->_styleData[$context_name])) {
+        if (array_key_exists($context_name, $this->_styleData)) {
             return $this->_styleData[$context_name];
         }
         // If style for starter/ender requested and we got here, use the default
@@ -187,7 +187,7 @@ class GeSHiStyler
 
         // Check for a one-level wildcard match
         $wildcard_idx = substr($context_name, 0, strrpos($context_name, '/'));
-        if (isset($this->_wildcardStyleData[$wildcard_idx])) {
+        if (array_key_exists($wildcard_idx, $this->_wildcardStyleData)) {
             $this->_styleData[$context_name] = $this->_wildcardStyleData[$wildcard_idx];
             return $this->_wildcardStyleData[$wildcard_idx];
         }
@@ -470,7 +470,7 @@ class GeSHiStyler
      * @param mixed The input format information to convert
      * @return array
      */
-    function _parseCSS ($style) {
+    private static function _parseCSS ($style) {
         $result = array(
             "font" => array(
                 "color" => array(
@@ -616,7 +616,7 @@ class GeSHiStyler
 
                 );
 
-            if(isset($htmlColors[$color])) {
+            if(array_key_exists($color, $htmlColors)) {
                 return $htmlColors[$color];
             } else {
                 return $result;
@@ -624,13 +624,13 @@ class GeSHiStyler
         }
 
         if(4 == strlen($color)) {
-            $result['R'] = intval($color[1], 16) / 15.0;
-            $result['G'] = intval($color[2], 16) / 15.0;
-            $result['B'] = intval($color[3], 16) / 15.0;
+            $result['R'] = hexdec($color[1]) / 15.0;
+            $result['G'] = hexdec($color[2]) / 15.0;
+            $result['B'] = hexdec($color[3]) / 15.0;
         } else {
-            $result['R'] = intval($color[1].$color[2], 16) / 255.0;
-            $result['G'] = intval($color[3].$color[4], 16) / 255.0;
-            $result['B'] = intval($color[5].$color[6], 16) / 255.0;
+            $result['R'] = hexdec($color[1].$color[2]) / 255.0;
+            $result['G'] = hexdec($color[3].$color[4]) / 255.0;
+            $result['B'] = hexdec($color[5].$color[6]) / 255.0;
         }
 
         return $result;

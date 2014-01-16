@@ -50,12 +50,11 @@ class GeSHiRendererHTML extends GeSHiRenderer
 
     private static function _colorToCSSColor($color)
     {
-        $a = unpack('H*',
+        return '#' . bin2hex(
             chr(round($color['R'] * 255)) .
             chr(round($color['G'] * 255)) .
             chr(round($color['B'] * 255))
             );
-        return '#' . $a[1];
     }
 
     private static function _styleToCSS($style) {
@@ -103,8 +102,12 @@ class GeSHiRendererHTML extends GeSHiRenderer
             $this->contextCSS[$context_name] = self::_styleToCSS($this->_styler->getStyle($context_name));
         }
 
-        $result .= '<span style="' . $this->contextCSS[$context_name] . '" ';
-        $result .= 'title="' . GeSHi::hsc($context_name) . '">' . GeSHi::hsc($token) . '</span>';
+        $style = $this->contextCSS[$context_name];
+        if($style) {
+            $style = ' style="' . $style . '"';
+        }
+        $result .= '<span' . $style;
+        $result .= ' title="' . GeSHi::hsc($context_name) . '">' . GeSHi::hsc($token) . '</span>';
         if (isset($data['url'])) {
             // Finish the link
             $result .= '</a>';
