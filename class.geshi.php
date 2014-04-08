@@ -126,7 +126,7 @@ if (!defined('GESHI_ALLOW_SYMLINK_PATHS')) {
 // @todo won't be used anymore, just define the old ones for BC.
 // Even they will disappear in 2.0
 
-/** No error has occured */
+/** No error has occurred */
 define('GESHI_ERROR_NONE', 0);
 
 /**#@+
@@ -199,7 +199,7 @@ class GeSHi
     //var $_humanLanguageName = '';
 
     /**
-     * The error code of any error that has occured
+     * The error code of any error that has occurred
      *
      * @var int
      */
